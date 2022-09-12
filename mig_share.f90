@@ -27,9 +27,10 @@ module share
     integer(i4b), allocatable, dimension(:,:,:,:,:,:) :: decm_s,decf_s
 	real(dp), allocatable, dimension(:,:,:,:,:,:) :: vm,vf
     integer(i4b), allocatable, dimension(:,:,:,:,:) :: dec_mar   
-	real(dp), allocatable, dimension(:,:,:,:) :: vm0_c,vf0_c	
-    
-    
+	real(dp), allocatable, dimension(:,:,:,:) :: vm0_c,vf0_c
+	real(dp), allocatable, dimension(:,:,:,:) :: vf0ctemp,vm0ctemp	
+real(dp), dimension(nqs,nxs,ninp) :: wmctemp,wfctemp
+
     logical :: ppc(nq,nq),pps(nqs,nqs,2)
     real(dp) :: ppso(nepsmove),ppsk(nepskid),moveshock_m(nepsmove),moveshock_f(nepsmove),kidshock(nepskid),bshock_m(nepsmove),bshock_f(nepsmove)
 contains 
