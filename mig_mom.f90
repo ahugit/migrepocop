@@ -392,14 +392,14 @@ end FUNCTION random
 						if (meet) then 	
 							if (g==1) then ; q = q2qq(dec(1),qmatch) ; x = x2xx(dec(2),xmatch) ; end if 
 							if (g==2) then ; q = q2qq(qmatch,dec(1)) ; x = x2xx(xmatch,dec(2)) ; end if 
-							relnext=dec_mar(z,q,x,ia,index)
+							relnext=dec_mar(z,x,q,ia,index)
 							if (relnext==1) then 
 								qnext=q ; xnext=x
 							else if (relnext==0) then
 								qnext=dec(1) ; xnext=dec(2)
 							end if 
 						    if (yaz) then 
-                                write(400,'("HERE IS DECMAR:",6I8)') z,q,x,ia,index,dec_mar(z,q,x,ia,index)
+                                write(400,'("HERE IS DECMAR:",6I8)') z,q,x,ia,index,dec_mar(z,x,q,ia,index)
 							    write(400,'("Decision At Mar Mkt:")') ;  call yaz_simdecmar(relnext)
 						    end if      !!!                   
                         end if !meet      
@@ -427,8 +427,8 @@ end FUNCTION random
 							qnext=dd(9) ; xnext=dd(4) 
 						else if (relnext==0) then 
 							i = qq2q(g,q) ; n=xx2x(g,x) ; i0 = qq2q(g,q0)	! translate couple q and x and q0 into singles
-							if (g==1) dec(1) = decm0_s(iepsmove,i,n,i0,ia,index) 
-							if (g==2) dec(1) = decf0_s(iepsmove,i,n,i0,ia,index) 
+							if (g==1) dec(1) = decm0_s(iepsmove,n,i,i0,ia,index) 
+							if (g==2) dec(1) = decf0_s(iepsmove,n,i,i0,ia,index) 
 							dec(2)=n
 							qnext=dec(1) ; xnext=dec(2)                   
 						end if
