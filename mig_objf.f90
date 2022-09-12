@@ -54,7 +54,8 @@ contains
 	allocate(vm(nepsmove,nxs,nqs,nqs,mna:mxa,nindex),vf(nepsmove,nxs,nqs,nqs,mna:mxa,nindex))
     allocate(dec_mar(nz,nx,nq,mna:mxa,nindex))
 	allocate(vm0_c(nx,nq,mna:mxa,nindex),vf0_c(nx,nq,mna:mxa,nindex))
-      
+    allocate(vm0ctemp(nq,nx,mna:mxa,nindex),vf0ctemp(nq,nx,mna:mxa,nindex))
+
 	call getpars(parvec,realparvec) 
     parsforcheck=parvec !jusr for checking where it says emax is negative. can get rid of later.
     if (iter>1) skriv=.false.
@@ -279,6 +280,8 @@ contains
     deallocate(vm,vf)
     deallocate(dec_mar)
     deallocate(vm0_c,vf0_c)
+	deallocate(vm0ctemp,vf0ctemp)
+
     
 	iter=iter+1	
 	end subroutine objfunc
