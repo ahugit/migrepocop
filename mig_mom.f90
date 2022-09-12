@@ -375,8 +375,8 @@ end FUNCTION random
 						meet=( epsim(ia,r)%meet<=pmeet )
 						z	= multinom( mgt			, epsim(ia,r)%marie)
 						iepsmove = multinom( ppso(:)   , epsim(ia,r)%iepsmove ) 
-						if (g==1) dec(1) = decm_s(iepsmove,q,x,q0,ia,index) 
-						if (g==2) dec(1) = decf_s(iepsmove,q,x,q0,ia,index) 
+						if (g==1) dec(1) = decm_s(iepsmove,x,q,q0,ia,index) 
+						if (g==2) dec(1) = decf_s(iepsmove,x,q,q0,ia,index) 
 						dec(2)=x 
 						relnext=0 ; qnext=dec(1) ; xnext=dec(2)    ! next period's variabeles are these unless marriage market happens:
 						qmatch	= multinom( ppmeetq(:, dec(1) )	, epsim(ia,r)%meetq) 
@@ -466,7 +466,7 @@ end FUNCTION random
 		expe(g)=x2r(x) 
 		if ( w(g)<=np ) then 
 			hh(g)=1
-            wage(g) = ws(g,q,x,trueindex)   !fnwge( g,typ,l(g) ,wg(w(g),g) ,ed(g) ,expe(g))
+            wage(g) = ws(g,x,q,trueindex)   !fnwge( g,typ,l(g) ,wg(w(g),g) ,ed(g) ,expe(g))
 			logw(g) = log( wage(g) )        !log ( fnwge( g,typ,l(g) ,wg(w(g),g) ,ed(g) ,expe(g))  )			
 		else
 			hh(g)=0
@@ -482,7 +482,7 @@ end FUNCTION random
 		do i=1,2
 			if ( w(i)<=np ) then 
 				hh(i)=1
-				wage(i) = wc(i,q,x,trueindex)   !fnwge(i,typ,l(i) ,wg(w(i),i) ,ed(i) ,expe(i)) 		
+				wage(i) = wc(i,x,q,trueindex)   !fnwge(i,typ,l(i) ,wg(w(i),i) ,ed(i) ,expe(i)) 		
                 logw(i) = log( wage(i) )        !log ( fnwge(i,typ,l(i) ,wg(w(i),i) ,ed(i) ,expe(i)) )			
 			else
 				hh(i)=0
