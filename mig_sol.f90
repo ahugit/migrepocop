@@ -60,7 +60,7 @@ end do
 		time(1)=secnds(0.0)
 		emaxm_s=0.0_dp	; emaxf_s=0.0_dp ; emaxm_c=0.0_dp	; emaxf_c = 0.0_dp
 		do ia=mxa,mna,-1
-			!print*, "mysay,ia,trueindex ",iter,mysay,ia,trueindex !ahu 030622
+			print*, "mysay,ia,trueindex ",iter,mysay,ia,trueindex !ahu 030622
 			vmr  = pen ; vfr = pen	
 			time(1)=secnds(0.0)
 			if (ia==mxa) then 
@@ -905,9 +905,9 @@ end do
 
 	subroutine getdec_s(dd,vs,qs,vs1)
 	integer(i4b), intent(in) :: dd(:)
-	real(dp), dimension(nqs,nxs), intent(in) :: vs
-	integer(i4b), dimension(nepsmove,nqs,nxs,nqs), intent(out) :: qs
-	real(dp), dimension(nepsmove,nqs,nxs,nqs), intent(out) :: vs1
+	real(dp), dimension(nxs,nqs), intent(in) :: vs
+	integer(i4b), dimension(nepsmove,nxs,nqs,nqs), intent(out) :: qs
+	real(dp), dimension(nepsmove,nxs,nqs,nqs), intent(out) :: vs1
 	integer(i4b) :: q0,q,l,l0,w,x,i,j,iepsmove,sex,index,trueindex,jstar(1),age,ss(size(dd,1))
     real(dp) :: mcost,vcho(ncs),moveshock(nepsmove),bshock(nepsmove)
 
