@@ -12,7 +12,7 @@
 	!integer(i4b), parameter :: rp = kind(1.0d0)			! kind(1.0) !!!
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
-!ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.false.
+!ahu030622	logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.false.
 logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true. !ahu030622
 logical :: nonneg
     logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
