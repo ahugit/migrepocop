@@ -25,11 +25,55 @@ contains
 	real(dp), dimension(nepsmove,nqs,nxs,nqs) :: vmr,vfr
 	integer(i4b) :: ia,q0,q,x0,x,z,iepsmove,index,trueindex,dd(11),ed(2),qm,xm,qf,xf,callfrom
     !print*, 'Here is iter',iter
-	
+	begintime=secnds(0.0)
+    
     if (groups) then 
         call cotyphome2index(myindex,myco,mytyp,myhome)
     else 
         myindex=0
+    end if 
+    !IF YOU WANT TO WRITE ALL THE BELOW, YOU HAVE TO COMMENT OUT THE OBJF PART WHERE IT SAYS IF ITER>1 SKRIV=.FALSE.
+    if (skriv.and.iter==1) then 
+        open(unit=99991, file='chkfnprof1.txt',status='replace')
+    else if (skriv.and.iter==2) then
+        open(unit=99991, file='chkfnprof2.txt',status='replace')
+    else if (skriv.and.iter==3) then
+        open(unit=99991, file='chkfnprof3.txt',status='replace')
+    else if (skriv.and.iter==4) then
+        open(unit=99991, file='chkfnprof4.txt',status='replace')
+    else if (skriv.and.iter==5) then
+        open(unit=99991, file='chkfnprof5.txt',status='replace')
+    end if 
+    if (skriv) then
+        write(99991,'("Offer Employed:")') 
+        write(99991,'("Males:")') 
+        write(99991,'(15x,5x,"Get offer",5x,"Get ldoff",8x,"Nthing")') 
+        write(99991,'("Not Educ",7x,3F14.6)') psio(1:2),zero  !fnprof(dw0,de,dsex) 
+        write(99991,'("Not Educ",7x,3F14.6)') fnprof(1,1,1)  !fnprof(dw0,de,dsex) 
+        write(99991,'("    Educ",7x,3F14.6)') psio(3:4),zero  !fnprof(dw0,de,dsex) 
+        write(99991,'("    Educ",7x,3F14.6)') fnprof(1,2,1)  !fnprof(dw0,de,dsex) 
+        write(99991,'("Females:")') 
+        write(99991,'(15x,5x,"Get offer",5x,"Get ldoff",8x,"Nthing")') 
+        write(99991,'("Not Educ",7x,3F14.6)') psio(5:6),zero  !fnprof(dw0,de,dsex) 
+        write(99991,'("Not Educ",7x,3F14.6)') fnprof(1,1,2)  !fnprof(dw0,de,dsex) 
+        write(99991,'("    Educ",7x,3F14.6)') psio(7:8),zero  !fnprof(dw0,de,dsex) 
+        write(99991,'("    Educ",7x,3F14.6)') fnprof(1,2,2)  !fnprof(dw0,de,dsex) 
+        write(99991,*) 
+        write(99991,*) 
+        write(99991,'("Offer Unemployed:")') 
+        write(99991,'("Males:")') 
+        write(99991,'(15x,5x,"Get offer",8x,"Nthing",8x,"Nthing")') 
+        write(99991,'("Not Educ",7x,3F14.6)') psio(9),zero,zero  !fnprof(dw0,de,dsex) 
+        write(99991,'("Not Educ",7x,3F14.6)') fnprof(np1,1,1)  !fnprof(dw0,de,dsex) 
+        write(99991,'("    Educ",7x,3F14.6)') psio(10),zero,zero  !fnprof(dw0,de,dsex) 
+        write(99991,'("    Educ",7x,3F14.6)') fnprof(np1,2,1)  !fnprof(dw0,de,dsex) 
+        write(99991,'("Females:")') 
+        write(99991,'(15x,5x,"Get offer",8x,"Nthing",8x,"Nthing")') 
+        write(99991,'("Not Educ",7x,3F14.6)') psio(11),zero,zero  !fnprof(dw0,de,dsex) 
+        write(99991,'("Not Educ",7x,3F14.6)') fnprof(np1,1,2)  !fnprof(dw0,de,dsex) 
+        write(99991,'("    Educ",7x,3F14.6)') psio(12),zero,zero  !fnprof(dw0,de,dsex) 
+        write(99991,'("    Educ",7x,3F14.6)') fnprof(np1,2,2)  !fnprof(dw0,de,dsex) 
+        close(99991) 
     end if 
     
     call get_util_w
