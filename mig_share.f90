@@ -16,8 +16,8 @@ module share
 	real(dp), dimension(2,nqs,nxs,ninp) :: utils
 	real(dp), dimension(2,nq,nx,ninp) :: utilc
     real(dp), dimension(nqs,nxs,ninp) :: movecost
-	real(dp), dimension(nqs,nxs,mna:mxa) :: emaxm_s,emaxf_s
-	real(dp), dimension(nq,nx,mna:mxa)   :: emaxm_c,emaxf_c
+	real(dp), dimension(nxs,nqs,mna:mxa) :: emaxm_s,emaxf_s
+	real(dp), dimension(nx,nq,mna:mxa)   :: emaxm_c,emaxf_c
 	!integer(i4b), dimension(nepsmove,nqs,nxs,nqs,mna:mxa,nin) :: decm0_s,decf0_s,decm_s,decf_s
 	!real(dp), dimension(nepsmove,nqs,nxs,nqs,mna:mxa,nin) :: vm,vf
     !integer(i4b), dimension(nz,nq,nx,mna:mxa,nin) :: dec_mar   
