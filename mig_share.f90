@@ -18,10 +18,10 @@ module share
     real(dp), dimension(nqs,nxs,ninp) :: movecost
 	real(dp), dimension(nxs,nqs,mna:mxa) :: emaxm_s,emaxf_s
 	real(dp), dimension(nx,nq,mna:mxa)   :: emaxm_c,emaxf_c
-	!integer(i4b), dimension(nepsmove,nqs,nxs,nqs,mna:mxa,nin) :: decm0_s,decf0_s,decm_s,decf_s
-	!real(dp), dimension(nepsmove,nqs,nxs,nqs,mna:mxa,nin) :: vm,vf
-    !integer(i4b), dimension(nz,nq,nx,mna:mxa,nin) :: dec_mar   
-	!real(dp), dimension(nq,nx,mna:mxa,nin) :: vm0_c,vf0_c	
+	!integer(i4b), dimension(nepsmove,nxs,nqs,nqs,mna:mxa,nin) :: decm0_s,decf0_s,decm_s,decf_s
+	!real(dp), dimension(nepsmove,nxs,nqs,nqs,mna:mxa,nin) :: vm,vf
+    !integer(i4b), dimension(nz,nx,nq,mna:mxa,nin) :: dec_mar   
+	!real(dp), dimension(nx,nq,mna:mxa,nin) :: vm0_c,vf0_c	
     !the below is allocatable because nindex (the last dimension) is determined according to groups
     integer(i4b), allocatable, dimension(:,:,:,:,:,:) :: decm0_s,decf0_s
     integer(i4b), allocatable, dimension(:,:,:,:,:,:) :: decm_s,decf_s
