@@ -13,16 +13,16 @@
 module sol
 	use params
 	use share
-	use myaz
+	!use myaz
 	implicit none
 	real(sp) :: begintime,time(5)   
     real(dp) :: vsingtest(2) !ag090822 agsept2022
 contains		
 	subroutine solve
-	real(dp) :: vmax(2),val(2),vsum(2),valso(2)
-    real(dp), dimension(nqs,nxs) :: vm0_s,vf0_s,vm_s,vf_s,prob_s
-	real(dp), dimension(nq,nx) :: vm_c,vf_c,prob
-	real(dp), dimension(nepsmove,nqs,nxs,nqs) :: vmr,vfr
+	real(dp) :: vmax(2),val(2),vsum(2),valso(2),probmuq(nx,nq,nq),probmux(nx,nx,nq)
+    real(dp), dimension(nxs,nqs) :: vm0_s,vf0_s,vm_s,vf_s,prob_s
+	real(dp), dimension(nx,nq) :: vm_c,vf_c,prob
+	real(dp), dimension(nepsmove,nxs,nqs,nqs) :: vmr,vfr
 	integer(i4b) :: ia,q0,q,x0,x,z,iepsmove,index,trueindex,dd(11),ed(2),qm,xm,qf,xf,callfrom
     !print*, 'Here is iter',iter
 	begintime=secnds(0.0)
@@ -32,7 +32,18 @@ contains
     else 
         myindex=0
     end if 
-    
+    do x0=1,nx
+    do q0=1,nq
+        do q=1,nq
+        probmuq(x0,q,q0)= ppcq(q,q0,x0)
+        end do 
+        do x=1,nx
+        probmux(x0,x,q0)=ppcx(x,q0,x0) !ppcq(q,q0,x0)*ppcx(x,q0,x0)
+        end do 
+    end do 
+end do 
+
+
     call get_util_w
     if (onlysingles) then ; utilc=pen ; end if 
 	insol=.true.
@@ -66,7 +77,7 @@ contains
 			end if 		
             
 			whereami=1
-			if (skriv.and.trueindex==1.and.(ia<=19.or.ia==45)) then ; yaz=.true. ; else ; yaz=.false. ; end if !ahu 0327 trueindex==2
+			i!f (skriv.and.trueindex==1.and.(ia<=19.or.ia==45)) then ; yaz=.true. ; else ; yaz=.false. ; end if !ahu 0327 trueindex==2
             dd = -1 ; dd(1:2) = (/ia,trueindex/) 
 			dd(7)=1 ; call getdec_s(dd,vm0_s,decm0_s(:,:,:,:,ia,index),vm(:,:,:,:,ia,index)) 
 			yaz=.false.
@@ -82,8 +93,9 @@ contains
 				do q0=1,nq	
 					vm_c=pen ; vf_c=pen
 					prob=0.0_dp
-					do x=1,nx	
-						do q=1,nq
+					do q=1,nq
+                    do x=1,nx	
+						
                             !ahumarch1122 
                             if (skriv.and.(ia==50.or.ia==48.or.ia==18).and.q0==4.and.q==92.and.x==19.and.trueindex==1) then ; yaz=.true. ; else ; yaz=.false. ; end if !ahu030822
                             !ahu030822 Make sure you don't have iepsmove in the if statements here
@@ -99,36 +111,34 @@ contains
                                         callfrom=40 !ag090122 agsept2022
                                         dd = (/ia,trueindex,q,x,z,q0,callfrom,-1,-1,-1,iepsmove /) 	! (/ ia,index,q,x,z,q0,gender/callfrom,jmax,qmax,relmax,iepsmove /)  	                                        
                                         call getdec(dd,vmax,valso)	! dd is inout and dd(8:10) tells you jmax,qmax,relmax
-                                        if (yaz) then ; call yaz_decision(dd,vmax) ; end if	! write down decision !ahu 032718 del and remove later. I uncommented this write										
+                                        !if (yaz) then ; call yaz_decision(dd,vmax) ; end if	! write down decision !ahu 032718 del and remove later. I uncommented this write										
 		                                val=val+ppso(iepsmove)*mgt(z)*vmax
                                     end do moveshocks
                                 end do umar
-								vm_c(q,x)=val(1) ; vf_c(q,x)=val(2)
+								vm_c(x,q)=val(1) ; vf_c(x,q)=val(2)
 							end if !pc0(q0)=.true. i.e. w(1) or w(2) are not np2 and pc
-						end do !q
-					end do !x
+						end do !x
+					end do !q
 					!if (icheck_eqvmvf) then
 					!	call check_eqvmvf(dd,vm_c,vf_c) 
 					!end if 
-                    !if (Trueindex==1) print*, "maybe this much is enough I can't do it"
 
-					do x0=1,nx
+
+                        emaxm_c(:,q0,ia)=0.0_dp
+						emaxf_c(:,q0,ia)=0.0_dp
                         if ( maxval(qq2w(:,q0)) <= np1 ) then !state variable part of the q space i.e. w <= np1
 						    !prob=matmul( reshape(ppcq(:,q0,x0),(/nq,1/)) , reshape(ppcx(:,q0,x0),(/1,nx/)) )
-						    !emaxm_c(q0,x0,ia)=sum(prob*vm_c)
-						    !emaxf_c(q0,x0,ia)=sum(prob*vf_c)                    
-                            emaxm_c(q0,x0,ia)=0.0_dp
-						    emaxf_c(q0,x0,ia)=0.0_dp
+						    !emaxm_c(x0,q0,ia)=sum(prob*vm_c)
+						    !emaxf_c(x0,q0,ia)=sum(prob*vf_c)                    
                             do q=1,nq
-                                do x=1,nx
-						            emaxm_c(q0,x0,ia)=emaxm_c(q0,x0,ia)+ppcq(q,q0,x0)*ppcx(x,q0,x0)*vm_c(q,x)
-						            emaxf_c(q0,x0,ia)=emaxf_c(q0,x0,ia)+ppcq(q,q0,x0)*ppcx(x,q0,x0)*vf_c(q,x)
-                                end do 
+                            do x=1,nx
+                            do x0=1,nx
+                                    emaxm_c(x0,q0,ia)=emaxm_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vm_c(x,q)
+						            emaxf_c(x0,q0,ia)=emaxf_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vf_c(x,q)
                             end do 
-                        end if !state variable part of the q space i.e. w <= np1
-					end do	 !x0						
-                   ! if (Trueindex==1) print*, "maybe this much is enough I can't do it q0 edition"
-
+                            end do 
+                            end do	 				
+                        end if !state spce check 
                 end do !q0
 				!if (Trueindex==1) print*, "I even came here and nothing happened"
 
@@ -142,9 +152,9 @@ contains
                             ed(2)=x2e(xf)   !ahu summer18 051418: adding ed dimension to nonlabinc
 							do qf=1,nqs
                                 !i = dd(8) ; n=dd(9) 
-                                valso(1) = vm0_s(qm,xm)
+                                valso(1) = vm0_s(xm,qm)
                                 !i = dd(10) ; n=dd(11) 
-                                valso(2) = vf0_s(qf,xf)
+                                valso(2) = vf0_s(xf,qf)
                                 vsingtest(1:2)=valso(1:2) !ag090822
                     
                                 if (skriv.and.(ia==18).and.(qm==18).and.xm==1) then ; yaz=.true. ; else ; yaz=.false. ; end if     !ahu 0327 trueindex==2								
@@ -164,7 +174,7 @@ contains
                                     callfrom=50
                                     dd = (/ ia,trueindex,q,x,z,q0,callfrom,-1,q,-1,-1 /) 
                                     call getdec(dd,vmax,valso)
-                                    dec_mar(z,q,x,ia,index)=dd(10)
+                                    dec_mar(z,x,q,ia,index)=dd(10)
                                     val=vmax(1:2)         
                                                         
                                     !if (  icheck_eqvmvf.and.qr==qp.and.xr==xp.and.  (abs(vec(1)-vec(2)) > eps .or. abs(vsum(1)-vsum(2)) > eps) ) then 
@@ -172,8 +182,8 @@ contains
                                     !	stop 
                                     !end if 
                                     !no need for this ahu040518 vsingle(g,qp,xp,z)=val(g)	
-                                    vm_s(qm,xm)=vm_s(qm,xm) + mgt(z) * ppmeetq(qm,qf) * ppmeetx(xm,xf) * val(1)
-                                    vf_s(qf,xf)=vf_s(qf,xf) + mgt(z) * ppmeetq(qm,qf) * ppmeetx(xm,xf) * val(2)
+                                    vm_s(xm,qm)=vm_s(xm,qm) + mgt(z) * ppmeetq(qm,qf) * ppmeetx(xm,xf) * val(1)
+                                    vf_s(xf,qf)=vf_s(xf,qf) + mgt(z) * ppmeetq(qm,qf) * ppmeetx(xm,xf) * val(2)
 										end do marshock 
 									end if 
 							        !no need for this ahu040518 end do sex 
@@ -187,10 +197,10 @@ contains
 							        !end if 
 							end do 
 						end do 							
-						!moving this after the loop ahu040518 vm_s(qr,xr) = pmeet*vm_s(qr,xr) + (1.0_dp-pmeet)*vm0_s(qr,xr)
-						!moving this after the loop ahu040518 vf_s(qr,xr) = pmeet*vf_s(qr,xr) + (1.0_dp-pmeet)*vf0_s(qr,xr)
-						!if (  icheck_eqvmvf.and.abs(vm_s(qr,xr)-vf_s(qr,xr)) > eps ) then 
-						!	print*, "vm not equal to vf!", ia,qr,xr,vm_s(qr,xr),vf_s(qr,xr)
+						!moving this after the loop ahu040518 vm_s(xr,qr) = pmeet*vm_s(xr,qr) + (1.0_dp-pmeet)*vm0_s(xr,qr)
+						!moving this after the loop ahu040518 vf_s(xr,qr) = pmeet*vf_s(xr,qr) + (1.0_dp-pmeet)*vf0_s(xr,qr)
+						!if (  icheck_eqvmvf.and.abs(vm_s(xr,qr)-vf_s(xr,qr)) > eps ) then 
+						!	print*, "vm not equal to vf!", ia,qr,xr,vm_s(xr,qr),vf_s(xr,qr)
 						!	stop 
 						!end if 
 					end do 
@@ -205,20 +215,20 @@ contains
 				dd = -1 ; dd(1:2) = (/ia,trueindex/) 							! (/ ia,index,q,x,z,q0,g,j,altq,rel,iepsmove /)
 				dd(7)=1 ; call getdec_s(dd,vm_s,decm_s(:,:,:,:,ia,index),vmr(:,:,:,:)     ) 
 				dd(7)=2 ; call getdec_s(dd,vf_s,decf_s(:,:,:,:,ia,index),vfr(:,:,:,:)     ) 			
-			end if 	! only singles or not
+			end if 	! only singles or no 
 
-			do x0=1,nxs
-				do q0=1,nqs
-					if (q2w(q0)<=np1) then !state variable part of the q space i.e. w <= np1
-						do x=1,nxs 
-                            do q=1,nqs
+			do q0=1,nqs
+                if (q2w(q0)<=np1) then !state variable part of the q space i.e. w <= np1
+                do x0=1,nxs			
+						do q=1,nqs
+                            do x=1,nxs 
                                 do iepsmove=1,nepsmove
                                     !prob_s=matmul( reshape(ppsq(:,q0,x0,1),(/nqs,1/)) , reshape(ppsx(:,q0,x0),(/1,nxs/)) )
 						            !emaxm_s(q0,x0,ia)	= sum( prob_s * vmr(:,:,q0) )		
                                     !prob_s=matmul( reshape(ppsq(:,q0,x0,2),(/nqs,1/)) , reshape(ppsx(:,q0,x0),(/1,nxs/)) )
 						            !emaxf_s(q0,x0,ia)	= sum( probf_s * vfr(:,:,:,q0) )
-                                    emaxm_s(q0,x0,ia)	= emaxm_s(q0,x0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,1) * ppsx(x,q0,x0) * vmr(iepsmove,q,x,q0) 
-                                    emaxf_s(q0,x0,ia)	= emaxf_s(q0,x0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,2) * ppsx(x,q0,x0) * vfr(iepsmove,q,x,q0) 	
+                                    emaxm_s(x0,q0,ia)	= emaxm_s(x0,q0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,1) * ppsx(x,q0,x0) * vmr(iepsmove,x,q,q0) 
+                                    emaxf_s(x0,q0,ia)	= emaxf_s(x0,q0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,2) * ppsx(x,q0,x0) * vfr(iepsmove,x,q,q0) 	
                                 end do 
                             end do 
                         end do
@@ -227,7 +237,7 @@ contains
 			end do 
 
 			yaz=.false.			
-			if (skriv) call yaz1(index,ia) !ahu 0327. this was trueindex and corrected it to index.  
+			!if (skriv) call yaz1(index,ia) !ahu 0327. this was trueindex and corrected it to index.  
 		end do ! age 
         end if ind
 	end do !index
@@ -274,11 +284,11 @@ contains
             iepsmove=dd(11)   
             vec=pen
             i = qq2q(1,q) ; n=xx2x(1,x) ; i0 = qq2q(1,q0) 
-            vec(1) = vm(iepsmove,i,n,i0,ia,index) + divpenalty
-            mcost(1)=movecost(i0,n,trueindex)    
+            vec(1) = vm(iepsmove,n,i,i0,ia,index) + divpenalty
+            mcost(1)=movecost(n,i0,trueindex)    
             i = qq2q(2,q) ; n=xx2x(2,x) ; i0 = qq2q(2,q0) 	
-            vec(2) = vf(iepsmove,i,n,i0,ia,index) + divpenalty	
-            mcost(2)=movecost(i0,n,trueindex)    
+            vec(2) = vf(iepsmove,n,i,i0,ia,index) + divpenalty	
+            mcost(2)=movecost(n,i0,trueindex)    
             loc0=qq2l(1,q0)     !ahumarch2022 ahu032022
             !ahu030822 adding the below in order to check the mar rates decreasing with mumar situation to compare chk2's better
             !if (yazmax) then !ahu030822
@@ -295,10 +305,10 @@ contains
                     !if (qq2l(1,q0).ne.qq2l(2,q0)) then ; print*, 'something wrong in dec_c' ; stop; end if 
                     !ahumarch2122 ahu032122 vec(3) = vm0_c9726(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(1,i) /= qq2l(1,q0)) * mcost(1) + one( qq2l(1,i) /= qq2l(1,q0)) * moveshock_m(iepsmove)  !fnmove(kid)     
                     !ahumarch2122 ahu032122 vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(2,i) /= qq2l(2,q0)) * mcost(2) + one( qq2l(2,i) /= qq2l(2,q0)) * moveshock_f(iepsmove)  !fnmove(kid)     
-                    vecj(3,j) = vm0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
-                    vecj(4,j) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
-                    !vec(5) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,i,x,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,i,x,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
-                    vecj(5,j) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
+                    vecj(3,j) = vm0_c(x,i,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
+                    vecj(4,j) = vf0_c(x,i,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    !vec(5) = wc(1,x,i,trueindex) + wc(2,x,i,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,x,i,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,i,x,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
+                    vecj(5,j) = wc(1,x,i,trueindex) + wc(2,x,i,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
                     vecj(1,j)=vecj(3,j)-vec(1)   !ahumarch1522 ahu031522 adding cornersol
                     vecj(2,j)=vecj(4,j)-vec(2)   !ahumarch1522 ahu031522 adding cornersol
                     !ahumarch2122 ahu032122 replacing this with vdif for saving time surplusj(j) = vec(5) + vec(3) - vec(1) + vec(4) - vec(2)  
@@ -325,9 +335,9 @@ contains
         if (callfrom==50) then !calling from singles
             iepsmove=-1 
             vec(1:2)=vsingtest(1:2) !ag090822 agsept2022 vsing(1:2) 
-            vec(3) = vm0_c(q,x,ia,index) + mg(z,trueindex) 
-            vec(4) = vf0_c(q,x,ia,index) + mg(z,trueindex) 
-            vec(5) = wc(1,q,x,trueindex) +  wc(2,q,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2))                                                   
+            vec(3) = vm0_c(x,q,ia,index) + mg(z,trueindex) 
+            vec(4) = vf0_c(x,q,ia,index) + mg(z,trueindex) 
+            vec(5) = wc(1,x,q,trueindex) +  wc(2,x,q,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2))                                                   
             !call checknb(dd,vec,welldef,vsum )  
             vdif(1)=vec(3)-vec(1)   !ahumarch1522 ahu031522 adding cornersol
             vdif(2)=vec(4)-vec(2)   !ahumarch1522 ahu031522 adding cornersol
@@ -580,7 +590,7 @@ contains
     surplusj=pen
     nashprod=pen        !ahu summer18 042318
     transfers=pen
-    vmario=pen          !ahumarch1522 adding cornersol
+    vmario=pen          !ahumarch1522 addin,g cornersol
     defj=.FALSE.
     i = qq2q(1,q) ; n=xx2x(1,x) ; i0 = qq2q(1,q0) 
     vec(1) = vm(iepsmove,i,n,i0,ia,index) + divpenalty
@@ -607,7 +617,7 @@ contains
             !ahumarch2122 ahu032122 vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(2,i) /= qq2l(2,q0)) * mcost(2) + one( qq2l(2,i) /= qq2l(2,q0)) * moveshock_f(iepsmove)  !fnmove(kid)     
             vecj(3,j) = vm0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
             vecj(4,j) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
-            !vec(5) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,i,x,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,i,x,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
+            !vec(5) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,x,i,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,x,i,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
             vecj(5,j) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
             vdifj(1,j)=vecj(3,j)-vec(1)   !ahumarch1522 ahu031522 adding cornersol
             vdifj(2,j)=vecj(4,j)-vec(2)   !ahumarch1522 ahu031522 adding cornersol
@@ -921,47 +931,47 @@ contains
 	do q0=1,nqs
         l0=q2l(q0)
 		if ( q2w(q0)<=np1 ) then 
-			do x=1,nxs
-                mcost=movecost(q0,x,trueindex)                
+            ofloc: do l=1,nl											
+            wagedraw: do w=1,np2
+            q = wl2q(w,l)
+            do x=1,nxs
+                mcost=movecost(x,q0,trueindex)                
                 moveshocks: do iepsmove=1,nepsmove
-				    ofloc: do l=1,nl											
-					    wagedraw: do w=1,np2
-						    q = wl2q(w,l)
 
-                            vcho=pen
-                            choice: do j=1,ncs	
-                                i = chs(j,q,q0)	!alternative q
-                                if (i>0 ) then		
-                                    if (q2w(i)<=np) then
-                                        vcho(j) = vs(i,x) + one(q2l(i)/=l0) * mcost + one( q2l(i)/=l0) * moveshock(iepsmove)  !fnmove(kid)  
-                                    else if (q2w(i)==np1) then 
-                                        vcho(j) = vs(i,x) + one(q2l(i)/=l0) * mcost + one( q2l(i)/=l0) * moveshock(iepsmove) + bshock(iepsmove)   
-                                    end if                                         
-                                end if 
-                            end do choice
-                            
+                vcho=pen
+                choice: do j=1,ncs	
+                    i = chs(j,q,q0)	!alternative q
+                    if (i>0 ) then		
+                        if (q2w(i)<=np) then
+                            vcho(j) = vs(x,i) + one(q2l(i)/=l0) * mcost + one( q2l(i)/=l0) * moveshock(iepsmove)  !fnmove(kid)  
+                        else if (q2w(i)==np1) then 
+                            vcho(j) = vs(x,i) + one(q2l(i)/=l0) * mcost + one( q2l(i)/=l0) * moveshock(iepsmove) + bshock(iepsmove)   
+                        end if                                         
+                    end if 
+                end do choice
+                
                             				
-						    vs1(iepsmove,q,x,q0) =	maxval(vcho)
-                            jstar(1)=maxloc(vcho,1)
-                            qs(iepsmove,q,x,q0)  =  chs(jstar(1),q,q0)
-                            if ( vs1(iepsmove,q,x,q0) < pen+1.0_dp) then 
-                                print*, 'There is something wrong in decs new new new',vs1(iepsmove,q,x,q0),dd(1),moveshock(iepsmove),mcost
-                                print*, 'vcho',vcho
-                                stop
-                            end if 
-                            
-						    if (yaz .and.q2w(q0)==1.and.l==8.and.x==1) then
-							    ss = dd  !(/ ia,index,q,x,z,q0,gender,j,altq,iepsmove /)  													
-							    ss(3:6)= (/q,x,-1,q0/)
-                                ss(11)=iepsmove
-							    call yaz_decs(ss,vcho)   !look here
-						    end if 
-                            
-                    	 end do wagedraw
-				    end do ofloc
-                end do moveshocks
-			end do  !x 				
-		end if		! w0<=np1 i.e. ps0(q0) is true
+                vs1(iepsmove,x,q,q0) =	maxval(vcho)
+                jstar(1)=maxloc(vcho,1)
+                qs(iepsmove,x,q,q0)  =  chs(jstar(1),q,q0)
+                if ( vs1(iepsmove,x,q,q0) < pen+1.0_dp) then 
+                    print*, 'There is something wrong in decs new new new',vs1(iepsmove,x,q,q0),dd(1),moveshock(iepsmove),mcost
+                    print*, 'vcho',vcho
+                    stop
+                end if 
+                
+                if (yaz .and.q2w(q0)==1.and.l==8.and.x==1) then
+                    ss = dd  !(/ ia,index,q,x,z,q0,gender,j,altq,iepsmove /)  													
+                    ss(3:6)= (/q,x,-1,q0/)
+                    ss(11)=iepsmove
+                    !call yaz_decs(ss,vcho)   !look here
+                end if 
+
+            end do moveshocks		
+            end do !x
+            end do wagedraw
+            end do ofloc             
+		    end if		! w0<=np1 i.e. ps0(q0) is true
 	end do			! q0
 	end subroutine getdec_s
 
@@ -980,88 +990,87 @@ contains
 
     do trueindex=1,ninp    
     call index2cotyphome(trueindex,trueco,truetyp,truehome)
-    xs: do x=1,nxs
-        !call x2edexpkid(x,ed,exp,kid)    
 		qs: do q=1,nqs 
-            movecost(q,x,trueindex)=fnmove( q2w(q),x2kid(x),trueindex)
+            xs: do x=1,nxs    
+        !call x2edexpkid(x,ed,exp,kid)    
+            movecost(x,q,trueindex)=fnmove( q2w(q),x2kid(x),trueindex)
             do g=1,2
                 w(g) = q2w(q)						! wage 
 			    l(g) = q2l(q)						! location
 			    if ( w(g) <= np ) then	
                     epsw(g)=wg(w(g),g) !sig_wge(g)*wg(w(g),g)
-				    ws(g,q,x,trueindex)	= fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x)) 
-			    !    ubs(g,q,x,trueindex)	= 0.0_dp                                                            !ahu summer18 050318
+				    ws(g,x,q,trueindex)	= fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x)) 
+			    !    ubs(g,x,q,trueindex)	= 0.0_dp                                                            !ahu summer18 050318
                 else if ( w(g) == np1 ) then 
 			    !    epsw(g)=0.0_dp                                                                              !ahu summer18 050318
-                    ws(g,q,x,trueindex)	 = 0.0_dp
-                !    ubs(g,q,x,trueindex)	= replacement_rate*fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x))   !ahu summer18 050318
+                    ws(g,x,q,trueindex)	 = 0.0_dp
+                !    ubs(g,x,q,trueindex)	= replacement_rate*fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x))   !ahu summer18 050318
                 end if 
                 
 			    if ( w(g) <= np ) then						
-				    utils(g,q,x,trueindex)	= uhome(g) * one(l(g)==truehome) + uloc(l(g)) + nonlabinc(x2e(x))
+				    utils(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome) + uloc(l(g)) + nonlabinc(x2e(x))
 			    else if ( w(g) == np1 ) then 
-				    utils(g,q,x,trueindex)	= uhome(g) * one(l(g)==truehome)  + uloc(l(g)) + alphaed(g,x2e(x)) + alphakid(g,x2kid(x))  + nonlabinc(x2e(x))
+				    utils(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome)  + uloc(l(g)) + alphaed(g,x2e(x)) + alphakid(g,x2kid(x))  + nonlabinc(x2e(x))
 			    end if
                 
             end do !gender
-		end do qs
-	end do xs
+		end do xs
+	end do qs
+    qc: do q=1,nq
 	xc: do x=1,nx
         ed(:)=xx2e(:,x)    
         expe(:)=xx2r(:,x)    
-        kid(:)=xx2kid(:,x)    
-        qc: do q=1,nq
-			w(:) = qq2w(:,q)						! wage 
-			l(:) = qq2l(:,q)						! location
-            if (l(1).ne.l(2)) then ; print*, 'lm not equal to lf' ; stop ; end if 
+        kid(:)=xx2kid(:,x)           
+        w(:) = qq2w(:,q)						! wage 
+        l(:) = qq2l(:,q)						! location
+        if (l(1).ne.l(2)) then ; print*, 'lm not equal to lf' ; stop ; end if 
 
-            !******************************
-            !ahu summer18 050318 
-            !if (w(1)<=np) then 
-            !    ubc(1,q,x,trueindex)	= 0.0_dp           
-            !else if (w(1)==np1) then 
-            !    epsw(1)=0.0_dp
-            !    ubc(1,q,x,trueindex)	= replacement_rate*fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
-            !end if 
-            !if (w(2)<=np) then 
-            !    ubc(2,q,x,trueindex)	= 0.0_dp           
-            !else if (w(2)==np1) then 
-            !    epsw(2)=0.0_dp
-            !    ubc(2,q,x,trueindex)	= replacement_rate*fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) ) 
-            !end if 
-            !ahu summer18 050318 
-            !******************************
+        !******************************
+        !ahu summer18 050318 
+        !if (w(1)<=np) then 
+        !    ubc(1,q,x,trueindex)	= 0.0_dp           
+        !else if (w(1)==np1) then 
+        !    epsw(1)=0.0_dp
+        !    ubc(1,q,x,trueindex)	= replacement_rate*fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
+        !end if 
+        !if (w(2)<=np) then 
+        !    ubc(2,q,x,trueindex)	= 0.0_dp           
+        !else if (w(2)==np1) then 
+        !    epsw(2)=0.0_dp
+        !    ubc(2,q,x,trueindex)	= replacement_rate*fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) ) 
+        !end if 
+        !ahu summer18 050318 
+        !******************************
+        
+        if ( w(1) <= np .and. w(2) <= np ) then		
+            epsw(1)=wg(w(1),1) !CD(1,1)*wg(w(1),1)
+            epsw(2)=wg(w(2),2) !CD(2,1)*wg(w(1),1) + CD(2,2)*wg(w(2),2)
+            wc(1,x,q,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
+            wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )  
+        else if ( w(1) <= np .and. w(2) == np1 ) then		
+            epsw(1)=wg(w(1),1) !sig_wge(1)*wg(w(1),1)
+            wc(1,x,q,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
+            wc(2,x,q,trueindex)	= 0.0_dp
+        else if ( w(1) == np1 .and. w(2) <= np ) then		
+            epsw(2)=wg(w(2),2) !sig_wge(2)*wg(w(2),2)
+            wc(1,x,q,trueindex)	= 0.0_dp
+            wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )                      
+        else if ( w(1) == np1 .and. w(2) == np1 ) then		
+            wc(1,x,q,trueindex)	= 0.0_dp
+            wc(2,x,q,trueindex)	= 0.0_dp                 
+        end if 
             
-            if ( w(1) <= np .and. w(2) <= np ) then		
-                epsw(1)=wg(w(1),1) !CD(1,1)*wg(w(1),1)
-                epsw(2)=wg(w(2),2) !CD(2,1)*wg(w(1),1) + CD(2,2)*wg(w(2),2)
-				wc(1,q,x,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
-                wc(2,q,x,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )  
-            else if ( w(1) <= np .and. w(2) == np1 ) then		
-                epsw(1)=wg(w(1),1) !sig_wge(1)*wg(w(1),1)
-				wc(1,q,x,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
-				wc(2,q,x,trueindex)	= 0.0_dp
-            else if ( w(1) == np1 .and. w(2) <= np ) then		
-                epsw(2)=wg(w(2),2) !sig_wge(2)*wg(w(2),2)
-				wc(1,q,x,trueindex)	= 0.0_dp
-				wc(2,q,x,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )                      
-            else if ( w(1) == np1 .and. w(2) == np1 ) then		
-				wc(1,q,x,trueindex)	= 0.0_dp
-				wc(2,q,x,trueindex)	= 0.0_dp                 
-			end if 
             
-            
-            do g=1,2
-			    if ( w(g) <= np ) then						
-				    utilc(g,q,x,trueindex)	= uhome(g) * one(l(g)==truehome)   + uloc(l(g))
-			    else if ( w(g) == np1 ) then 
-				    utilc(g,q,x,trueindex)	= uhome(g) * one(l(g)==truehome)   + uloc(l(g)) + alphaed(g,ed(g) ) + alphakid(g,kid(g))
-			    end if
-            end do   
-            
-            !if (skriv) write(88881,'(3I4,4F10.2)') q,x,k,w1(i(1),j(1),k),w2(i(2),j(2),k),w3(q,x,k),w4(q,x,k)
-        end do qc
-	end do xc
+        do g=1,2
+            if ( w(g) <= np ) then						
+                utilc(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome)   + uloc(l(g))
+            else if ( w(g) == np1 ) then 
+                utilc(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome)   + uloc(l(g)) + alphaed(g,ed(g) ) + alphakid(g,kid(g))
+            end if
+        end do   
+        
+    end do xc
+	end do qc
     end do !trueindex
     
     
