@@ -11,11 +11,11 @@ module share
 	real(dp) :: ppmq_check(nqs,nqs,nxs),ppfq_check(nqs,nqs,nxs)
 	real(dp) :: ppsx  (nxs,nqs,nxs) , ppcx(nx,nq,nx) 
 	real(dp) :: ppmeetq(nqs,nqs),ppmeetx(nxs,nxs),empdec(mna:mxa,2)
-	real(dp), dimension(2,nqs,nxs,ninp) :: ws,ubs     !ahu summer18 050318: added ubs
-	real(dp), dimension(2,nq,nx,ninp) :: wc,ubc       !ahu summer18 050318: added ubc
-	real(dp), dimension(2,nqs,nxs,ninp) :: utils
-	real(dp), dimension(2,nq,nx,ninp) :: utilc
-    real(dp), dimension(nqs,nxs,ninp) :: movecost
+	real(dp), dimension(2,nxs,nqs,ninp) :: ws,ubs     !ahu summer18 050318: added ubs
+	real(dp), dimension(2,nx,nq,ninp) :: wc,ubc       !ahu summer18 050318: added ubc
+	real(dp), dimension(2,nxs,nqs,ninp) :: utils
+	real(dp), dimension(2,nx,nq,ninp) :: utilc
+    real(dp), dimension(nxs,nqs,ninp) :: movecost
 	real(dp), dimension(nxs,nqs,mna:mxa) :: emaxm_s,emaxf_s
 	real(dp), dimension(nx,nq,mna:mxa)   :: emaxm_c,emaxf_c
 	!integer(i4b), dimension(nepsmove,nxs,nqs,nqs,mna:mxa,nin) :: decm0_s,decf0_s,decm_s,decf_s
