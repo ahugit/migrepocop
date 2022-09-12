@@ -1,3 +1,1187 @@
+MODULE nrtype
+	INTEGER, PARAMETER :: I4B = SELECTED_INT_KIND(9)
+	INTEGER, PARAMETER :: I2B = SELECTED_INT_KIND(4)
+	INTEGER, PARAMETER :: I1B = SELECTED_INT_KIND(2)
+	INTEGER, PARAMETER :: SP = KIND(1.0)
+	INTEGER, PARAMETER :: DP = KIND(1.0D0)
+	INTEGER, PARAMETER :: SPC = KIND((1.0,1.0))
+	INTEGER, PARAMETER :: DPC = KIND((1.0D0,1.0D0))
+	INTEGER, PARAMETER :: LGT = KIND(.true.)
+	REAL(SP), PARAMETER :: PI=3.141592653589793238462643383279502884197_sp
+	REAL(SP), PARAMETER :: PIO2=1.57079632679489661923132169163975144209858_sp
+	REAL(SP), PARAMETER :: TWOPI=6.283185307179586476925286766559005768394_sp
+	REAL(SP), PARAMETER :: SQRT2=1.41421356237309504880168872420969807856967_sp
+	REAL(SP), PARAMETER :: EULER=0.5772156649015328606065120900824024310422_sp
+	REAL(DP), PARAMETER :: PI_D=3.141592653589793238462643383279502884197_dp
+	REAL(DP), PARAMETER :: PIO2_D=1.57079632679489661923132169163975144209858_dp
+	REAL(DP), PARAMETER :: TWOPI_D=6.283185307179586476925286766559005768394_dp
+	TYPE sprs2_sp
+		INTEGER(I4B) :: n,len
+		REAL(SP), DIMENSION(:), POINTER :: val
+		INTEGER(I4B), DIMENSION(:), POINTER :: irow
+		INTEGER(I4B), DIMENSION(:), POINTER :: jcol
+	END TYPE sprs2_sp
+	TYPE sprs2_dp
+		INTEGER(I4B) :: n,len
+		REAL(DP), DIMENSION(:), POINTER :: val
+		INTEGER(I4B), DIMENSION(:), POINTER :: irow
+		INTEGER(I4B), DIMENSION(:), POINTER :: jcol
+	END TYPE sprs2_dp
+END MODULE nrtype
+MODULE nrutil
+	USE nrtype
+	IMPLICIT NONE
+	INTEGER(I4B), PARAMETER :: NPAR_ARTH=16,NPAR2_ARTH=8
+	INTEGER(I4B), PARAMETER :: NPAR_GEOP=4,NPAR2_GEOP=2
+	INTEGER(I4B), PARAMETER :: NPAR_CUMSUM=16
+	INTEGER(I4B), PARAMETER :: NPAR_CUMPROD=8
+	INTEGER(I4B), PARAMETER :: NPAR_POLY=8
+	INTEGER(I4B), PARAMETER :: NPAR_POLYTERM=8
+	INTERFACE array_copy
+		MODULE PROCEDURE array_copy_r, array_copy_d, array_copy_i
+	END INTERFACE
+	INTERFACE swap
+		MODULE PROCEDURE swap_i,swap_r,swap_rv,swap_c, &
+			swap_cv,swap_cm,swap_z,swap_zv,swap_zm, &
+			masked_swap_rs,masked_swap_rv,masked_swap_rm
+	END INTERFACE
+	INTERFACE reallocate
+		MODULE PROCEDURE reallocate_rv,reallocate_rm,&
+			reallocate_iv,reallocate_im,reallocate_hv
+	END INTERFACE
+	INTERFACE imaxloc
+		MODULE PROCEDURE imaxloc_r,imaxloc_i
+	END INTERFACE
+	INTERFACE assert
+		MODULE PROCEDURE assert1,assert2,assert3,assert4,assert_v
+	END INTERFACE
+	INTERFACE assert_eq
+		MODULE PROCEDURE assert_eq2,assert_eq3,assert_eq4,assert_eqn
+	END INTERFACE
+	INTERFACE arth
+		MODULE PROCEDURE arth_r, arth_d, arth_i
+	END INTERFACE
+	INTERFACE geop
+		MODULE PROCEDURE geop_r, geop_d, geop_i, geop_c, geop_dv
+	END INTERFACE
+	INTERFACE cumsum
+		MODULE PROCEDURE cumsum_r,cumsum_i
+	END INTERFACE
+	INTERFACE poly
+		MODULE PROCEDURE poly_rr,poly_rrv,poly_dd,poly_ddv,&
+			poly_rc,poly_cc,poly_msk_rrv,poly_msk_ddv
+	END INTERFACE
+	INTERFACE poly_term
+		MODULE PROCEDURE poly_term_rr,poly_term_cc
+	END INTERFACE
+	INTERFACE outerprod
+		MODULE PROCEDURE outerprod_r,outerprod_d
+	END INTERFACE
+	INTERFACE outerdiff
+		MODULE PROCEDURE outerdiff_r,outerdiff_d,outerdiff_i
+	END INTERFACE
+	INTERFACE scatter_add
+		MODULE PROCEDURE scatter_add_r,scatter_add_d
+	END INTERFACE
+	INTERFACE scatter_max
+		MODULE PROCEDURE scatter_max_r,scatter_max_d
+	END INTERFACE
+	INTERFACE diagadd
+		MODULE PROCEDURE diagadd_rv,diagadd_r
+	END INTERFACE
+	INTERFACE diagmult
+		MODULE PROCEDURE diagmult_rv,diagmult_r
+	END INTERFACE
+	INTERFACE get_diag
+		MODULE PROCEDURE get_diag_rv, get_diag_dv
+	END INTERFACE
+	INTERFACE put_diag
+		MODULE PROCEDURE put_diag_rv, put_diag_r
+	END INTERFACE
+CONTAINS
+!BL
+	SUBROUTINE array_copy_r(src,dest,n_copied,n_not_copied)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: src
+	REAL(SP), DIMENSION(:), INTENT(OUT) :: dest
+	INTEGER(I4B), INTENT(OUT) :: n_copied, n_not_copied
+	n_copied=min(size(src),size(dest))
+	n_not_copied=size(src)-n_copied
+	dest(1:n_copied)=src(1:n_copied)
+	END SUBROUTINE array_copy_r
+!BL
+	SUBROUTINE array_copy_d(src,dest,n_copied,n_not_copied)
+	REAL(DP), DIMENSION(:), INTENT(IN) :: src
+	REAL(DP), DIMENSION(:), INTENT(OUT) :: dest
+	INTEGER(I4B), INTENT(OUT) :: n_copied, n_not_copied
+	n_copied=min(size(src),size(dest))
+	n_not_copied=size(src)-n_copied
+	dest(1:n_copied)=src(1:n_copied)
+	END SUBROUTINE array_copy_d
+!BL
+	SUBROUTINE array_copy_i(src,dest,n_copied,n_not_copied)
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: src
+	INTEGER(I4B), DIMENSION(:), INTENT(OUT) :: dest
+	INTEGER(I4B), INTENT(OUT) :: n_copied, n_not_copied
+	n_copied=min(size(src),size(dest))
+	n_not_copied=size(src)-n_copied
+	dest(1:n_copied)=src(1:n_copied)
+	END SUBROUTINE array_copy_i
+!BL
+!BL
+	SUBROUTINE swap_i(a,b)
+	INTEGER(I4B), INTENT(INOUT) :: a,b
+	INTEGER(I4B) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_i
+!BL
+	SUBROUTINE swap_r(a,b)
+	REAL(SP), INTENT(INOUT) :: a,b
+	REAL(SP) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_r
+!BL
+	SUBROUTINE swap_rv(a,b)
+	REAL(SP), DIMENSION(:), INTENT(INOUT) :: a,b
+	REAL(SP), DIMENSION(SIZE(a)) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_rv
+!BL
+	SUBROUTINE swap_c(a,b)
+	COMPLEX(SPC), INTENT(INOUT) :: a,b
+	COMPLEX(SPC) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_c
+!BL
+	SUBROUTINE swap_cv(a,b)
+	COMPLEX(SPC), DIMENSION(:), INTENT(INOUT) :: a,b
+	COMPLEX(SPC), DIMENSION(SIZE(a)) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_cv
+!BL
+	SUBROUTINE swap_cm(a,b)
+	COMPLEX(SPC), DIMENSION(:,:), INTENT(INOUT) :: a,b
+	COMPLEX(SPC), DIMENSION(size(a,1),size(a,2)) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_cm
+!BL
+	SUBROUTINE swap_z(a,b)
+	COMPLEX(DPC), INTENT(INOUT) :: a,b
+	COMPLEX(DPC) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_z
+!BL
+	SUBROUTINE swap_zv(a,b)
+	COMPLEX(DPC), DIMENSION(:), INTENT(INOUT) :: a,b
+	COMPLEX(DPC), DIMENSION(SIZE(a)) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_zv
+!BL
+	SUBROUTINE swap_zm(a,b)
+	COMPLEX(DPC), DIMENSION(:,:), INTENT(INOUT) :: a,b
+	COMPLEX(DPC), DIMENSION(size(a,1),size(a,2)) :: dum
+	dum=a
+	a=b
+	b=dum
+	END SUBROUTINE swap_zm
+!BL
+	SUBROUTINE masked_swap_rs(a,b,mask)
+	REAL(SP), INTENT(INOUT) :: a,b
+	LOGICAL(LGT), INTENT(IN) :: mask
+	REAL(SP) :: swp
+	if (mask) then
+		swp=a
+		a=b
+		b=swp
+	end if
+	END SUBROUTINE masked_swap_rs
+!BL
+	SUBROUTINE masked_swap_rv(a,b,mask)
+	REAL(SP), DIMENSION(:), INTENT(INOUT) :: a,b
+	LOGICAL(LGT), DIMENSION(:), INTENT(IN) :: mask
+	REAL(SP), DIMENSION(size(a)) :: swp
+	where (mask)
+		swp=a
+		a=b
+		b=swp
+	end where
+	END SUBROUTINE masked_swap_rv
+!BL
+	SUBROUTINE masked_swap_rm(a,b,mask)
+	REAL(SP), DIMENSION(:,:), INTENT(INOUT) :: a,b
+	LOGICAL(LGT), DIMENSION(:,:), INTENT(IN) :: mask
+	REAL(SP), DIMENSION(size(a,1),size(a,2)) :: swp
+	where (mask)
+		swp=a
+		a=b
+		b=swp
+	end where
+	END SUBROUTINE masked_swap_rm
+!BL
+!BL
+	FUNCTION reallocate_rv(p,n)
+	REAL(SP), DIMENSION(:), POINTER :: p, reallocate_rv
+	INTEGER(I4B), INTENT(IN) :: n
+	INTEGER(I4B) :: nold,ierr
+	allocate(reallocate_rv(n),stat=ierr)
+	if (ierr /= 0) call &
+		nrerror('reallocate_rv: problem in attempt to allocate memory')
+	if (.not. associated(p)) RETURN
+	nold=size(p)
+	reallocate_rv(1:min(nold,n))=p(1:min(nold,n))
+	deallocate(p)
+	END FUNCTION reallocate_rv
+!BL
+	FUNCTION reallocate_iv(p,n)
+	INTEGER(I4B), DIMENSION(:), POINTER :: p, reallocate_iv
+	INTEGER(I4B), INTENT(IN) :: n
+	INTEGER(I4B) :: nold,ierr
+	allocate(reallocate_iv(n),stat=ierr)
+	if (ierr /= 0) call &
+		nrerror('reallocate_iv: problem in attempt to allocate memory')
+	if (.not. associated(p)) RETURN
+	nold=size(p)
+	reallocate_iv(1:min(nold,n))=p(1:min(nold,n))
+	deallocate(p)
+	END FUNCTION reallocate_iv
+!BL
+	FUNCTION reallocate_hv(p,n)
+	CHARACTER(1), DIMENSION(:), POINTER :: p, reallocate_hv
+	INTEGER(I4B), INTENT(IN) :: n
+	INTEGER(I4B) :: nold,ierr
+	allocate(reallocate_hv(n),stat=ierr)
+	if (ierr /= 0) call &
+		nrerror('reallocate_hv: problem in attempt to allocate memory')
+	if (.not. associated(p)) RETURN
+	nold=size(p)
+	reallocate_hv(1:min(nold,n))=p(1:min(nold,n))
+	deallocate(p)
+	END FUNCTION reallocate_hv
+!BL
+	FUNCTION reallocate_rm(p,n,m)
+	REAL(SP), DIMENSION(:,:), POINTER :: p, reallocate_rm
+	INTEGER(I4B), INTENT(IN) :: n,m
+	INTEGER(I4B) :: nold,mold,ierr
+	allocate(reallocate_rm(n,m),stat=ierr)
+	if (ierr /= 0) call &
+		nrerror('reallocate_rm: problem in attempt to allocate memory')
+	if (.not. associated(p)) RETURN
+	nold=size(p,1)
+	mold=size(p,2)
+	reallocate_rm(1:min(nold,n),1:min(mold,m))=&
+		p(1:min(nold,n),1:min(mold,m))
+	deallocate(p)
+	END FUNCTION reallocate_rm
+!BL
+	FUNCTION reallocate_im(p,n,m)
+	INTEGER(I4B), DIMENSION(:,:), POINTER :: p, reallocate_im
+	INTEGER(I4B), INTENT(IN) :: n,m
+	INTEGER(I4B) :: nold,mold,ierr
+	allocate(reallocate_im(n,m),stat=ierr)
+	if (ierr /= 0) call &
+		nrerror('reallocate_im: problem in attempt to allocate memory')
+	if (.not. associated(p)) RETURN
+	nold=size(p,1)
+	mold=size(p,2)
+	reallocate_im(1:min(nold,n),1:min(mold,m))=&
+		p(1:min(nold,n),1:min(mold,m))
+	deallocate(p)
+	END FUNCTION reallocate_im
+!BL
+	FUNCTION ifirstloc(mask)
+	LOGICAL(LGT), DIMENSION(:), INTENT(IN) :: mask
+	INTEGER(I4B) :: ifirstloc
+	INTEGER(I4B), DIMENSION(1) :: loc
+	loc=maxloc(merge(1,0,mask))
+	ifirstloc=loc(1)
+	if (.not. mask(ifirstloc)) ifirstloc=size(mask)+1
+	END FUNCTION ifirstloc
+!BL
+	FUNCTION imaxloc_r(arr)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: arr
+	INTEGER(I4B) :: imaxloc_r
+	INTEGER(I4B), DIMENSION(1) :: imax
+	imax=maxloc(arr(:))
+	imaxloc_r=imax(1)
+	END FUNCTION imaxloc_r
+!BL
+	FUNCTION imaxloc_i(iarr)
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: iarr
+	INTEGER(I4B), DIMENSION(1) :: imax
+	INTEGER(I4B) :: imaxloc_i
+	imax=maxloc(iarr(:))
+	imaxloc_i=imax(1)
+	END FUNCTION imaxloc_i
+!BL
+	FUNCTION iminloc(arr)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: arr
+	INTEGER(I4B), DIMENSION(1) :: imin
+	INTEGER(I4B) :: iminloc
+	imin=minloc(arr(:))
+	iminloc=imin(1)
+	END FUNCTION iminloc
+!BL
+	SUBROUTINE assert1(n1,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	LOGICAL, INTENT(IN) :: n1
+	if (.not. n1) then
+		write (*,*) 'nrerror: an assertion failed with this tag:', &
+			string
+		STOP 'program terminated by assert1'
+	end if
+	END SUBROUTINE assert1
+!BL
+	SUBROUTINE assert2(n1,n2,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	LOGICAL, INTENT(IN) :: n1,n2
+	if (.not. (n1 .and. n2)) then
+		write (*,*) 'nrerror: an assertion failed with this tag:', &
+			string
+		STOP 'program terminated by assert2'
+	end if
+	END SUBROUTINE assert2
+!BL
+	SUBROUTINE assert3(n1,n2,n3,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	LOGICAL, INTENT(IN) :: n1,n2,n3
+	if (.not. (n1 .and. n2 .and. n3)) then
+		write (*,*) 'nrerror: an assertion failed with this tag:', &
+			string
+		STOP 'program terminated by assert3'
+	end if
+	END SUBROUTINE assert3
+!BL
+	SUBROUTINE assert4(n1,n2,n3,n4,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	LOGICAL, INTENT(IN) :: n1,n2,n3,n4
+	if (.not. (n1 .and. n2 .and. n3 .and. n4)) then
+		write (*,*) 'nrerror: an assertion failed with this tag:', &
+			string
+		STOP 'program terminated by assert4'
+	end if
+	END SUBROUTINE assert4
+!BL
+	SUBROUTINE assert_v(n,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	LOGICAL, DIMENSION(:), INTENT(IN) :: n
+	if (.not. all(n)) then
+		write (*,*) 'nrerror: an assertion failed with this tag:', &
+			string
+		STOP 'program terminated by assert_v'
+	end if
+	END SUBROUTINE assert_v
+!BL
+	FUNCTION assert_eq2(n1,n2,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	INTEGER, INTENT(IN) :: n1,n2
+	INTEGER :: assert_eq2
+	if (n1 == n2) then
+		assert_eq2=n1
+	else
+		write (*,*) 'nrerror: an assert_eq failed with this tag:', &
+			string
+		STOP 'program terminated by assert_eq2'
+	end if
+	END FUNCTION assert_eq2
+!BL
+	FUNCTION assert_eq3(n1,n2,n3,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	INTEGER, INTENT(IN) :: n1,n2,n3
+	INTEGER :: assert_eq3
+	if (n1 == n2 .and. n2 == n3) then
+		assert_eq3=n1
+	else
+		write (*,*) 'nrerror: an assert_eq failed with this tag:', &
+			string
+		STOP 'program terminated by assert_eq3'
+	end if
+	END FUNCTION assert_eq3
+!BL
+	FUNCTION assert_eq4(n1,n2,n3,n4,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	INTEGER, INTENT(IN) :: n1,n2,n3,n4
+	INTEGER :: assert_eq4
+	if (n1 == n2 .and. n2 == n3 .and. n3 == n4) then
+		assert_eq4=n1
+	else
+		write (*,*) 'nrerror: an assert_eq failed with this tag:', &
+			string
+		STOP 'program terminated by assert_eq4'
+	end if
+	END FUNCTION assert_eq4
+!BL
+	FUNCTION assert_eqn(nn,string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	INTEGER, DIMENSION(:), INTENT(IN) :: nn
+	INTEGER :: assert_eqn
+	if (all(nn(2:) == nn(1))) then
+		assert_eqn=nn(1)
+	else
+		write (*,*) 'nrerror: an assert_eq failed with this tag:', &
+			string
+		STOP 'program terminated by assert_eqn'
+	end if
+	END FUNCTION assert_eqn
+!BL
+	SUBROUTINE nrerror(string)
+	CHARACTER(LEN=*), INTENT(IN) :: string
+	write (*,*) 'nrerror: ',string
+	STOP 'program terminated by nrerror'
+	END SUBROUTINE nrerror
+!BL
+	FUNCTION arth_r(first,increment,n)
+	REAL(SP), INTENT(IN) :: first,increment
+	INTEGER(I4B), INTENT(IN) :: n
+	REAL(SP), DIMENSION(n) :: arth_r
+	INTEGER(I4B) :: k,k2
+	REAL(SP) :: temp
+	if (n > 0) arth_r(1)=first
+	if (n <= NPAR_ARTH) then
+		do k=2,n
+			arth_r(k)=arth_r(k-1)+increment
+		end do
+	else
+		do k=2,NPAR2_ARTH
+			arth_r(k)=arth_r(k-1)+increment
+		end do
+		temp=increment*NPAR2_ARTH
+		k=NPAR2_ARTH
+		do
+			if (k >= n) exit
+			k2=k+k
+			arth_r(k+1:min(k2,n))=temp+arth_r(1:min(k,n-k))
+			temp=temp+temp
+			k=k2
+		end do
+	end if
+	END FUNCTION arth_r
+!BL
+	FUNCTION arth_d(first,increment,n)
+	REAL(DP), INTENT(IN) :: first,increment
+	INTEGER(I4B), INTENT(IN) :: n
+	REAL(DP), DIMENSION(n) :: arth_d
+	INTEGER(I4B) :: k,k2
+	REAL(DP) :: temp
+	if (n > 0) arth_d(1)=first
+	if (n <= NPAR_ARTH) then
+		do k=2,n
+			arth_d(k)=arth_d(k-1)+increment
+		end do
+	else
+		do k=2,NPAR2_ARTH
+			arth_d(k)=arth_d(k-1)+increment
+		end do
+		temp=increment*NPAR2_ARTH
+		k=NPAR2_ARTH
+		do
+			if (k >= n) exit
+			k2=k+k
+			arth_d(k+1:min(k2,n))=temp+arth_d(1:min(k,n-k))
+			temp=temp+temp
+			k=k2
+		end do
+	end if
+	END FUNCTION arth_d
+!BL
+	FUNCTION arth_i(first,increment,n)
+	INTEGER(I4B), INTENT(IN) :: first,increment,n
+	INTEGER(I4B), DIMENSION(n) :: arth_i
+	INTEGER(I4B) :: k,k2,temp
+	if (n > 0) arth_i(1)=first
+	if (n <= NPAR_ARTH) then
+		do k=2,n
+			arth_i(k)=arth_i(k-1)+increment
+		end do
+	else
+		do k=2,NPAR2_ARTH
+			arth_i(k)=arth_i(k-1)+increment
+		end do
+		temp=increment*NPAR2_ARTH
+		k=NPAR2_ARTH
+		do
+			if (k >= n) exit
+			k2=k+k
+			arth_i(k+1:min(k2,n))=temp+arth_i(1:min(k,n-k))
+			temp=temp+temp
+			k=k2
+		end do
+	end if
+	END FUNCTION arth_i
+!BL
+!BL
+	FUNCTION geop_r(first,factor,n)
+	REAL(SP), INTENT(IN) :: first,factor
+	INTEGER(I4B), INTENT(IN) :: n
+	REAL(SP), DIMENSION(n) :: geop_r
+	INTEGER(I4B) :: k,k2
+	REAL(SP) :: temp
+	if (n > 0) geop_r(1)=first
+	if (n <= NPAR_GEOP) then
+		do k=2,n
+			geop_r(k)=geop_r(k-1)*factor
+		end do
+	else
+		do k=2,NPAR2_GEOP
+			geop_r(k)=geop_r(k-1)*factor
+		end do
+		temp=factor**NPAR2_GEOP
+		k=NPAR2_GEOP
+		do
+			if (k >= n) exit
+			k2=k+k
+			geop_r(k+1:min(k2,n))=temp*geop_r(1:min(k,n-k))
+			temp=temp*temp
+			k=k2
+		end do
+	end if
+	END FUNCTION geop_r
+!BL
+	FUNCTION geop_d(first,factor,n)
+	REAL(DP), INTENT(IN) :: first,factor
+	INTEGER(I4B), INTENT(IN) :: n
+	REAL(DP), DIMENSION(n) :: geop_d
+	INTEGER(I4B) :: k,k2
+	REAL(DP) :: temp
+	if (n > 0) geop_d(1)=first
+	if (n <= NPAR_GEOP) then
+		do k=2,n
+			geop_d(k)=geop_d(k-1)*factor
+		end do
+	else
+		do k=2,NPAR2_GEOP
+			geop_d(k)=geop_d(k-1)*factor
+		end do
+		temp=factor**NPAR2_GEOP
+		k=NPAR2_GEOP
+		do
+			if (k >= n) exit
+			k2=k+k
+			geop_d(k+1:min(k2,n))=temp*geop_d(1:min(k,n-k))
+			temp=temp*temp
+			k=k2
+		end do
+	end if
+	END FUNCTION geop_d
+!BL
+	FUNCTION geop_i(first,factor,n)
+	INTEGER(I4B), INTENT(IN) :: first,factor,n
+	INTEGER(I4B), DIMENSION(n) :: geop_i
+	INTEGER(I4B) :: k,k2,temp
+	if (n > 0) geop_i(1)=first
+	if (n <= NPAR_GEOP) then
+		do k=2,n
+			geop_i(k)=geop_i(k-1)*factor
+		end do
+	else
+		do k=2,NPAR2_GEOP
+			geop_i(k)=geop_i(k-1)*factor
+		end do
+		temp=factor**NPAR2_GEOP
+		k=NPAR2_GEOP
+		do
+			if (k >= n) exit
+			k2=k+k
+			geop_i(k+1:min(k2,n))=temp*geop_i(1:min(k,n-k))
+			temp=temp*temp
+			k=k2
+		end do
+	end if
+	END FUNCTION geop_i
+!BL
+	FUNCTION geop_c(first,factor,n)
+	COMPLEX(SP), INTENT(IN) :: first,factor
+	INTEGER(I4B), INTENT(IN) :: n
+	COMPLEX(SP), DIMENSION(n) :: geop_c
+	INTEGER(I4B) :: k,k2
+	COMPLEX(SP) :: temp
+	if (n > 0) geop_c(1)=first
+	if (n <= NPAR_GEOP) then
+		do k=2,n
+			geop_c(k)=geop_c(k-1)*factor
+		end do
+	else
+		do k=2,NPAR2_GEOP
+			geop_c(k)=geop_c(k-1)*factor
+		end do
+		temp=factor**NPAR2_GEOP
+		k=NPAR2_GEOP
+		do
+			if (k >= n) exit
+			k2=k+k
+			geop_c(k+1:min(k2,n))=temp*geop_c(1:min(k,n-k))
+			temp=temp*temp
+			k=k2
+		end do
+	end if
+	END FUNCTION geop_c
+!BL
+	FUNCTION geop_dv(first,factor,n)
+	REAL(DP), DIMENSION(:), INTENT(IN) :: first,factor
+	INTEGER(I4B), INTENT(IN) :: n
+	REAL(DP), DIMENSION(size(first),n) :: geop_dv
+	INTEGER(I4B) :: k,k2
+	REAL(DP), DIMENSION(size(first)) :: temp
+	if (n > 0) geop_dv(:,1)=first(:)
+	if (n <= NPAR_GEOP) then
+		do k=2,n
+			geop_dv(:,k)=geop_dv(:,k-1)*factor(:)
+		end do
+	else
+		do k=2,NPAR2_GEOP
+			geop_dv(:,k)=geop_dv(:,k-1)*factor(:)
+		end do
+		temp=factor**NPAR2_GEOP
+		k=NPAR2_GEOP
+		do
+			if (k >= n) exit
+			k2=k+k
+			geop_dv(:,k+1:min(k2,n))=geop_dv(:,1:min(k,n-k))*&
+				spread(temp,2,size(geop_dv(:,1:min(k,n-k)),2))
+			temp=temp*temp
+			k=k2
+		end do
+	end if
+	END FUNCTION geop_dv
+!BL
+!BL
+	RECURSIVE FUNCTION cumsum_r(arr,seed) RESULT(ans)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: arr
+	REAL(SP), OPTIONAL, INTENT(IN) :: seed
+	REAL(SP), DIMENSION(size(arr)) :: ans
+	INTEGER(I4B) :: n,j
+	REAL(SP) :: sd
+	n=size(arr)
+	if (n == 0_i4b) RETURN
+	sd=0.0_sp
+	if (present(seed)) sd=seed
+	ans(1)=arr(1)+sd
+	if (n < NPAR_CUMSUM) then
+		do j=2,n
+			ans(j)=ans(j-1)+arr(j)
+		end do
+	else
+		ans(2:n:2)=cumsum_r(arr(2:n:2)+arr(1:n-1:2),sd)
+		ans(3:n:2)=ans(2:n-1:2)+arr(3:n:2)
+	end if
+	END FUNCTION cumsum_r
+!BL
+	RECURSIVE FUNCTION cumsum_i(arr,seed) RESULT(ans)
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: arr
+	INTEGER(I4B), OPTIONAL, INTENT(IN) :: seed
+	INTEGER(I4B), DIMENSION(size(arr)) :: ans
+	INTEGER(I4B) :: n,j,sd
+	n=size(arr)
+	if (n == 0_i4b) RETURN
+	sd=0_i4b
+	if (present(seed)) sd=seed
+	ans(1)=arr(1)+sd
+	if (n < NPAR_CUMSUM) then
+		do j=2,n
+			ans(j)=ans(j-1)+arr(j)
+		end do
+	else
+		ans(2:n:2)=cumsum_i(arr(2:n:2)+arr(1:n-1:2),sd)
+		ans(3:n:2)=ans(2:n-1:2)+arr(3:n:2)
+	end if
+	END FUNCTION cumsum_i
+!BL
+!BL
+	RECURSIVE FUNCTION cumprod(arr,seed) RESULT(ans)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: arr
+	REAL(SP), OPTIONAL, INTENT(IN) :: seed
+	REAL(SP), DIMENSION(size(arr)) :: ans
+	INTEGER(I4B) :: n,j
+	REAL(SP) :: sd
+	n=size(arr)
+	if (n == 0_i4b) RETURN
+	sd=1.0_sp
+	if (present(seed)) sd=seed
+	ans(1)=arr(1)*sd
+	if (n < NPAR_CUMPROD) then
+		do j=2,n
+			ans(j)=ans(j-1)*arr(j)
+		end do
+	else
+		ans(2:n:2)=cumprod(arr(2:n:2)*arr(1:n-1:2),sd)
+		ans(3:n:2)=ans(2:n-1:2)*arr(3:n:2)
+	end if
+	END FUNCTION cumprod
+!BL
+!BL
+	FUNCTION poly_rr(x,coeffs)
+	REAL(SP), INTENT(IN) :: x
+	REAL(SP), DIMENSION(:), INTENT(IN) :: coeffs
+	REAL(SP) :: poly_rr
+	REAL(SP) :: pow
+	REAL(SP), DIMENSION(:), ALLOCATABLE :: vec
+	INTEGER(I4B) :: i,n,nn
+	n=size(coeffs)
+	if (n <= 0) then
+		poly_rr=0.0_sp
+	else if (n < NPAR_POLY) then
+		poly_rr=coeffs(n)
+		do i=n-1,1,-1
+			poly_rr=x*poly_rr+coeffs(i)
+		end do
+	else
+		allocate(vec(n+1))
+		pow=x
+		vec(1:n)=coeffs
+		do
+			vec(n+1)=0.0_sp
+			nn=ishft(n+1,-1)
+			vec(1:nn)=vec(1:n:2)+pow*vec(2:n+1:2)
+			if (nn == 1) exit
+			pow=pow*pow
+			n=nn
+		end do
+		poly_rr=vec(1)
+		deallocate(vec)
+	end if
+	END FUNCTION poly_rr
+!BL
+	FUNCTION poly_dd(x,coeffs)
+	REAL(DP), INTENT(IN) :: x
+	REAL(DP), DIMENSION(:), INTENT(IN) :: coeffs
+	REAL(DP) :: poly_dd
+	REAL(DP) :: pow
+	REAL(DP), DIMENSION(:), ALLOCATABLE :: vec
+	INTEGER(I4B) :: i,n,nn
+	n=size(coeffs)
+	if (n <= 0) then
+		poly_dd=0.0_dp
+	else if (n < NPAR_POLY) then
+		poly_dd=coeffs(n)
+		do i=n-1,1,-1
+			poly_dd=x*poly_dd+coeffs(i)
+		end do
+	else
+		allocate(vec(n+1))
+		pow=x
+		vec(1:n)=coeffs
+		do
+			vec(n+1)=0.0_dp
+			nn=ishft(n+1,-1)
+			vec(1:nn)=vec(1:n:2)+pow*vec(2:n+1:2)
+			if (nn == 1) exit
+			pow=pow*pow
+			n=nn
+		end do
+		poly_dd=vec(1)
+		deallocate(vec)
+	end if
+	END FUNCTION poly_dd
+!BL
+	FUNCTION poly_rc(x,coeffs)
+	COMPLEX(SPC), INTENT(IN) :: x
+	REAL(SP), DIMENSION(:), INTENT(IN) :: coeffs
+	COMPLEX(SPC) :: poly_rc
+	COMPLEX(SPC) :: pow
+	COMPLEX(SPC), DIMENSION(:), ALLOCATABLE :: vec
+	INTEGER(I4B) :: i,n,nn
+	n=size(coeffs)
+	if (n <= 0) then
+		poly_rc=0.0_sp
+	else if (n < NPAR_POLY) then
+		poly_rc=coeffs(n)
+		do i=n-1,1,-1
+			poly_rc=x*poly_rc+coeffs(i)
+		end do
+	else
+		allocate(vec(n+1))
+		pow=x
+		vec(1:n)=coeffs
+		do
+			vec(n+1)=0.0_sp
+			nn=ishft(n+1,-1)
+			vec(1:nn)=vec(1:n:2)+pow*vec(2:n+1:2)
+			if (nn == 1) exit
+			pow=pow*pow
+			n=nn
+		end do
+		poly_rc=vec(1)
+		deallocate(vec)
+	end if
+	END FUNCTION poly_rc
+!BL
+	FUNCTION poly_cc(x,coeffs)
+	COMPLEX(SPC), INTENT(IN) :: x
+	COMPLEX(SPC), DIMENSION(:), INTENT(IN) :: coeffs
+	COMPLEX(SPC) :: poly_cc
+	COMPLEX(SPC) :: pow
+	COMPLEX(SPC), DIMENSION(:), ALLOCATABLE :: vec
+	INTEGER(I4B) :: i,n,nn
+	n=size(coeffs)
+	if (n <= 0) then
+		poly_cc=0.0_sp
+	else if (n < NPAR_POLY) then
+		poly_cc=coeffs(n)
+		do i=n-1,1,-1
+			poly_cc=x*poly_cc+coeffs(i)
+		end do
+	else
+		allocate(vec(n+1))
+		pow=x
+		vec(1:n)=coeffs
+		do
+			vec(n+1)=0.0_sp
+			nn=ishft(n+1,-1)
+			vec(1:nn)=vec(1:n:2)+pow*vec(2:n+1:2)
+			if (nn == 1) exit
+			pow=pow*pow
+			n=nn
+		end do
+		poly_cc=vec(1)
+		deallocate(vec)
+	end if
+	END FUNCTION poly_cc
+!BL
+	FUNCTION poly_rrv(x,coeffs)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: coeffs,x
+	REAL(SP), DIMENSION(size(x)) :: poly_rrv
+	INTEGER(I4B) :: i,n,m
+	m=size(coeffs)
+	n=size(x)
+	if (m <= 0) then
+		poly_rrv=0.0_sp
+	else if (m < n .or. m < NPAR_POLY) then
+		poly_rrv=coeffs(m)
+		do i=m-1,1,-1
+			poly_rrv=x*poly_rrv+coeffs(i)
+		end do
+	else
+		do i=1,n
+			poly_rrv(i)=poly_rr(x(i),coeffs)
+		end do
+	end if
+	END FUNCTION poly_rrv
+!BL
+	FUNCTION poly_ddv(x,coeffs)
+	REAL(DP), DIMENSION(:), INTENT(IN) :: coeffs,x
+	REAL(DP), DIMENSION(size(x)) :: poly_ddv
+	INTEGER(I4B) :: i,n,m
+	m=size(coeffs)
+	n=size(x)
+	if (m <= 0) then
+		poly_ddv=0.0_dp
+	else if (m < n .or. m < NPAR_POLY) then
+		poly_ddv=coeffs(m)
+		do i=m-1,1,-1
+			poly_ddv=x*poly_ddv+coeffs(i)
+		end do
+	else
+		do i=1,n
+			poly_ddv(i)=poly_dd(x(i),coeffs)
+		end do
+	end if
+	END FUNCTION poly_ddv
+!BL
+	FUNCTION poly_msk_rrv(x,coeffs,mask)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: coeffs,x
+	LOGICAL(LGT), DIMENSION(:), INTENT(IN) :: mask
+	REAL(SP), DIMENSION(size(x)) :: poly_msk_rrv
+	poly_msk_rrv=unpack(poly_rrv(pack(x,mask),coeffs),mask,0.0_sp)
+	END FUNCTION poly_msk_rrv
+!BL
+	FUNCTION poly_msk_ddv(x,coeffs,mask)
+	REAL(DP), DIMENSION(:), INTENT(IN) :: coeffs,x
+	LOGICAL(LGT), DIMENSION(:), INTENT(IN) :: mask
+	REAL(DP), DIMENSION(size(x)) :: poly_msk_ddv
+	poly_msk_ddv=unpack(poly_ddv(pack(x,mask),coeffs),mask,0.0_dp)
+	END FUNCTION poly_msk_ddv
+!BL
+!BL
+	RECURSIVE FUNCTION poly_term_rr(a,b) RESULT(u)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: a
+	REAL(SP), INTENT(IN) :: b
+	REAL(SP), DIMENSION(size(a)) :: u
+	INTEGER(I4B) :: n,j
+	n=size(a)
+	if (n <= 0) RETURN
+	u(1)=a(1)
+	if (n < NPAR_POLYTERM) then
+		do j=2,n
+			u(j)=a(j)+b*u(j-1)
+		end do
+	else
+		u(2:n:2)=poly_term_rr(a(2:n:2)+a(1:n-1:2)*b,b*b)
+		u(3:n:2)=a(3:n:2)+b*u(2:n-1:2)
+	end if
+	END FUNCTION poly_term_rr
+!BL
+	RECURSIVE FUNCTION poly_term_cc(a,b) RESULT(u)
+	COMPLEX(SPC), DIMENSION(:), INTENT(IN) :: a
+	COMPLEX(SPC), INTENT(IN) :: b
+	COMPLEX(SPC), DIMENSION(size(a)) :: u
+	INTEGER(I4B) :: n,j
+	n=size(a)
+	if (n <= 0) RETURN
+	u(1)=a(1)
+	if (n < NPAR_POLYTERM) then
+		do j=2,n
+			u(j)=a(j)+b*u(j-1)
+		end do
+	else
+		u(2:n:2)=poly_term_cc(a(2:n:2)+a(1:n-1:2)*b,b*b)
+		u(3:n:2)=a(3:n:2)+b*u(2:n-1:2)
+	end if
+	END FUNCTION poly_term_cc
+!BL
+!BL
+	FUNCTION zroots_unity(n,nn)
+	INTEGER(I4B), INTENT(IN) :: n,nn
+	COMPLEX(SPC), DIMENSION(nn) :: zroots_unity
+	INTEGER(I4B) :: k
+	REAL(SP) :: theta
+	zroots_unity(1)=1.0
+	theta=TWOPI/n
+	k=1
+	do
+		if (k >= nn) exit
+		zroots_unity(k+1)=cmplx(cos(k*theta),sin(k*theta),SPC)
+		zroots_unity(k+2:min(2*k,nn))=zroots_unity(k+1)*&
+			zroots_unity(2:min(k,nn-k))
+		k=2*k
+	end do
+	END FUNCTION zroots_unity
+!BL
+	FUNCTION outerprod_r(a,b)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: a,b
+	REAL(SP), DIMENSION(size(a),size(b)) :: outerprod_r
+	outerprod_r = spread(a,dim=2,ncopies=size(b)) * &
+		spread(b,dim=1,ncopies=size(a))
+	END FUNCTION outerprod_r
+!BL
+	FUNCTION outerprod_d(a,b)
+	REAL(DP), DIMENSION(:), INTENT(IN) :: a,b
+	REAL(DP), DIMENSION(size(a),size(b)) :: outerprod_d
+	outerprod_d = spread(a,dim=2,ncopies=size(b)) * &
+		spread(b,dim=1,ncopies=size(a))
+	END FUNCTION outerprod_d
+!BL
+	FUNCTION outerdiv(a,b)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: a,b
+	REAL(SP), DIMENSION(size(a),size(b)) :: outerdiv
+	outerdiv = spread(a,dim=2,ncopies=size(b)) / &
+		spread(b,dim=1,ncopies=size(a))
+	END FUNCTION outerdiv
+!BL
+	FUNCTION outersum(a,b)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: a,b
+	REAL(SP), DIMENSION(size(a),size(b)) :: outersum
+	outersum = spread(a,dim=2,ncopies=size(b)) + &
+		spread(b,dim=1,ncopies=size(a))
+	END FUNCTION outersum
+!BL
+	FUNCTION outerdiff_r(a,b)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: a,b
+	REAL(SP), DIMENSION(size(a),size(b)) :: outerdiff_r
+	outerdiff_r = spread(a,dim=2,ncopies=size(b)) - &
+		spread(b,dim=1,ncopies=size(a))
+	END FUNCTION outerdiff_r
+!BL
+	FUNCTION outerdiff_d(a,b)
+	REAL(DP), DIMENSION(:), INTENT(IN) :: a,b
+	REAL(DP), DIMENSION(size(a),size(b)) :: outerdiff_d
+	outerdiff_d = spread(a,dim=2,ncopies=size(b)) - &
+		spread(b,dim=1,ncopies=size(a))
+	END FUNCTION outerdiff_d
+!BL
+	FUNCTION outerdiff_i(a,b)
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: a,b
+	INTEGER(I4B), DIMENSION(size(a),size(b)) :: outerdiff_i
+	outerdiff_i = spread(a,dim=2,ncopies=size(b)) - &
+		spread(b,dim=1,ncopies=size(a))
+	END FUNCTION outerdiff_i
+!BL
+	FUNCTION outerand(a,b)
+	LOGICAL(LGT), DIMENSION(:), INTENT(IN) :: a,b
+	LOGICAL(LGT), DIMENSION(size(a),size(b)) :: outerand
+	outerand = spread(a,dim=2,ncopies=size(b)) .and. &
+		spread(b,dim=1,ncopies=size(a))
+	END FUNCTION outerand
+!BL
+	SUBROUTINE scatter_add_r(dest,source,dest_index)
+	REAL(SP), DIMENSION(:), INTENT(OUT) :: dest
+	REAL(SP), DIMENSION(:), INTENT(IN) :: source
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: dest_index
+	INTEGER(I4B) :: m,n,j,i
+	n=assert_eq2(size(source),size(dest_index),'scatter_add_r')
+	m=size(dest)
+	do j=1,n
+		i=dest_index(j)
+		if (i > 0 .and. i <= m) dest(i)=dest(i)+source(j)
+	end do
+	END SUBROUTINE scatter_add_r
+	SUBROUTINE scatter_add_d(dest,source,dest_index)
+	REAL(DP), DIMENSION(:), INTENT(OUT) :: dest
+	REAL(DP), DIMENSION(:), INTENT(IN) :: source
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: dest_index
+	INTEGER(I4B) :: m,n,j,i
+	n=assert_eq2(size(source),size(dest_index),'scatter_add_d')
+	m=size(dest)
+	do j=1,n
+		i=dest_index(j)
+		if (i > 0 .and. i <= m) dest(i)=dest(i)+source(j)
+	end do
+	END SUBROUTINE scatter_add_d
+	SUBROUTINE scatter_max_r(dest,source,dest_index)
+	REAL(SP), DIMENSION(:), INTENT(OUT) :: dest
+	REAL(SP), DIMENSION(:), INTENT(IN) :: source
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: dest_index
+	INTEGER(I4B) :: m,n,j,i
+	n=assert_eq2(size(source),size(dest_index),'scatter_max_r')
+	m=size(dest)
+	do j=1,n
+		i=dest_index(j)
+		if (i > 0 .and. i <= m) dest(i)=max(dest(i),source(j))
+	end do
+	END SUBROUTINE scatter_max_r
+	SUBROUTINE scatter_max_d(dest,source,dest_index)
+	REAL(DP), DIMENSION(:), INTENT(OUT) :: dest
+	REAL(DP), DIMENSION(:), INTENT(IN) :: source
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: dest_index
+	INTEGER(I4B) :: m,n,j,i
+	n=assert_eq2(size(source),size(dest_index),'scatter_max_d')
+	m=size(dest)
+	do j=1,n
+		i=dest_index(j)
+		if (i > 0 .and. i <= m) dest(i)=max(dest(i),source(j))
+	end do
+	END SUBROUTINE scatter_max_d
+!BL
+	SUBROUTINE diagadd_rv(mat,diag)
+	REAL(SP), DIMENSION(:,:), INTENT(INOUT) :: mat
+	REAL(SP), DIMENSION(:), INTENT(IN) :: diag
+	INTEGER(I4B) :: j,n
+	n = assert_eq2(size(diag),min(size(mat,1),size(mat,2)),'diagadd_rv')
+	do j=1,n
+		mat(j,j)=mat(j,j)+diag(j)
+	end do
+	END SUBROUTINE diagadd_rv
+!BL
+	SUBROUTINE diagadd_r(mat,diag)
+	REAL(SP), DIMENSION(:,:), INTENT(INOUT) :: mat
+	REAL(SP), INTENT(IN) :: diag
+	INTEGER(I4B) :: j,n
+	n = min(size(mat,1),size(mat,2))
+	do j=1,n
+		mat(j,j)=mat(j,j)+diag
+	end do
+	END SUBROUTINE diagadd_r
+!BL
+	SUBROUTINE diagmult_rv(mat,diag)
+	REAL(SP), DIMENSION(:,:), INTENT(INOUT) :: mat
+	REAL(SP), DIMENSION(:), INTENT(IN) :: diag
+	INTEGER(I4B) :: j,n
+	n = assert_eq2(size(diag),min(size(mat,1),size(mat,2)),'diagmult_rv')
+	do j=1,n
+		mat(j,j)=mat(j,j)*diag(j)
+	end do
+	END SUBROUTINE diagmult_rv
+!BL
+	SUBROUTINE diagmult_r(mat,diag)
+	REAL(SP), DIMENSION(:,:), INTENT(INOUT) :: mat
+	REAL(SP), INTENT(IN) :: diag
+	INTEGER(I4B) :: j,n
+	n = min(size(mat,1),size(mat,2))
+	do j=1,n
+		mat(j,j)=mat(j,j)*diag
+	end do
+	END SUBROUTINE diagmult_r
+!BL
+	FUNCTION get_diag_rv(mat)
+	REAL(SP), DIMENSION(:,:), INTENT(IN) :: mat
+	REAL(SP), DIMENSION(size(mat,1)) :: get_diag_rv
+	INTEGER(I4B) :: j
+	j=assert_eq2(size(mat,1),size(mat,2),'get_diag_rv')
+	do j=1,size(mat,1)
+		get_diag_rv(j)=mat(j,j)
+	end do
+	END FUNCTION get_diag_rv
+!BL
+	FUNCTION get_diag_dv(mat)
+	REAL(DP), DIMENSION(:,:), INTENT(IN) :: mat
+	REAL(DP), DIMENSION(size(mat,1)) :: get_diag_dv
+	INTEGER(I4B) :: j
+	j=assert_eq2(size(mat,1),size(mat,2),'get_diag_dv')
+	do j=1,size(mat,1)
+		get_diag_dv(j)=mat(j,j)
+	end do
+	END FUNCTION get_diag_dv
+!BL
+	SUBROUTINE put_diag_rv(diagv,mat)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: diagv
+	REAL(SP), DIMENSION(:,:), INTENT(INOUT) :: mat
+	INTEGER(I4B) :: j,n
+	n=assert_eq2(size(diagv),min(size(mat,1),size(mat,2)),'put_diag_rv')
+	do j=1,n
+		mat(j,j)=diagv(j)
+	end do
+	END SUBROUTINE put_diag_rv
+!BL
+	SUBROUTINE put_diag_r(scal,mat)
+	REAL(SP), INTENT(IN) :: scal
+	REAL(SP), DIMENSION(:,:), INTENT(INOUT) :: mat
+	INTEGER(I4B) :: j,n
+	n = min(size(mat,1),size(mat,2))
+	do j=1,n
+		mat(j,j)=scal
+	end do
+	END SUBROUTINE put_diag_r
+!BL
+	SUBROUTINE unit_matrix(mat)
+	REAL(SP), DIMENSION(:,:), INTENT(OUT) :: mat
+	INTEGER(I4B) :: i,n
+	n=min(size(mat,1),size(mat,2))
+	mat(:,:)=0.0_sp
+	do i=1,n
+		mat(i,i)=1.0_sp
+	end do
+	END SUBROUTINE unit_matrix
+!BL
+	FUNCTION upper_triangle(j,k,extra)
+	INTEGER(I4B), INTENT(IN) :: j,k
+	INTEGER(I4B), OPTIONAL, INTENT(IN) :: extra
+	LOGICAL(LGT), DIMENSION(j,k) :: upper_triangle
+	INTEGER(I4B) :: n
+	n=0
+	if (present(extra)) n=extra
+	upper_triangle=(outerdiff(arth_i(1,1,j),arth_i(1,1,k)) < n)
+	END FUNCTION upper_triangle
+!BL
+	FUNCTION lower_triangle(j,k,extra)
+	INTEGER(I4B), INTENT(IN) :: j,k
+	INTEGER(I4B), OPTIONAL, INTENT(IN) :: extra
+	LOGICAL(LGT), DIMENSION(j,k) :: lower_triangle
+	INTEGER(I4B) :: n
+	n=0
+	if (present(extra)) n=extra
+	lower_triangle=(outerdiff(arth_i(1,1,j),arth_i(1,1,k)) > -n)
+	END FUNCTION lower_triangle
+!BL
+	FUNCTION vabs(v)
+	REAL(SP), DIMENSION(:), INTENT(IN) :: v
+	REAL(SP) :: vabs
+	vabs=sqrt(dot_product(v,v))
+	END FUNCTION vabs
+!BL
+END MODULE nrutil
 MODULE nr
 	INTERFACE
 		SUBROUTINE airy(x,ai,bi,aip,bip)
@@ -3203,3 +4387,923 @@ MODULE nr
 		END SUBROUTINE zroots
 	END INTERFACE
 END MODULE nr
+	SUBROUTINE indexx_sp(arr,index)
+	USE nrtype; USE nrutil, ONLY : arth,assert_eq,nrerror,swap
+	IMPLICIT NONE
+	REAL(SP), DIMENSION(:), INTENT(IN) :: arr
+	INTEGER(I4B), DIMENSION(:), INTENT(OUT) :: index
+	INTEGER(I4B), PARAMETER :: NN=15, NSTACK=50
+	REAL(SP) :: a
+	INTEGER(I4B) :: n,k,i,j,indext,jstack,l,r
+	INTEGER(I4B), DIMENSION(NSTACK) :: istack
+	n=assert_eq(size(index),size(arr),'indexx_sp')
+	index=arth(1,1,n)
+	jstack=0
+	l=1
+	r=n
+	do
+		if (r-l < NN) then
+			do j=l+1,r
+				indext=index(j)
+				a=arr(indext)
+				do i=j-1,l,-1
+					if (arr(index(i)) <= a) exit
+					index(i+1)=index(i)
+				end do
+				index(i+1)=indext
+			end do
+			if (jstack == 0) RETURN
+			r=istack(jstack)
+			l=istack(jstack-1)
+			jstack=jstack-2
+		else
+			k=(l+r)/2
+			call swap(index(k),index(l+1))
+			call icomp_xchg(index(l),index(r))
+			call icomp_xchg(index(l+1),index(r))
+			call icomp_xchg(index(l),index(l+1))
+			i=l+1
+			j=r
+			indext=index(l+1)
+			a=arr(indext)
+			do
+				do
+					i=i+1
+					if (arr(index(i)) >= a) exit
+				end do
+				do
+					j=j-1
+					if (arr(index(j)) <= a) exit
+				end do
+				if (j < i) exit
+				call swap(index(i),index(j))
+			end do
+			index(l+1)=index(j)
+			index(j)=indext
+			jstack=jstack+2
+			if (jstack > NSTACK) call nrerror('indexx: NSTACK too small')
+			if (r-i+1 >= j-l) then
+				istack(jstack)=r
+				istack(jstack-1)=i
+				r=j-1
+			else
+				istack(jstack)=j-1
+				istack(jstack-1)=l
+				l=i
+			end if
+		end if
+	end do
+	CONTAINS
+!BL
+	SUBROUTINE icomp_xchg(i,j)
+	INTEGER(I4B), INTENT(INOUT) :: i,j
+	INTEGER(I4B) :: swp
+	if (arr(j) < arr(i)) then
+		swp=i
+		i=j
+		j=swp
+	end if
+	END SUBROUTINE icomp_xchg
+	END SUBROUTINE indexx_sp
+
+	SUBROUTINE indexx_i4b(iarr,index)
+	USE nrtype; USE nrutil, ONLY : arth,assert_eq,nrerror,swap
+	IMPLICIT NONE
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: iarr
+	INTEGER(I4B), DIMENSION(:), INTENT(OUT) :: index
+	INTEGER(I4B), PARAMETER :: NN=15, NSTACK=50
+	INTEGER(I4B) :: a
+	INTEGER(I4B) :: n,k,i,j,indext,jstack,l,r
+	INTEGER(I4B), DIMENSION(NSTACK) :: istack
+	n=assert_eq(size(index),size(iarr),'indexx_sp')
+	index=arth(1,1,n)
+	jstack=0
+	l=1
+	r=n
+	do
+		if (r-l < NN) then
+			do j=l+1,r
+				indext=index(j)
+				a=iarr(indext)
+				do i=j-1,l,-1
+					if (iarr(index(i)) <= a) exit
+					index(i+1)=index(i)
+				end do
+				index(i+1)=indext
+			end do
+			if (jstack == 0) RETURN
+			r=istack(jstack)
+			l=istack(jstack-1)
+			jstack=jstack-2
+		else
+			k=(l+r)/2
+			call swap(index(k),index(l+1))
+			call icomp_xchg(index(l),index(r))
+			call icomp_xchg(index(l+1),index(r))
+			call icomp_xchg(index(l),index(l+1))
+			i=l+1
+			j=r
+			indext=index(l+1)
+			a=iarr(indext)
+			do
+				do
+					i=i+1
+					if (iarr(index(i)) >= a) exit
+				end do
+				do
+					j=j-1
+					if (iarr(index(j)) <= a) exit
+				end do
+				if (j < i) exit
+				call swap(index(i),index(j))
+			end do
+			index(l+1)=index(j)
+			index(j)=indext
+			jstack=jstack+2
+			if (jstack > NSTACK) call nrerror('indexx: NSTACK too small')
+			if (r-i+1 >= j-l) then
+				istack(jstack)=r
+				istack(jstack-1)=i
+				r=j-1
+			else
+				istack(jstack)=j-1
+				istack(jstack-1)=l
+				l=i
+			end if
+		end if
+	end do
+	CONTAINS
+!BL
+	SUBROUTINE icomp_xchg(i,j)
+	INTEGER(I4B), INTENT(INOUT) :: i,j
+	INTEGER(I4B) :: swp
+	if (iarr(j) < iarr(i)) then
+		swp=i
+		i=j
+		j=swp
+	end if
+	END SUBROUTINE icomp_xchg
+	END SUBROUTINE indexx_i4b
+	SUBROUTINE sort2(arr,slave)
+	USE nrtype; USE nrutil, ONLY : assert_eq
+	USE nr, ONLY : indexx
+	IMPLICIT NONE
+	REAL(SP), DIMENSION(:), INTENT(INOUT) :: arr,slave
+	INTEGER(I4B) :: ndum
+	INTEGER(I4B), DIMENSION(size(arr)) :: index
+	ndum=assert_eq(size(arr),size(slave),'sort2')
+	call indexx(arr,index)
+	arr=arr(index)
+	slave=slave(index)
+	END SUBROUTINE sort2
+	FUNCTION locate(xx,x)
+	USE nrtype
+	IMPLICIT NONE
+	REAL(SP), DIMENSION(:), INTENT(IN) :: xx
+	REAL(SP), INTENT(IN) :: x
+	INTEGER(I4B) :: locate
+	INTEGER(I4B) :: n,jl,jm,ju
+	LOGICAL :: ascnd
+	n=size(xx)
+	ascnd = (xx(n) >= xx(1))
+	jl=0
+	ju=n+1
+	do
+		if (ju-jl <= 1) exit
+		jm=(ju+jl)/2
+		if (ascnd .eqv. (x >= xx(jm))) then
+			jl=jm
+		else
+			ju=jm
+		end if
+	end do
+	if (x == xx(1)) then
+		locate=1
+	else if (x == xx(n)) then
+		locate=n-1
+	else
+		locate=jl
+	end if
+	END FUNCTION locate
+	SUBROUTINE gauher(x,w)
+	USE nrtype; USE nrutil, ONLY : arth,assert_eq,nrerror
+	IMPLICIT NONE
+	REAL(SP), DIMENSION(:), INTENT(OUT) :: x,w
+	REAL(DP), PARAMETER :: EPS=3.0e-13_dp,PIM4=0.7511255444649425_dp
+	INTEGER(I4B) :: its,j,m,n
+	INTEGER(I4B), PARAMETER :: MAXIT=10
+	REAL(SP) :: anu
+	REAL(SP), PARAMETER :: C1=9.084064e-01_sp,C2=5.214976e-02_sp,&
+		C3=2.579930e-03_sp,C4=3.986126e-03_sp
+	REAL(SP), DIMENSION((size(x)+1)/2) :: rhs,r2,r3,theta
+	REAL(DP), DIMENSION((size(x)+1)/2) :: p1,p2,p3,pp,z,z1
+	LOGICAL(LGT), DIMENSION((size(x)+1)/2) :: unfinished
+	n=assert_eq(size(x),size(w),'gauher')
+	m=(n+1)/2
+	anu=2.0_sp*n+1.0_sp
+	rhs=arth(3,4,m)*PI/anu
+	r3=rhs**(1.0_sp/3.0_sp)
+	r2=r3**2
+	theta=r3*(C1+r2*(C2+r2*(C3+r2*C4)))
+	z=sqrt(anu)*cos(theta)
+	unfinished=.true.
+	do its=1,MAXIT
+		where (unfinished)
+			p1=PIM4
+			p2=0.0
+		end where
+		do j=1,n
+			where (unfinished)
+				p3=p2
+				p2=p1
+				p1=z*sqrt(2.0_dp/j)*p2-sqrt(real(j-1,dp)/real(j,dp))*p3
+			end where
+		end do
+		where (unfinished)
+			pp=sqrt(2.0_dp*n)*p2
+			z1=z
+			z=z1-p1/pp
+			unfinished=(abs(z-z1) > EPS)
+		end where
+		if (.not. any(unfinished)) exit
+	end do
+	if (its == MAXIT+1) call nrerror('too many iterations in gauher')
+	x(1:m)=z
+	x(n:n-m+1:-1)=-z
+	w(1:m)=2.0_dp/pp**2
+	w(n:n-m+1:-1)=w(1:m)
+	END SUBROUTINE gauher
+
+MODULE alib
+	USE nrtype
+	USE nrutil
+	USE nr
+	IMPLICIT NONE
+	real(dp), PARAMETER :: SQRTPI=1.7724539_dp
+
+	INTERFACE logit
+	MODULE PROCEDURE logit_scalar,logit_vec,logit_scalar_dble,logit_vec_dble
+	END INTERFACE
+	
+	
+	INTERFACE min2pls
+	MODULE PROCEDURE min2pls_scalar,min2pls_vec,min2pls_scalar_dble,min2pls_vec_dble
+	END INTERFACE
+
+	INTERFACE multinom
+	MODULE PROCEDURE multinom_sngl, multinom_dble
+	END INTERFACE
+
+
+	INTERFACE condmom
+	MODULE PROCEDURE condmom1_sngl, condmom2_sngl,condmom1_dble, condmom2_dble
+	END INTERFACE
+
+	INTERFACE one
+	MODULE PROCEDURE one0, one1, one2, one3
+	END INTERFACE
+
+CONTAINS
+	!Pdf of normal with mean mu and stdev sigma
+	FUNCTION normpdf(x,mu,sigma)
+	real(dp), DIMENSION(:), INTENT(IN) :: x
+	real(dp), INTENT(IN) :: mu,sigma
+	real(dp), DIMENSION(size(x)) :: normpdf
+	normpdf=1.0_dp/ sigma*sqrt(2.0_dp)*SQRTPI * exp(-(x-mu)**2/2.0_dp*sigma**2 ) 
+	END FUNCTION normpdf
+
+	!Pdf of log-normal with mean mu and stdev sigma
+	FUNCTION normpdfl(x,mu,sigma) 
+	real(dp), DIMENSION(:), INTENT(IN) :: x
+	real(dp), INTENT(IN) :: mu,sigma
+	real(dp), DIMENSION(size(x)) :: normpdfl
+	normpdfl=1.0_dp/ x*sigma*sqrt(2.0_dp)*SQRTPI * exp(-(log(x)-mu)**2/2.0_dp*sigma**2 ) 
+	END FUNCTION normpdfl
+
+	!For calculating conditional expectation of a normal random variable using nr's gauleg. Used by gauleg. 
+	FUNCTION funcn(x,mu,sigma) 
+	real(dp), DIMENSION(:), INTENT(IN) :: x
+	real(dp), INTENT(IN) :: mu,sigma
+	real(dp), DIMENSION(size(x)) :: funcn
+	funcn=x*normpdf(x,mu,sigma)
+	END FUNCTION funcn
+
+	!Uses GAUSSBIN from SLgenlib to get the prob weights on the variables that are 
+	!joint normal with mean 0 and sig(1:2) and ro and using a given grid
+	SUBROUTINE anormjnt2(npoint,sig,ro,grid,wgtcond)
+	INTEGER(I4B), INTENT(IN) :: NPOINT
+	real(dp), INTENT(IN) :: sig(2),ro
+	real(dp), DIMENSION(NPOINT), INTENT(IN) :: grid
+	real(dp), DIMENSION(NPOINT,2,2) :: wgtcond
+	INTEGER(I4B) :: i
+	real(dp), PARAMETER :: mu(2)=0.0_dp
+	real(dp) :: mq,sq,varcov(2,2),wgt(NPOINT,2)
+	varcov(1,1)=sig(1)**2.0
+	varcov(2,2)=sig(2)**2.0 
+	varcov(1,2)=ro*sig(1)*sig(2)
+	varcov(2,1)=varcov(1,2)
+	do i=1,NPOINT
+		mq=grid(i)*varcov(1,2)/varcov(1,1)
+		sq=varcov(1,1)*(1.0_dp-ro**2)
+		sq=sq**0.5_dp
+		!call gaussbin(mq,sq,grid,wgtcond(:,i,1))
+
+		mq=grid(i)*varcov(1,2)/varcov(2,2)
+		sq=varcov(2,2)*(1.0_dp-ro**2)
+		sq=sq**0.5_dp
+		!call gaussbin(mq,sq,grid,wgtcond(:,i,2))
+	end do 
+	write(*,'(/1x,t3,a,t10,a,t22,a/)') '#','GRID(I)','WGT1COND2(:,I)','WGT2COND1(:,I)'
+	do i=1,NPOINT
+		write(*,'(1x,i2,3f12.6)') i,grid(i),wgtcond(:,i,1),wgtcond(:,i,2)
+	end do
+	!The below is to check the results of the above 
+	! gaussbin- takes in paramters of continuous normal distribution (mu, sigma) and vector
+	! of allowed values (values) and calculates fraction of outcomes closest to
+	! each element in vector, i.e. a discrete approximation to that normal distribution
+	!call gaussbin(mu(1),sig(1),grid,wgt(:,1))
+	!call gaussbin(mu(2),sig(2),grid,wgt(:,2))		
+	write(*,'(/1x,t3,a,t10,a,t22,a/)') '#','WGT(i,1)','SUM'
+		do i=1,NPOINT
+			write(*,'(I4,2F12.4)') i,wgt(i,1),sum(wgt(:,2)*wgtcond(:,i,1))
+		end do 
+	END SUBROUTINE anormjnt2
+
+	! transforms number on real line into [0,1] using logit transformation
+	FUNCTION logit_scalar(xx)
+	real, INTENT(IN) :: xx
+	real :: logit_scalar
+	logit_scalar=EXP(xx)/(1.0_dp+EXP(xx))
+	END FUNCTION logit_scalar
+
+	FUNCTION logit_vec(xx)
+	real, DIMENSION(:), INTENT(IN) :: xx
+	real, DIMENSION(size(xx)) :: logit_vec
+	logit_vec=EXP(xx)/(1.0_dp+EXP(xx))
+	END FUNCTION logit_vec
+
+	FUNCTION logit_scalar_dble(xx)
+	real(dp), INTENT(IN) :: xx
+	real(dp) :: logit_scalar_dble
+	logit_scalar_dble=EXP(xx)/(1.0_dp+EXP(xx))
+	END FUNCTION logit_scalar_dble
+
+	FUNCTION logit_vec_dble(xx)
+	real(dp), DIMENSION(:), INTENT(IN) :: xx
+	real(dp), DIMENSION(size(xx)) :: logit_vec_dble
+	logit_vec_dble=EXP(xx)/(1.0_dp+EXP(xx))
+	END FUNCTION logit_vec_dble
+    
+	
+	! inverse of logit transformation
+	FUNCTION logitinv(xx)
+	REAL(DP), INTENT(IN) :: xx  
+	REAL(DP) :: logitinv
+	REAL(DP) :: xmin,xmax
+	xmin=0.000001_dp
+	xmax=0.999999_dp     
+	IF (xx<xmin) THEN
+		logitinv=LOG(xmin/(1.0_dp-xmin))
+	ELSEIF (xx>xmax) THEN
+		logitinv=LOG(xmax/(1.0_dp-xmax))
+	ELSE
+		logitinv=LOG(xx/(1.0_dp-xx))
+	ENDIF        
+	END FUNCTION
+
+
+	FUNCTION min2pls_scalar(xx)
+	! transforms any real number into something at the [-1.0,1.0] interval
+	real, INTENT(IN) :: xx
+	real :: min2pls_scalar
+	min2pls_scalar=2.0_dp*(1.0_dp/(1.0_dp+exp(-xx)))-1.0_dp 
+	END FUNCTION
+	FUNCTION min2pls_vec(xx)
+	! transforms any real number into something at the [-1.0,1.0] interval
+	real, DIMENSION(:), INTENT(IN) :: xx
+	real, DIMENSION(size(xx)) :: min2pls_vec
+	min2pls_vec=2.0_dp*(1.0_dp/(1.0_dp+exp(-xx)))-1.0_dp 
+	END FUNCTION
+
+
+	FUNCTION min2pls_scalar_dble(xx)
+	! transforms any real number into something at the [-1.0,1.0] interval
+	real(dp), INTENT(IN) :: xx
+	real(dp) :: min2pls_scalar_dble
+	min2pls_scalar_dble=2.0_dp*(1.0_dp/(1.0_dp+exp(-xx)))-1.0_dp 
+	END FUNCTION 
+	FUNCTION min2pls_vec_dble(xx)
+	! transforms any real number into something at the [-1.0,1.0] interval
+	real(dp), DIMENSION(:), INTENT(IN) :: xx
+	real(dp), DIMENSION(size(xx)) :: min2pls_vec_dble
+	min2pls_vec_dble=2.0_dp*(1.0_dp/(1.0_dp+exp(-xx)))-1.0_dp 
+	END FUNCTION
+
+	FUNCTION min2plsinv(yy)	
+	! transforms any real number into something at the [-1.0,1.0] interval
+	real(dp), INTENT(IN) :: yy
+	real(dp) :: min2plsinv
+	min2plsinv=logitinv(  (yy+1)/2.0_dp ) 
+	END FUNCTION
+    
+    
+	SUBROUTINE cholesky (a,n,p)
+	implicit none
+	INTEGER(I4B),intent(in)::n
+	real(dp), DIMENSION(n,n),intent(in)::a
+	real(dp), DIMENSION(n,n),intent(out)::p
+	real(dp), DIMENSION(n,n)::aa
+	real(dp) :: sum
+	INTEGER(I4B) i,j,k
+	sum = 0.0_dp
+	aa(1:n,1:n)=a(1:n,1:n)
+	do 13 i = 1,n
+		do 12 j = i,n
+			sum=aa(i,j)
+			do 11 k = i-1,1,-1
+				sum = sum - aa(i,k)*aa(j,k)
+11			continue 
+			if (i.eq.j) then
+				if (sum.le.0.0_dp) stop 'choldc failed'
+				p(i,i) = dsqrt(sum)
+			else
+				aa(j,i) = sum/p(i,i)
+				p(j,i) = aa(j,i)
+			end if
+12		continue
+13	continue
+	return
+	end SUBROUTINE cholesky
+
+	SUBROUTINE getcholesky(sig,ro,cd)	
+	real(dp), INTENT(IN) :: sig(2),ro  !,rho(2,2)	!rho is the correlation matrix and cd is the cholesky decomposition which is declared in global
+	real(dp), INTENT(OUT) :: cd(2,2)
+	INTEGER(I4B) :: j,k 
+	real(dp) :: rho(2,2) 
+	!**********************************************************************
+	!*Call Cholesky routine that does the following:                      *
+	!*Construct the covariance matrix btw male and female wage draws      *
+	!*Take Cholesky Decomposition of the covariance matrix                *
+	!**********************************************************************
+	cd=0.0_dp 
+	!Construct the correlation matrix. And then using the corr matrix, construct the cov matrix
+	!sigma(1)=sig(1)   
+	!sigma(2)=sig(2)	
+	RHO(1,1)=1.0_dp		
+	RHO(2,2)=1.0_dp		
+	RHO(2,1)=ro		
+	RHO(1,2)=RHO(2,1)
+	!if (myid.eq.0) then
+	!	print*, "Here are the sigmas: ", sig_w1,sig_w2,ro
+	!	print*, "Here is the correlation matrix: "
+	!	print*, RHO(1,1),RHO(1,2)
+	!	print*, RHO(2,1),RHO(2,2)
+	!end if
+	!Now turn correlation matrix into varcov matrix
+	do j=1,2
+		do k=1,2
+			RHO(j,k)=RHO(j,k)*sig(j)*sig(k)
+		end do 
+	end do 
+	!if (myid.eq.0) then
+	!	print*, "Here is the covariance matrix: "
+	!	print*, RHO(1,1),RHO(1,2)
+	!	print*, RHO(2,1),RHO(2,2)
+	!end if
+	!now get the cholesky decomposition
+	call cholesky (RHO,2,CD)
+	!!if (myid.eq.0) then
+	!!	print*, "Here is the cholesky decomposition: ", sig_w1,sig_w2,ro
+	!!	print*, CDM(1,1),CDM(1,2)
+	!!	print*, CDM(2,1),CDM(2,2)
+	!!end if
+	END SUBROUTINE getcholesky
+
+	! convert from n-dimensional index to linear one
+	FUNCTION ndim2lin(dims,nindex)
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: dims !like outpit of size(A)- vector
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: nindex !n-dimensional index- row vector
+	INTEGER(I4B) :: ndim2lin
+	INTEGER(I4B), DIMENSION(SIZE(dims)-1) :: cumprod ! running cumulative product of dims
+	INTEGER(I4B) :: ii,ndims 
+	ndims=SIZE(dims)
+	cumprod(1)=dims(1)
+	DO ii=2,ndims-1
+		cumprod(ii)=dims(ii)*cumprod(ii-1)
+	ENDDO
+	ndim2lin=nindex(1)+SUM(cumprod*(nindex(2:ndims)-1))
+	END FUNCTION ndim2lin
+    
+    ! convert from linear index to n-dimensional one
+	FUNCTION lin2ndim(dims,linindex)
+	INTEGER(I4B), DIMENSION(:), INTENT(IN) :: dims ! like outpit of size(A)
+	INTEGER(I4B), INTENT(IN) :: linindex ! linear index
+	INTEGER(I4B) :: lin2ndim(SIZE(dims)) 
+	INTEGER(I4B) :: nn, prod, linindexcopy,ndims        
+	ndims=SIZE(dims)
+	linindexcopy=linindex
+	DO nn=NDims,2,-1
+		!WRITE(*,*) linindexcopy
+		prod=PRODUCT(dims(1:nn-1))
+		lin2ndim(nn)=CEILING(REAL(linindexcopy)/prod)
+		linindexcopy=MOD(linindexcopy,prod)
+		IF (linindexcopy==0) THEN
+			linindexcopy=prod
+		ENDIF
+	ENDDO
+	lin2ndim(1)=linindexcopy        
+	END FUNCTION lin2ndim
+
+	RECURSIVE FUNCTION recsum(n)  result(rec)
+	!-----Recsum------------------------------------------------------
+	!  FUNCTION to calculate sums recursively
+	!---------------------------------------------------------------------
+	INTEGER(I4B) :: rec
+	INTEGER(I4B), intent(in) :: n
+	if (n == 0) then
+		rec = 0
+	else
+		rec = n + recsum(n-1)
+	END if 
+	END FUNCTION recsum
+
+	! draw from a multinomal distribution.
+	! Inputs are the vector of probabilities for each outcome and a U[0,1] random draw
+	! Output is the index of the outcome
+	FUNCTION multinom_sngl(probvec,randdraw)
+		real(sp), DIMENSION(:), INTENT(IN) :: probvec ! probabilities of each state
+		real(sp), INTENT(IN) :: randdraw ! U[0,1]
+		real(sp) :: multinom_sngl
+		INTEGER(I4B) :: nn
+		real(sp) :: cutoff
+		real(sp), DIMENSION(SIZE(probvec)) :: probvecnorm
+		probvecnorm=probvec/SUM(probvec) ! normalize if probabilities don't sum to one 
+		! cutoff is upper bound of interval that if randdraw falls in that interval, get current outcome
+		cutoff=probvecnorm(1)
+		nn=1
+		DO WHILE (randdraw>cutoff)
+			cutoff=cutoff+probvecnorm(nn+1)
+			nn=nn+1
+		ENDDO
+		multinom_sngl=nn 
+	END FUNCTION
+	FUNCTION multinom_dble(probvec,randdraw)
+		real(dp), DIMENSION(:), INTENT(IN) :: probvec ! probabilities of each state
+		real(dp), INTENT(IN) :: randdraw ! U[0,1]
+		real(dp) :: multinom_dble
+		INTEGER(I4B) :: nn
+		real(dp) :: cutoff
+		real(dp), DIMENSION(SIZE(probvec)) :: probvecnorm
+		probvecnorm=probvec/SUM(probvec) ! normalize if probabilities don't sum to one 
+		! cutoff is upper bound of interval that if randdraw falls in that interval, get current outcome
+		cutoff=probvecnorm(1)
+		nn=1
+		DO WHILE (randdraw>cutoff)
+			cutoff=cutoff+probvecnorm(nn+1)
+			nn=nn+1
+		ENDDO
+		multinom_dble=nn 
+	END FUNCTION
+
+
+	! condmom are subroutines that calculate conditional moments from arrays of data
+	! condmom1 is for moments defined over a 1-dim array of observations
+	! condmom2 is for moments defined over a 2-dim array of observations
+	SUBROUTINE condmom1_sngl(im,cond,xx,moment,countmom,varmom)
+	INTEGER(I4B), INTENT(IN) :: im
+	LOGICAL, DIMENSION(:), INTENT(IN) :: cond ! condition that must be true for observation to contribute to the moment
+	real(sp), DIMENSION(:), INTENT(IN) :: xx ! moment to be calculated
+	real(sp), DIMENSION(:), INTENT(OUT) :: moment ! value of conditional moment
+	INTEGER(I4B), DIMENSION(:), INTENT(OUT) :: countmom ! number of observations contributing to each moment
+	real(sp), DIMENSION(:), INTENT(OUT) :: varmom ! now CONDITIONAL variance of each moemnt	
+	real(sp),PARAMETER :: d1=1.0_sp	
+	countmom(im)=SUM(one(cond))
+	moment(im)=SUM(xx,cond)/MAX(d1*countmom(im),0.1_sp)
+	varmom(im)=SUM(xx**2,cond)/MAX(d1*countmom(im),0.1_sp) - (SUM(xx,cond)/MAX(d1*countmom(im),0.1_sp))**2
+	END SUBROUTINE
+	SUBROUTINE condmom2_sngl(im,cond,xx,moment,countmom,varmom)
+	INTEGER(I4B), INTENT(IN) :: im
+	LOGICAL, DIMENSION(:,:), INTENT(IN) :: cond ! condition that must be true for observation to contribute to the moment
+	real(sp), DIMENSION(:,:), INTENT(IN) :: xx ! moment to be calculated
+	real(sp), DIMENSION(:), INTENT(OUT) :: moment ! value of conditional moment
+	INTEGER(I4B), DIMENSION(:), INTENT(OUT) :: countmom ! number of observations contributing to each moment
+	real(sp), DIMENSION(:), INTENT(OUT) :: varmom ! now CONDITIONAL variance of each moemnt	
+	real(sp), PARAMETER :: d1=1.0_sp
+	countmom(im)=SUM(one(cond))
+	moment(im)=SUM(xx,cond)/MAX(d1*countmom(im),0.1_sp)
+	varmom(im)=SUM(xx**2,cond)/MAX(d1*countmom(im),0.1_sp) - (SUM(xx,cond)/MAX(d1*countmom(im),0.1_sp))**2
+	!varmom(im)=SUM(xx**2,cond)/SIZE(xx) - (SUM(xx,cond)/SIZE(xx))**2
+	!ahu 081212: adding that whenever there is noone in that cell, the moment should be -1, not 0 as it is now 
+	!because otherwise it is never clear, whether it is really 0 or that is just because there is noone in that cell 
+	!ahu 082112 taking this out again because it causes the objective function to be too non-smooth
+	!ahu 082112 if (countmom(im)==0) then
+	!ahu 082112 	moment(im)=-1
+	!ahu 082112 end if 
+	!ahu 082112 taking this out again because it causes the objective function to be too non-smooth
+	!ahu 101012: putting it back in temporarily
+	!ahu 111412 if (countmom(im)==0) then
+	!ahu 111412  	moment(im)=-1
+	!ahu 111412 end if 
+	END SUBROUTINE
+
+	SUBROUTINE condmom1_dble(im,cond,xx,moment,countmom,varmom)
+	INTEGER(I4B), INTENT(IN) :: im
+	LOGICAL, DIMENSION(:), INTENT(IN) :: cond ! condition that must be true for observation to contribute to the moment
+	real(dp), DIMENSION(:), INTENT(IN) :: xx ! moment to be calculated
+	real(dp), DIMENSION(:), INTENT(OUT) :: moment ! value of conditional moment
+	INTEGER(I4B), DIMENSION(:), INTENT(OUT) :: countmom ! number of observations contributing to each moment
+	real(dp), DIMENSION(:), INTENT(OUT) :: varmom ! now CONDITIONAL variance of each moemnt	
+	real(dp),PARAMETER :: d1=1.0_dp	
+	countmom(im)=SUM(one(cond))
+	moment(im)=SUM(xx,cond)/MAX(d1*countmom(im),0.1_dp)
+	varmom(im)=SUM(xx**2,cond)/MAX(d1*countmom(im),0.1_dp) - (SUM(xx,cond)/MAX(d1*countmom(im),0.1_dp))**2
+	END SUBROUTINE
+	SUBROUTINE condmom2_dble(im,cond,xx,moment,countmom,varmom)
+	INTEGER(I4B), INTENT(IN) :: im
+	LOGICAL, DIMENSION(:,:), INTENT(IN) :: cond ! condition that must be true for observation to contribute to the moment
+	real(dp), DIMENSION(:,:), INTENT(IN) :: xx ! moment to be calculated
+	real(dp), DIMENSION(:), INTENT(OUT) :: moment ! value of conditional moment
+	INTEGER(I4B), DIMENSION(:), INTENT(OUT) :: countmom ! number of observations contributing to each moment
+	real(dp), DIMENSION(:), INTENT(OUT) :: varmom ! now CONDITIONAL variance of each moemnt	
+	real(dp), PARAMETER :: d1=1.0_dp	
+	countmom(im)=SUM(one(cond))
+	moment(im)=SUM(xx,cond)/MAX(d1*countmom(im),0.1_dp)
+	varmom(im)=SUM(xx**2,cond)/MAX(d1*countmom(im),0.1_dp) - (SUM(xx,cond)/MAX(d1*countmom(im),0.1_dp))**2
+	END SUBROUTINE
+
+
+
+	pure function one0(x)
+	logical, intent(in):: x
+	integer(i4b) one0
+	one0=0
+	if (x) one0=1
+	end function one0
+
+	pure function one1(x)
+	logical, intent(in):: x(:)
+	integer(I4B) one1(size(x))
+	one1=0
+	where (x) one1=1
+	end function one1
+
+	pure function one2(x)
+	logical, intent(in):: x(:,:)
+	integer(I4B) one2(size(x,1),size(x,2))
+	one2=0
+	where (x) one2=1
+	end function one2
+
+	pure function one3(x)
+	logical, intent(in):: x(:,:,:)
+	integer(I4B) one3(size(x,1),size(x,2),size(x,3))
+	one3=0
+	where (x) one3=1
+	end function one3
+
+	SUBROUTINE precisiontests
+	! look at p.457 in the fortran book
+	REAL(SP), PARAMETER :: dum=-10000000_sp,dum2=-1000000000_sp,dum5=0.00000000005_sp
+	REAL(DP), PARAMETER :: dum5dp=0.00000000005_dp
+	REAL(SP), PARAMETER :: dum6sp=0.12345972985_sp
+	REAL(DP), PARAMETER :: dum6dp=0.12345972985_dp
+	REAL(SP), PARAMETER :: dum7sp=12345972985.0_sp
+	REAL(DP), PARAMETER :: dum7dp=12345972985.0_dp
+	real(sp) :: test8sp=0.000000000050000000_sp !6.666666666666666 !, test2=0_dp, test3=0
+	real(dp) :: test8dp=0.000000000050000000_dp !6.666666666666666 !, test2=0_dp, test3=0
+	real(sp) :: test1sp=0.005_sp  !5_sp !0.00000000005_sp !  0 000 000_sp !6.666666666666666 !, test2=0_dp, test3=0
+	real(dp) :: test1dp=0.005_dp  !5_sp !0.00000000005_sp !  0 000 000_sp !6.666666666666666 !, test2=0_dp, test3=0
+	real(dp) :: test2=6.66666666666666 !, test2=0_dp, test3=0
+	real(dp) :: test3=6.666666666666666_dp !, test2=0_dp, test3=0
+	real(sp) :: test4=6.666666_sp
+	REAL(SP) :: test5=6.60_sp,test6=6.60 !6.6666666_sp
+	REAL(DP) :: test7=6.60_dp,test8=6.60,tempd !6.6666666_sp
+	REAL(SP) :: temp,val(2)
+
+	write(*,'(F20.15)') 2.0_dp+1.0_sp
+	write(*,*) "Here is dum "
+	write(*,'(2F20.2)') dum,dum2
+	write(*,'(2F20.15)') dum5,dum5dp
+	write(*,'(2F20.15,2I4)') dum6sp,dum6dp,precision(dum6sp),precision(dum6dp)
+	write(*,'(2F20.2)') dum7sp,dum7dp
+	write(*,*) kind(0.0),kind(0.0_sp),kind(0._sp)
+	write(*,*) 2_sp*test1sp-0.01_sp
+	write(*,*) "Here is test1sp and test1dp (0.005) "
+	write(*,'(F10.5)') test8sp
+	write(*,'(2F10.5)') test1sp,test1dp  !,kind(test1),precision(test1),kind(0.0),kind(0.0d0)  !,test2,test3
+	write(*,*) test2,test3,kind(test2),kind(test3),precision(test2),precision(test3)
+	write(*,*) test4,kind(test4),precision(test4)
+	write(*,*) "test 5 and test 6 : "
+	write(*,'(3F20.15)') test5,test6,test5-test6
+	write(*,'(3F12.6)') test5,test6,test5-test6
+	write(*,'(3F12.7)') test5,test6,test5-test6
+	write(*,*) "test 7 and test 8 : "
+	write(*,'(2F12.6,F20.15)') test7,test8,test7-test8
+	write(*,'(3F20.15)') test7,test8,test7-test8
+	write(*,'(3F12.6)') test7,test8,test7-test8
+	write(*,'(3F12.7)') test7,test8,test7-test8
+	write(*,*) test7,test8,test7-test8
+	!cdfcheck=2.0_sp
+	!print*, "Here sp ", cdfcheck,	sqrt(cdfcheck)
+	!print*, "Here sp ", 2.0_sp,	sqrt(2.0_sp)
+	!cdfcheck=2d0
+	!print*, "Here d0 ", cdfcheck,	sqrt(cdfcheck)
+	!print*, "Here d0 ", 2d0,	sqrt(2d0)
+	!print*, "Here sp*d0 ", 1.0_sp*2d0,	sqrt(1.0_sp*2d0)
+	!print*, "Here epsilon ", epsilon(1d0),cdfcheck
+	!call precisiontests
+	!write(*,*) 0.	
+	!write(*,*) 0.0
+	!write(*,*) 0._sp
+	!write(*,*) 0.0_sp
+	!write(*,*) PI,PI_D
+
+	VAL = 12345783123.8976
+	!TG = 12345678.8976_DP
+	!WRITE(*,*) val(1),precision(val(1)),precision(1.),precision(ttt),kind(val(1))
+	!WRITE(*,'(es14.8)') val(1)
+	!WRITE(*,*) TG
+	val(2) = 123456789.		! since val is declared as SP it will lose the last digit and will round off the 8 before it to 9 so that you'll only get 12345679 for this number (since the mantissa is only 8 digits)
+	WRITE(*,*) val(2)    
+	WRITE(*,'(es20.4)') val(2)
+	WRITE(*,'(es20.7)') val(2)	! this is the best one, because it is exactly using 1 main and 7 decimal points and this is good since 8 is exactly the size of the mantissa. 
+					! so then it doesn't truncate (see the one above this) or fill in the rest with weird unnecessary numbers (see the e ones below this)
+	WRITE(*,'(es20.8)') val(2)
+	WRITE(*,'(es20.9)') val(2)
+	WRITE(*,'(es20.10)') val(2)
+	WRITE(*,'(es15.7)') val(2)	! this is the best one too because it saves space 
+	WRITE(*,'(e15.7)')  val(2)	
+	WRITE(*,'(e15.8)')  val(2)	! this is the best one also 
+	!WRITE(*,'(e15.9)')  val(2)	! this doesn't work 
+	WRITE(*,*) "STOP "
+	WRITE(*,*) val(2)		! for sp, mantissa can only be 8 digits so that the computer reads val as 12345679 (where 9 is for roudded off 8). so this writes 1.2345679E+08
+	WRITE(*,'(F11.2)') val(2)	! the width of the field is not large enough for 123456789 (which has 9 digits). so this writes **************
+	WRITE(*,'(F12.2)') val(2)	! width of the field is fine, but now it will fill up that 9th digit with SOME number (in this case 2) so that it will write 123456792.00
+	WRITE(*,'(F13.2)') val(2)	! width of the field is fine, but now it will fill up that 9th digit with SOME number (in this case 2) so that it will write 123456792.00 (but with more space in the beginning than the above one) 
+	WRITE(*,'(F20.2)') val(2)	! width of the field is fine, but now it will fill up that 9th digit with SOME number (in this case 2) so that it will write 123456792.00 (but with more space in the beginning than the above one) 				
+	WRITE(*,*) "STOP "
+	val(2)=12345678912345.
+	WRITE(*,'(F12.2)') val(2)	! same explanations above (i.e. the comp will just add a different number 2. only now, the number does the width of field. 
+	WRITE(*,'(F13.2)') val(2)   
+	WRITE(*,'(F20.2)') val(2)   
+
+	!write(*,'(3E15.8)') val
+	!write(*,'(3E16.9)') val
+	!write(*,'(3E20.12)') val
+	!write(*,'(3F10.2)') val
+	!write(*,'(3F15.2)') val
+	!write(*,'(4EN10.1)') val,val(3)+100000.
+	!write(*,'(4EN12.3)') val,val(3)+100000.
+
+	write(*,*) kind(1d0),precision(1d0)
+	PRINT*, TINY(TEMP),TINY(TEMPD) 
+	PRINT*, EPSILON(TEMP),EPSILON(TEMPD)
+	PRINT*, (TEMP >= TINY(TEMP))
+	PRINT*, (TEMP >= 0.)
+	PRINT*, (TEMP >= 0D0)
+
+	write(*,*) kind(pi),precision(pi)
+	write(*,*) kind(1d0),precision(1d0)
+	print*, pi 
+	!print*, rp(6:7),temp,eps,temp-eps
+	temp=7365.370_sp
+	print*, temp
+	write(*,'(G10.3)') temp
+	write(*,'(G14.7)') temp
+	temp=7.124370_sp
+	print*, temp
+	write(*,'(G10.3)') temp
+	write(*,'(G14.7)') temp
+	stop
+	temp=7365.370_sp
+	write(*,'(F10.3)') temp
+	write(*,'(F13.5)') temp
+	write(*,'(F18.9)') temp
+	write(*,'(F20.10)') temp
+	write(*,'(F30.20)') temp
+	write(*,'(F30.20)') 7365.370_sp
+	stop
+	temp=7365.370000_sp
+	print*, temp
+	write(*,'(F13.5)') temp
+	write(*,'(F18.9)') temp
+	write(*,'(F20.10)') temp
+	write(*,'(F30.20)') temp
+	write(*,'(F30.20)') 7365.370_sp
+	stop
+	temp=7365.3701171875_sp
+	write(*,'(F13.5)') temp
+	write(*,'(F18.9)') temp
+	write(*,'(F20.10)') temp
+	write(*,'(F30.20)') temp
+	write(*,'(F30.20)') 7365.3701171875_sp
+	temp=7365.3701171875123456789_sp
+	write(*,'(F13.5)') temp
+	write(*,'(F18.9)') temp
+	write(*,'(F20.10)') temp
+	write(*,'(F30.20)') temp
+	tempd=6.66666666666666
+	write(*,*) tempd
+	tempd=6.6666_dp
+	write(*,*) tempd
+	write(*,'(F30.20)') tempd
+	write(*,'(F30.15)') tempd
+	write(*,'(F20.14)') tempd
+	temp=6.6666_sp
+	write(*,*) temp
+	write(*,'(F30.20)') temp
+	write(*,'(F30.15)') temp
+	write(*,'(F20.14)') temp
+	write(*,'(F20.7)') temp
+	write(*,'(F20.6)') temp
+	write(*,'(F20.5)') temp
+	temp=6.666666_sp
+	write(*,*) temp
+	write(*,'(F30.20)') temp
+	write(*,'(F30.15)') temp
+	write(*,'(F20.14)') temp
+	write(*,'(F20.7)') temp
+	write(*,'(F20.6)') temp
+	write(*,'(F20.5)') temp
+	stop
+	tempd=6.6666666666666_dp
+	write(*,*) tempd
+	write(*,'(F30.20)') tempd
+	tempd=6.66666666666666_dp
+	write(*,*) tempd
+	write(*,'(F30.20)') tempd
+	write(*,'(F40.30)') tempd
+	tempd=6.66660000000_dp
+	write(*,*) tempd
+	write(*,'(F20.14)') tempd
+	write(*,'(F30.20)') tempd
+
+	stop
+
+	tempd=6.66666666666666_dp
+	write(*,*) tempd
+	tempd=6.666666666666666_dp
+	write(*,*) tempd
+	tempd=6.66666666666666666_dp
+	write(*,*) tempd
+	tempd=6.666666666666666_dp
+	write(*,*) tempd
+	tempd=6.666666666666666666_dp
+	write(*,*) tempd
+	write(*,*) " ********************** TEMPD   ******************************** "
+	tempd=7365.370_dp
+	print*, tempd
+	write(*,'(F13.5)') tempd
+	write(*,'(F18.9)') tempd
+	write(*,'(F20.10)') tempd
+	write(*,'(F30.20)') tempd
+
+
+	!VAL = 12345783123.8976
+	!print*, val(2) 
+
+	!TG = 12345678.8976_DP
+	!WRITE(*,*) val(1),precision(val(1)),precision(1.),precision(ttt),kind(val(1))
+	!WRITE(*,'(es14.8)') val(1)
+	!WRITE(*,*) TG
+	val(2) = 123456789.		! since val is declared as SP it will lose the last digit and will round off the 8 before it to 9 so that you'll only get 12345679 for this number (since the mantissa is only 8 digits)
+	WRITE(*,*) val(2)    
+	WRITE(*,'("es20.4",es20.4)') val(2)
+	WRITE(*,'("es20.7",es20.7)') val(2)	! this is the best one, because it is exactly using 1 main and 7 decimal points and this is good since 8 is exactly the size of the mantissa. 
+					! so then it doesn't truncate (see the one above this) or fill in the rest with weird unnecessary numbers (see the e ones below this)
+	WRITE(*,'("es20.8",es20.8)') val(2)
+	WRITE(*,'("es20.9",es20.9)') val(2)
+	WRITE(*,'("es20.10",es20.10)') val(2)
+	WRITE(*,'("es15.7",es15.7)') val(2)	! this is the best one too because it saves space 
+	WRITE(*,'("e20.4",e15.7)')  val(2)	
+	WRITE(*,'("e15.8",e15.8)')  val(2)	! this is the best one also 
+	!WRITE(*,'(e15.9)')  val(2)	! this doesn't work 
+	!WRITE(*,*) "STOP "
+	WRITE(*,*) val(2)		! for sp, mantissa can only be 8 digits so that the computer reads val as 12345679 (where 9 is for roudded off 8). so this writes 1.2345679E+08
+	WRITE(*,'("F11.2",F11.2)') val(2)	! the width of the field is not large enough for 123456789 (which has 9 digits). so this writes **************
+	WRITE(*,'("F12.2",F12.2)') val(2)	! width of the field is fine, but now it will fill up that 9th digit with SOME number (in this case 2) so that it will write 123456792.00
+	WRITE(*,'("F13.2",F13.2)') val(2)	! width of the field is fine, but now it will fill up that 9th digit with SOME number (in this case 2) so that it will write 123456792.00 (but with more space in the beginning than the above one) 
+	WRITE(*,'("F20.2",F20.2)') val(2)	! width of the field is fine, but now it will fill up that 9th digit with SOME number (in this case 2) so that it will write 123456792.00 (but with more space in the beginning than the above one) 				
+	WRITE(*,*) "STOP "
+	val(2)=12345678912345.
+	WRITE(*,'(F12.2)') val(2)	! same explanations above (i.e. the comp will just add a different number 2. only now, the number does the width of field. 
+	WRITE(*,'(F13.2)') val(2)   
+	WRITE(*,'(F20.2)') val(2)   
+	END SUBROUTINE precisiontests
+
+
+SUBROUTINE compwage(ai,aj,gamma,w) 
+	real(dp), INTENT(IN) :: ai,aj,gamma 
+	real(dp), INTENT(OUT) :: w
+	w = (ai - aj)** (-gamma) - gamma * ai * (ai - aj)** (-gamma-1)
+	!w = 1./exp(ai - aj) - ai * (1./exp(ai-aj) )
+	!w = ( exp(ai - aj) ) ** (-gamma)  *  (1.-gamma*ai) 
+END SUBROUTINE 
+
+subroutine rand2num(mu,sig,rand,num) 
+	real(dp), INTENT(IN) :: rand(:),mu,sig
+	real(dp), INTENT(OUT) :: num(:)
+	num=sqrt(2.0_Dp) * SIG * rand(:) + MU
+end subroutine rand2num
+
+END MODULE alib
