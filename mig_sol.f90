@@ -77,7 +77,7 @@ end do
 			end if 		
             
 			whereami=1
-			i!f (skriv.and.trueindex==1.and.(ia<=19.or.ia==45)) then ; yaz=.true. ; else ; yaz=.false. ; end if !ahu 0327 trueindex==2
+			!if (skriv.and.trueindex==1.and.(ia<=19.or.ia==45)) then ; yaz=.true. ; else ; yaz=.false. ; end if !ahu 0327 trueindex==2
             dd = -1 ; dd(1:2) = (/ia,trueindex/) 
 			dd(7)=1 ; call getdec_s(dd,vm0_s,decm0_s(:,:,:,:,ia,index),vm(:,:,:,:,ia,index)) 
 			yaz=.false.
@@ -144,13 +144,14 @@ end do
 
                 !timeline: when single, you first decide on loc and work. and then when the day comes to an end, you go to the marriage market in whatever location you chose for that period.
 				vm_s=0.0_dp ; vf_s=0.0_dp
-				do xm=1,nxs					
+				do qm=1,nqs	
+                do xm=1,nxs					
                     ed(1)=x2e(xm)   !ahu summer18 051418: adding ed dimension to nonlabinc
-					do qm=1,nqs	
 						!no need for this ahu040518 vsingle=0.0_dp
-						do xf=1,nxs			
+						do qf=1,nqs
+                        do xf=1,nxs			
                             ed(2)=x2e(xf)   !ahu summer18 051418: adding ed dimension to nonlabinc
-							do qf=1,nqs
+							
                                 !i = dd(8) ; n=dd(9) 
                                 valso(1) = vm0_s(xm,qm)
                                 !i = dd(10) ; n=dd(11) 
@@ -232,8 +233,8 @@ end do
                                 end do 
                             end do 
                         end do
-                    end if !state variable part of the q space i.e. w <= np1
 				end do 
+                    end if !state variable part of the q space i.e. w <= np1
 			end do 
 
 			yaz=.false.			
