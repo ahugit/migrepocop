@@ -49,11 +49,11 @@ contains
     else 
         nindex=ninp
     end if 
-    allocate( decm0_s(nepsmove,nqs,nxs,nqs,mna:mxa,nindex),decf0_s(nepsmove,nqs,nxs,nqs,mna:mxa,nindex))
-    allocate(decm_s(nepsmove,nqs,nxs,nqs,mna:mxa,nindex),decf_s(nepsmove,nqs,nxs,nqs,mna:mxa,nindex))
-	allocate(vm(nepsmove,nqs,nxs,nqs,mna:mxa,nindex),vf(nepsmove,nqs,nxs,nqs,mna:mxa,nindex))
-    allocate(dec_mar(nz,nq,nx,mna:mxa,nindex))
-	allocate(vm0_c(nq,nx,mna:mxa,nindex),vf0_c(nq,nx,mna:mxa,nindex))
+    allocate( decm0_s(nepsmove,nxs,nqs,nqs,mna:mxa,nindex),decf0_s(nepsmove,nxs,nqs,nqs,mna:mxa,nindex))
+    allocate(decm_s(nepsmove,nxs,nqs,nqs,mna:mxa,nindex),decf_s(nepsmove,nxs,nqs,nqs,mna:mxa,nindex))
+	allocate(vm(nepsmove,nxs,nqs,nqs,mna:mxa,nindex),vf(nepsmove,nxs,nqs,nqs,mna:mxa,nindex))
+    allocate(dec_mar(nz,nx,nq,mna:mxa,nindex))
+	allocate(vm0_c(nx,nq,mna:mxa,nindex),vf0_c(nx,nq,mna:mxa,nindex))
       
 	call getpars(parvec,realparvec) 
     parsforcheck=parvec !jusr for checking where it says emax is negative. can get rid of later.
