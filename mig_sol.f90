@@ -17,7 +17,6 @@ module sol
 	implicit none
 	real(sp) :: begintime,time(5)   
     real(dp) :: vsingtest(2) !ag090822 agsept2022
-    real(dp), dimension(nq,nx) :: vm0ctemp,vf0ctemp,wmctemp,wfctemp
 contains		
 	subroutine solve
 	real(dp) :: vmax(2),val(2),vsum(2),valso(2),probmuq(nx,nq,nq),probmux(nx,nx,nq)
@@ -94,10 +93,10 @@ end do
 
                 do q=1,nq
                     do x=1,nx
-                        vm0ctemp(q,x)=vm0_c(x,q,ia,index) 
-                        vf0ctemp(q,x)=vf0_c(x,q,ia,index) 
-                        wmctemp(q,x)=wc(1,x,q,trueindex)
-                        wfctemp(q,x)=wc(2,x,q,trueindex)
+                        vm0ctemp(q,x,ia,index)=vm0_c(x,q,ia,index) 
+                        vf0ctemp(q,x,ia,index)=vf0_c(x,q,ia,index) 
+                        wmctemp(q,x,trueindex)=wc(1,x,q,trueindex)
+                        wfctemp(q,x,trueindex)=wc(2,x,q,trueindex)
                     end do 
                 end do 
 
@@ -317,11 +316,11 @@ end do
                     !if (qq2l(1,q0).ne.qq2l(2,q0)) then ; print*, 'something wrong in dec_c' ; stop; end if 
                     !ahumarch2122 ahu032122 vec(3) = vm0_c9726(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(1,i) /= qq2l(1,q0)) * mcost(1) + one( qq2l(1,i) /= qq2l(1,q0)) * moveshock_m(iepsmove)  !fnmove(kid)     
                     !ahumarch2122 ahu032122 vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(2,i) /= qq2l(2,q0)) * mcost(2) + one( qq2l(2,i) /= qq2l(2,q0)) * moveshock_f(iepsmove)  !fnmove(kid)     
-                    vecj(3,j) = vm0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
-                    vecj(4,j) = vf0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    vecj(3,j) = vm0ctemp(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
+                    vecj(4,j) = vf0ctemp(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
                     !vm0_c(x,i,ia,index)
                     !vec(5) = wc(1,x,i,trueindex) + wc(2,x,i,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,x,i,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,i,x,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
-                    vecj(5,j) = wmctemp(i,x) + wfctemp(i,x) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
+                    vecj(5,j) = wmctemp(i,x,trueindex) + wfctemp(i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
                     vecj(1,j)=vecj(3,j)-vec(1)   !ahumarch1522 ahu031522 adding cornersol
                     vecj(2,j)=vecj(4,j)-vec(2)   !ahumarch1522 ahu031522 adding cornersol
                     !ahumarch2122 ahu032122 replacing this with vdif for saving time surplusj(j) = vec(5) + vec(3) - vec(1) + vec(4) - vec(2)  
@@ -348,9 +347,9 @@ end do
         if (callfrom==50) then !calling from singles
             iepsmove=-1 
             vec(1:2)=vsingtest(1:2) !ag090822 agsept2022 vsing(1:2) 
-            vec(3) = vm0ctemp(q,x) + mg(z,trueindex) 
-            vec(4) = vf0ctemp(q,x) + mg(z,trueindex) 
-            vec(5) = wmctemp(q,x) +  wfctemp(q,x) + nonlabinc(ed(1)) + nonlabinc(ed(2))                                                   
+            vec(3) = vm0ctemp(q,x,ia,index) + mg(z,trueindex) 
+            vec(4) = vf0ctemp(q,x,ia,index) + mg(z,trueindex) 
+            vec(5) = wmctemp(q,x,trueindex) +  wfctemp(q,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2))                                                   
             !call checknb(dd,vec,welldef,vsum )  
             vdif(1)=vec(3)-vec(1)   !ahumarch1522 ahu031522 adding cornersol
             vdif(2)=vec(4)-vec(2)   !ahumarch1522 ahu031522 adding cornersol
