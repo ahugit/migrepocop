@@ -54,7 +54,7 @@ contains
 	allocate(vm(nepsmove,nxs,nqs,nqs,mna:mxa,nindex),vf(nepsmove,nxs,nqs,nqs,mna:mxa,nindex))
     allocate(dec_mar(nz,nx,nq,mna:mxa,nindex))
 	allocate(vm0_c(nx,nq,mna:mxa,nindex),vf0_c(nx,nq,mna:mxa,nindex))
-    allocate(vm0ctemp(nq,nx,mna:mxa,nindex),vf0ctemp(nq,nx,mna:mxa,nindex))
+    allocate(vm0ctemp(nq,nx),vf0ctemp(nq,nx))
 
 	call getpars(parvec,realparvec) 
     parsforcheck=parvec !jusr for checking where it says emax is negative. can get rid of later.
