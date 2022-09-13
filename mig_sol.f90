@@ -87,14 +87,14 @@ end do
 				decm_s(:,:,:,:,ia,index)=decm0_s(:,:,:,:,ia,index)
 				decf_s(:,:,:,:,ia,index)=decf0_s(:,:,:,:,ia,index)
 				vmr=vm(:,:,:,:,ia,index)
-				vfr=vf(:,:,:,:,ia,index)
+				vfr=vf(:,:,:,:,ia,index) 
 			else 
 				whereamI=1 ! for telling yaz about where we are
-
+                !for loop opt 
                 do q=1,nq
                     do x=1,nx
-                        vm0ctemp(q,x,ia,index)=vm0_c(x,q,ia,index) 
-                        vf0ctemp(q,x,ia,index)=vf0_c(x,q,ia,index) 
+                        vm0ctemp(q,x)=vm0_c(x,q,ia,index) 
+                        vf0ctemp(q,x)=vf0_c(x,q,ia,index) 
                         wmctemp(q,x,trueindex)=wc(1,x,q,trueindex)
                         wfctemp(q,x,trueindex)=wc(2,x,q,trueindex)
                     end do 
@@ -316,8 +316,13 @@ end do
                     !if (qq2l(1,q0).ne.qq2l(2,q0)) then ; print*, 'something wrong in dec_c' ; stop; end if 
                     !ahumarch2122 ahu032122 vec(3) = vm0_c9726(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(1,i) /= qq2l(1,q0)) * mcost(1) + one( qq2l(1,i) /= qq2l(1,q0)) * moveshock_m(iepsmove)  !fnmove(kid)     
                     !ahumarch2122 ahu032122 vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(2,i) /= qq2l(2,q0)) * mcost(2) + one( qq2l(2,i) /= qq2l(2,q0)) * moveshock_f(iepsmove)  !fnmove(kid)     
-                    vecj(3,j) = vm0ctemp(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
-                    vecj(4,j) = vf0ctemp(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    if (callfrom==40) then !calling from sol
+                    vecj(3,j) = vm0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
+                    vecj(4,j) = vf0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    else if (callfrom==80) then !calling from simulation
+                    vecj(3,j) = vm0_c(x,i,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
+                    vecj(4,j) = vf0_c(x,i,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    end if 
                     !vm0_c(x,i,ia,index)
                     !vec(5) = wc(1,x,i,trueindex) + wc(2,x,i,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,x,i,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,i,x,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
                     vecj(5,j) = wmctemp(i,x,trueindex) + wfctemp(i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
