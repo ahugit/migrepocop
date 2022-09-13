@@ -291,7 +291,7 @@ end do
         relmax=-1            ! initialize
         vmax=pen			! initialize
         
-        if (Callfrom==40).or.callfrom==80 then !calling from couples
+        if (Callfrom==40.or.callfrom==80) then !calling from couples
             iepsmove=dd(11)   
             vec=pen
             i = qq2q(1,q) ; n=xx2x(1,x) ; i0 = qq2q(1,q0) 
