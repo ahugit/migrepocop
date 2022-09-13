@@ -352,10 +352,9 @@ end do
         if (callfrom==50) then !calling from singles
             iepsmove=-1 
             vec(1:2)=vsingtest(1:2) !ag090822 agsept2022 vsing(1:2) 
-            vec(3) = vm0ctemp(q,x,ia,index) + mg(z,trueindex) 
-            vec(4) = vf0ctemp(q,x,ia,index) + mg(z,trueindex) 
-            vec(5) = wmctemp(q,x,trueindex) +  wfctemp(q,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2))                                                   
-            !call checknb(dd,vec,welldef,vsum )  
+            vec(3) = vm0ctemp(q,x) + mg(z,trueindex) 
+            vec(4) = vf0ctemp(q,x) + mg(z,trueindex) 
+            vec(5) = wmctemp(q,x,trueindex) +  wfctemp(q,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2))                                                    
             vdif(1)=vec(3)-vec(1)   !ahumarch1522 ahu031522 adding cornersol
             vdif(2)=vec(4)-vec(2)   !ahumarch1522 ahu031522 adding cornersol
             !ahumarch2122 ahu032122 replacing this with vdif for saving time surplus = vec(5) + vec(3) - vec(1) + vec(4) - vec(2)  
