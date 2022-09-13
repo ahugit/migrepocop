@@ -418,7 +418,7 @@ end FUNCTION random
 						!AG090122 AGSEPT2022 dd=(/ ia,trueindex,q,x,z,q0,g,-1,-1,-1,iepsmove /)			    ! (/ ia,index,q,x,z,q0,g,jmax,qmax,relmax /)  							                        
                         !ag090122 agsept2022 call getdec_c(dd,vmax)					            ! jmax=dd(8) ; qmax=dd(9) ; relmax=dd(10)   
                         valso=pen !ag090122 agsept2022
-                        callfrom=40 !ag090122 agsept2022
+                        callfrom=80 !ag090122 agsept2022
                         dd = (/ia,trueindex,q,x,z,q0,callfrom,-1,-1,-1,iepsmove /) 	! (/ ia,index,q,x,z,q0,gender/callfrom,jmax,qmax,relmax,iepsmove /)  	                                        
                         call getdec(dd,vmax,valso)
                         relnext=dd(10)
