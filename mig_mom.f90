@@ -2237,7 +2237,7 @@ if (extramoments) then
     movesum(:)=sum(move(MNA:MXAD,:),1,move(MNA:MXAD,:)>=0)
     moverank=-1
     do ia=MNA,MXAD
-        moverank(ia,:)=sum(move(MNA:ia,:),1,move>=0)   
+        moverank(ia,:)=sum(move(MNA:ia,:),1,move(MNA:ia,:)>=0)   
     end do 
     
     !WHERE (move(MNA:MXAD,:)>=0.and.dat(MNA:MXAD,:)%rel>=0)
