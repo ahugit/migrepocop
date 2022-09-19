@@ -985,24 +985,25 @@ open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; 
 
 !open(unit=2,file='bp090922therm.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     pars2=pars
-    pars2(1:21)=pars1(1:21)
+    pars2(1:12)=pars1(1:12)
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
     pars2=pars
-    pars2(22:43)=pars1(22:43)
+    pars2(13:21)=pars1(13:21)
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
     pars2=pars
-    pars2(44:69)=pars1(44:69)
+    pars2(22:32)=pars1(22:32)
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
     pars2=pars
-    pars2(1:69)=pars1(1:69)
+    pars2(33:41)=pars1(33:41)
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
+
 
 
 
