@@ -2234,7 +2234,7 @@ if (extramoments) then
         homemove(MNA:MXAD,:)=one(dat(MNA+1:MXA,:)%hme==dat(MNA+1:MXA,:)%l)
     ENDWHERE
     
-    movesum(:)=sum(move(MNA:MXAD,:),1,move>=0)
+    movesum(:)=sum(move(MNA:MXAD,:),1,move(MNA:MXAD,:)>=0)
     moverank=-1
     do ia=MNA,MXAD
         moverank(ia,:)=sum(move(MNA:ia,:),1,move>=0)   
