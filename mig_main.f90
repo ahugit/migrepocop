@@ -979,13 +979,32 @@ pars(90:91)=2.0_dp
      !call getpars(pars,realpars)
      !call objfunc(pars,qval) ; realpars=realpartemp     
 
-open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp     
+open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+!    call getpars(pars,realpars)
+!    call objfunc(pars,qval) ; realpars=realpartemp     
 
-open(unit=2,file='bp090922therm.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp     
+!open(unit=2,file='bp090922therm.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    pars2=pars
+    pars2(22:23)=pars1(22:23)
+    call getpars(pars2,realpars)
+    call objfunc(pars2,qval) ; realpars=realpartemp     
+
+    pars2=pars
+    pars2(70:npars)=pars1(70:npars)
+    call getpars(pars2,realpars)
+    call objfunc(pars2,qval) ; realpars=realpartemp     
+
+    pars2=pars
+    pars2(22:23)=pars1(22:23)
+    pars2(70:npars)=pars1(70:npars)
+    call getpars(pars2,realpars)
+    call objfunc(pars2,qval) ; realpars=realpartemp     
+
+    pars2=pars1
+    call getpars(pars2,realpars)
+    call objfunc(pars2,qval) ; realpars=realpartemp     
+
+
 
     stepmin=stepos !ahu 121118
     tstart=qval !ag091122 agsept2022 changing thermsimp value !0.0_dp !*qval !10.0_dp !
