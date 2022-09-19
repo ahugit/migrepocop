@@ -584,7 +584,7 @@ end FUNCTION random
     real(dp) :: wmovebyrel,decilegrid(ndecile)
     INTEGER(I4B),DIMENSION(MNAD:MXA,ndat) :: kidtrans,homemove,moverank
     INTEGER(I4B),DIMENSION(ndat) :: movesum
-    REAL(dp),DIMENSION(MNA:MXAD,ndat) :: mean4h,deltawage4,deltawage
+    REAL(dp),DIMENSION(MNAD:MXA,ndat) :: mean4h,deltawage4,deltawage
     INTEGER(I4B), dimension(MNAD:MXA,ndat) :: iacat,empr
     INTEGER(I4B), dimension(5,MNAD:MXA,ndat) :: etr
     LOGICAL,DIMENSION(MNAD:MXA,ndat) :: obs4h
