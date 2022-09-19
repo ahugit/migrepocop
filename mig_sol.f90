@@ -60,7 +60,7 @@ end do
 		time(1)=secnds(0.0)
 		emaxm_s=0.0_dp	; emaxf_s=0.0_dp ; emaxm_c=0.0_dp	; emaxf_c = 0.0_dp
 		do ia=mxa,mna,-1
-			print*, "mysay,ia,trueindex ",iter,mysay,ia,trueindex !ahu 030622
+			!print*, "mysay,ia,trueindex ",iter,mysay,ia,trueindex !ahu 030622
 			vmr  = pen ; vfr = pen	
 			time(1)=secnds(0.0)
 			if (ia==mxa) then 
