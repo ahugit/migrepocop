@@ -193,6 +193,7 @@ contains
 	psio(11)=realpar(j)	            ; j=j+1
 	realpar(j)=par(j)               ; parname(j)='u,of,f' ; stepos(j)=1.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(12)=realpar(j)	            ; j=j+1
+    print*, 'Here is psio12',j-1
 
 	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp 
 	psil(1)=realpar(j)	            ; j=j+1
@@ -245,6 +246,7 @@ contains
     realpar(j:j+1)=mult1 * logit(par(j:j+1))            ; parname(j)='alphakid(m)' ; parname(j+1)='alphakid(f)'          !31:32           !ahu 112718 changing to only plus from: mult1 * min2pls(par(j:j+1))	 !mult1 * logit(par(9:10))	
     stepos(j)=5.0_dp  ; if (onlyfem) stepos(j)=0.0_dp ; 	stepos(j+1)=0.5_dp  ; if (onlymales) stepos(j:j+1)=0.0_dp 
     alphakid(:,2)=realpar(j:j+1)                        ; j=j+2         
+    print*, 'Here is uloc',j
 	
     !uloc: 33-41
     !do ed=1,2
@@ -260,7 +262,7 @@ contains
             j=j+1
         end do
 	!end do
-    !print*, 'Here is alf10',j
+    print*, 'Here is alf10',j
 	!wage 42: 65
     do i=1,nl
         realpar(j)=par(j) !1.5_dp*min2pls(par(j))+8.5_dp 
@@ -268,7 +270,7 @@ contains
         parname(j)='alf10' ; stepos(j)=0.15_dp ; if (i==3) stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !dont iterate on alpha10(1) for a second
         j=j+1
     end do 
-    !print*, 'Here is alf10',j-1
+    print*, 'Here is alf11 etc',j
     realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
 	alf11=realpar(j)                                ; j=j+1
     !print*, 'Here is alf12',j	
@@ -277,14 +279,14 @@ contains
     !print*, 'Here is alf13',j	
     realpar(j)=0.0_dp                               ; parname(j)='alf13' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
     alf13=realpar(j)	                            ; j=j+1
-    !print*, 'Here is alf20',j
+    print*, 'Here is alf20',j
     do i=1,nl
 		realpar(j)=par(j) !1.5_dp*min2pls(par(j))+8.5_dp    
 		alf20(i)=realpar(j) 
         parname(j)='alf20' ; stepos(j)=0.15_dp  ; if (onlymales) stepos(j)=0.0_dp 
 		j=j+1
 	end do 
-    !print*, 'Here is alf20',j-1
+    print*, 'Here is alf21 etc',j
 	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf21=realpar(j)                                ; j=j+1
     !print*, 'Here is alf22',j	    
