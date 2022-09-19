@@ -55,7 +55,7 @@ logical :: nonneg
 	integer(i4b), parameter :: ndata    = 5233 !5390 !2386   
 	integer(i4b), parameter :: ndataobs = 84507 !86873 !41494  
 	integer(i4b), parameter :: nsim     = ndata*nsimeach  
-	integer(i4b), parameter :: nmom     = 1400 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 1800 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=60					!if you change this, don't forget to also change a100 in writemoments	
