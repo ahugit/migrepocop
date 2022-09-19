@@ -26,7 +26,7 @@ logical :: nonneg
 	integer(i4b) :: whereami
 	character(len=1), parameter :: runid='r'		! string inserted into output filenames to identify which run !ahu 062413 set this in main instead 
 	integer(i4b), parameter :: nco=1,ncop=1
-	integer(i4b), parameter :: ntyp=1,ntypp=1   ! types !ahu030622 changed ntypp to 1 (was 4)
+	integer(i4b), parameter :: ntyp=1,ntypp=4   ! types !ahu030622 changed ntypp to 1 (was 4)
 	integer(i4b), parameter :: nin  = nco * ntyp * nhome
 	integer(i4b), parameter :: ninp = ncop * ntypp * nhomep
     integer(i4b) :: nindex !determined in objf according to groups, it's either nin or ninp
@@ -55,7 +55,7 @@ logical :: nonneg
 	integer(i4b), parameter :: ndata    = 5233 !5390 !2386   
 	integer(i4b), parameter :: ndataobs = 84507 !86873 !41494  
 	integer(i4b), parameter :: nsim     = ndata*nsimeach  
-	integer(i4b), parameter :: nmom     = 1800 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 2200 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=60					!if you change this, don't forget to also change a100 in writemoments	
