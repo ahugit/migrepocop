@@ -998,50 +998,49 @@ open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; 
 
     pars2=pars
     pars2(42:50)=pars1(42:50)
-    call getpars(pars2,realpars)
-    call objfunc(pars2,qval) ; realpars=realpartemp     
 
     pars2=pars
     pars2(51:53)=pars1(51:53)
-    call getpars(pars2,realpars)
-    call objfunc(pars2,qval) ; realpars=realpartemp     
 
    pars2=pars
     pars2(42:53)=pars1(42:53)
-    call getpars(pars2,realpars)
-    call objfunc(pars2,qval) ; realpars=realpartemp     
 
    pars2=pars
     pars2(42:53)=pars1(42:53)
     pars2(1:12)=pars1(1:12)
-    call getpars(pars2,realpars)
-    call objfunc(pars2,qval) ; realpars=realpartemp     
 
    pars2=pars
     pars2(42:53)=pars1(42:53)
     pars2(1:12)=pars1(1:12)
     pars2(33:41)=pars1(33:41)
-    call getpars(pars2,realpars)
-    call objfunc(pars2,qval) ; realpars=realpartemp     
 
     pars2=pars
     pars2(54:62)=pars1(54:62)
-    call getpars(pars2,realpars)
-    call objfunc(pars2,qval) ; realpars=realpartemp     
 
     pars2=pars
     pars2(63:65)=pars1(63:65)
-    call getpars(pars2,realpars)
-    call objfunc(pars2,qval) ; realpars=realpartemp     
 
     pars2=pars
     pars2(54:65)=pars1(54:65)
-    call getpars(pars2,realpars)
-    call objfunc(pars2,qval) ; realpars=realpartemp     
 
 
     pars2=pars
-    pars2(66:69)=pars1(66:69)
+    pars2(66)=pars1(66)
+    call getpars(pars2,realpars)
+    call objfunc(pars2,qval) ; realpars=realpartemp     
+
+    pars2=pars
+    pars2(68)=pars1(68)
+    call getpars(pars2,realpars)
+    call objfunc(pars2,qval) ; realpars=realpartemp     
+
+    pars2=pars
+    pars2(67)=pars1(67)
+    call getpars(pars2,realpars)
+    call objfunc(pars2,qval) ; realpars=realpartemp     
+
+    pars2=pars
+    pars2(69)=pars1(69)
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
