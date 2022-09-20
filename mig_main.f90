@@ -1038,20 +1038,20 @@ open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; 
 
     pars2=pars1
     pars2(87)=2000.0_dp !mumar for type 3    
-    pars2(86)=500.0_dp !positive cst for type 3
+    pars2(86)=5000.0_dp !positive cst for type 3
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
 
     pars2=pars1
     pars2(87)=2000.0_dp !mumar for type 3    
-    pars2(86)=1000.0_dp !positive cst for type 3
+    pars2(86)=10000.0_dp !positive cst for type 3
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
     pars2=pars1
     pars2(87)=2000.0_dp !mumar for type 3    
-    pars2(86)=2000.0_dp !positive cst for type 3
+    pars2(86)=20000.0_dp !positive cst for type 3
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
