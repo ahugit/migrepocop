@@ -943,8 +943,8 @@ pars(90:91)=2.0_dp
     !090422 SEPTEMBER 4 2022
      pars(75)=0.0015_dp
      nonlabinc=0.0_dp
-     call getpars(pars,realpars)
-     call objfunc(pars,qval) ; realpars=realpartemp     
+     !call getpars(pars,realpars)
+     !call objfunc(pars,qval) ; realpars=realpartemp     
      !pars(75)=0.0015_dp
      !nonlabinc=2000.0_dp
      !call getpars(pars,realpars)
@@ -1025,24 +1025,36 @@ open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; 
 
 
     pars2=pars
-    pars2(66)=pars1(66)
+    pars2(66:69)=pars1(66:69)
+
+    pars2=pars1
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
-    pars2=pars
-    pars2(68)=pars1(68)
+    pars2=pars1
+    pars2(87)=2000.0_dp
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
-    pars2=pars
-    pars2(67)=pars1(67)
+    pars2=pars1
+    pars2(87)=2000.0_dp !mumar for type 3    
+    pars2(86)=500.0_dp !positive cst for type 3
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
 
-    pars2=pars
-    pars2(69)=pars1(69)
+
+    pars2=pars1
+    pars2(87)=2000.0_dp !mumar for type 3    
+    pars2(86)=1000.0_dp !positive cst for type 3
     call getpars(pars2,realpars)
     call objfunc(pars2,qval) ; realpars=realpartemp     
+
+    pars2=pars1
+    pars2(87)=2000.0_dp !mumar for type 3    
+    pars2(86)=2000.0_dp !positive cst for type 3
+    call getpars(pars2,realpars)
+    call objfunc(pars2,qval) ; realpars=realpartemp     
+
 
 
 
