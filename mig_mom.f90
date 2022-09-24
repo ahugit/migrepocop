@@ -888,7 +888,20 @@ end FUNCTION random
             if (g==1) headstr(ihead)='all men'
             if (g==2) headstr(ihead)='all fem'
             ihead=ihead+1
-        
+
+            call condmom(im,(  cohogen(:)==co .and. sexgen(:)==g ) ,   d1* one( nummove(:)==0 ) ,mom,cnt,var)	
+            write(name(im),'("nummove=0 ",tr5)')  
+            weights(im)=0.0_dp
+            im=im+1
+            call condmom(im,(  cohogen(:)==co  .and. sexgen(:)==g ),   d1* one( nummove(:)==1 ) ,mom,cnt,var)	
+            write(name(im),'("nummove=1 ",tr5)')  
+            weights(im)=0.0_dp
+            im=im+1
+            call condmom(im,(  cohogen(:)==co  .and. sexgen(:)==g ),   d1* one( nummove(:)>=2 ) ,mom,cnt,var)	
+            write(name(im),'("nummove>=2 ",tr5)')  
+            weights(im)=0.0_dp
+            im=im+1
+    
             do i=1,nl            
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA+1:MXA,:)%l==i .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
                 write(name(im),'("%hme-mvs to",tr3,i4)') i
@@ -1003,18 +1016,6 @@ end FUNCTION random
             weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
             !calcvar(im)=1 if you leave these on then the moments that follow do weird things since cacvar-1 calculates incorporating the moments after. 
             im=im+1 
-            call condmom(im,(  cohogen(:)==co .and. sexgen(:)==g ) ,   d1* one( nummove(:)==0 ) ,mom,cnt,var)	
-            write(name(im),'("nummove=0 ",tr5)')  
-            weights(im)=0.0_dp
-            im=im+1
-            call condmom(im,(  cohogen(:)==co  .and. sexgen(:)==g ),   d1* one( nummove(:)==1 ) ,mom,cnt,var)	
-            write(name(im),'("nummove=1 ",tr5)')  
-            weights(im)=0.0_dp
-            im=im+1
-            call condmom(im,(  cohogen(:)==co  .and. sexgen(:)==g ),   d1* one( nummove(:)>=2 ) ,mom,cnt,var)	
-            write(name(im),'("nummove>=2 ",tr5)')  
-            weights(im)=0.0_dp
-            im=im+1
             end do !rel j
         end do !sex g
 
@@ -1523,8 +1524,8 @@ end FUNCTION random
                 im=im+1 
             end do 
 
-            end do rel
-        end do sex
+            end do !j
+        end do !g
                 
     
             
@@ -1791,28 +1792,6 @@ end FUNCTION random
                 im=im+1
             end do 
         
-
-
-            
-            headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
-            headloc(ihead)=im; headstr(ihead)='wages by gender/rel - FULL TIME';ihead=ihead+1
-            do g=1,2
-                do j=0,1
-                    CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%sexr==g).AND.(dat(MNA:MXA,:)%rel==j) .AND.(dat(MNA:MXA,:)%hhr>=H_FULLTIME).AND.(dat(MNA:MXA,:)%logwr>=0).AND.(iacat(MNA:MXA,:)==1)),d1*dat(MNA:MXA,:)%logwr,mom,cnt,var)
-                    WRITE(name(im),'("logwage/gender/rel ",2I4)') g,j
-                    if (j==0) weights(im)=0.0_dp !wwage0 
-                    if (j==1) weights(im)=0.0_dp !wwage1 
-                    im=im+1
-                end do 
-            end do 
-        
-            headloc(ihead)=im; headstr(ihead)='log wage spXr - FULL TIME ';ihead=ihead+1
-            CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%rel==1).AND.(dat(MNA:MXA,:)%hhr>=H_FULLTIME).AND.(dat(MNA:MXA,:)%hhsp>=H_FULLTIME).AND.(dat(MNA:MXA,:)%logwr>=0).AND.(dat(MNA:MXA,:)%logwsp>=0).AND.(iacat(MNA:MXA,:)==1)),d1*dat(MNA:MXA,:)%logwr*dat(MNA:MXA,:)%logwsp,mom,cnt,var)
-            WRITE(name(im),'("log-wage-spXr")') 
-            weights(im)=0.0_dp !wwage1
-            im=im+1
-
-
             
             headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
             headloc(ihead)=im; headstr(ihead)='Prop by loc and Prop of moves by loc (all age) ';ihead=ihead+1
