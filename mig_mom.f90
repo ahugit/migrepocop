@@ -1603,10 +1603,6 @@ end FUNCTION random
         
         if (extramoments) then 
 
-            headloc(ihead)=im
-            headstr(ihead)='everyone misc'
-            ihead=ihead+1
-
 
             mean4h=-99.0_dp 
             deltawage4=-99.0_dp
@@ -1692,8 +1688,8 @@ end FUNCTION random
             ENDWHERE
             
             
-            headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
-            headloc(ihead)=im; headstr(ihead)='After the first move what proportion is return to home? (all)';ihead=ihead+1     
+            !headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
+            headloc(ihead)=im; headstr(ihead)='after the first move what proportion is return to home? (all)';ihead=ihead+1     
             CALL condmom(im,((moverank(MNA:MXAD,:)>1).AND.(move(MNA:MXAD,:)==1)  ),d1*one(homemove(MNA:MXAD,:)==0),mom,cnt,var)
             WRITE(name(im),'("non-home ")') 
             weights(im)=0.0_dp !wmove0
@@ -1705,8 +1701,8 @@ end FUNCTION random
     
 
             
-            headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
-            headloc(ihead)=im; headstr(ihead)='Move Rates (all age, both sex';ihead=ihead+1
+            !headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
+            headloc(ihead)=im; headstr(ihead)='move rates (all age, both sex';ihead=ihead+1
             CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==0).and.(norelchg(MNA:MXAD,:)==1).AND.(move(MNA:MXAD,:)>=0)),d1*move(MNA:MXAD,:),mom,cnt,var)
             WRITE(name(im),'("move/single")') 
             weights(im)=0.0_dp !wmove0              
@@ -1718,10 +1714,10 @@ end FUNCTION random
         
 
             
-            headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
-            headloc(ihead)=im; headstr(ihead)='Employment by gender/rel (all ages) ';ihead=ihead+1
+           ! headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
+            headloc(ihead)=im; headstr(ihead)='employment by gender/rel (all ages) ';ihead=ihead+1
             do g=1,2
-                do j=0,1
+                do j=0,maxrel0
                     CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%sexr==g).AND.(dat(MNA:MXA,:)%rel==j).AND.(dat(MNA:MXA,:)%hhr>=0).AND.(iacat(MNA:MXA,:)==1)),d1*one(dat(MNA:MXA,:)%hhr>=H_FULLTIME),mom,cnt,var)
                     WRITE(name(im),'("emp | gender/rel ",2I4)') g,j
                     if (j==0) weights(im)=0.0_dp !whour0 
@@ -1729,7 +1725,7 @@ end FUNCTION random
                     im=im+1
                 end do 
             end do 
-            headloc(ihead)=im; headstr(ihead)='Employment by gender/kid (married and all age)';ihead=ihead+1
+            headloc(ihead)=im; headstr(ihead)='employment by gender/kid (married and all age)';ihead=ihead+1
             do g=1,2
                 do j=0,1
                     CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%sexr==g).AND.(dat(MNA:MXA,:)%rel==1).AND.(dat(MNA:MXA,:)%kidr==j).AND.(dat(MNA:MXA,:)%hhr>=0).AND.(iacat(MNA:MXA,:)==1)),d1*one(dat(MNA:MXA,:)%hhr>=H_FULLTIME),mom,cnt,var)
@@ -1739,7 +1735,7 @@ end FUNCTION random
                 end do 
             end do 
             
-            headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
+            !headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
             headloc(ihead)=im; headstr(ihead)='Mean wage by gender/ed - FULL TIME (all ages)';ihead=ihead+1
             do g=1,2
                 do j=1,2    
@@ -1752,10 +1748,10 @@ end FUNCTION random
 
 
             
-            headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
+            !headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
             headloc(ihead)=im; headstr(ihead)='wage-growth for stay and move by gender/rel (all ages)';ihead=ihead+1
             do g=1,2
-                do j=0,1    
+                do j=0,maxrel0 
                     CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%sexr==g).AND.(dat(MNA:MXAD,:)%rel==j).AND.(move(MNA:MXAD,:)==0).AND.(dat(MNA:MXAD,:)%logwr>=0).AND.(deltawage(MNA:MXAD,:)>-100.0_dp).AND.(iacat(MNA:MXAD,:)==1)),d1*deltawage(MNA:MXAD,:),mom,cnt,var)
                     WRITE(name(im),'("wage-growth/stay/gender/rel ",2I4)') g,j
                     if (j==0) weights(im)=0.0_dp !wwage0 
@@ -1771,7 +1767,7 @@ end FUNCTION random
                 
 
             
-            headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
+            !headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
             headloc(ihead)=im; headstr(ihead)='education by location';ihead=ihead+1
             do j=1,NL
                 CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%l==j).AND.(dat(MNA:MXA,:)%edr>=0)),d1*one((dat(MNA:MXA,:)%edr==2)),mom,cnt,var)
@@ -1793,7 +1789,7 @@ end FUNCTION random
             end do 
         
             
-            headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
+            !headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
             headloc(ihead)=im; headstr(ihead)='Prop by loc and Prop of moves by loc (all age) ';ihead=ihead+1
             do j=1,NL
                 CALL condmom(im,((dat(MNA:MXA,:)%co==co)),d1*one(dat(MNA:MXA,:)%l==j),mom,cnt,var)
@@ -1825,9 +1821,9 @@ end FUNCTION random
 
             headloc(ihead)=im
             IF (co==1) THEN
-                headstr(ihead)='br 1: Marriage Rates by Sex and ia';ihead=ihead+1
+                headstr(ihead)='br 1: marriage Rates by Sex and ia';ihead=ihead+1
             ELSE
-                headstr(ihead)='br 2: Marriage Rates by Sex and ia';ihead=ihead+1
+                headstr(ihead)='br 2: marriage Rates by Sex and ia';ihead=ihead+1
             ENDIF
             do ia=25,35,5
                 CALL condmom(im,(     (dat(ia,:)%co==co).AND.(dat(ia,:)%rel>=0).AND.(dat(ia,:)%edr==1)   ),d1*one(dat(ia,:)%rel>0),mom,cnt,var)
