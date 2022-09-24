@@ -1003,15 +1003,15 @@ pars(90:91)=2.0_dp
     pars(75)=0.0015_dp !mumar1 !should this be set to 0? 
     pars(76)=0.0_dp !ptypehs2 
     pars(77)=0.0_dp !ptypecol2
-    pars(80)=1000.0_dp !cst2 
+    pars(80)=4000.0_dp !cst2 
     pars(81)=0.0015_dp !mumar2    
     pars(82)=0.0_dp !ptypehs3 
     pars(83)=0.0_dp !ptypecol3
-    pars(86)=2000.0_dp !cst3
+    pars(86)=4500.0_dp !cst3
     pars(87)=0.0015_dp !mumar3
     pars(88)=0.0_dp !ptypehs4 
     pars(89)=0.0_dp !ptypecol4
-    pars(92)=3000.0_dp !cst4 
+    pars(92)=5000.0_dp !cst4 
     pars(93)=0.0015_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp     
@@ -1033,21 +1033,21 @@ pars(90:91)=2.0_dp
     pars(77)=0.0_dp !ptypecol2
     !pars(78)=alf1t2 
     !pars(79)=alf1t2
-    pars(80)=1000.0_dp !cst2 
+    pars(80)=4000.0_dp !cst2 
     pars(81)=0.0015_dp !mumar2
     
     pars(82)=0.0_dp !ptypehs3 
     pars(83)=0.0_dp !ptypecol3
     !pars(84)=alf1t 3
     !pars(85)=alf1t 3
-    pars(86)=2000.0_dp !cst3
+    pars(86)=4500.0_dp !cst3
     pars(87)=0.0015_dp !mumar3
 
     pars(88)=0.0_dp !ptypehs4 
     pars(89)=0.0_dp !ptypecol4
     !pars(90)=alf1t 4
     !pars(91)=alf1t 4
-    pars(92)=3000.0_dp !cst4 
+    pars(92)=5000.0_dp !cst4 
     pars(93)=0.0015_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp     
