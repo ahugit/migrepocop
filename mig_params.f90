@@ -16,7 +16,7 @@
 logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.,optimize=.false.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true. !ahu030622
 logical :: nonneg
     logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
-	integer(i4b), parameter :: numit=2 !ahumarch1122
+	integer(i4b), parameter :: numit=3 !ahumarch1122
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
 	real(dp), parameter :: eps = 1.0d-6,zero=0.0_dp,epstest=2.0_dp					! could do tiny(.) but that gives a number that is way too small and therefore not appropriate for those places where we check the inequalities or equalities	
 	real(dp), parameter :: eps2= 1.0d-6
