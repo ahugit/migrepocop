@@ -58,7 +58,7 @@ logical :: nonneg
 	integer(i4b), parameter :: nmom     = 2200 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
-	integer(i4b), parameter :: namelen=60					!if you change this, don't forget to also change a100 in writemoments	
+	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	
 	integer(i4b), parameter :: ma=1,fe=2
     INTEGER(I4B), PARAMETER :: NOCOLLEGE=1,COLLEGE=2
 	integer(i4b), parameter, dimension(2) :: agestart=(/ mna,22 /)		!changed this from 18,22 !chanage this back ahu 070312 (/18,22/) !starting age for simulations for each education level
