@@ -335,7 +335,7 @@ contains
 	        alf2t(i)=realpar(j)                         ; j=j+1
             realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=1.5_dp*par(j)
             cst(i)=realpar(j)                           ; j=j+1 
-            realpar(j)=par(j)                        ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=multmar * min2pls(par(j))                         ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         end if 
     	!print*, 'Here is cost',cst(i),par(j-1),realpar(j-1)

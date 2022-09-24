@@ -1095,22 +1095,22 @@ end FUNCTION random
 				    im=im+1
                 end do
   
-				do ia=mnaD,18,1
-                    do i=1,ntypp
-					    CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 .AND. dat(ia,:)%typ==i ),d1*move(ia,:),mom,cnt,var)
-					    WRITE(name(im),'("mv by a,tp",I8,I4)') ia,i
-					    weights(im)=0.0_dp
-					    im=im+1
-                    end do
-                end do            
-				do ia=19,25,2
-                    do i=1,ntypp
-					    CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 .AND. dat(ia,:)%typ==i ),d1*move(ia,:),mom,cnt,var)
-					    WRITE(name(im),'("mv by a,tp",I8,I4)') ia,i
-					    weights(im)=0.0_dp
-					    im=im+1
-                    end do
-                end do            
+				!do ia=mnaD,18,1
+                !    do i=1,ntypp
+			!		    CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 .AND. dat(ia,:)%typ==i ),d1*move(ia,:),mom,cnt,var)
+			!		    WRITE(name(im),'("mv by a,tp",I8,I4)') ia,i
+			!		    weights(im)=0.0_dp
+			!		    im=im+1
+             !       end do
+             !   end do            
+		!		do ia=19,25,2
+        !            do i=1,ntypp
+	!				    CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 .AND. dat(ia,:)%typ==i ),d1*move(ia,:),mom,cnt,var)
+		!			    WRITE(name(im),'("mv by a,tp",I8,I4)') ia,i
+		!			    weights(im)=0.0_dp
+		!			    im=im+1
+         !           end do
+        !        end do            
 
                 do i=1,ntypp
 				call condmom(im,( cosexrel(MNA:MXAD,:) .AND.  move(MNA:MXAD,:)>=0  .AND. dat(MNA:MXAD,:)%typ==i ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
@@ -1132,21 +1132,21 @@ end FUNCTION random
                 weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
 				calcvar(im)=1
                 im=im+1 
-                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
-                write(name(im),'("wdif | move ",tr2)')  
-                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
-				calcvar(im)=1
-                im=im+1 
-                call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1 .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
-                write(name(im),'("wdif | eue,s ",tr2)')  
-                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
-				calcvar(im)=1
-                im=im+1 
-                call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1   .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l/=dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l>0 ),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
-                write(name(im),'("wdif | eue,m ",tr2)')  
-                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
-				calcvar(im)=1
-                im=im+1 
+                !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
+                !write(name(im),'("wdif | move ",tr2)')  
+                !weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+				!calcvar(im)=1
+                !im=im+1 
+                !call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1 .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
+                !write(name(im),'("wdif | eue,s ",tr2)')  
+                !weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+				!calcvar(im)=1
+                !im=im+1 
+                !call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1   .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l/=dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l>0 ),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
+                !write(name(im),'("wdif | eue,m ",tr2)')  
+                !weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+				!calcvar(im)=1
+                !im=im+1 
 
                 end do !rel j
             end do !sex g
