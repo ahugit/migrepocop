@@ -1,2 +1,3 @@
 move(ia,:)>=0  conditioning statement in move moments why. 
+logwr conditioning on logwr>=0 why. 
 

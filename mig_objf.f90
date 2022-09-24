@@ -10,7 +10,7 @@ module objf
 	real(dp), dimension(nmom,numit) :: momdat_save,momsim_save,vardat_save
 	integer(i4b), dimension(nmom,numit) :: cntdat_save,cntsim_save
 	character(len=namelen), dimension(nmom) :: name
-	character(len=120), dimension(nmom) :: header
+	character(len=500), dimension(nmom) :: header
 	integer(i4b), dimension(nmom) :: headerloc
 contains
 	subroutine objfunc(parvec,objval)
