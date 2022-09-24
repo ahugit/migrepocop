@@ -871,11 +871,11 @@ end FUNCTION random
 
         do j=1,NL
             CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA+1:MXA,:)%l==j).AND.(homemove(MNA:MXAD,:)>=0).AND.(norelchg(MNA:MXAD,:)==1) ),d1*one(homemove(MNA:MXAD,:)==0),mom,cnt,var)
-            WRITE(name(im),'("prop-of-non-home-moves-to ",I4)') j
+            WRITE(name(im),'("%nonhme-mvs-to ",I4)') j
             weights(im)=0.0_dp !wmove0
             im=im+1 
             CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA+1:MXA,:)%l==j).AND.(homemove(MNA:MXAD,:)>=0)).AND.(norelchg(MNA:MXAD,:)==1) ,d1*one(homemove(MNA:MXAD,:)==1),mom,cnt,var)
-            WRITE(name(im),'("prop-of-home-moves-to     ",I4)') j
+            WRITE(name(im),'("%hme-mvs-to     ",I4)') j
             weights(im)=0.0_dp !wmove0
             im=im+1 
         end do  
