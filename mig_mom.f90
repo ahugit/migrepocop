@@ -855,8 +855,7 @@ end FUNCTION random
             write(name(im),'("getmarbyia, ed",tr1,i4)') ia
             weights(im)=0.0_dp
             im=im+1
-        end do                       
-        !do ia=mna,mxai
+        end do                               !do ia=mna,mxai
         !    call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel>=0 ), d1*one(dat(ia,:)%rel==1),mom,cnt,var)
         !    write(name(im),'("mar by ia",tr5,i4)') ia
         !    weights(im)=wrel
@@ -868,17 +867,6 @@ end FUNCTION random
             weights(im)=wrel
             im=im+1
         end do            
-
-        do j=1,NL
-            CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA+1:MXA,:)%l==j).AND.(homemove(MNA:MXAD,:)>=0).AND.(norelchg(MNA:MXAD,:)==1) ),d1*one(homemove(MNA:MXAD,:)==0),mom,cnt,var)
-            WRITE(name(im),'("%nonhme-mvs-to ",I4)') j
-            weights(im)=0.0_dp !wmove0
-            im=im+1 
-            CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA+1:MXA,:)%l==j).AND.(homemove(MNA:MXAD,:)>=0)).AND.(norelchg(MNA:MXAD,:)==1) ,d1*one(homemove(MNA:MXAD,:)==1),mom,cnt,var)
-            WRITE(name(im),'("%hme-mvs-to     ",I4)') j
-            weights(im)=0.0_dp !wmove0
-            im=im+1 
-        end do  
 
 
         do g=minsex,maxsex
@@ -1735,18 +1723,6 @@ end FUNCTION random
                 end do 
             end do 
             
-            !headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
-            headloc(ihead)=im; headstr(ihead)='Mean wage by gender/ed - FULL TIME (all ages)';ihead=ihead+1
-            do g=1,2
-                do j=1,2    
-                    CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%sexr==g).AND.(dat(MNA:MXA,:)%edr==j).AND.(dat(MNA:MXA,:)%hhr>=H_FULLTIME).AND.(dat(MNA:MXA,:)%logwr>=0).AND.(iacat(MNA:MXA,:)==1)),d1*dat(MNA:MXA,:)%logwr,mom,cnt,var)
-                    WRITE(name(im),'("logw/gender/ed ",2I4)') g,j
-                    weights(im)=0.0_dp !wwage0
-                    im=im+1
-                end do 
-            end do 
-
-
             
             !headloc(ihead)=im ; headstr(ihead)='everyone misc' ; ihead=ihead+1
             headloc(ihead)=im; headstr(ihead)='wage-growth for stay and move by gender/rel (all ages)';ihead=ihead+1
@@ -1772,18 +1748,6 @@ end FUNCTION random
             do j=1,NL
                 CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%l==j).AND.(dat(MNA:MXA,:)%edr>=0)),d1*one((dat(MNA:MXA,:)%edr==2)),mom,cnt,var)
                 WRITE(name(im),'("prop-col ",I4)') j
-                weights(im)=0.0_dp !wwage0
-                im=im+1
-            end do 
-        
-            headloc(ihead)=im; headstr(ihead)='mean log wage and log wage sq by gender and by hours';ihead=ihead+1
-            do g=1,2
-                CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%sexr==g)   .AND.(dat(MNA:MXA,:)%hhr>=H_FULLTIME).AND.(dat(MNA:MXA,:)%logwr>=0).AND.(iacat(MNA:MXA,:)==1)),d1*(dat(MNA:MXA,:)%logwr),mom,cnt,var)
-                WRITE(name(im),'("mean-log-wage/full-time/gender ",I4)') g
-                weights(im)=0.0_dp !wwage0
-                im=im+1
-                CALL condmom(im,((dat(MNA:MXA,:)%co==co).AND.(dat(MNA:MXA,:)%sexr==g)   .AND.(dat(MNA:MXA,:)%hhr>=H_FULLTIME).AND.(dat(MNA:MXA,:)%logwr>=0).AND.(iacat(MNA:MXA,:)==1)),d1*(dat(MNA:MXA,:)%logwr)**2,mom,cnt,var)
-                WRITE(name(im),'("mean-log-wgsq/full-time/gender ",I4)') g
                 weights(im)=0.0_dp !wwage0
                 im=im+1
             end do 
