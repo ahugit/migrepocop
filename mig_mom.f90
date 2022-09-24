@@ -996,8 +996,56 @@ end FUNCTION random
             !im=im+1
             !********************
     
-            
-        
+ 
+                
+
+
+                do i=1,ntypp
+                    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%typ==i ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
+			        write(name(im),'("mar by typ ",tr3,i4)') i
+                    weights(im)=0.0_dp
+                    im=im+1
+                end do 
+
+                
+                
+                do i=1,ntypp
+                    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%rel==1 ), d1*one(dat(MNA:MXA,:)%typ==i),mom,cnt,var)
+			        write(name(im),'("typ | mar ",tr4,i4)') i
+                    weights(im)=0.0_dp
+                    im=im+1
+                end do 
+
+                !do i=1,ntypp
+                !    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%typ==i .and. dat(MNA:MXA,:)%edr==1 ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
+			    !    write(name(im),'("mar|ned by typ ",i4)') i
+                !    weights(im)=0.0_dp
+                !    im=im+1
+                !end do 
+
+                !  do i=1,ntypp
+                !    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%typ==i .and. dat(MNA:MXA,:)%edr==2 ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
+			    !    write(name(im),'("mar| ed by typ ",i4)') i
+                !    weights(im)=0.0_dp
+                !    im=im+1
+                !end do 
+
+                
+                !do i=1,ntypp
+                !    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%rel==1  .and. dat(MNA:MXA,:)%edr==1 ), d1*one(dat(MNA:MXA,:)%typ==i),mom,cnt,var)
+			    !    write(name(im),'("typ | mar,noed ",tr1,i4)') i
+                !    weights(im)=0.0_dp
+                !    im=im+1
+                !end do 
+
+                !do i=1,ntypp
+                !    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%rel==1  .and. dat(MNA:MXA,:)%edr==2 ), d1*one(dat(MNA:MXA,:)%typ==i),mom,cnt,var)
+			    !    write(name(im),'("typ | mar,  ed ",tr1,i4)') i
+                !    weights(im)=0.0_dp
+                !    im=im+1
+                !end do 
+ 
+
             
             if (onlysingles) then 
                 maxrelo=0
@@ -1014,8 +1062,9 @@ end FUNCTION random
                 print*, 'Something is wrong in the neighborhood'
                 stop
             end if 
-            sex: do g=minsex,maxsex
-			rel: do j=0,maxrelo
+
+            do g=minsex,maxsex
+			    do j=0,maxrelo
                 if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
                     cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g )			                    
 		        else 
@@ -1030,10 +1079,105 @@ end FUNCTION random
                 if (j==1) wmovebyrel=wmovemar
                 if (j==0) wmovebyrel=wmovesin
 				ihead=ihead+1
-                
+
+
+                do i=1,ntypp
+				    CALL condmom(im,(   cosexrel(MNA:MXAD,:) .AND.  dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%edr==1 .AND. dat(MNA:MXAD,:)%logwr>=0  .AND. dat(MNA:MXAD,:)%typ==i ) ,d1*dat(MNA:MXAD,:)%logwr,mom,cnt,var)
+				    WRITE(name(im),'("w |ned by typ",tr1,I4)') i
+				    weights(im)=0.0_dp
+				    im=im+1
+                end do
+                  
+                do i=1,ntypp
+				    CALL condmom(im,(   cosexrel(MNA:MXAD,:) .AND.  dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%edr==2 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%typ==i ) ,d1*dat(MNA:MXAD,:)%logwr,mom,cnt,var)
+				    WRITE(name(im),'("w | ed by typ",tr1,I4)') i
+				    weights(im)=0.0_dp
+				    im=im+1
+                end do
+  
+				do ia=mnaD,18,1
+                    do i=1,ntypp
+					    CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 .AND. dat(ia,:)%typ==i ),d1*move(ia,:),mom,cnt,var)
+					    WRITE(name(im),'("mv by a,tp",I8,I4)') ia,i
+					    weights(im)=0.0_dp
+					    im=im+1
+                    end do
+                end do            
+				do ia=19,25,2
+                    do i=1,ntypp
+					    CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 .AND. dat(ia,:)%typ==i ),d1*move(ia,:),mom,cnt,var)
+					    WRITE(name(im),'("mv by a,tp",I8,I4)') ia,i
+					    weights(im)=0.0_dp
+					    im=im+1
+                    end do
+                end do            
+
+                do i=1,ntypp
+				call condmom(im,( cosexrel(MNA:MXAD,:) .AND.  move(MNA:MXAD,:)>=0  .AND. dat(MNA:MXAD,:)%typ==i ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
+    			write(name(im),'("mv by typ ",I4)') i 
+                weights(im)=0.0_dp ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+                im=im+1
+                end do !type
+
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l/=dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
+                write(name(im),'("wdif | hmemve=0 ",tr2)')  
+                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
+                write(name(im),'("wdif | hmemve=1 ",tr2)')  
+                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==0 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
+                write(name(im),'("wdif | stay ",tr2)')  
+                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+				calcvar(im)=1
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
+                write(name(im),'("wdif | move ",tr2)')  
+                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+				calcvar(im)=1
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1 .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
+                write(name(im),'("wdif | eue,s ",tr2)')  
+                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+				calcvar(im)=1
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1   .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l/=dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l>0 ),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
+                write(name(im),'("wdif | eue,m ",tr2)')  
+                weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+				calcvar(im)=1
+                im=im+1 
+
+                end do !rel j
+            end do !sex g
+
+
+
+
+
+
+            sex: do g=minsex,maxsex
+                rel: do j=0,maxrelo
+                    if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
+                        cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g )			                    
+                    else 
+                        cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g  .and. dat(MNAD:MXAD,:)%rel==j .and. norelchg(MNAD:MXAD,:)==1 )			
+                    end if 
+                    
+                    headloc(ihead)=im
+                    if (g==1.and.j==0) headstr(ihead)='SINGLE MALES'
+                    if (g==1.and.j==1) headstr(ihead)='MARRIED MALES'
+                    if (g==2.and.j==0) headstr(ihead)='SINGLE FEMALES'
+                    if (g==2.and.j==1) headstr(ihead)='MARRIED FEMALES'
+                    if (j==1) wmovebyrel=wmovemar
+                    if (j==0) wmovebyrel=wmovesin
+                    ihead=ihead+1
+    
+
+
                 !ahu jan19 010219: so I am still writing the age 17 (mad) mar rate. age 17 mar rate does not exit in the data since we don't record age 17 rel there. 
                 !so the weight on this moment is 0 but then it's wmovebyrel
-				ia=MNAD
+				    ia=MNAD
 					CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
 					WRITE(name(im),'("move by age",tr3,I4)') ia
 					weights(im)=0.0_dp ; if (onlysingles.and.j==1) weights(im)=0.0_dp
@@ -1864,50 +2008,6 @@ end FUNCTION random
                     im=im+1
                 end do            
                 
-                do i=1,ntypp
-                    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%typ==i ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
-			        write(name(im),'("mar by typ ",tr3,i4)') i
-                    weights(im)=0.0_dp
-                    im=im+1
-                end do 
-
-                
-                
-                do i=1,ntypp
-                    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%rel==1 ), d1*one(dat(MNA:MXA,:)%typ==i),mom,cnt,var)
-			        write(name(im),'("typ | mar ",tr4,i4)') i
-                    weights(im)=0.0_dp
-                    im=im+1
-                end do 
-
-                do i=1,ntypp
-                    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%typ==i .and. dat(MNA:MXA,:)%edr==1 ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
-			        write(name(im),'("mar|ned by typ ",i4)') i
-                    weights(im)=0.0_dp
-                    im=im+1
-                end do 
-
-                  do i=1,ntypp
-                    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%typ==i .and. dat(MNA:MXA,:)%edr==2 ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
-			        write(name(im),'("mar| ed by typ ",i4)') i
-                    weights(im)=0.0_dp
-                    im=im+1
-                end do 
-
-                
-                do i=1,ntypp
-                    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%rel==1  .and. dat(MNA:MXA,:)%edr==1 ), d1*one(dat(MNA:MXA,:)%typ==i),mom,cnt,var)
-			        write(name(im),'("typ | mar,noed ",tr1,i4)') i
-                    weights(im)=0.0_dp
-                    im=im+1
-                end do 
-
-                do i=1,ntypp
-                    call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 .AND. dat(MNA:MXA,:)%rel==1  .and. dat(MNA:MXA,:)%edr==2 ), d1*one(dat(MNA:MXA,:)%typ==i),mom,cnt,var)
-			        write(name(im),'("typ | mar,  ed ",tr1,i4)') i
-                    weights(im)=0.0_dp
-                    im=im+1
-                end do 
 
                 
 
@@ -1980,37 +2080,6 @@ end FUNCTION random
                     end do
                 end do 
   
-                do i=1,ntypp
-				    CALL condmom(im,(   cosexrel(MNA:MXAD,:) .AND.  dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%edr==1 .AND. dat(MNA:MXAD,:)%logwr>=0  .AND. dat(MNA:MXAD,:)%typ==i ) ,d1*dat(MNA:MXAD,:)%logwr,mom,cnt,var)
-				    WRITE(name(im),'("w |ned by typ",tr1,I4)') i
-				    weights(im)=0.0_dp
-				    im=im+1
-                end do
-                  
-                do i=1,ntypp
-				    CALL condmom(im,(   cosexrel(MNA:MXAD,:) .AND.  dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%edr==2 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%typ==i ) ,d1*dat(MNA:MXAD,:)%logwr,mom,cnt,var)
-				    WRITE(name(im),'("w | ed by typ",tr1,I4)') i
-				    weights(im)=0.0_dp
-				    im=im+1
-                end do
-  
-				do ia=mnaD,25,3
-                    do i=1,ntypp
-					    CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 .AND. dat(ia,:)%typ==i  .AND. dat(ia,:)%edr==1 ),d1*move(ia,:),mom,cnt,var)
-					    WRITE(name(im),'("mv|ned by a,tp",2I4)') ia,i
-					    weights(im)=0.0_dp
-					    im=im+1
-                    end do
-                end do            
-
-				do ia=mnaD,25,3
-                    do i=1,ntypp
-					    CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 .AND. dat(ia,:)%typ==i  .AND. dat(ia,:)%edr==2 ),d1*move(ia,:),mom,cnt,var)
-					    WRITE(name(im),'("mv| ed by a,tp",2I4)') ia,i
-					    weights(im)=0.0_dp
-					    im=im+1
-                    end do
-                end do            
 
                 
         
