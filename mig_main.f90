@@ -195,8 +195,12 @@ nonlabinc=0.0_dp !ahu030622
     call objfunc(pars,qval) ; realpars=realpartemp     
 
  
-    open(unit=2,file='bp041019_3.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+
+
+    !now run with new pars but again change the type parameters
+    open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
+    pars=pars1
     !changing only type parameters in pars
     pars(75)=0.0015_dp !mumar1 !should this be set to 0? 
     pars(76)=0.0_dp !ptypehs2 
@@ -205,51 +209,37 @@ nonlabinc=0.0_dp !ahu030622
     pars(81)=0.0015_dp !mumar2    
     pars(82)=0.0_dp !ptypehs3 
     pars(83)=0.0_dp !ptypecol3
-    pars(86)=4500.0_dp !cst3
+    pars(86)=5000.0_dp !cst3
     pars(87)=0.0015_dp !mumar3
     pars(88)=0.0_dp !ptypehs4 
     pars(89)=0.0_dp !ptypecol4
-    pars(92)=5000.0_dp !cst4 
+    pars(92)=8000.0_dp !cst4 
     pars(93)=0.0015_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp     
+    
 
-
-    !now run with new pars but again change the type parameters
-    !open(unit=2,file='bp090922therm.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
     pars=pars1
-    !pars(70)=ptypehs1  !set to 0 in getpars and kept fixed
-    !pars(71)=ptypecol1 !set to 0 in getpars and kept fixed
-    !pars(72)=alf1t1 
-    !pars(73)=alf1t1
-    !pars(74)=cst1  !is 0 (set to 0 in getpars) and should be kept fixed
+    !changing only type parameters in pars
     pars(75)=0.0015_dp !mumar1 !should this be set to 0? 
-    
     pars(76)=0.0_dp !ptypehs2 
     pars(77)=0.0_dp !ptypecol2
-    !pars(78)=alf1t2 
-    !pars(79)=alf1t2
-    pars(80)=4000.0_dp !cst2 
-    pars(81)=0.0015_dp !mumar2
-    
+    pars(80)=5000.0_dp !cst2 
+    pars(81)=0.015_dp !mumar2    
     pars(82)=0.0_dp !ptypehs3 
     pars(83)=0.0_dp !ptypecol3
-    !pars(84)=alf1t 3
-    !pars(85)=alf1t 3
-    pars(86)=4500.0_dp !cst3
-    pars(87)=0.0015_dp !mumar3
-
+    pars(86)=5000.0_dp !cst3
+    pars(87)=0.15_dp !mumar3
     pars(88)=0.0_dp !ptypehs4 
     pars(89)=0.0_dp !ptypecol4
-    !pars(90)=alf1t 4
-    !pars(91)=alf1t 4
     pars(92)=5000.0_dp !cst4 
-    pars(93)=0.0015_dp !mumar4
+    pars(93)=1.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp     
-    
+
+
 
     stepmin=stepos !ahu 121118
     tstart=qval !ag091122 agsept2022 changing thermsimp value !0.0_dp !*qval !10.0_dp !
