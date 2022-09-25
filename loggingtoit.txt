@@ -1,0 +1,971 @@
+    1  cd
+    2  ssh-keygen -t dsa
+    3  cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+    4  chmod 644 ~/.ssh/authorized_keys
+    5  dir
+    6  pwd
+    7  pwd
+    8  dir
+    9  sudo chown cluster:cluster /vol/cohabit
+   10  chown cluster:cluster /vol/cohabit
+   11  ls -lart /vol/cohabit/
+   12  pwd
+   13  vi test
+   14  chown cluster:cluster /vol/cohabit/*
+   15  sudo su
+   16  su ec2-user
+   17  exit
+   18  cd /vol/cohabit/
+   19  vi test
+   20  exit
+   21  pwd
+   22  cd
+   23  pwd
+   24  cd /vol/cohabit/
+   25  rm program.f90
+   26  pwd
+   27  dir
+   28  rm cox
+   29  cat nrtype.f90 nr.f90 nrutil.f90 indexx.f90 sort2.f90 locate.f90 Nelder_mead0.f90 Nelder_mead_SA.f90  SLfileio.f90 SLgenlib.f90 cohab_header.f90 pNelder_mead.f90 cohab_solve.f90 cohab_moments.f90 cohab_se.f90 cohab_interp.f90 cohab_main_interp.f90  >program.f90
+   30  /usr/lib64/mpich/bin/mpif90 ~/program.f90 -ffree-line-length-none -fbounds-check -o ~/cox
+   31  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -fbounds-check -o /vol/cohabit/cox
+   32  pwd
+   33  ls -lart /vol/cohabit/
+   34  /usr/lib64/mpich/bin/mpiexec -np 36 /vol/cohabit/cox
+   35  dir
+   36  rm best.txt
+   37  rm checkobj.txt
+   38  dir
+   39  exit
+   40  exit
+   41  cd /vol/cohabit
+   42  dir
+   43  exit
+   44   /usr/lib64/mpich/bin/mpiexec -f /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   45  cd /vol/cohabit/
+   46   /usr/lib64/mpich/bin/mpiexec -f /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   47  export PATH=/usr/lib64/mpich/bin:$PATH
+   48  export PATH=/home/cluster/.ssh:$PATH
+   49  /usr/lib64/mpich/bin/mpiexec -f /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   50  /usr/lib64/mpich/bin/mpiexec -f /vol/cohabit/nodelist -np 108 -wdir /vol/cohabit/ /vol/cohabit/cox
+   51  /usr/lib64/mpich/bin/mpiexec -f /vol/cohabit/nodelist -np 108 -wdir /vol/cohabit/ /vol/cohabit/cox
+   52  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 108 -wdir /vol/cohabit/ /vol/cohabit/cox
+   53  ssh ec2-54-164-164-240.compute-1.amazonaws.com
+   54  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 72 -wdir /vol/cohabit/ /vol/cohabit/cox
+   55  exit
+   56  cd
+   57  cd /vol/cohabit/
+   58  dir
+   59  cd
+   60  pwd
+   61  /usr/lib64/mpich/bin/mpiexec -machinefile /vol/cohabit/nodelist -np 72 -wdir /vol/cohabit /vol/cohabit/cox
+   62  /usr/lib64/mpich/bin/mpiexec -machinefile /vol/cohabit/nodelist -np 108 -wdir /vol/cohabit /vol/cohabit/cox
+   63  dir
+   64  cd /vol/cohabit
+   65  dir
+   66  vi checkstep.txt
+   67  cd
+   68  cd /home/ec2-user/
+   69  sudo su
+   70  exit
+   71  cd /vol/cohabit/
+   72  vi nodelist
+   73  vi nodelist
+   74  dir
+   75  /usr/lib64/mpich/bin/mpiexec -f /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   76  vi nodelist
+   77  host
+   78  hostname
+   79  vi nodelist
+   80  /usr/lib64/mpich/bin/mpiexec -f /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   81  cd
+   82  dir
+   83  pwd
+   84  dir
+   85  ls -al
+   86  cd .ssh
+   87  dir
+   88  cd ..
+   89  /usr/lib64/mpich/bin/mpiexec -f ssh /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   90  /usr/lib64/mpich/bin/mpiexec ssh -f /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   91  /usr/lib64/mpich/bin/mpiexec ssh /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   92  /usr/lib64/mpich/bin/mpiexec -f /vol/cohabit/nodelist -np 108 /vol/cohabit/cox
+   93  cd /vol/cohabit/
+   94  cat nrtype.f90 nr.f90 nrutil.f90 indexx.f90 sort2.f90 locate.f90 Nelder_mead0.f90 Nelder_mead_SA.f90  SLfileio.f90 SLgenlib.f90 cohab_header_new.f90 pNelder_mead.f90 cohab_solve.f90 cohab_moments.f90 cohab_se.f90 cohab_interp.f90 cohab_main_interp_new.f90  >program.f90
+   95  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/coxnew
+   96  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/coxnew
+   97  dir
+   98  mv checkstep.txt checksteporig.txt
+   99  mv step.txt steporig.txt
+  100  mv mom.txt momorig.txt
+  101  mv best.txt bestorig.txt
+  102  mv checkobj.txt checkobjorig.txt
+  103  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/coxnew
+  104  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/coxnew
+  105  dir
+  106  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/coxnew
+  107  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/coxnew
+  108  scp * ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/
+  109  scp coxnew ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  110  scp coxnew ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  111  scp coxnew ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  112  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/coxnew
+  113  vi checkstep.txt
+  114  vi mom.txt
+  115  pwd
+  116  cat nrtype.f90 nr.f90 nrutil.f90 indexx.f90 sort2.f90 locate.f90 Nelder_mead0.f90 Nelder_mead_SA.f90  SLfileio.f90 SLgenlib.f90 cohab_header_new.f90 pNelder_mead.f90 cohab_solve.f90 cohab_moments.f90 cohab_se.f90 cohab_interp.f90 cohab_main_interp_new.f90  >programnew.f90
+  117  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/coxnew2
+  118  scp coxnew2 ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  119  scp coxnew2 ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  120  scp coxnew2 ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  121  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/programnew.f90 -ffree-line-length-none -o /vol/cohabit/coxnew3
+  122  scp coxnew3 ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  123  scp coxnew3 ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  124  scp coxnew3 ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  125  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 112 -wdir /vol/cohabit /vol/cohabit/coxnew
+  126  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 112 -wdir /vol/cohabit /vol/cohabit/coxnew3
+  127  vi checkstep.txt
+  128  vi step.txt
+  129  cd /home/ec2-user/
+  130  exit
+  131  cd /vol/
+  132  cd cohabit/
+  133  vi step.txt
+  134  vi stepsopt0119.txt
+  135  vi cohab_main_interp_new.f90
+  136  pwd
+  137  exit
+  138  pwd
+  139  ssh ec2-54-172-231-26.compute-1.amazonaws.com
+  140  ssh ec2-54-173-37-247.compute-1.amazonaws.com
+  141  ssh ec2-54-164-164-240.compute-1.amazonaws.com
+  142  sudo su
+  143  cd
+  144  pwd
+  145  dir
+  146  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 72 -wdir /vol/cohabit /vol/cohabit/cox
+  147  ls -lart /vol/cohabit/
+  148  pwd
+  149  cd /vol/cohabit
+  150  cat nrtype.f90 nr.f90 nrutil.f90 indexx.f90 sort2.f90 locate.f90 Nelder_mead0.f90 Nelder_mead_SA.f90  SLfileio.f90 SLgenlib.f90 cohab_header_new.f90 pNelder_mead.f90 cohab_solve.f90 cohab_moments.f90 cohab_se.f90 cohab_interp.f90 cohab_main_interp_new.f90  >programnew.f90
+  151  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/programnew.f90 -ffree-line-length-none -o /vol/cohabit/coxnew4
+  152  scp coxnew4 ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  153  scp coxnew4 ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  154  scp coxnew4 ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  155  scp stepsopt0119.txt ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  156  scp stepsopt0119.txt ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  157  scp stepsopt0119.txt ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  158  pwd
+  159  mkdir /vol/copy
+  160  exit
+  161  cd /vol/cohabit/
+  162  vi opt.txt
+  163  vi best.txt
+  164  vi mom.txt
+  165  vi opt.txt
+  166  vi opt.txt
+  167  vi best.txt
+  168  vi opt.txt
+  169  vi opt.txt
+  170  ls -al
+  171  vi opt.txt
+  172  vi best.txt
+  173  vi opt.txt
+  174  vi mom.txt
+  175  vi opt.txt
+  176  vi mom.txt
+  177  cp opt.txt /home/ec2-user/
+  178  sudo su
+  179  exit
+  180  cd
+  181  cd /vol/
+  182  cd cohabit/
+  183  vi opt.txt
+  184  vi best.txt
+  185  vi opt.txt
+  186  vi opt.txt
+  187  vi checkstepsave
+  188  vi best.txt
+  189  cd ..
+  190  mkdir save_011915
+  191  exit
+  192  pwd
+  193  cd /vol/
+  194  cd cohabit/
+  195  dir
+  196  cat nrtype.f90 nr.f90 nrutil.f90 indexx.f90 sort2.f90 locate.f90 Nelder_mead0.f90 Nelder_mead_SA.f90  SLfileio.f90 SLgenlib.f90 cohab_header.f90 pNelder_mead.f90 cohab_solve.f90 cohab_moments.f90 cohab_se.f90 cohab_interp.f90 cohab_main_interp.f90  >program.f90
+  197  pwd
+  198  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/cox9
+  199  history
+  200  scp coxnew3 ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  201   scp coxnew ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  202   scp cox9 ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  203   scp cox9 ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  204   scp cox9 ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  205   scp par_011915.txt ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  206   scp par_011915.txt ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  207   scp par_011915.txt ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  208  dir
+  209   scp agres.txt ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  210   scp agres.txt ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  211   scp agres.txt ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  212  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 72 -wdir /vol/cohabit /vol/cohabit/coxkkkkkkk
+  213  cd ..
+  214  dir
+  215  cd save_011915/
+  216  dir
+  217  cp nodelist /vol/cohabit/
+  218  cd ..
+  219  cd cohabit/
+  220  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 136 -wdir /vol/cohabit /vol/cohabit/cox9
+  221  vi agres.txt
+  222  vi agres.txt
+  223  vi agres.txt
+  224  exit
+  225  pwd
+  226   scp agres.txt ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  227   scp agres.txt ec2-54-172-231-26.compute-1.amazonaws.com:/vol/cohabit/.
+  228   scp agres.txt ec2-54-173-37-247.compute-1.amazonaws.com:/vol/cohabit/.
+  229  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 136 -wdir /vol/cohabit /vol/cohabit/cox9
+  230  vi checkstep.txt
+  231  cp checkstep.txt /home/ec2-user/
+  232  sudo cp checkstep.txt /home/ec2-user/
+  233  exit
+  234  pwd
+  235  history
+  236  vi cp2all
+  237  /vol/cohabit/cp2all
+  238  ls -lart /vol/cohabit/cp2all
+  239  chmod 755 cp2all
+  240  /vol/cohabit/cp2all
+  241  vi cp2all
+  242  vi cp2all
+  243  /vol/cohabit/cp2all
+  244  vi cp2all
+  245  /vol/cohabit/cp2all
+  246  vi cp2all
+  247  sudo su
+  248  exit
+  249  pwd
+  250   scp par_011915.txt ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  251   scp * ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  252  ls -lart /vol/cohabit/
+  253   scp par_011915.txt ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  254   scp locate.f90 ec2-54-164-164-240.compute-1.amazonaws.com:/vol/cohabit/.
+  255  vi compile
+  256  vi compile
+  257  pwd
+  258  cd /home/ec2-user/
+  259  exit
+  260  pwd
+  261  cat locate.f90 > /vol/cohabit/clusti.f90
+  262  ls -lart /vol/cohabit/
+  263  pwd
+  264  cd /vol/cohabit/
+  265  dir
+  266  vi compile
+  267  vi cp2all
+  268  vi compile
+  269  vi cp2all
+  270  vi cp2all
+  271  vi compile
+  272  vi cp2all
+  273  vi compile
+  274  pwd
+  275  cd /home/ec2-user/
+  276  vi compile
+  277  pwd
+  278  mv compile copu
+  279  mv cp2all dopu
+  280  pwd
+  281  ls -lart dopu
+  282  chmod 755 copu
+  283  pwd
+  284  dir
+  285  pwd
+  286  dir
+  287  rm *.f90
+  288  exit
+  289  ls -lart /vol/cohabit/
+  290  pwd
+  291  copu
+  292  /vol/cohabit/copu
+  293  sudo su
+  294  exit
+  295  /vol/cohabit/copu
+  296  vi copu
+  297  sudo chown ec2-user:ec2-user /vol/cohabit
+  298  chown cluster:cluster /vol/cohabit
+  299  exit
+  300  pwd
+  301  /vol/cohabit/copu
+  302  chown cluster:cluster /home/ec2-user/cohabit
+  303  chown cluster:cluster /home/ec2-user/cohabit
+  304  exit
+  305  /vol/cohabit/copu
+  306  vi copu
+  307  exit
+  308  pwd
+  309  vi copu
+  310  pwd
+  311  exit
+  312  dir
+  313  vi dopu
+  314  pwd
+  315  ls -lart
+  316  chown cluster:cluster /vol/cohabit
+  317  /vol/cohabit/dopu
+  318  vi dopu
+  319  history
+  320  vi dopu
+  321  /vol/cohabit/dopu
+  322  ls -lart /vol/cohabit/
+  323  exit
+  324  /vol/cohabit/dopu
+  325  vi dopu
+  326  exit
+  327  pwd
+  328  vi dopu
+  329  dir
+  330  vi par_011915.txt
+  331  vi param.txt
+  332  ls -lart /vol/cohabit/
+  333  exit
+  334  vi ste
+  335  vi stepsopt.txt
+  336  vi ag
+  337  vi agres.txt
+  338  ls -lart /vol/cohabit/
+  339  vi dopu
+  340  /vol/cohabit/dopu
+  341  vi dopu
+  342  cp stepsopt.txt stepo.txt
+  343  /vol/cohabit/dopu
+  344  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -fbounds-check -o /vol/cohabit/cox
+  345  history
+  346  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 72 -wdir /vol/cohabit /vol/cohabit/cox
+  347  vi agres.txt
+  348  /vol/cohabit/dopu
+  349  vi program.f90
+  350  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -fbounds-check -o /vol/cohabit/cox
+  351  vi program.f90
+  352  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -fbounds-check -o /vol/cohabit/cox
+  353  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 72 -wdir /vol/cohabit /vol/cohabit/cox
+  354  vi program.f90
+  355  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -fbounds-check -o /vol/cohabit/cox
+  356  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -fbounds-check -o /vol/cohabit/cox
+  357  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 4 -wdir /vol/cohabit /vol/cohabit/cox
+  358  ls -al
+  359  top
+  360  vi nodelist
+  361  vi program.f90
+  362  history
+  363  vi dopu
+  364  ci copu
+  365  vi copu
+  366  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/cox
+  367  vi copu
+  368  dir
+  369  vi dopu
+  370  exit
+  371  dopu
+  372  /vol/cohabit/dopu
+  373  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/cox
+  374  ls -al
+  375  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 108 -wdir /vol/cohabit /vol/cohabit/cox
+  376  vi checkstep.txt
+  377  cp checkstepppp.txt /home/ec2-user/
+  378  cp checkstep.txt /home/ec2-user/checkstepppp.txt
+  379  exit
+  380  pwd
+  381  dir
+  382  cd ..
+  383  mkdir alpha1
+  384  cd /home/ec2-user/
+  385  exit
+  386  pwd
+  387  cd /vol/cohabit/
+  388  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 136 -wdir /vol/cohabit /vol/cohabit/coxnew4
+  389  dir
+  390  vi opt.txt
+  391  vi best.txt
+  392  mv opt.txt optsave
+  393  mv checkstep.txt checkstepsave
+  394  mv step.txt stepsave
+  395  vi checkobj.txt
+  396  mv checkobj.txt checkobjsave
+  397  history
+  398  mv mom.txt momsave
+  399  /usr/lib64/mpich/bin/mpiexec -np 36 -wdir /vol/cohabit /vol/cohabit/coxnew4
+  400  /usr/lib64/mpich/bin/mpiexec -np 112 -wdir /vol/cohabit /vol/cohabit/coxnew4
+  401  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 136 -wdir /vol/cohabit /vol/cohabit/coxnew4
+  402  /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 132 -wdir /vol/cohabit /vol/cohabit/coxnew4
+  403  ls -al
+  404  vi mom.txt
+  405  pwd
+  406  cd /vol/cohabit/
+  407  /vol/cohabit/copu4
+  408  exit
+  409  dir
+  410  vi dopu4
+  411  rm stepsopt.xlsx
+  412  pwd
+  413  mv stepo.txt stepsopt.txt
+  414  mv coh cox
+  415  vi dopu4
+  416  vi dopu4
+  417  /vol/cohabit/dopu4
+  418  vi dopu4
+  419  exit
+  420  vi cohab_main_interp.f90
+  421  sudo mv stepstopt.txt stepo.txt
+  422  exit
+  423  dir
+  424  vi stepo.txt
+  425  exit
+  426  vi dopu4
+  427  exit
+  428  /vol/cohabit/dopu4
+  429  vi copu4
+  430  vi copu3
+  431  vi copu3
+  432  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 120 -wdir /vol/cohabit /vol/cohabit/cox
+  433  vi copu4
+  434  vi copu4
+  435  exit
+  436  /vol/cohabit/copu4
+  437  exit
+  438  vi dopu4
+  439  /vol/cohabit/dopu4
+  440  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 120 -wdir /vol/cohabit /vol/cohabit/cox
+  441  vi copu4
+  442  vi copu4
+  443  pwd
+  444  dir
+  445  rm cox
+  446  rm coh
+  447  exit
+  448  dir
+  449  exit
+  450  dir
+  451  /usr/lib64/mpich/bin/mpif90 $DIR2/program.f90 -ffree-line-length-none -fbounds-check -o $DIR2/cox
+  452  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/cox
+  453  dir
+  454  pwd
+  455  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 1202222222222222222222222222222e2222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq222 -wdir /vol/cohabit /vol/cohabit/cox
+  456  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 120 -wdir /vol/cohabit /vol/cohabit/cox
+  457  rm coh/usr/lib64/mpich/bin/mpif90 $DIR2/program.f90 -ffree-line-length-none -fbounds-check -o $DIR2/cox
+  458   /usr/lib64/mpich/bin/mpif90 $DIR2/program.f90 -ffree-line-length-none -fbounds--o $DIR2/cox
+  459  dir
+  460  pwd
+  461  rm best.txt
+  462  rm checkobj.txt
+  463  rm mom.txt /...................................................................................................................................................................................................................................................................................................................................................................'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''///
+  464  dir
+  465  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 120 -wdir /vol/cohabit /vol/cohabit/cox
+  466  pwd
+  467  dir
+  468  rm  best.txt
+  469  pwd
+  470  rm checkobj.txt
+  471  rm agres.txt
+  472  dir
+  473  dir
+  474  dir
+  475  pwd
+  476  pwd/usr/lib64/mpich/bin/mpif90 $DIR2/program.f90 -ffree-line-length-none -fbounds-check -o $DIR2/cox
+  477  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 120 -wdir /vol/cohabit /vol/cohabit/cox
+  478  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/cox
+  479  exit
+  480  /vol/cohabit/dopu4
+  481  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 120 -wdir /vol/cohabit /vol/cohabit/cox
+  482  vi copu4
+  483  vi cohab_header.f90
+  484  exit
+  485  /usr/lib64/mpich/bin/mpif90 /vol/cohabit/program.f90 -ffree-line-length-none -o /vol/cohabit/cox
+  486  /vol/cohabit/dopu4
+  487  exit
+  488  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 120 -wdir /vol/cohabit /vol/cohabit/cox
+  489  dir
+  490  vi copu4
+  491  /usr/lib64/mpich/bin/mpif90 $DIR2/program.f90 -ffree-line-length-none -o $DIR2/cox
+  492  /usr/lib64/mpich/bin/mpif90 program.f90 -ffree-line-length-none -o cnow
+  493  vi program.f90
+  494  pwd
+  495  vi copu4
+  496  exit
+  497  vi program.f90
+  498  pwd
+  499  exit
+  500  vi program.f90
+  501  vi copu4
+  502  exit
+  503  dir
+  504  vi cohab_header.f90
+  505  vi program.f90
+  506  exit
+  507  dir
+  508  vi copu4
+  509  vi testo
+  510  ls -lart /vol/cohabit
+  511  rm testo
+  512  exit
+  513  vi copu4
+  514  vi copu5
+  515  vi copu4
+  516  vi copu5
+  517  chmod 755 copu5
+  518  /vol/cohabit/copu5
+  519  rm testpr.f90
+  520  rm testpx
+  521  /vol/cohabit/copu5
+  522  dir
+  523  rm testpr.f90
+  524  rm testpx
+  525  rm program.f90
+  526  rm best_est5.txt
+  527  rm best_est5.txt
+  528  rm best.txt
+  529  rm checkobj.txt
+  530  dir
+  531  rm cnow
+  532  rm mom.txt
+  533  exit
+  534  vi copu5
+  535  /vol/cohabit/copu5
+  536  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/combo
+  537  pwd
+  538  dir
+  539  vi dopu4
+  540  exit
+  541  /vol/cohabit/dopu4
+  542  vi nodelist
+  543  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/combo
+  544  dir
+  545  rm best.txt
+  546  rm best_est5.txt
+  547  rm checkobj.txt
+  548  rm coh
+  549  dir
+  550  rm mom.txt
+  551  rm testpr.f90
+  552  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/combo
+  553  rm best.txt
+  554  exit
+  555  ./copu5
+  556  exit
+  557  ./copu5
+  558  dir
+  559  vi dopu4
+  560  vi dopu5
+  561  ./dopu4
+  562  vi copu5
+  563   /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 132 -wdir /vol/cohabit /vol/cohabit/coxnew4
+  564   /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/combo
+  565  rm best.txt
+  566  rm checkobj.txt
+  567  dir
+  568  rm best_est5.txt
+  569  vi checkstep.txt
+  570  rm checkstep.txt
+  571   /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/combo
+  572  dir
+  573  vi checkstep.txt
+  574  vi checkstep.txt
+  575  dir
+  576  pwd
+  577  vi copu4
+  578  vi copu5
+  579  vi copu5
+  580  mkdir /vol/cohabit/save012315
+  581  dir
+  582  rm best.txt
+  583  mkdir /vol/save012315
+  584  exit
+  585  /vol/cohabit/copu4
+  586  exit
+  587  ./copu5
+  588   /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  589  exit
+  590   /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  591  dir
+  592  dir
+  593  rmdir save012315/
+  594  cd ..
+  595  dir
+  596  cd cohabit
+  597  dir
+  598  vi copu
+  599  vi copu2
+  600  rm cox
+  601  rm cox8
+  602  ls -al
+  603  vi remo
+  604  vi copu5
+  605  vi remo
+  606  dir
+  607  rm all.f90
+  608  exit
+  609  chmod 755 remo
+  610  ls -al
+  611  rm -f opt.txt
+  612  pwd
+  613  vi nodelist
+  614  history
+  615  vi dopu4
+  616  vi dopu5
+  617  vi dopu4
+  618  ls -lart dopu4
+  619  vi dopu4
+  620  vi dopu6
+  621  chmod 755 dopu6
+  622  ls -lart dopu6
+  623  dir
+  624  mv dopu6 copu6
+  625  pwd
+  626  cd ..
+  627  cd save012315/
+  628  dir
+  629  cd ..
+  630  cd cohabit/
+  631  dir
+  632  rm copu
+  633  rm -f copu2
+  634  rm -f copu3
+  635  rm -f copu4copy
+  636  dir
+  637  rm pa2.txt
+  638  rm pa3.txt
+  639  rm -f pa4.txt
+  640  dir
+  641  vi copu4
+  642  exit
+  643  ./remo
+  644  dir
+  645  mv bestpar.txt param_0125.txt
+  646  rm -f combo
+  647  pwd
+  648  exit
+  649  ./copu5
+  650  vi param_0125.txt
+  651  ./copu6
+  652  vi nodelist
+  653  vi copu6
+  654  ./copu6
+  655  ./copu6
+  656  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/combo
+  657  dir
+  658  rm best.txt
+  659  rm checkobj.txt
+  660  dir
+  661  vi copu6
+  662  ./copu6
+  663  /usr/lib64/mpich/bin/mpiexec -launcher ssh -f /vol/cohabit/nodelist -np 144 -wdir /vol/cohabit /vol/cohabit/combo
+  664  ./copu5
+  665  dir
+  666  ./copu6
+  667   /usr/lib64/mpich/bin/mpiexec -launcher ssh -machinefile /vol/cohabit/nodelist -np 96 -wdir /vol/cohabit /vol/cohabit/combo
+  668  pwd
+  669  vi opt.txt
+  670  cd ..
+  671  dir
+  672  cd save012515/
+  673  vi opt.txt
+  674  vi opt.txt
+  675  cd /vol/cohabit
+  676  vi opt.txt
+  677  vi mom.txt
+  678  vi opt.txt
+  679  comp
+  680  chmod 755 comp
+  681  vi comp
+  682  vi comp2
+  683  chmod 755 comp2
+  684  ./comp2
+  685  vi comp2
+  686  comp2
+  687  ./comp2
+  688  dir
+  689  cp bestpar.txt par_012615.txt
+  690  vi cohab_main_interp.f90
+  691  exit
+  692  ./comp2
+  693  mv par_012615.txt param_0126.txt
+  694  dir
+  695  mkdir /vol/cohabit/save0126
+  696  cp * /vol/cohabit/save0126/
+  697  dir
+  698  cd save0126/
+  699  dir
+  700  mkdir /vol/save04
+  701  exit
+  702  ./comp2
+  703  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  704  vi param_0126.txt
+  705  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  706  ./copu5
+  707  exit
+  708  ./copu5
+  709  vi copu6
+  710  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  711  vi checkstep.txt
+  712  vi checkstep.txt
+  713  exit
+  714  vi comp
+  715  ./comp
+  716  vi cohab_main_interp.f90
+  717  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  718  vi checkstep.txt
+  719  vi mom.txt
+  720  vi mom.txt
+  721  vi cohab_moment
+  722  exit
+  723  ./comp
+  724  mv checkstep.txt checkstepsave2
+  725  mv step.txt stepsave2
+  726  mv mom.txt momsave2
+  727  rm -f best.txt
+  728  rm -f checkobj.txt
+  729  dir
+  730  pwd
+  731  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  732  vi SLgenlib.f90
+  733  vi momsave
+  734  vi SLgenlib.f90
+  735  vi momsave2
+  736  vi SLgenlib.f90
+  737  exit
+  738  ./comp
+  739  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  740  vi param_0126.txt
+  741  vi cohab_main_interp.f90
+  742  vi cohab_main_interp.f90
+  743  exit
+  744  cp param_0126.txt param_0127.txt
+  745  vi param_0127.txt
+  746  exit
+  747  ./copu5
+  748  exit
+  749  ./copu5
+  750  exit
+  751  ./copu5
+  752  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  753  exit
+  754  vi cohab_main_interp.f90
+  755  ./comp
+  756  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  757  l
+  758  vi checkstep.txt
+  759  vi mom.txt
+  760  vi mom.txt
+  761  dir
+  762  mv checkstep.txt checkstepsave3
+  763  mv step.txt stepsave3
+  764  mv mom.txt momsave3
+  765  pwd
+  766  rm best.txt
+  767  rm checkobj.txt
+  768  exit
+  769  ./copu5
+  770  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  771  vi checkstep.txt
+  772  vi mom.txt
+  773  exit
+  774  ./comp
+  775  mv checkstep.txt checkstepsave5
+  776  mv step.txt stepsave5
+  777  dir
+  778  mv mom.txt momsave5
+  779  cp param_0127.txt par0127save
+  780  vi param_0127.txt
+  781  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  782  vi mom.txt
+  783  mv mom.txt momsave6
+  784  vi param_0127.txt
+  785  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  786  vi mom.txt
+  787  vi param_0127.txt
+  788  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  789  vi mom.txt
+  790  vi param_0127.txt
+  791  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  792  vi mom.txt
+  793  vi mom.txt
+  794  vi param_0127.txt
+  795  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  796  vi mom.txt
+  797  vi param_0127.txt
+  798  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  799  vi mom.txt
+  800  vi mom.txt
+  801  vi param_0127.txt
+  802  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  803  vi mom.txt
+  804  vi param_0127.txt
+  805  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  806  vi mom.txt
+  807  vi param_0127.txt
+  808  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  809  vi mom.txt
+  810  mv mom.txt mom1
+  811  exit
+  812  ./comp
+  813  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  814  vi mom.txt
+  815  vi mom1
+  816  vi mom.txt
+  817  vi param_0127.txt
+  818  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  819  vi mom.txt
+  820  vi param_0127.txt
+  821  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  822  vi mom.txt
+  823  exit
+  824  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  825  vi mom.txt
+  826  vi mom.txt
+  827  vi param_0127.txt
+  828  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  829  vi mom.txt
+  830  vi param_0127.txt
+  831  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  832  vi mom.txt
+  833  vi param_0127.txt
+  834  mv mom.txt mom4
+  835  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  836  vi mom.txt
+  837  vi mom4
+  838  vi mom.txt
+  839  vi mom4
+  840  vi mom.txt
+  841  vi mom4
+  842  vi mom.txt
+  843  echo "with higher rhotheta, dissolve and cohtomar"
+  844  vi mom4
+  845  vi mom.txt
+  846  echo "with higher rhotheta, more dissolve and less cohtomar"
+  847  mv mom.txt mom5
+  848  vi param_0127.txt
+  849  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  850  vi mom.txt
+  851  vi mom4
+  852  vi mom5
+  853  vi mom.txt
+  854  vi mom4
+  855  vi mom5
+  856  vi mom.txt
+  857  mv mom.txt mom6
+  858  vi param_0127.txt
+  859  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  860  vi mom.txt
+  861  dir
+  862  mv mom.txt mom7
+  863  vi param_0127.txt
+  864  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  865  vi mom.txt
+  866  mv mom.txt mom41
+  867  vi param_0127.txt
+  868  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  869  vi mom.txt
+  870  mv mom.txt mom44
+  871  exit
+  872  ./comp
+  873  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  874  vi mom.txt
+  875  vi cohab_header.f90
+  876  exit
+  877  ./comp
+  878  mv mom.txt mom90
+  879  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  880  vi mom.txt
+  881  mv mom.txt mom91
+  882  vi cohab_header.f90
+  883  exit
+  884  ./comp
+  885  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  886  vi mom.txt
+  887  vi mom.txt
+  888  vi mom.txt
+  889  history
+  890  vi cohab_header.f90
+  891  exit
+  892  ./copu5
+  893  vi param_0127.txt
+  894  vi param_0127.txt
+  895  vi param_0126.txt
+  896  vi param_0127.txt
+  897  vi param_0126.txt
+  898  vi param_0127.txt
+  899  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  900  vi mom.txt
+  901  exit
+  902  ./copu5
+  903  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  904  vi mom.txt
+  905  exit
+  906  ./copu5
+  907  pwd
+  908  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  909  mv opt.txt opt0128
+  910  mv mom.txt mom0128
+  911  dir
+  912  mv bestpar.txt bestpar0128.txt
+  913  dir
+  914  exit
+  915  ./comp
+  916  exit
+  917  ./comp
+  918  /usr/lib64/mpich/bin/mpiexec -np 8 -wdir /vol/cohabit /vol/cohabit/combo
+  919  vi opt.txt
+  920  vi opt0128
+  921  vi opt0128
+  922  vi opt0128
+  923  dir
+  924  exit
+  925  ./copu5
+  926  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  927  exit
+  928  ./copu5
+  929  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  930  pwd
+  931  mv opt.txt opt0129
+  932  mv bestpar.txt bestpar0129
+  933  mv mom.txt mom0129
+  934  dir
+  935  exit
+  936  ./copu5
+  937  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  938  ./copu5
+  939  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  940  vi opt.txt
+  941  vi bestpar.txt
+  942  mv opt.txt opt_0129_3
+  943  mv bestpar.txt bestpar_0129_3
+  944  mv mom.txt mom_0129_3
+  945  dir
+  946  cp param_0127.txt param_0127save
+  947  vi param_0127.txt
+  948  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  949  exit
+  950  exit
+  951  exit
+  952  ./copu5
+  953  exit
+  954  ./copu5
+  955  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  956  vi cohab_main_interp.f90
+  957  vi opt.txt
+  958  vi mom.txt
+  959  cp param_0129.txt param_0129save
+  960  vi param_0129.txt
+  961  exit
+  962  dir
+  963  ./comp
+  964  rm opt.txt
+  965  rm mom.txt
+  966  /usr/lib64/mpich/bin/mpiexec -np 32 -wdir /vol/cohabit /vol/cohabit/combo
+  967  vi opt.txt
+  968  vi opt.txt
+  969  vi mom.txt
+  970  pwd
+  971  cp * /home/ec2-user/cohabit/
