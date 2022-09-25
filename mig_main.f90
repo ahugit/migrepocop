@@ -177,22 +177,22 @@ nonlabinc=0.0_dp !ahu030622
 	end if 
     
       
-    open(unit=2,file='bp041019_3.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    nonlabinc=0.0_dp
+    !open(unit=2,file='bp041019_3.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !nonlabinc=0.0_dp
     !The below are in order to set type parameters to values they were before we changed the getpars setup 
     !(where ptype's are no longer 0 and mumar's are no longer all being set equal to mumar(1))
-    pars(75)=0.0015_dp !mumar1
-    pars(76)=0.0_dp !ptypehs2 
-    pars(77)=0.0_dp !ptypecol2
-    pars(81)=0.0015_dp !mumar2
-    pars(82)=0.0_dp !ptypehs3 
-    pars(83)=0.0_dp !ptypecol3
-    pars(87)=0.0015_dp !mumar3
-    pars(88)=0.0_dp !ptypehs4 
-    pars(89)=0.0_dp !ptypecol4
-    pars(93)=0.0015_dp !mumar4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp     
+    !pars(75)=0.0015_dp !mumar1
+    !pars(76)=0.0_dp !ptypehs2 
+    !pars(77)=0.0_dp !ptypecol2
+    !pars(81)=0.0015_dp !mumar2
+    !pars(82)=0.0_dp !ptypehs3 
+    !pars(83)=0.0_dp !ptypecol3
+    !pars(87)=0.0015_dp !mumar3
+    !pars(88)=0.0_dp !ptypehs4 
+    !pars(89)=0.0_dp !ptypecol4
+    !pars(93)=0.0015_dp !mumar4
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp     
 
  
 
@@ -223,11 +223,11 @@ nonlabinc=0.0_dp !ahu030622
     nonlabinc=0.0_dp
     pars=pars1
     !changing only type parameters in pars
-    pars(75)=0.0015_dp !mumar1 !should this be set to 0? 
+    pars(75)=0.000015_dp !mumar1 !should this be set to 0? 
     pars(76)=0.0_dp !ptypehs2 
     pars(77)=0.0_dp !ptypecol2
-    pars(80)=5000.0_dp !cst2 
-    pars(81)=0.015_dp !mumar2    
+    pars(80)=-100.0_dp !cst2 
+    pars(81)=0.000015_dp !mumar2    
     pars(82)=0.0_dp !ptypehs3 
     pars(83)=0.0_dp !ptypecol3
     pars(86)=5000.0_dp !cst3
