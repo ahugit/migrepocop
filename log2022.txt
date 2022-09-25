@@ -1,0 +1,2816 @@
+1_mumar3
+ran with mumar 3 different mumars up until 15231 something but this did not give me any decrease in mar rates
+so save this as the first iteration of today 
+and run another one with higher mumar
+
+2_mumar3
+
+
+mig030722
+same as 2_mumar3 but with skriv true at q0=q=18
+
+check why you can't draw the status quo (q0=q=18) for example
+
+check why you can't have q0=3 and q=1 for example 
+
+q0=10 q=1 
+This is interesting in how chk2 looks. look at it SAVED THESE AS chk2_q010q1
+
+to migsol, added that bit about whether I can have q0=10 and w=5 and l=1
+this is an if statement and it is marked by ahu030622
+
+mumar   0.002   2    25
+        20     15000 20000
+dont get any decreasing marrates here
+but saved it all as 2_mumar3 nevertheless (or did I? can't see this anywhere but it's ok)
+
+
+
+030822_1q010q201
+CHANGED MULTMAR TO 100000!!!
+VERY IMPORTANT 
+change this back change htis back change it back change it back 
+and also remember the if statement you added to mig_sol
+based on a quick run of that if statement I got that q should be 201 so changed it so that I write q0=10 and q=201 now
+and running with 
+mumar 0.002   0.5_dp     25
+saved this as q010q1 because for some reason it still had q=1 instad of 201 in chk2 even though it shows in mig_sol that it is 201
+butprogram.f90 was the file that seemed outdated
+so strange 
+but still keep in order to look at q010 and q=1 situation
+
+
+
+030822_2mardecrease
+changed multmar to 500000 this time!
+because in the last run where mumar was 100K I was still ont going the decreasing mar rates even though way before that was the case 
+now I DO get the decreasing mar (to too much though) from mar=122,459 (0.5) to mar=500000 (25)
+and BIG increase in div rates from mar=124K to mar=500K
+
+later I will also try with nonlabinc that is not 0 later 
+
+
+030822_3
+changed mig_yaz (added some more lines that hae to do with haveenoughtotransfer (check the places where !ahu030822) 
+also added ia=50 to the yaz condition in mig_sol (it was ia 45 and 49 and 18 and 17 before. now it is also 50 so that I can see what is happening without the continuation value complicating things. 
+in 030722 directory:
+Now run with mumar=122,459 (0.5) first and look at chk2
+in temp directory:
+copy everything from 030722 and then just change mig_main pars(75) to 25 and then run with mumar=500,000 (25) first and look at chk2
+
+
+
+cant catch a break
+because even though age18 div rates for the larger mumr very high copared to smaller mumar, the decisions look the same when I compare age18 in chk2 for just q0=10 and q=201
+as for the div rate differences for the later ages, I don't want to rely on those since in sim, there'll be a lot of stuff going on before the age (with all the mar and div decision differences, the pool of people will be hard to compare between teh two runs) 
+so now save these as 
+and run another one with more q and q0s
+
+(q0<=15).and.(q>=190.and.q<=201)
+
+Added some more yay
+More specifically, added yazmax which writes file 201 where I just write the state variables, choices considered and max choices 
+So we can see what is wrong with scarlet this way
+
+
+
+
+
+MARCH 10 22 
+see chk2_march1022_1 in m030722 an temp for the comparison between age 48 marriage decisions for the specific q0=4 and q=92 and x=19
+ 
+SOME BIG CHANGES
+marked with ahumarch1022
+
+changed delta to 0    VERY IMPORTANT  
+changed nepsmove to 2 VERY IMPORTANT 
+
+Important insight: When delta is 0, the moments are exactly the same between mumar-122000 and 500000. mar rates div rates everything is the same. 
+this means that the problem si that continuation value which is what I suspected
+
+
+
+MARCH 11 22
+changed nepsmove back to 13 to check something about the previous runs
+also added to obsjf writemoments: added bshock writing and also added nepsmove to the momentsfile
+
+
+
+mom031122_1
+ran from a very small mumar to a very large one 
+between mumar=1250 and 12497 things start looking different 
+ie where div rates start changing in a different direction after this
+so below I run another iteration with the end points 1250 and 1z497 and smaller bumps between these (like very small) 
+see the 15 iteratiosn from 1250 to 12497
+
+
+mom031122_2
+ran from 1250 to 12497 
+div rates start increasing around iterationg 13
+run iterations 13 14 and 15 adn compare their chk2
+the purpose is a situation where mumar decreasing and dv rates are starting to increase
+the reason why the end points are 1250 and 12497 is because ofo the previous run marked mom031122_1
+
+
+
+    !031122_1
+    !pars(75)=0.00005_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=0.0001_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=0.0005_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=0.001_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=0.005_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=0.01_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=0.05_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=0.1_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=0.5_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=1.0_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+    !pars(75)=3.0_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp      
+
+
+	!031122_2
+    pars(75)=0.005_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.006_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.007_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.008_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.009_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.01_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.012_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.015_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+   	pars(75)=0.02_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.025_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+   	pars(75)=0.03_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.035_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.04_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.045_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.05_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+
+mu_mar            1250.00   1500.00   1749.99   1999.99   2249.98   2499.98   2999.96   3749.93   4999.83   6249.67   7499.44   8749.11   9998.67  11248.10  12497.40
+in 031122_2: the change in terms of switching to increasing div rates start happening at iteration 13 ot 14 to 15
+ 1000    1. get div by ia   18             0.1604        0.0714        0.1193        0.0000           1060        56        0.0663
+ 1000    2. get div by ia   18             0.1555        0.0714        0.1066       -0.0127           1061        56        0.0663
+ 1000    3. get div by ia   18             0.0867        0.0714        0.0035       -0.1158           1061        56        0.0663
+ 1000    4. get div by ia   18             0.0857        0.0714        0.0031       -0.1162           1062        56        0.0663
+ 1000    5. get div by ia   18             0.0857        0.0714        0.0031       -0.1162           1062        56        0.0663
+ 1000    6. get div by ia   18             0.0847        0.0714        0.0026       -0.1166           1063        56        0.0663
+ 1000    7. get div by ia   18             0.0827        0.0714        0.0019       -0.1174           1064        56        0.0663
+ 1000    8. get div by ia   18             0.0818        0.0714        0.0016       -0.1177           1064        56        0.0663
+ 1000    9. get div by ia   18             0.0825        0.0714        0.0018       -0.1174           1067        56        0.0663
+ 1000   10. get div by ia   18             0.0802        0.0714        0.0012       -0.1181           1072        56        0.0663
+ 1000   11. get div by ia   18             0.0798        0.0714        0.0011       -0.1182           1078        56        0.0663
+ 1000   12. get div by ia   18             0.0798        0.0714        0.0011       -0.1182           1078        56        0.0663
+ 1000   13. get div by ia   18             0.0805        0.0714        0.0012       -0.1181           1081        56        0.0663
+ 1000   14. get div by ia   18             0.1099        0.0714        0.0223       -0.0970           1083        56        0.0663
+ 1000   15. get div by ia   18             0.1465        0.0714        0.0851       -0.0342           1085        56        0.0663
+ 1001    1. get div by ia   19             0.1399        0.0763        0.0575        0.0000           2416       118        0.0705
+ 1001    2. get div by ia   19             0.1357        0.0763        0.0502       -0.0073           2424       118        0.0705
+ 1001    3. get div by ia   19             0.0933        0.0763        0.0041       -0.0533           2497       118        0.0705
+ 1001    4. get div by ia   19             0.0928        0.0763        0.0039       -0.0536           2500       118        0.0705
+ 1001    5. get div by ia   19             0.0920        0.076
+
+
+While htese were runnning I also ran in m030722 to compare age 47 chk2s and to see wy the div rates change so much between mumar small and mumar big.
+but didnt' find anything tha tstood out. 
+
+
+031122_3
+Running in 031122 directory still but note that today was march 14 2022
+Now going between iteration 13 and iteration 15 but in smaller steps 
+
+	!031122_3
+    pars(75)=0.04_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.041_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.042_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.043_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.044_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.45_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.046_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.047_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+   	pars(75)=0.048_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.049_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+   	pars(75)=0.05_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+	!mu_mar            9998.67  10248.56  10498.46  10748.34  10998.23 110639.23  11497.97  11747.84  11997.70  12247.55  12497.40
+	!In the above run, where I was trying to figure out where the div rate starting to increase (instead of decrease) occurs between mumar values changing, I all of a sudden see the below horrific view where there is indeed an increse at sme point between mumar 99998 and mumar 12497 but it is not monotonic and there is a big huge jump when mumar changes from 10998 to 110639
+Note that we have 0.45 for the 6th iteration instead of 0.045 so ignore that one 
+
+1000    1. get div by ia   18             0.0805        0.0714        0.0012        0.0000           1081        56        0.0663
+ 1000    2. get div by ia   18             0.0804        0.0714        0.0012       -0.0000           1082        56        0.0663
+ 1000    3. get div by ia   18             0.0804        0.0714        0.0012       -0.0000           1082        56        0.0663
+ 1000    4. get div by ia   18             0.0803        0.0714        0.0012       -0.0000           1083        56        0.0663
+ 1000    5. get div by ia   18             0.0923        0.0714        0.0066        0.0054           1083        56        0.0663
+ 1000    6. get div by ia   18             0.1906        0.0714        0.2143        0.2130           1133        56        0.0663
+ 1000    7. get div by ia   18             0.1181        0.0714        0.0328        0.0316           1084        56        0.0663
+ 1000    8. get div by ia   18             0.1273        0.0714        0.0471        0.0458           1084        56        0.0663
+ 1000    9. get div by ia   18             0.1458        0.0714        0.0833        0.0821           1084        56        0.0663
+ 1000   10. get div by ia   18             0.1458        0.0714        0.0833        0.0821           1084        56        0.0663
+ 1000   11. get div by ia   18             0.1465        0.0714        0.0851        0.0838           1085        56        0.0663
+ 1001    1. get div by ia   19             0.0880        0.0763        0.0020        0.0000           2557       118        0.0705
+ 1001    2. get div by ia   19             0.0880        0.0763        0.0019       -0.0000           2558       118        0.0705
+ 1001    3. get div by ia   19             0.0879        0.0763        0.0019       -0.0000           2559       118        0.0705
+ 1001    4. get div by ia   19             0.0879        0.0763        0.0019       -0.0000           2560       118        0.0705
+ 1001    5. get div by ia   19             0.1009        0.0763        0.0086        0.0067           2547       118        0.0705
+ 1001    6. get div by ia   19             0.1574        0.0763        0.0935        0.0915           2490       118        0.0705
+ 1001    7. get div by ia   19             0.1238        0.0763        0.0320        0.0301           2521       118        0.0705
+ 1001    8. get div by ia   19             0.1226        0.0763        0.0305        0.0285           2512       118        0.0705
+ 1001    9. get div by ia   19             0.1264        0.0763        0.0356        0.0337           2493       118        0.0705
+ 1001   10. get div by ia   19             0.1295        0.0763        0.0402        0.0382           2495       118        0.0705
+ 1001   11. get div by ia   19             0.1299        0.0763        0.0408        0.0388           2495       118        0.0705
+ 1002    1. get div by ia   20             0.0899        0.1179        0.0076        0.0000           3994       195        0.1040
+ 1002    2. get div by ia   20             0.0899        0.1179        0.0076        0.0000           3995       195        0.1040
+ 1002    3. get div by ia   20             0.0898        0.1179        0.0076        0.0000           3996       195        0.1040
+ 1002    4. get div by ia   20             0.0896        0.1179        0.0077        0.0002           3997       195        0.1040
+ 1002    5. get div by ia   20             0.0949        0.1179        0.0051       -0.0024           3953       195        0.1040
+ 1002    6. get div by ia   20             0.1440        0.1179        0.0065       -0.0010           3736       195        0.1040
+ 1002    7. get div by ia   20             0.1147        0.1179        0.0001       -0.0075           3879       195        0.1040
+ 1002    8. get div by ia   20             0.1156        0.1179        0.0001       -0.0075           3875       195        0.1040
+ 1002    9. get div by ia   20             0.1183        0.1179        0.0000       -0.0076           3854       195        0.1040
+ 1002   10. get div by ia   20             0.1227        0.1179        0.0002       -0.0074           3847       195        0.1040
+ 1002   11. get div by ia   20             0.1224        0.1179        0.0002       -0.0074           3847       195        0.1040
+ 1003    1. get div by ia   21             0.0945        0.1111        0.0028        0.0000           5260       270        0.0988
+ 1003    2. get div by ia   21             0.0945        0.1111        0.0028        0.0000           5261       270        0.0988
+ 1003    3. get div by ia   21             0.0943        0.1111        0.0029        0.0001           5262       270        0.0988
+ 1003    4. get div by ia   21             0.0942        0.1111        0.0029        0.0001           5263       270        0.0988
+ 1003    5. get div by ia   21             0.1131        0.1111        0.0000       -0.0028           5208       270        0.0988
+ 1003    6. get div by ia   21             0.1517    
+
+
+
+MARCH1522   031522     ------------------------ahu082222 note trying to catch up: CORNER SOLUTION ADDED ON OR AROUND THIS DATE. THE DIRECTORY M031522 HAS THE FIRST RUNS WITH CORNER SOLUTIONS
+BIG CHANGES ON AND AROUND THIS DATE
+THE GIST OF THE CHANGE IS THAT I ADDED CORNER SOLUTIONS
+FIRST CHECK WHETHER NB IS WELL DEFINED 
+SURPLUS>0 ( IS TEHRE ANYTHING THAT CAN MAKE THE TWO HAPPIER THAN ALONE?) 
+C1 C2 >=0 ( IS THERE ANYTHING WITHIN THE FEASIBLE SET THAT CAN MEK THEM HAPPIR  
+AFTER I CHECK THIS 
+THEN I CHECK  THE INTERIOR OPT CONDITIONS WHICH HAVE TO DO WITH COMPARING 
+WCSUM >= ABS(VDIF1-VDIF2)  --> INTERIOR 
+WCSUM >= VDIF1-VDIF2   ----> CORER ALL GOES TO C1
+WCSUM <= VDIF2-VDIF1   ---> CORNER ALL GOES TO C2
+ 
+LOOK LATER. CORRECT LATER. CHECK LATER. check later. beware. 
+CHECK the ocrner soolution additions
+the previous version of sol should be kept 
+Also make sure that you look through the changes to get rid of redundant calculations
+as it si now, the way corner sols are added is quite inefficient and it wil increase run ime alot 
+AND ALSO I THINK I GET THE EPS AND EPS2 STUFF NOW. SORT OF. 
+WITH DP, IT IS DIFFICULT TO GET EXACT EQUALITIES AND DESIRED INEQUALITIES BETWEEN NUMBERS 
+SO IT IS SAFER TO ADD EPS2 OR EPS INSTEAD OF NOTHING
+AT SOME POINT, THE IF STATEMENTS (SEE COMMENTED OUT IF STATEMENTS IN SOL AND GETDEC_C AROUND WHERE WE ADDED THE CORNERSOL STUFF
+YOU WILL SEE THAT THOSE IF STATEMENTS WHEN UNCOMMENTED OUT, THEY CAUSE PROBLEMS. THEY DO STOP THE PROGRAME.
+WHY? METHINGS IT'S BECAUSE EVNE THOUGH THE NUMBERS ARE SUPPOSED TO BE RIGHT ALL TEH WAY SGICIENTIF PRECISION ND IT'S N
+
+ALSO REALL THAT NEPSMOVE IS 2 NOW SO MAYBE CHANGE THAT BACK BECAUSE MOVE RATES ARE QUITE LOW?  
+ALSO NONLABINC IS 0 NOW 
+LOOK LATER. CORRECT LATER. CHECK LATER. BEWARE.
+
+    !031522 MARCH1522 corner solution stuff added 
+    pars(75)=0.035_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.04_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.045_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+    pars(75)=0.05_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp      
+
+Now the div rates no longer look increasing with higher mumar's or high as before 
+and the getmar rates falling with mumar is gon eas well 
+But what seems to be ht eproblem now? 
+BUT if you look at higher mumar values, then the div rates slightly decrease with an increase in mumar at some point again. 
+Itis nowhere near what it used  be. but it  us vu
+for example compare m031722_1 and m031722_2
+will try now with mumar somewhere in between 1 and 2 
+
+
+
+m031722_1   ------- ahu082222 THESE ARE THE FIRST RUNS WITH CORNER SOLUTION WHERE WE NO LONGER 
+
+
+
+m031722_2
+alf2t                8.67      8.67      8.67      8.67
+cst                  0.00      0.00      0.00      0.00
+mu_mar              12.50     25.00    250.00   2499.98
+
+
+
+
+    ^M
+    !m031722_1^M
+    !pars(75)=0.035_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.04_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.045_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.05_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+^M
+^M
+    !m031722_2  ^M
+    !pars(75)=0.00005_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.0001_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.001_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.01_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+^M
+
+
+
+    !m031722_3^M
+    !pars(75)=0.00005_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.0001_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.001_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.005_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp       ^M
+    !pars(75)=0.01_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.015_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    !pars(75)=0.02_dp^M
+    !call getpars(pars,realpars)^M
+    !call objfunc(pars,qval) ; realpars=realpartemp      ^M
+^M
+^M
+    !m031722_4^M
+    pars(75)=0.001_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    pars(75)=0.0015_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp       ^M
+    pars(75)=0.002_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    pars(75)=0.0025_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    pars(75)=0.003_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    pars(75)=0.0035_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    pars(75)=0.004_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    pars(75)=0.0045_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp      ^M
+    pars(75)=0.005_dp^M
+    call getpars(pars,realpars)^M
+    call objfunc(pars,qval) ; realpars=realpartemp      ^M
+
+
+
+
+MARCH 21 2022 032122
+
+Changed a bunch of other things 
+Need to catch up with the notes
+Changed locch and loc0 - in order to save time 
+Changed to vdif rather than writing vs-vmar all the time
+Also changed the places where I was adding eps. I was adding eps to the wrong side sometimes. Check where I added this 
+Look at mig_main and then also look at 031522 and 032122
+
+
+Now the div rates no longer increasing or anything like that
+
+There is a big decrease in div rate when we go from 250 to 1250 (i.e. 0.001 and 0.005) 
+You can see that in m031722_3 (iteration 3 to 4 is the big decrease in div rate from 0.27 to around 0.07)
+And then I ran m031722_4  where I did smaller incremembts between 250 and 1250 (i.e. 0.001 and 0.005)
+In m031722_4 the big decrease seesm to happen between 250 and 375 (i.e. 0.001 and 0.0015)
+So now doing m032122_5 to do smaller increasements between 0.001 and 0.0015 (like really small. i am doing 11 steps ebtween 0.001 and 0.0015)
+
+
+
+march 22 2022 032222
+ mom032122_5: 
+This is the run from 0.001 and 0.0015
+IT seems the big decrease in div rates happens from iteration 4 to 5 to 6
+div rates go from 0.25 to 0.19 to 0.11
+whereas in other places they only move by 3 percentage points at most 
+In other words: 
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+
+
+mu_mar             250.00    262.50    275.00    287.50    300.00    312.50    325.00    337.50    350.00    362.50    375.00
+               **************************************************************************************************************
+               **************************************************************************************************************
+               **************************************************************************************************************
+               ************
+
+
+1000    1. get div by ia   18             0.2772        0.0714        0.6386        0.0000           4646        56        0.0663
+ 1000    2. get div by ia   18             0.2773        0.0714        0.6392        0.0006           4648        56        0.0663
+ 1000    3. get div by ia   18             0.2779        0.0714        0.6430        0.0045           4652        56        0.0663
+ 1000    4. get div by ia   18             0.2586        0.0714        0.5282       -0.1104           4652        56        0.0663
+ 1000    5. get div by ia   18             0.1926        0.0714        0.2214       -0.4172           4652        56        0.0663
+ 1000    6. get div by ia   18             0.1107        0.0714        0.0233       -0.6153           4652        56        0.0663
+ 1000    7. get div by ia   18             0.0886        0.0714        0.0044       -0.6341           4652        56        0.0663
+ 1000    8. get div by ia   18             0.0812        0.0714        0.0015       -0.6371           4653        56        0.0663
+ 1000    9. get div by ia   18             0.0739        0.0714        0.0001       -0.6385           4654        56        0.0663
+ 1000   10. get div by ia   18             0.0730        0.0714        0.0000       -0.6385           4655        56        0.0663
+ 1000   11. get div by ia   18             0.0709        0.0714        0.0000       -0.6386           4655        56        0.0663
+ 1001    1. get div by ia   19             0.2342        0.0763        0.3541        0.0000           7173       118        0.0705
+ 1001    2. get div by ia   19             0.2338        0.0763        0.3521       -0.0020           7178       118        0.0705
+ 1001    3. get div by ia   19             0.2340        0.0763        0.3532       -0.0009           7179       118        0.0705
+ 1001    4. get div by ia   19             0.2178        0.0763        0.2842       -0.0699           7269       118        0.0705
+ 1001    5. get div by ia   19             0.1600        0.0763        0.0995       -0.2546           7576       118        0.0705
+ 1001    6. get div by ia   19             0.0884        0.0763        0.0021       -0.3520           7955       118        0.0705
+ 1001    7. get div by ia   19             0.0673        0.0763        0.0012       -0.3529           8058       118        0.0705
+ 1001    8. get div by ia   19             0.0584        0.0763        0.0045       -0.3496           8093       118        0.0705
+ 1001    9. get div by ia   19             0.0523        0.0763        0.0082       -0.3459           8128       118        0.0705
+ 1001   10. get div by ia   19             0.0513        0.0763        0.0089       -0.3452           8133       118        0.0705
+ 1001   11. get div by ia   19             0.0503        0.0763        0.0095       -0.3445           8144       118        0.0705
+ 1002    1. get div by ia   20             0.2022        0.1179        0.0683        0.0000           8752       195        0.1040
+ 1002    2. get div by ia   20             0.2024        0.1179        0.0686        0.0003           8759       195        0.1040
+ 1002    3. get div by ia   20             0.2021        0.1179        0.0681   
+
+
+
+
+
+
+
+MARCH 23 2022  032322
+NOW YESTERDAY I HAD SAID YES TO THE QUESTIN IT ALWAYS WAKS WHEN I OPEN A FILE IN VISUAL FORTRAN 
+THIS WAS IN MIG_SOL 
+SO THEN I SAVED THE ORIGINAL VERSION AS MIGSOL032222 FROM THE CLUSTER
+BEWARE OF THIS 
+
+
+Now looking at some time saving possibilities
+Open a new directory called m032322 in the cluster
+Transfer the file sin m030622 in the desktop to the cluster new irectory 
+Use the original mig_sol
+
+Renaming the migsol032222save file in the desktop 030622 directory as mig_sol 
+and renaming the mig_sol as migsolcontaminated
+
+scp -i key030322.pem ~/Dropbox/migit/m030622/mig_main.f90 ec2-user@ec2-23-20-1-216.compute-1.amazonaws.com:/home/ec2-user/m032122/
+scp -i key030322.pem ec2-user@ec2-23-20-1-216.compute-1.amazonaws.com:/home/ec2-user/m032122/mig_sol.f90 ~/Dropbox/migit/m030622/migsol032222save.f90
+scp -i key030322.pem ec2-user@ec2-23-20-1-216.compute-1.amazonaws.com:/home/ec2-user/m032122/mig_sol.f90 ~/Dropbox/migit/m030622/migsol032222save.f90
+scp -i key030322.pem ec2-user@ec2-52-87-253-211.compute-1.amazonaws.com:/home/ec2-user/m032122/mig_sol.f90 ~/Dropbox/migit/m030622/migsol032222save.f90
+scp -i key030322.pem ~/Dropbox/migit/m030622/*.f90 ec2-user@ec2-54-234-98-155.compute-1.amazonaws.com:/home/ec2-user/m032322/
+scp -i key030322.pem ~/Dropbox/migit/m030622/mig_sol.f90 ec2-user@ec2-54-234-98-155.compute-1.amazonaws.com:/home/ec2-user/m032322_2/   
+scp -i key030322.pem ~/Dropbox/migit/m030622/*.f90 ec2-user@ec2-54-234-98-155.compute-1.amazonaws.com:/home/ec2-user/m032322_2/
+scp -i key030322.pem ec2-user@ec2-75-101-234-79.compute-1.amazonaws.com:/home/ec2-user/m032322_2/* ~/Dropbox/migit/m032322_2/                                                                                        
+
+
+
+-----------------------
+
+
+In directory m032322_2
+This directory files were copied from m030622 as well as can be seen from above 
+
+
+There were two files mig_sol.f90 and migsolcontaminated (see above for how they came from m030622)
+The only difference between these two files is the placement of "  if ( maxval(qq2w(:,q0)) <= np1 ) then !state variable part of the q space i.e. w <= np1  " 
+
+
+I think I tried to move this if statement from the x loop to right after the beginning of the q0 loop (probably in order to save time and also to check if anything changes?)
+See below for the two possible places for this if statement
+
+			if (onlysingles) then 	
+				decm_s(:,:,:,:,ia,index)=decm0_s(:,:,:,:,ia,index)
+				decf_s(:,:,:,:,ia,index)=decf0_s(:,:,:,:,ia,index)
+				vmr=vm(:,:,:,:,ia,index)
+				vfr=vf(:,:,:,:,ia,index)
+			else 
+				whereamI=1 ! for telling yaz about where we are
+				vec=pen
+				do q0=1,nq	
+                    if ( maxval(qq2w(:,q0)) <= np1 ) then !state variable part of the q space i.e. w <= np1
+
+					vm_c=pen ; vf_c=pen
+					prob=0.0_dp
+					do x=1,nx	
+						do q=1,nq
+
+
+
+---->
+
+					do x0=1,nx
+                       ! if ( maxval(qq2w(:,q0)) <= np1 ) then !state variable part of the q space i.e. w <= np1
+						    !prob=matmul( reshape(ppcq(:,q0,x0),(/nq,1/)) , reshape(ppcx(:,q0,x0),(/1,nx/)) )
+						    !emaxm_c(q0,x0,ia)=sum(prob*vm_c)
+						    !emaxf_c(q0,x0,ia)=sum(prob*vf_c)                    
+                            emaxm_c(q0,x0,ia)=0.0_dp
+						    emaxf_c(q0,x0,ia)=0.0_dp
+                            do q=1,nq
+                                do x=1,nx
+						            emaxm_c(q0,x0,ia)=emaxm_c(q0,x0,ia)+ppcq(q,q0,x0)*ppcx(x,q0,x0)*vm_c(q,x)
+						            emaxf_c(q0,x0,ia)=emaxf_c(q0,x0,ia)+ppcq(q,q0,x0)*ppcx(x,q0,x0)*vf_c(q,x)
+                                end do 
+                            end do 
+                        !end if !state variable part of the q space i.e. w <= np1
+					end do	 !x0						
+
+
+
+
+------
+
+GETTING RID OF M032322_2 DIRECTORY
+The files 
+migsolcontaminated in m030622 
+migsolcontaminated in m032322_2
+mig_sol.f90 in m032322_2
+are all the same EXCEPT for their difference in that xx2xs error AND where the following goes: if ( maxval(qq2w(:,q0)) <= np1 ) then !state variable part of the q space i.e. w <= np1
+So delete the redundant files and just leave one mig_sol in m030622
+See Things to check and decide to make a decision about that
+
+The files 
+mig_objf.f90 in m030622
+mig_objf.f90 in m032322_2
+as well as the other files since 032322_2 was copied from 030622
+are all the same so get rid of the redundant ones
+
+So Get rid of directory m032322_2
+Delete all the redundant mig_sol files 
+Rename migsol032322_2 and place it in m030622
+
+
+
+GETTING RID OF M032322 DIRECTORY 
+ECLP022:migit ahu$ diff ./m030622/mig_params.f90 ./m032322/mig_params.f90 
+19c19
+< 	integer(i4b), parameter :: numit=12 !ahumarch1122
+---
+> 	integer(i4b), parameter :: numit=2 !ahumarch1122
+ECLP022:migit ahu$ 
+ECLP022:migit ahu$ 
+ECLP022:migit ahu$ diff ./m030622/mig_share.f90 ./m032322/mig_share.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_func.f90 ./m032322/mig_func.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_yaz.f90 ./m032322/mig_yaz.f90 
+ECLP022:migit ahu$ 
+ECLP022:migit ahu$ diff ./m030622/mig_main.f90 ./m032322/mig_main.f90 
+900,933d899
+<     nonlabinc=0.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp          
+<     nonlabinc=0.5_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=5.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp  
+<     nonlabinc=10.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=100.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=500.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=1000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=2000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=3000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=4000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=5000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=6000.0_dp
+935a902
+>     
+ECLP022:migit ahu$ diff ./m030622/mig_mom.f90 ./m032322/mig_mom.f90 
+ECLP022:migit ahu$ 
+ECLP022:migit ahu$ 
+
+All files same except for migsol and migmain. Save those as 032322 and put them in m030622
+params only difference is numit so leave that alone 
+Delete all other files in m032322
+
+ECLP022:m032322 ahu$ mv mig_sol.f90 migsol032322.f90
+ECLP022:m032322 ahu$ mv mig_main.f90 migmain032322.f90
+ECLP022:m032322 ahu$ mv mig_sol_extras1.f90 migsolextras1032322.f90
+
+ECLP022:migit ahu$ mv ./m032322/migmain032322.f90 ./m030622/
+ECLP022:migit ahu$ mv ./m032322/migsol032322.f90 ./m030622/
+ECLP022:migit ahu$ mv ./m032322/migsolextras1032322.f90 ./m030622/
+
+
+
+COMPARING m030622 vs. m032122. GETTING RID OF M032122 BECAUSE SOL IS 
+THE SAME AS MIGSOL032322_2 IN M030622 (EXCEPT FOR END IF ON LINE 190 RELATED TO THAT Q SPACE IF STATEMENT THING)
+AND MAIN AND PARAMS ONLY DIFFER IN TERMS OF NUMIT STUFF. KEEPING THE MOMENTS OUTPUT FILES THOUGH AND PLACING THEM IN M030622. 
+ECLP022:migit ahu$ diff ./m030622/migsol032322_2.f90 ./m032122/migsol.f90
+190c190
+<                     end if 
+---
+> 
+ECLP022:migit ahu$ diff ./m030622/mig_func.f90 ./m032122/mig_func.f90
+ECLP022:migit ahu$ diff ./m030622/mig_share.f90 ./m032122/mig_share.f90
+ECLP022:migit ahu$ diff ./m030622/mig_yaz.f90 ./m032122/mig_yaz.f90
+ECLP022:migit ahu$ diff ./m030622/mig_objf.f90 ./m032122/mig_objf.f90
+281c281
+<         write(60,'(1a15,12f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
+---
+>         write(60,'(1a15,11f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
+ECLP022:migit ahu$ 
+ECLP022:migit ahu$ diff ./m030622/mig_params.f90 ./m032122/mig_params.f90
+19c19
+< 	integer(i4b), parameter :: numit=12 !ahumarch1122
+---
+> 	integer(i4b), parameter :: numit=11 !ahumarch1122
+ECLP022:migit ahu$ 
+ECLP022:migit ahu$ diff ./m030622/mig_mom.f90 ./m032122/mig_mom.f90
+ECLP022:migit ahu$ 
+
+
+
+
+
+COMPARING ./m030622/migsol032322_2.f90 ./m031522/migsol032122.f90 
+
+ECLP022:migit ahu$ diff ./m030622/temp032322_2.f90 ./m031522/temp032122.f90 
+190c190
+<                     end if 
+---
+> 
+Note that temp files are the /m030622/mig_sol032322_2 and /m031522/mig_sol032122.f90 files but until line 218
+So teh above diff means that until line 218, the only difference is the end if statement on line 190. which needs to be commented or uncommented out. 
+
+Then comparing the lines AfTER line 218, the following are the main differences: 
+The following starts right after line 218 and goes until around line 238 (until the if surplus and haveneough statement)
+
+m031522/migsol032122
+LINE 219                                    !call checknb(dd,vec,welldef,vsum )  
+                                        
+                                            surplus = vec(5) + vec(3) - vec(1) + vec(4) - vec(2)  
+                                            vdif(1)=vec(3)-vec(1)   !ahumarch1522 adding cornersol
+                                            vdif(2)=vec(4)-vec(2)   !ahumarch1522 adding cornersol
+
+                                            pc(1:2)	= ( vdif + eps >= 0.0_dp )	!pc(1:2)    = ( vec(3:4) - vec(1:2) >= 0.0_dp )						        
+                                            pc_alt(1:2)=( vdif >= 0.0_dp )	
+                                            asum = sum(  one(.not. pc)  *   abs( vdif )   ) 
+                                            haveenoughtomakeindiff=(  vec(5) + eps - asum  >= 0.0_dp  )
+                                            haveenoughtomakeindiff_alt=(  vec(5) - asum  >= 0.0_dp  )
+                                            !In orer for NB to be well defined, we need: 1) surplus>=0 2) there exists some transfer such that transfer1>=0 and transfer2>=0
+                                            !Condition 2 follows from the requirement that the utility transfer has to only come from current wsum and not the V's. In other words, 
+                                            !w has to be such that it can cover any utility transfers that are needed o have the PC's hold. 
+                                            !See notes in black notebook about why Condition 2 translates into that asum condition. 
+                                            !Once we establish that NB is well defined, then we can go ahead and see if the optimum is interior or corner. 
+                                            intsol(1)=( vec(5) + eps >= abs(vdif(1)-vdif(2)) )  !interior
+                                            intsol(2)=( vec(5) + eps < vdif(1)-vdif(2)   )      !corner where c1=0 and c2=wsum
+                                            intsol(3)=( vec(5) + eps < vdif(2)-vdif(1)   )      !corner where c1=wsum and c2=0
+                                            if (surplus+eps>0.0_dp .and. haveenoughtomakeindiff ) then
+                                            !ahumarch1522 Now check if the interior condition is really indeed satisfied but get rid of this later
+                                            if ( intsol(1) ) then       !ahumarch1522 interiorcheck adding cornersol
+                                                welldef=.TRUE.          !ahumarch1522
+                                                transfers(1) = alf * surplus - ( vec(3)-vec(1) )                                                
+                                                transfers(2) = (1.0_dp-alf) * (vec(5) + vec(3) - vec(1) ) - alf*( vec(4)-vec(2) )   
+ LINE 244                                               vmarios(1:2)=vec(3:4)+transfers(1:2)
+ 
+
+
+
+
+
+m030622/migsol032322_2
+ LINE 219                                   !call checknb(dd,vec,welldef,vsum )  
+                                            vdif(1)=vec(3)-vec(1)   !ahumarch1522 ahu031522 adding cornersol
+                                            vdif(2)=vec(4)-vec(2)   !ahumarch1522 ahu031522 adding cornersol
+                                            !ahumarch2122 ahu032122 replacing this with vdif for saving time surplus = vec(5) + vec(3) - vec(1) + vec(4) - vec(2)  
+                                            surplus = vec(5) + sum(vdif(1:2))  !ahumarch2122 ahu032122 replacing with vdif for saving time
+                                            pc(1:2)	= ( vdif + eps >= 0.0_dp )	!pc(1:2)    = ( vec(3:4) - vec(1:2) >= 0.0_dp )						        
+                                            !ahu032122 ahumarch2122 commenting out to save time pc_alt(1:2)=( vdif >= 0.0_dp )	
+                                            asum = sum(  one(.not. pc)  *   abs( vdif )   ) 
+                                            haveenoughtomakeindiff=(  vec(5) + eps - asum  >= 0.0_dp  )
+                                            !ahu032122 ahumarch2122 commenting out to save time haveenoughtomakeindiff_alt=(  vec(5) - asum  >= 0.0_dp  )
+                                            !In orer for NB to be well defined, we need: 1) surplus>=0 2) there exists some transfer such that transfer1>=0 and transfer2>=0
+                                            !Condition 2 follows from the requirement that the utility transfer has to only come from current wsum and not the V's. In other words, 
+                                            !w has to be such that it can cover any utility transfers that are needed o have the PC's hold. 
+                                            !See notes in black notebook about why Condition 2 translates into that asum condition. 
+                                            !Once we establish that NB is well defined, then we can go ahead and see if the optimum is interior or corner. 
+                                            intsol(1)=( vec(5) + eps >= abs(vdif(1)-vdif(2)) )  !interior
+                                            !ahumarch2122 ahu032122 moving eps to the other side intsol(2)=( vec(5) + eps < vdif(1)-vdif(2)   )      !corner where c1=0 and c2=wsum
+                                            !ahumarch2122 ahu032122 moving eps to the other side intsol(3)=( vec(5) + eps < vdif(2)-vdif(1)   )      !corner where c1=wsum and c2=0
+                                            intsol(2)=( vec(5) <= vdif(1)-vdif(2) + eps  )      !corner where c1=0 and c2=wsum !ahumarch2122 ahu032122 moving eps to the other side
+                                            intsol(3)=( vec(5) <= vdif(2)-vdif(1) + eps  )      !corner where c1=wsum and c2=0 !ahumarch2122 ahu032122 moving eps to the other side
+
+                                            if (surplus+eps>0.0_dp .and. haveenoughtomakeindiff ) then
+                                            !ahumarch1522 Now check if the interior condition is really indeed satisfied but get rid of this later
+                                            if ( intsol(1) ) then       !ahumarch1522 interiorcheck adding cornersol                                            
+                                                welldef=.TRUE.          !ahumarch1522
+                                                !ahumarch2122 ahu032122 replacing with vdif to save time transfers(1) = alf * surplus - ( vec(3)-vec(1) )                                                
+                                                !ahumarch2122 ahu032122 replacing with vdif to save time transfers(2) = (1.0_dp-alf) * (vec(5) + vec(3) - vec(1) ) - alf*( vec(4)-vec(2) )   
+                                                transfers(1) = alf * surplus -  vdif(1)                     !ahumarch2122 ahu032122 replacing with vdif to save time                                           
+                                                transfers(2) = (1.0_dp-alf) * (vec(5) + vdif(1) ) - alf*vdif(2) !ahumarch2122 ahu032122 replacing with vdif to save time   
+                                                vmarios(1:2)=vec(3:4)+transfers(1:2)
+
+
+So as can be seen the only differences are the way vdid's replace vec3-vec1 and vec4-vec2 to avoid recalculating the same thing 
+the moving of eps to the other side
+and the commenting out of some of those alt logical statement
+and calculation of transfers (with vdif)
+
+
+
+
+
+m031522/migsol032122
+
+LINE 505    choice: do j=1,nc	
+        i = ch(j,q,q0)	!alternative q
+        if (i>0 ) then		
+            locch=qq2l(1,i)     !ahumarch2022 ahu032022
+            !if (qq2l(1,i).ne.qq2l(2,i)) then ; print*, 'something wrong in dec_c' ; stop; end if 
+            !if (qq2l(1,q0).ne.qq2l(2,q0)) then ; print*, 'something wrong in dec_c' ; stop; end if 
+            !ahumarch2022 ahu032022 vec(3) = vm0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(1,i) /= qq2l(1,q0)) * mcost(1) + one( qq2l(1,i) /= qq2l(1,q0)) * moveshock_m(iepsmove)  !fnmove(kid)     
+            !ahumarch2022 ahu032022 vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(2,i) /= qq2l(2,q0)) * mcost(2) + one( qq2l(2,i) /= qq2l(2,q0)) * moveshock_f(iepsmove)  !fnmove(kid)     
+            vec(3) = vm0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
+            vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+            !vec(5) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,i,x,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,i,x,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
+            vec(5) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
+            surplusj(j) = vec(5) + vec(3) - vec(1) + vec(4) - vec(2)  
+            dd(8:9)=(/j,i/)
+            !arson
+            vdif(1)=vec(3)-vec(1)   !ahumarch1522 adding cornersol
+            vdif(2)=vec(4)-vec(2)   !ahumarch1522 adding cornersol
+		    !vdif = vec(3:4) - vec(1:2) 	
+	        !surplus=vec(3)-vec(1)+vec(4)-vec(2)+vec(5)
+            !ahu032122 ahumarch2122 commenting out cuz time pc(1:2)	= ( vdif + eps >= 0.0_dp )	!pc(1:2)    = ( vec(3:4) - vec(1:2) >= 0.0_dp )						        
+            !ahu032122 ahumarch2122 commenting out cuz time pc_alt(1:2)=( vdif >= 0.0_dp )	
+            asum = sum(  one(.not. pc)  *   abs( vdif )   ) 
+            haveenoughtomakeindiff=(  vec(5) + eps - asum  >= 0.0_dp  )
+            haveenoughtomakeindiff_alt=(  vec(5) - asum  >= 0.0_dp  )
+            !In orer for NB to be well defined, we need: 1) surplus>=0 2) there exists some transfer such that transfer1>=0 and transfer2>=0
+            !Condition 2 follows from the requirement that the utility transfer has to only come from current wsum and not the V's. In other words, 
+            !w has to be such that it can cover any utility transfers that are needed o have the PC's hold. 
+            !See notes in black notebook about why Condition 2 translates into that asum condition. 
+            !Once we establish that NB is well defined, then we can go ahead and see if the optimum is interior or corner. 
+            intsol(1)=( vec(5) + eps >= abs(vdif(1)-vdif(2)) )  !interior
+            intsol(2)=( vec(5) + eps < vdif(1)-vdif(2)   )      !corner where c1=0 and c2=wsum
+            intsol(3)=( vec(5) + eps < vdif(2)-vdif(1)   )      !corner where c1=wsum and c2=0
+            if (surplusj(j)+eps>0.0_dp .and. haveenoughtomakeindiff ) then
+                    !ahumarch1522 Now check if the interior condition is really indeed satisfied but get rid of this later
+                    if ( intsol(1) ) then       !ahumarch1522 interiorcheck adding cornersol
+                        defj(j)=.TRUE.          !ahumarch1522
+                        transfers(1) = alf * surplusj(j) - ( vec(3)-vec(1) )                                                
+                        transfers(2) = (1.0_dp-alf) * (vec(5) + vec(3) - vec(1) ) - alf*( vec(4)-vec(2) )   
+ LINE 543                       vmario(1:2,j)=vec(3:4)+transfers(1:2)
+
+
+
+
+
+
+
+m030622/migsol032322_2
+
+ line 504   choice: do j=1,nc	
+        i = ch(j,q,q0)	!alternative q
+        if (i>0 ) then		
+            locch=qq2l(1,i)     !ahumarch2122 ahu032122
+            dd(8:9)=(/j,i/)     !ahumarch2122 ahu022122 moved this up
+            !if (qq2l(1,i).ne.qq2l(2,i)) then ; print*, 'something wrong in dec_c' ; stop; end if 
+            !if (qq2l(1,q0).ne.qq2l(2,q0)) then ; print*, 'something wrong in dec_c' ; stop; end if 
+            !ahumarch2122 ahu032122 vec(3) = vm0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(1,i) /= qq2l(1,q0)) * mcost(1) + one( qq2l(1,i) /= qq2l(1,q0)) * moveshock_m(iepsmove)  !fnmove(kid)     
+            !ahumarch2122 ahu032122 vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(2,i) /= qq2l(2,q0)) * mcost(2) + one( qq2l(2,i) /= qq2l(2,q0)) * moveshock_f(iepsmove)  !fnmove(kid)     
+            vec(3) = vm0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
+            vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+            !vec(5) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,i,x,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,i,x,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
+            vec(5) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
+            vdif(1)=vec(3)-vec(1)   !ahumarch1522 ahu031522 adding cornersol
+            vdif(2)=vec(4)-vec(2)   !ahumarch1522 ahu031522 adding cornersol
+            !ahumarch2122 ahu032122 replacing this with vdif for saving time surplusj(j) = vec(5) + vec(3) - vec(1) + vec(4) - vec(2)  
+            surplusj(j) = vec(5) + sum(vdif(1:2))  !ahumarch2122 ahu032122 replacing with vdif for saving time
+	        !surplus=vec(3)-vec(1)+vec(4)-vec(2)+vec(5)
+            pc(1:2)	= ( vdif + eps >= 0.0_dp )	!pc(1:2)    = ( vec(3:4) - vec(1:2) >= 0.0_dp )						        
+            !ahu032122 ahumarch2122 commenting out to save time pc_alt(1:2)=( vdif >= 0.0_dp )	
+            asum = sum(  one(.not. pc)  *   abs( vdif )   ) 
+            haveenoughtomakeindiff=(  vec(5) + eps - asum  >= 0.0_dp  )
+            !ahu032122 ahumarch2122 commenting out to save time haveenoughtomakeindiff_alt=(  vec(5) - asum  >= 0.0_dp  )
+            !In orer for NB to be well defined, we need: 1) surplus>=0 2) there exists some transfer such that transfer1>=0 and transfer2>=0
+            !Condition 2 follows from the requirement that the utility transfer has to only come from current wsum and not the V's. In other words, 
+            !w has to be such that it can cover any utility transfers that are needed o have the PC's hold. 
+            !See notes in black notebook about why Condition 2 translates into that asum condition. 
+            !Once we establish that NB is well defined, then we can go ahead and see if the optimum is interior or corner. 
+            intsol(1)=( vec(5) + eps >= abs(vdif(1)-vdif(2)) )  !interior
+            !ahumarch2122 ahu032122 moving eps to the other side intsol(2)=( vec(5) + eps < vdif(1)-vdif(2)   )      !corner where c1=0 and c2=wsum
+            !ahumarch2122 ahu032122 moving eps to the other side intsol(3)=( vec(5) + eps < vdif(2)-vdif(1)   )      !corner where c1=wsum and c2=0
+            intsol(2)=( vec(5) <= vdif(1)-vdif(2) + eps  )      !corner where c1=0 and c2=wsum !ahumarch2122 ahu032122 moving eps to the other side
+            intsol(3)=( vec(5) <= vdif(2)-vdif(1) + eps  )      !corner where c1=wsum and c2=0 !ahumarch2122 ahu032122 moving eps to the other side
+
+            if (surplusj(j)+eps>0.0_dp .and. haveenoughtomakeindiff ) then
+                    !ahumarch1522 Now check if the interior condition is really indeed satisfied but get rid of this later
+                    if ( intsol(1) ) then       !ahumarch1522 interiorcheck adding cornersol
+                        defj(j)=.TRUE.          !ahumarch1522
+                        !ahumarch2122 ahu032122 replacing with vdif to save time transfers(1) = alf * surplusj(j) - ( vec(3)-vec(1) )                                                
+                        !ahumarch2122 ahu032122 replacing with vdif to save time transfers(2) = (1.0_dp-alf) * (vec(5) + vec(3) - vec(1) ) - alf*( vec(4)-vec(2) )   
+                        transfers(1) = alf * surplusj(j) -  vdif(1)                     !ahumarch2122 ahu032122 replacing with vdif to save time                                           
+                        transfers(2) = (1.0_dp-alf) * (vec(5) + vdif(1) ) - alf*vdif(2) !ahumarch2122 ahu032122 replacing with vdif to save time   
+ line 546                       vmario(1:2,j)=vec(3:4)+transfers(1:2)
+
+
+So the above differences show that the only other difference between these two files are in these lines in getdec_c 
+which are similar to the differences around lines 219
+
+
+
+ECLP022:migit ahu$ diff ./m030622/tempbottom032322_2.f90 ./m031522/tempbottom032122.f90 
+This shows that the lines after 543 or 546 are exactly the same between these two files. So the above are the only differences. (around line 219 and then in getdec_c)
+
+For the differences between other files in these directories: 
+ECLP022:migit ahu$ diff ./m030622/mig_func.f90 ./m031522/mig_func.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_share.f90 ./m031522/mig_share.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_yaz.f90 ./m031522/mig_yaz.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_mom.f90 ./m031522/mig_mom.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_main.f90 ./m031522/mig_main.f90 
+821,839c821,824
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.015_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.02_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+< 
+< 
+<     !m031722_4
+<  !   pars(75)=0.001_dp
+<  !   call getpars(pars,realpars)
+<  !   call objfunc(pars,qval) ; realpars=realpartemp      
+<  !   pars(75)=0.0015_dp
+<  !   call getpars(pars,realpars)
+<  !   call objfunc(pars,qval) ; realpars=realpartemp       
+<  !   pars(75)=0.002_dp
+<  !   call getpars(pars,realpars)
+---
+> !    call getpars(pars,realpars)
+> !    call objfunc(pars,qval) ; realpars=realpartemp      
+> !    pars(75)=0.015_dp
+> !    call getpars(pars,realpars)
+841,856c826
+<  !   pars(75)=0.0025_dp
+<  !   call getpars(pars,realpars)
+<  !   call objfunc(pars,qval) ; realpars=realpartemp      
+<  !   pars(75)=0.003_dp
+<  !   call getpars(pars,realpars)
+<  !   call objfunc(pars,qval) ; realpars=realpartemp      
+<  !   pars(75)=0.0035_dp
+<  !   call getpars(pars,realpars)
+<  !   call objfunc(pars,qval) ; realpars=realpartemp      
+<  !   pars(75)=0.004_dp
+<  !   call getpars(pars,realpars)
+<  !   call objfunc(pars,qval) ; realpars=realpartemp      
+<  !   pars(75)=0.0045_dp
+<  !   call getpars(pars,realpars)
+<  !   call objfunc(pars,qval) ; realpars=realpartemp      
+<  !   pars(75)=0.005_dp
+---
+>  !   pars(75)=0.02_dp
+860,910c830,857
+<    
+<     !!m031722_5
+<     !pars(75)=0.001_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.00105_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp       
+<     !pars(75)=0.0011_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.00115_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.0012_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.00125_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.0013_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.00135_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.0014_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.00145_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     !pars(75)=0.0015_dp
+<     !call getpars(pars,realpars)
+<     !call objfunc(pars,qval) ; realpars=realpartemp      
+<     
+<     
+<     !march 23 2022
+<     !M032322_1 
+<     pars(75)=0.0015_dp
+<     nonlabinc=0.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp          
+<     nonlabinc=0.5_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=5.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp  
+<     nonlabinc=10.0_dp
+<     call getpars(pars,realpars)
+---
+> 
+>     !m031722_4
+>     pars(75)=0.001_dp
+>     call getpars(pars,realpars)
+>     call objfunc(pars,qval) ; realpars=realpartemp      
+>     pars(75)=0.0015_dp
+>     call getpars(pars,realpars)
+>     call objfunc(pars,qval) ; realpars=realpartemp       
+>     pars(75)=0.002_dp
+>     call getpars(pars,realpars)
+>     call objfunc(pars,qval) ; realpars=realpartemp      
+>     pars(75)=0.0025_dp
+>     call getpars(pars,realpars)
+>     call objfunc(pars,qval) ; realpars=realpartemp      
+>     pars(75)=0.003_dp
+>     call getpars(pars,realpars)
+>     call objfunc(pars,qval) ; realpars=realpartemp      
+>     pars(75)=0.0035_dp
+>     call getpars(pars,realpars)
+>     call objfunc(pars,qval) ; realpars=realpartemp      
+>     pars(75)=0.004_dp
+>     call getpars(pars,realpars)
+>     call objfunc(pars,qval) ; realpars=realpartemp      
+>     pars(75)=0.0045_dp
+>     call getpars(pars,realpars)
+>     call objfunc(pars,qval) ; realpars=realpartemp      
+>     pars(75)=0.005_dp
+>     call getpars(pars,realpars)
+912,935d858
+<     nonlabinc=100.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=500.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=1000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=2000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=3000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=4000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=5000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=6000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+937a861
+>    
+
+ECLP022:migit ahu$ mv ./m031522/mig_main.f90 ./m031522/migmain032122.f90
+ECLP022:migit ahu$ diff ./m030622/mig_params.f90 ./m031522/mig_params.f90 
+19c19
+< 	integer(i4b), parameter :: numit=12 !ahumarch1122
+---
+> 	integer(i4b), parameter :: numit=9 !ahumarch1122
+
+WILL DELETE THE REST OF THE FILES IN M031522 (OTHER THAN MIGSOL AND MIGMAIN AND NO NEED FOR PARAMS) 
+NOTE THAT I AM SAVING THE MIGMAIN IN M031522 AS MIGMAIN032122 TO BE CONSISTENT WITH THE MIGSOL THERE. 
+WILL NOT DELETE DIRECTORY M031522 AND WILL KEEP ALL THESE FILES IN THERE (BUT DELETING THE SAME FIELS WHICH ARE MIG_FUNC , ETC.) 
+
+
+COMPARING M030622 AND M032722CLUSTER DIRECTORIES
+ECLP022:migit ahu$ diff ./m030622/getdecdec0-032322.f90 ./m032722cluster/getdecdec0-032722.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_share.f90 ./m032722cluster/mig_share.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_func.f90 ./m032722cluster/mig_func.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_yaz.f90 ./m032722cluster/mig_yaz.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_mom.f90 ./m032722cluster/mig_mom.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_objf.f90 ./m032722cluster/mig_objf.f90 
+281c281
+<         write(60,'(1a15,12f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
+---
+>         write(60,'(1a15,2f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
+ECLP022:migit ahu$ 
+ECLP022:migit ahu$ diff ./m030622/mig_params.f90 ./m032722cluster/mig_params.f90 
+19c19
+< 	integer(i4b), parameter :: numit=12 !ahumarch1122
+---
+> 	integer(i4b), parameter :: numit=2 !ahumarch1122
+ECLP022:migit ahu$ diff ./m030622/gauher.f90 ./m032722cluster/gauher.f90 
+ECLP022:migit ahu$ diff ./m030622/gauher_save.f90 ./m032722cluster/gauher_save.f90 
+ECLP022:migit ahu$ diff ./m030622/indexx.f90 ./m032722cluster/indexx.f90 
+ECLP022:migit ahu$ diff ./m030622/interpolate.f90 ./m032722cluster/interpolate.f90 
+ECLP022:migit ahu$ diff ./m030622/getNB.f90 ./m032722cluster/getNB.f90 
+ECLP022:migit ahu$ diff ./m030622/locate.f90 ./m032722cluster/locate.f90 
+ECLP022:migit ahu$ diff ./m030622/read_data.f90 ./m032722cluster/read_data.f90 
+ECLP022:migit ahu$ diff ./m030622/regression.f90 ./m032722cluster/regression.f90 
+ECLP022:migit ahu$ diff ./m030622/SLgenlib.f90 ./m032722cluster/SLgenlib.f90 
+ECLP022:migit ahu$ diff ./m030622/testran.f90 ./m032722cluster/testran.f90 
+ECLP022:migit ahu$ diff ./m030622/sort2.f90 ./m032722cluster/sort2.f90 
+ECLP022:migit ahu$ diff ./m030622/pNelder_mead_train.f90 ./m032722cluster/pNelder_mead_train.f90 
+ECLP022:migit ahu$ diff ./m030622/pNelder_mead_hold.f90 ./m032722cluster/pNelder_mead_hold.f90 
+ECLP022:migit ahu$ diff ./m030622/pNelder_mead_cluster040615.f90 ./m032722cluster/pNelder_mead_cluster040615.f90 
+ECLP022:migit ahu$ diff ./m030622/alib.f90 ./m032722cluster/alib.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_xtramom.f90 ./m032722cluster/mig_xtramom.f90 
+ECLP022:migit ahu$ diff ./m030622/mig_main.f90 ./m032722cluster/mig_main.f90 
+900,933d899
+<     nonlabinc=0.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp          
+<     nonlabinc=0.5_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=5.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp  
+<     nonlabinc=10.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=100.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=500.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=1000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=2000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=3000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=4000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=5000.0_dp
+<     call getpars(pars,realpars)
+<     call objfunc(pars,qval) ; realpars=realpartemp      
+<     nonlabinc=6000.0_dp
+935a902
+>     
+ECLP022:migit ahu$ diff ./m030622/mig_params_wait.f90 ./m032722cluster/mig_params_wait.f90 
+
+
+
+DELETED THE ONES THAT ARE THE SAME
+
+
+
+
+THINGS TO CHECK AND DECIDE: 
+
+1add. REMEMBER TO CHECK NEPSMOVE AS WELL AS NONLABINC VALUES 
+
+1. Where to put the if statement if ( maxval(qq2w(:,q0)) <= np1 ) then !state variable part of the q space i.e. w <= np1 (after the start of q0 loop or x0 loop?)
+Need to check whether it makes a differences in runtime as well as in moments. 
+
+2. ECLP022:migit ahu$ diff ./m030622/temp032322_2.f90 ./m031522/temp032122.f90 
+190c190
+<                     end if 
+---
+> 
+Note that temp files are the /m030622/mig_sol032322_2 and /m031522/mig_sol032122.f90 files but until line 218
+So teh above diff means that until line 218, the only difference is the end if statement on line 190. which needs to be commented or unc
+
+
+3. The main differences between m030622/migsol032322_2.f90 and m031522/migsol032122.f90 are getdec_c (PLUS between lines 219 and 244 which are pretty much the same thing as the part in getdecc that is different but see above for more details) 
+So I copied the getdec_c in the two files and saved them as getdec032322_2 and getdec032122. I will add them to one file later in order to test their outcome
+But their main differences are simply the replacement of vdifs of the other longer calculations, moving of eps to the other side and commenting out of some logical alt statements and the calculation of transfers
+
+4. Took out the getch_couple and get_dec and get_Dec0 of migsol032322 because those look different and later written. 
+So I copied these and saved the new file as getchdecdec0032322.f90
+The rest of that file (Line 1to467 and the lines after the end of get_dec0) do not look different to anything else that counts
+You can check the rest later if you'd like a peace of mind. Everything is preserved under m030622/migsol032322.f90 
+But for now we need to incorporate these getch_couple things as well as the difference getdec versions and choose one of them. 
+
+So usually from the beginning of mig_Sol file until the end of the solve subroutine (end subroutine solve) usually the only difference between all these files is that part between line 219 and line 244. in migsol032322, there are also some differences that are due to writing of output when debugging around call get_dec0 in the solve subroutine but these can be ignored). 
+
+
+
+5. The mig_sol in m030622 looks a little off. Not sure what date this corresponds to at all. But it's incomplete. The getdec_c starts in the middle fo the solve subroutine right after calling getdec_c. And inside getdec_c it seems all wrong, something that I tried that seems to eb wrong. 
+But look at this getdec_c. Also look at the write statement that writes out something about the difference between testing etc. 
+
+6. ECLP022:migit ahu$ diff ./m030622/getdecdec0-032322.f90 ./m032722cluster/getdecdec0-032722.f90 
+There is no difference between the getdec subroutines in the migsol files named 032322 and 032722 (from the directories above) 
+Most probably (since getdec getdec0 are the same) the rest of the migsol032322 adn mig_sol file in m032722cluster are also the same (other than the fact that migsol032322 also includes getch_couple but the other one does not). 
+I won't bother checking this. 
+Will copy getdecdec0-032722 onto m030622 directory in order to use it for incorporating all gender's in one file and choosing one of them. 
+
+
+7. Using migsol032322.f90 as the base, I will now add all the different getdec and getch_couple subroutines to this file. 
+in other words, I will copy and paste getdec032322_2.f90 
+Not adding the others since getdecdec0-032722 is exactly the same as that in getdecdec0-032322 (which is from migsol032322)
+and Not addingg getch_couple since that is also from migsol032322
+Added also getdec_c from migsol032122 (as getdec032122) in directory m031522, which was the one that is close to getdec032322_2
+which is why I am using that as base
+NAme this file migsol082822.f90. In this file, rename getch_couple as getchcouple for now in order to prevent that subroutine being used for now. 
+Replace call get_dec0 on line 161 with getdec032322_2 which is the original one (Sort of ). 
+
+Now only work from this file (migsol082822). 
+ALSO NEED TO LOOK AT MIG_SOL IN M030622. IT IS INCOMPLETE BUT IS THERE ANYTHING NEW OR DIFFERENT. GETCHCOUPLE OR GETDEC?
+
+
+8. Need to incorporate getch_couple as well as choose one o the getdec subroutines 
+
+Created m082822 directory in new cluster and copied the f90 files from m030622
+
+ECLP022:migit ahu$ scp -i  ~/.ssh/zju64 ~/Dropbox/migit/m030622/*.f90   ahu@10.50.0.20:/home/ahu/m082822/
+SLgenlib.f90                                                                                                                                       100%   53KB  58.0KB/s   00:00    
+alib.f90                                                                                                                                           100%   25KB  74.2KB/s   00:00    
+gauher.f90                                                                                                                                         100% 1331     4.3KB/s   00:00    
+gauher_save.f90                                                                                                                                    100% 1331     4.3KB/s   00:00    
+gauleg.f90                                                                                                                                         100% 1146     4.1KB/s   00:00    
+getNB.f90                                                                                                                                          100% 3277    10.5KB/s   00:00    
+getchcouple-032322.f90                                                                                                                             100% 8150    25.8KB/s   00:00    
+getdec032322_2.f90                                                                                                                                 100%   12KB  40.2KB/s   00:00    
+getdecdec0-032322.f90                                                                                                                              100%   17KB  51.0KB/s   00:00    
+getdecdec0-032722.f90                                                                                                                              100%   17KB  63.0KB/s   00:00    
+indexx.f90                                                                                                                                         100% 3466    11.1KB/s   00:00    
+interpolate.f90                                                                                                                                    100% 7400    23.4KB/s   00:00    
+locate.f90                                                                                                                                         100%  512     1.5KB/s   00:00    
+mig_func.f90                                                                                                                                       100%   10KB  36.0KB/s   00:00    
+mig_main.f90                                                                                                                                       100%   51KB 167.1KB/s   00:00    
+mig_mom.f90                                                                                                                                        100%  117KB 379.8KB/s   00:00    
+mig_objf.f90                                                                                                                                       100%   16KB  46.9KB/s   00:00    
+mig_params.f90                                                                                                                                     100%   37KB 119.0KB/s   00:00    
+mig_params_wait.f90                                                                                                                                100%   36KB 116.8KB/s   00:00    
+mig_share.f90                                                                                                                                      100%   46KB 165.5KB/s   00:00    
+mig_sol.f90                                                                                                                                        100%   47KB 155.9KB/s   00:00    
+mig_xtramom.f90                                                                                                                                    100%   40KB 131.5KB/s   00:00    
+mig_yaz.f90                                                                                                                                        100%   37KB 120.8KB/s   00:00    
+migmain032322.f90                                                                                                                                  100%   50KB 164.3KB/s   00:00    
+migsol032322.f90                                                                                                                                   100%   81KB 278.8KB/s   00:00    
+migsol032322_2.f90                                                                                                                                 100%   64KB 226.7KB/s   00:00    
+migsol082822.f90                                                                                                                                   100%  106KB 341.5KB/s   00:00    
+migsolextras1032322.f90                                                                                                                            100%   10KB  30.1KB/s   00:00    
+nr.f90                                                                                                                                             100%   84KB 270.9KB/s   00:00    
+nrtype.f90                                                                                                                                         100% 1413     4.5KB/s   00:00    
+nrutil.f90                                                                                                                                         100%   29KB  95.6KB/s   00:00    
+pNelder_mead_cluster040615.f90                                                                                                                     100%   45KB 160.8KB/s   00:00    
+pNelder_mead_hold.f90                                                                                                                              100%   42KB 151.7KB/s   00:00    
+pNelder_mead_train.f90                                                                                                                             100%   36KB 108.6KB/s   00:00    
+prog032122.f90                                                                                                                                     100%  559KB   1.0MB/s   00:00    
+program.f90                                                                                                                                        100%  528KB   1.4MB/s   00:00    
+read_data.f90                                                                                                                                      100%   11KB  38.0KB/s   00:00    
+regression.f90                                                                                                                                     100%   10KB  34.3KB/s   00:00    
+sort2.f90                                                                                                                                          100%  369     1.3KB/s   00:00    
+temp032322_2.f90                                                                                                                                   100%   14KB  22.7KB/s   00:00    
+temp1to467-m032322.f90                                                                                                                             100%   35KB  60.2KB/s   00:00    
+tempbottom032322_2.f90                                                                                                                             100%   23KB  81.3KB/s   00:00    
+testran.f90                                                                                                                                        100%  310     1.1KB/s   00:00    
+ECLP022:migit ahu$ 
+ECLP022:migit ahu$ scp -i  ~/.ssh/zju64 ~/Dropbox/migit/m030622/bp*.txt   ahu@10.50.0.20:/home/ahu/m082822/
+bp040219_2.txt                                                                                                                                     100% 2511     8.3KB/s   00:00    
+bp041019_3.txt                                     
+
+
+ahu@zju64core:~$ cd m082822/
+ahu@zju64core:~/m082822$ dir
+alib.f90	 getchcouple-032322.f90  interpolate.f90    mig_objf.f90	 migsol082822.f90	  nrtype.f90			  program.f90	    temp1to467-m032322.f90
+bp040219_2.txt	 getdec032322_2.f90	 locate.f90	    mig_params.f90	 migsolextras1032322.f90  nrutil.f90			  read_data.f90     tempbottom032322_2.f90
+bp041019_3.txt	 getdecdec0-032322.f90	 mig_func.f90	    mig_params_wait.f90  mig_sol.f90		  pNelder_mead_cluster040615.f90  regression.f90    testran.f90
+gauher.f90	 getdecdec0-032722.f90	 migmain032322.f90  mig_share.f90	 mig_xtramom.f90	  pNelder_mead_hold.f90		  SLgenlib.f90
+gauher_save.f90  getNB.f90		 mig_main.f90	    migsol032322_2.f90	 mig_yaz.f90		  pNelder_mead_train.f90	  sort2.f90
+gauleg.f90	 indexx.f90		 mig_mom.f90	    migsol032322.f90	 nr.f90			  prog032122.f90		  temp032322_2.f90
+ahu@zju64core:~/m082822$ rm getch*.f90
+ahu@zju64core:~/m082822$ rm getdec*.f90
+ahu@zju64core:~/m082822$ rm migsolextras1032322.f90 
+ahu@zju64core:~/m082822$ rm migsol032322*
+ahu@zju64core:~/m082822$ rm mig_params_wait.f90 
+ahu@zju64core:~/m082822$ rm migmain032322.f90 
+ahu@zju64core:~/m082822$ rm prog*.f90
+ahu@zju64core:~/m082822$ rm temp*.f90
+ahu@zju64core:~/m082822$ dir
+alib.f90	gauher_save.f90  interpolate.f90  mig_mom.f90	  migsol082822.f90  nr.f90			    pNelder_mead_hold.f90   SLgenlib.f90
+bp040219_2.txt	gauleg.f90	 locate.f90	  mig_objf.f90	  mig_sol.f90	    nrtype.f90			    pNelder_mead_train.f90  sort2.f90
+bp041019_3.txt	getNB.f90	 mig_func.f90	  mig_params.f90  mig_xtramom.f90   nrutil.f90			    read_data.f90	    testran.f90
+gauher.f90	indexx.f90	 mig_main.f90	  mig_share.f90   mig_yaz.f90	    pNelder_mead_cluster040615.f90  regression.f90
+ahu@zju64core:~/m082822$ 
+ahu@zju64core:~/m082822$ rm gauher_save.f90 
+ahu@zju64core:~/m082822$ cd .. 
+ahu@zju64core:~$ cp /home/ahu/m030722c082322/compmig /home/ahu/m082822/
+ahu@zju64core:~$ cp /home/ahu/m030722c082322/familymigpsid.txt /home/ahu/m082822/
+ahu@zju64core:~$ 
+ahu@zju64core:~$ 
+
+WHEN TRIED TO COMPILE, GOT ERRORS I THINK RELATED TO GETCHCOUPLE IN MIGSOL082822. WILL REMOVE THAT SUBROUTINE FOR NOW. 
+ADD THAT BACK ON LATER USING GETCHCOUPLE-032322.F90 
+
+When that subroutine removed now everything is fine
+
+Changed mig_main, objf, and params to have numit 2. 
+Changed mig_params by commenting out print mumar(1)  marked by ahu082822 as well as august2022
+
+
+
+
+
+
+
+082922  
+migsol082822: In getdec_c0 added mg to the value functions. More specifically, when it was corner solutions, I was just adding transfers but not mar utility so now I corrected that
+                vmarioj(1:2,j)=vecj(3:4,j)+transfers(1:2)  +  mg(z,trueindex)   !ag082922 agaugust2022            
+
+
+Running migsol082822 with getdec032322_2: 
+
+
+
+Running migsl082822 with detdec032122: 
+
+
+
+The objective function value is slightly different. 
+This must be mostly due to the fact that the main difference between these two versions is that I moved the eps to the other side of the inequality when calculating intsol in getdec (there are other differences such as using vdif in place of vec-vec in places etc. but eps must be the main thing that makes the difference. not the other things). 
+
+
+Check if this is indeed the case
+
+To check do the following in getdec032322_2:
+                !temp intsol(1)=( vec(5) + eps >= abs(vdif(1)-vdif(2)) )  !interior
+                !ahumarch2122 ahu032122 moving eps to the other side intsol(2)=( vec(5) + eps < vdif(1)-vdif(2)   )      !corner where c1=0 and c2=wsum
+                !ahumarch2122 ahu032122 moving eps to the other side intsol(3)=( vec(5) + eps < vdif(2)-vdif(1)   )      !corner where c1=wsum and c2=0
+                !temp intsol(2)=( vec(5) <= vdif(1)-vdif(2) + eps  )      !corner where c1=0 and c2=wsum !ahumarch2122 ahu032122 moving eps to the other side
+                !temp intsol(3)=( vec(5) <= vdif(2)-vdif(1) + eps  )      !corner where c1=wsum and c2=0 !ahumarch2122 ahu032122 moving eps to the other side
+                intsol(1)=( vec(5) + eps >= abs(vdif(1)-vdif(2)) )  !interior
+                intsol(2)=( vec(5) + eps < vdif(1)-vdif(2)   )      !corner where c1=0 and c2=wsum
+                intsol(3)=( vec(5) + eps < vdif(2)-vdif(1)   )      !corner where c1=wsum and c2=0
+
+
+And call getec032322_2 in solve subroutine
+To see if the objval will now be similar to when calling getdec032122
+The output for this is out032322_2test mom032322_2test
+The objval not the same as getdec032122 situation. Why?
+
+Also note that I was compiling with bounds check until now so that's why the runtime has been longer
+
+
+Adding the following to getdec032122 because it was omitted and there was no pc even though it was being used in the calculation of asum: 
+pc(1:2)	= ( vdif + eps >= 0.0_dp ) !ag082922 agaugust2022 added back pc calculation. pc was being used in asum below but not being assigned any value due to the above commenting out!
+
+asum = sum(  one(.not. pc)  *   abs( vdif )   ) 
+
+
+CHECK. MAKE SURE PC ETC. ARE ALL CALCULATED IN THE NEW GETDEC. (GETDEC_C OR GETDEC_C0 ETC.) 
+
+THINGS TO CHECK. THINGS TO CHECK. THINGS TO CHECK. 
+WHICH SIDE SHOULD EPS GO ON. DOES IT MAKE A DIFFERENCE. 
+DO WE NEED TO CHECK HAVEENOUGHTOMAKEINDIFF ETC. OR IS INTSOL ENOUGH OR SORT OF EQUIVALENT?
+WHAT SHOULD BE THE VALUES FOR NONLABINC
+WHAT SHOULD BE THE VALUE FOR NEPSMOVE. 
+DONE - MAKE SURE GETDEC_C (WHICHEVER IS CHOSEN) AND THE MAR DECISIONS INSIDE SOLVE ARE CONSISTENT. 
+MAKE SURE YOU CHANGE NZ FROM ONE TO SOMETHING HIGHER LATER.
+MAKE SURE YOU CHECK GROUPS TRUE OR FALSE
+GET RID OF SOME DECLARED VARIABLES THAT ARE NOT BEING USED ANYMORE IN SOL. 
+MAKE SURE DD IS CONSISTENT ALL THROUGHOUT 
+CHECK ALL THE YAZ'S TO MAKE SURE THEY ARE CONSISTENT WITH THE NEW DD SITUATIONS AND NEW CALLS
+YAZ CHECKNB YAZ DECISION YAZMAX ETC 
+Another check that needs to be done is to make sure that vmax=vec(3:4)+transfers(1:2) gives the same value as vmax=vec(1:2)+alf*surplus  
+
+
+                                    !ag090122 agsept2022 turnining dd(7) to callfrom instead of gender since gender wasn't being used anyway 
+                                    !ag090122 agsept2022 and using dd(8:11) for qm,qf,xm,xf
+                                    !ag090122 agsept2022 dd = (/ ia,trueindex,q,x,z,q0,-1,-1,q,-1,-1 /) 	! (/ ia,index,q,x,z,q0,gender,jmax,qmax,relmax,iepsmove /)  	
+                                                        ! g and q0 is just -1 here (/ ia,index,q,x,z,q0,gender,j,q,rel,iepsmove /) 
+                                                        ! when in the marriage market, the index that corresponds 
+                                                        ! to altq (i.e. i in yaz for example or dim 9 in dd) is just set to q since there is no altq in marriage market
+                                    callfrom=10
+                                    dd = (/ ia,trueindex,q,x,z,q0,callfrom,qm,qf,xm,xf /) 
+
+
+
+CHECK THE FOLLOWING
+m is well-defined meaning that there exists some allocation in the utility possibility set that is mutually beneficial
+module sol
+	use params
+	use share
+	use myaz
+	implicit none
+	real(sp) :: begintime,time(5)   
+    real(dp), dimension(nqs,nxs) :: vm0_s,vf0_s
+contains		
+	subroutine solve
+	real(dp) :: vec(5),vmax(2),val(2),vsum(2),vcheck(2)
+	real(dp), dimension(nqs,nxs) :: vm_s,vf_s,prob_s
+
+
+MAKE SURE CHEK THE FOLLOWING 
+        qmax=ch(jmax,q,q0)
+        relmax=1
+        vmax(1:2)=vec(1:2)+0.5_dp*surplusj(jmax)
+    else
+        qmax=0
+        relmax=0
+        vmax(1:2)=vec(1:2)
+    end if
+    dd(8)=jmax
+    dd(9)=qmax
+    dd(10)=relmax 
+
+
+
+
+
+
+ahu@zju64core:~/m082822$ vi out.txt 
+ahu@zju64core:~/m082822$ vi out032322_2.txt 
+ahu@zju64core:~/m082822$ vi out032322_2test.txt 
+ahu@zju64core:~/m082822$ vi out032122.txt 
+
+
+Now getdec032322_2 and getdec032122 give the same objval. As well as the test one 
+where we ran with getdec032322_2 but with eps placed the same as getdec032122. 
+
+
+Then ran with getdec_c0 which is the downhile one. 
+Gives different objval and the same run time as others. So no time save. 
+
+
+Changed in mig_params groups to false
+
+
+090122 SEPT2022 
+Tried to replace the calling of getdec_c in sol routine with checksit
+but that seems to take slightly longer 
+so went back to getdec_c
+Moved checklist as well as everything that has to do with it to checksit.f90 (From migsol082822.f90)
+Moved getdec032322_2 as well as getdec032122 all to checksit as well 
+Created a subroutine called checkdecmar and moved some if statements for checking there (this is placed in migsol)
+
+Note that in some of the new getdec, there are some redundancies, which I Will get rid of 
+
+    !ii is the max of surplusj. 
+    !check if that ii option is welldef and interior/corner
+    !welldef ----> you have found your best ii and set jmax equal to that
+    !not welldef ----> set surplusj(ii)=pen and update nn and go on to the next best ii 
+    !
+    jmax=-1 ; nn=0 !initiate jmax and the below do loop goes until this jmax is changed to a positive integer value
+    if (maxval(surplusj)>0.0_dp) then 
+    do while (jmax<0.and.nn<=nc+1.and.maxval(surplusj)>0.0_dp)
+        !check if that max is well defined or not. if it is  then move on. if not then lookat the rest of the surplusj's. 
+        !if (trueindex==1)   print*, "HEre it isat first",nn,jmax,surplusj(1:nc)
+
+For example above, the maxval(surplus) statement is repeated twice. No need for this. 
+And it's not clear if weldef is the appropriate term to use here for the surplus>0 condition
+
+
+MAKE SURE DD IS CONSSITENT ALL THROUGHOUT
+                                    !ag090122 agsept2022 turnining dd(7) to callfrom instead of gender since gender wasn't being used anyway 
+                                    !ag090122 agsept2022 and using dd(8:11) for qm,qf,xm,xf
+                                    !ag090122 agsept2022 dd = (/ ia,trueindex,q,x,z,q0,-1,-1,q,-1,-1 /) 	! (/ ia,index,q,x,z,q0,gender,jmax,qmax,relmax,iepsmove /)  	
+                                                        ! g and q0 is just -1 here (/ ia,index,q,x,z,q0,gender,j,q,rel,iepsmove /) 
+                                                        ! when in the marriage market, the index that corresponds 
+                                                        ! to altq (i.e. i in yaz for example or dim 9 in dd) is just set to q since there is no altq in marriage market
+                                    callfrom=10
+                                    dd = (/ ia,trueindex,q,x,z,q0,callfrom,qm,qf,xm,xf /) 
+
+
+090122 SEPT2022 CONTINUED 
+
+1. IMPORTANT INSIGHT SITUATION TYPE DEAL
+When creating getdec (which combines couples and singles decisions in sol routine), I had an error that basically shows that sometimes specifically
+at age 50 (probably only at age 50) jmax=maxloc(surplusj,MASK=haveenough(:)) this jmax comes out to be 0 sometimes 
+because there is basically no j such that have enough is TRUE. in other words, there are no options within marriage such that surplus is positive AND there 
+is enough inctotales (w1+w2+nonlabinc1+nonlabinc2) to make enough transfers so that both parties at least indifferent to being married over single. 
+This can happen if all surplusj elements are negative OR some are positive but there is not enough transfers to make marriage incentive combatible for both parties. 
+See below for example. 
+By the way, when a surplusj(j) is negative, note that this automatically also means that haveenoughj(j) is .FALSE. since in that case, we are not even talking about 
+having enough transfers to give some of the surplus to either or both parties to make them at least indifferent to being married over single. In that case, there is just no surplus 
+to be allocated period. So we don't even have to worry about whether we have the means to do any allocation (via transfers). 
+See below for example. The was a situation where all surplusj's are negative (see the broken down elements for why) and therefore jmax turns out to be 0. 
+If I just go onto using that jmax for array dimension (to get surplusj(jmax), vdifj(jmax) etc.) then I get an error. 
+
+So then I corrected this by first assigning relmax according to where jmax>0 AND THEN I go onto calculating the transfers and max. 
+For singles, we don't have to do any of this since there is no jmax to speak of in their case. 
+
+
+ mysay,ia,trueindex            0          50           1
+ jmax           0  -6492.1910269568198       -6492.1910269568198       -15923.981075689491       -19282.492720429891       -16843.506748661464       -7136.1139611717126       -16346.645609013422       -15711.631896078752       -11129.763059483987       -17858.243835633944       -6492.1910269568198       -6492.1910269568198       -1900.8680599622721       -1900.8680599622721       -99999999.000000000       -99999999.000000000       -99999999.000000000
+ utilc,vm0_c
+   3009.3035645586306        3009.3035645586306
+ mg,movecosts
+   374.99992968748063       -0.0000000000000000
+ vecj3, vm0c+mg+movecosts
+   3384.3034942461113        3384.3034942461113
+ vec1
+   6872.8776537644935
+ vecj1,vecj3-vec1
+  -3488.5741595183822       -3488.5741595183822
+ utilc,vf0_c
+   4898.2730824861446        4898.2730824861446
+ mg,movecosts
+   374.99992968748063       -0.0000000000000000
+ vecj4, vf0c+mg+movecosts
+   5273.2730121736249        5273.2730121736249
+ vec2
+   8276.8898796120629
+ vecj2,vecj4-vec2
+  -3003.6168674384380       -3003.6168674384380
+ vecj5
+   0.0000000000000000
+ surplusj,vecj5+sum(vecj(1:2,1))
+  -6492.1910269568198       -6492.1910269568198
+
+
+2. Another check that needs to be done is to make sure that vmax=vec(3:4)+transfers(1:2) gives the same value as vmax=vec(1:2)+alf*surplus  
+
+
+3. Changed mig_mom so that it calls getdec instead of getdec. marked by ag090122 and agsept2022
+
+4. Changed nepsmove from 2 to 5 and nz from 1 to 5 . marked by  ag090122 and agsept2022
+
+5. Also don't forget to decide on nonlabinc 
+   Also don't forget to 
+
+
+6. NOW TRYING WITH GROUPS=FALSE TO MAKE SURE WE GET THE SAME OBJVAL
+   WAS GIVING AN ERROR BUT IT WENT AWAY AFTER I CHANGED IT SO THAT AT THE END OF MIGMAIN I CALL MPI FINALIZE EVEN IF NOT DOING GROUPS 
+
+nohup mpirun -n 63 --use-hwthread-cpus /home/ahu/m032722c082222/mig.x > /home/ahu/m032722c082222/out.txt &
+
+nohup mpirun -n 63 --use-hwthread-cpus /home/ahu/m090122/mig.x > /home/ahu/m090122/out.txt &
+
+7. Changed something in mig_objf.f90 (commented out if groups in dividing moms by cntsim because i wasn't getting the right objval when groups FALSE even though 
+the moments look the same as groups TRUE!
+		!ag090122 agsept2022 when groups FALSE momsim's are not divided by cntsim so it gives weird objval so commenting this out 
+		!ag090122 agsept2022 see above line for why commented out if (groups) then 
+            if (calcvar(i)==0 .and. calcorr(i)==0 ) then
+                if ( cntsim(i) > 0) then
+				    momsim(i)=momsim(i)/cntsim(i)		!else ; simom(i)=0.0_dp  
+                end if 
+            else if (calcvar(i)==1) then 
+                if ( cntsim(i) > 0) then
+                    mutemp1=momsim(i)/cntsim(i)
+                    mutemp2=momsim(i+1)/cntsim(i+1)
+                    momsim(i)= mutemp1   
+                    momsim(i+1)= mutemp2  - mutemp1**2
+                end if 
+            else if (calcorr(i)==1) then 
+                if ( cntsim(i) > 0) then
+                    mutemp1=momsim(i)/cntsim(i)
+                    mutemp2=momsim(i+1)/cntsim(i+1)
+                    mutemp3=momsim(i+2)/cntsim(i+2)
+                    momsim(i)= mutemp1
+                    momsim(i+1)= mutemp2                    
+                    momsim(i+2)= mutemp3 - mutemp1 * mutemp2   
+                end if
+            end if
+		!ag090122 agsept2022 end if 
+
+
+
+
+8. 	IN MIG_MAIN: 
+	!ag090122 agsept2022 if (groups) then 
+	!ag090122 agsept2022 	call mpi_finalize(ierror)   
+	!ag090122 agsept2022 end if 
+    !ag090122 agsept2022 commenting out the aove groups if statment because 
+    !I get mpi error when I run with groups FALSE saying some process couldnt finish because mpi finalze wasn't called etc.
+    !since I invoke mpi regardless of groups, I have to call mpi finalize regardless of groups
+
+
+9. 	
+		!AG090122 AGSEPT2022
+		!IF WANT TO COMPARE OBJVAL BETWEEN RUNS GROUPS=TRUE AND GROUPS=FALSE THEN 
+		!NEED TO RUN GROUPS=TRUE WITH THE BELOW AND THEN GROUPS=FALSE WITH THE BELOW 
+		!INSTEAD OF THE LATTER IF STATEMENT (RIGHT AFTER IT)
+		!BECAUSE OTHERWISE WHEN GROUPS=FALSE, IT DOES NOT CALCULATE THE MOMENTS 
+		!WITH CALCVAR=1 AND CALCORR=1 THE WAY THEY ARE CALCULATED WHEN GROUPS=TRUE 
+		!(I.E. THE WAY THEY ARE CALCULATED WITHIN THE IF STATEMENT WITH MUTEMP'S)
+		!BUT IF COMPARING IS NOT THE PURPOSE THEN WHEN GROUPS=TRUE, 
+		!THE CALCVAR AND CALCORR MOMENTS NEED TO BE CALCULATED WIHT THOSE MUTEMP'S 
+		!I AM NTO JUST GETTING RID OF THESE MOMENTS BECAUSE I NEED THEM (OR THINK SO)
+		!if (groups) then 
+        !        if ( cntsim(i) > 0) then
+		!		    momsim(i)=momsim(i)/cntsim(i)		
+        !        end if 
+		!end if 
+		if (groups) then 
+            if (calcvar(i)==0 .and. calcorr(i)==0 ) then
+                if ( cntsim(i) > 0) then
+				    momsim(i)=momsim(i)/cntsim(i)		!else ; simom(i)=0.0_dp  
+                end if 
+            else if (calcvar(i)==1) then 
+                if ( cntsim(i) > 0) then
+                    mutemp1=momsim(i)/cntsim(i)
+                    mutemp2=momsim(i+1)/cntsim(i+1)
+                    momsim(i)= mutemp1   
+                    momsim(i+1)= mutemp2  - mutemp1**2
+					!ag090122 agsept2022 : 
+					!IF THIS IS NOT COMMENTED OUT:
+					!GROUPS TRUE AND FALSE They give the same moments so they should give same objval. 
+					!But they don't give same objval mainly because of this calculation above. 
+					!When groups false, the momsims dont need to be dividded by cntsims and all the momsims 
+					!are already calculated the way they should be by getmom (when groups false).
+					!So when groups false, we do not get in these calculations within the if (groups) statement above. 
+					!In this if statement, some momsims are calculated with these mutemp's (when calcvar=1 and calcorr=1) (when groups true) 
+					!so there is no way to this mutemp calculation when groups true. (for calcvar=1 and calcorr=1 cases)
+					!so then instead of trying to figure out how to do the calcvar and calcorr calcuations for groups true
+					!i just comment them out and compare objval to groups false. 
+                end if 
+            else if (calcorr(i)==1) then 
+                if ( cntsim(i) > 0) then
+                    mutemp1=momsim(i)/cntsim(i)
+                    mutemp2=momsim(i+1)/cntsim(i+1)
+                    mutemp3=momsim(i+2)/cntsim(i+2)
+                    momsim(i)= mutemp1
+                    momsim(i+1)= mutemp2                    
+                    momsim(i+2)= mutemp3 - mutemp1 * mutemp2   
+                end if 
+            end if
+		end if 
+
+
+THE ABOVE IS SOMETHING YOU NEED TO WATCH OUT FOR. WHEN GROUPS TRUE, IT HAS THIS IF GROUPS STATEMENT AND AFTER THAT SOME MOMSIM'S ARE
+CALCULATED BY DIVIDING BY CNTSIM AND SOME ARE CALCULATED DIFFERENTLY ACCORDINGLY TO CALCVAR AND CALCORR STUFF. 
+WHEN GROUPS FALSE, THAT WHOLE CALCULATION DOES NOT TAKE PLACE BECAUSE OF THE IF GROUPS STATEMETN BEFORE IT. 
+BUT THE SOLUTION IS NOT TO GET RID OF THE IF GROUPS STATEMENT BECAUSE WHEN GROUPS FALSE YOU DO NOT NEED TO 
+DIVIDE MOMSIM BY CNTSIM BECAUSE THAT'S ALREADY DONE BEFORE AUTOMATICALLY IN GETMOM I THINK. 
+ 
+
+10. TRIED WITH DIFFERENT NONLABINC AND MUMAR COMBO'S. DON'T SEEM TO MAKE MUCH DIFF. 
+
+11. mar move rates are way too low. CHANGED NEPSMOVE TO 5
+
+12. IN SHARE: BIG CHANGE 
+	moveshock_m(:) = sqrt(2.0_dp) * sigo_m * abs3(:) + mu_o			! abscissas for marrige utility shock distribution
+	moveshock_f(:) = sqrt(2.0_dp) * sigo_f * abs3(:) + mu_o			! abscissas for marrige utility shock distribution
+    !if ((.not.chkstep).and.(.not.optimize) ) print*, "mg :", mg(:)
+	!moveshock(:) = sqrt(2.0_dp) * sig_o * dble(abs3(:)) + mu_o			! abscissas for marrige utility shock distribution
+
+ 
+    if (nepsmove==1) then 
+        moveshock_m=0.0_dp
+        moveshock_f=0.0_dp
+    end if
+    !ag090122 agsept2022 bshock_m=moveshock_m
+    !ag090122 agsept2022 bshock_f=moveshock_f
+	bshock_m=0.0_dp
+	bshock_f=0.0_dp
+    !moveshock_m=0.0_dp
+    !moveshock_f=0.0_dp
+    
+
+    
+13. WHEN I TRY TO WRITE SIGOM SIGOF IN MIG_PARAMS WHY IS IT WRITING OUT DIFFERENT VALUES EACH ROW IN OUT.TXT. DONE. COMMENTED OUT SOME REDUNDANT EXTRA GETPARS IN MAIN, 
+
+14. WHY IS NEPSMOVE=5 GIVING DIFFERENT RESULTS COMPARED TO NEPSMOVE=2    DONE. NOT A PROBLEM. WAS NOT A PROBLEM IN THE FIRST PLACE .
+
+
+15. NEED TO CHANGE GETCH COUPLE (MAYBE NOT) BUT LATER. 
+
+
+16.     !ag090122 agsept2022 real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=50.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
+    !ag090122 agsept2022: increasing wmovemar to 100 because mar move rates are too low
+    real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=50.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=200.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
+
+
+17 NEPSMOVE =3 NOW. SENT A OPT WITH THAT SITUATION. 
+
+18. ALSO RUNNING SINGLES OPT WITH THE SAME EXACT SETUP.
+ahu@zju64core:~$ cp /home/ahu/m090122/* /home/ahu/m090422/
+ahu@zju64core:~$ cd m090422/
+JUST CHANGED ONLYSINGLES TO TRUE IN MIG_PARAMS AND THE REST IS THE SAME AS 090122
+
+
+
+ECLP022:m030622 ahu$ scp -i  ~/.ssh/zju64 ~/Dropbox/migit/m030622/mig_objf.f90   ahu@10.50.0.20:/home/ahu/m090522/
+mig_objf.f90                                                                                                                                       100%   18KB  29.4KB/s   00:00    
+ECLP022:m030622 ahu$ scp -i  ~/.ssh/zju64 ~/Dropbox/migit/m030622/migsol082822.f90   ahu@10.50.0.20:/home/ahu/m090122/
+migsol082822.f90                                                                                                                                   100%   66KB  69.3KB/s   00:00    
+ECLP022:m030622 ahu$ scp -i  ~/.ssh/zju64 ~/Dropbox/migit/m030622/mig_share.f90   ahu@10.50.0.20:/home/ahu/m090122/
+mig_share.f90                                                                                                                                      100%   46KB  56.3KB/s   00:00    
+ECLP022:m030622 ahu$ scp -i  ~/.ssh/zju64 ~/Dropbox/migit/m030622/mig_params.f90   ahu@10.50.0.20:/home/ahu/m090522/
+
+
+090522
+in mig_params: 
+    integer(i4b), parameter :: nepsmove=2, nepskid=2 !ag090522 nepsmove 3 to 2 !ag090122 agsept2022 changed nepsmove frmo 2 to 5 !ahumarch1022 changed nepsmove to 2 from 13
+AND
+!ag090122 agsept2022 
+    real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=50.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
+    !ag090122 agsept2022: increasing wmovemar to 100 because mar move rates are too low
+    !ag090522 agsept2022 real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=50.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=200.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
+AND
+Changed optimize to FALSE
+
+
+in migsol082822:
+in sol:
+                                vsingtest(1:2)=valso(1:2) !ag090522 agsept2022
+
+    real(dp) :: vsingtest(2) !ag090522 agsept2022
+			print*, "mysay,ia,trueindex ",mysay,ia,trueindex !ahu 030622
+
+			print*, "mysay,ia,trueindex ",iter,mysay,ia,trueindex !ahu 030622
+
+in getdec:
+            vec(1:2)=vsingtest(1:2) !vsing(1:2) ag090522 agsept2022
+
+
+
+in mig_objf:
+    print*, "iter,mysay,iwritegen",iter,mysay,iwritegen !ag090522 agsept2022
+
+
+
+in mig_share:
+moveshock(:) = sqrt(2.0_dp) * sig_o * dble(abs3(:)) + mu_o                     ! abscissas for marrige utility shock distribution
+    if (nepsmove==1) then
+        moveshock_m=0.0_dp
+        moveshock_f=0.0_dp
+    end if
+    bshock_m=moveshock_m
+    bshock_f=moveshock_f
+    moveshock_m=0.0_dp
+    moveshock_f=0.0_dp
+
+
+    !moveshock(:) = sqrt(2.0_dp) * sig_o * dble(abs3(:)) + mu_o                     ! abscissas for marrige utility shock distribution^M
+    if (nepsmove==1) then ^M
+        moveshock_m=0.0_dp^M
+        moveshock_f=0.0_dp^M
+    end if^M
+    !ag090122 agsept2022 bshock_m=moveshock_m^M
+    !ag090122 agsept2022 bshock_f=moveshock_f^M
+    bshock_m=0.0_dp^M
+    bshock_f=0.0_dp^M
+    !moveshock_m=0.0_dp^M
+    !moveshock_f=0.0_dp^M
+
+
+
+change it back to:
+    if (nepsmove==1) then 
+        moveshock_m=0.0_dp
+        moveshock_f=0.0_dp
+    end if
+    !ag090122 agsept2022 bshock_m=moveshock_m
+    !ag090122 agsept2022 bshock_f=moveshock_f
+	bshock_m=0.0_dp
+	bshock_f=0.0_dp
+    !moveshock_m=0.0_dp
+    !moveshock_f=0.0_dp
+
+
+
+ in pNelder_mead
+    g(irow,i) = p(i) + zero !ag090522 agsept2022 step(i)
+among other things
+
+MODULE pNelder_Mead
+!ahu 010417: TOOK THIS FROM COHABITC/CLUSTER 040615. ONLY CHANGE FOR NOW WILL BE THE INCLUDE MPIF.H AND UNCOMMENTING OUT USE GLOBAL. 
+!AND ALSO SOME CHANGED AT THE BEGINNING ABOUT HOW REALRANK IS OBTAINED (WAS EQUATING TO MYID BEFORE WHICH REQUIRED THE USE OF GLOBAL. 
+!BUT NOW UNCOMMENTED OUT THE CALL MPI AT THE BEGINNING AND I OBTAIN REALRANK THAT WAY). 
+use nrtype, only: dp
+!use params !, only: mysay !use global  !, only: myid
+!use mpi
+
+IMPLICIT NONE
+!INCLUDE 'mpif.h'
+!ahu f14 putting this in the subroutine so that it does not clash with nrtype INTEGER, PARAMETER :: dp = SELECTED_REAL_KIND(12, 60)
+!PRIVATE
+!PUBLIC :: pminim
+
+
+in migmain:
+    stepmin=0.0_dp !ag090522 agsept2022
+    stepmin(1:30)=stepos(1:30) !ag090522 agept2022         
+
+
+
+090622 SEPTEMBER 6 2022
+
+ ~/.ssh/zju64 ~/Dropbox/migit/m030622/pNelder_mead_cluster040615.f90   ahu@10.50.0.20:/home/ahu/m090522/
+ ~/.ssh/zju64  ahu@10.50.0.20:/home/ahu/m090122/*   ~/Dropbox/migit/m090622/ 
+
+
+COPYING FILES FROM M090122 BECAUSE THOSE ARE ALL ORIGINAL FILES FROM M030622 (NO ALTERING WHEN DEBUGGIN IN THE FIRST WEEK OF SEPTEMBER)
+ECLP022:migit ahu$ mkdir m090622
+ECLP022:migit ahu$ scp -i  ~/.ssh/zju64  ahu@10.50.0.20:/home/ahu/m090122/*   ~/Dropbox/migit/m090622/ 
+alib.f90                                                                                                                                           100%   25KB  45.9KB/s   00:00    
+alib.mod                                                                                                                                           100%   40KB  64.1KB/s   00:00    
+bestpar.txt                                                                                                                                        100% 2511     8.7KB/s   00:00    
+bestval.txt                                                                                                                                        100% 4121    14.2KB/s   00:00    
+bp040219_2.txt                                                                                                                                     100% 2511     8.7KB/s   00:00    
+bp041019_3.txt                                                                                                                                     100% 2511     8.7KB/s   00:00    
+chkobj.txt                                                                                                                                         100%   49KB 173.8KB/s   00:00    
+compmig                                                                                                                                            100% 1273     3.2KB/s   00:00    
+copumig                                                                                                                                            100%  193     0.7KB/s   00:00    
+dursim1.txt                                                                                                                                        100% 3881KB 460.0KB/s   00:08    
+familymigpsid.txt                                                                                                                                  100% 4587KB   1.5MB/s   00:02    
+gauher.f90                                                                                                                                         100% 1331     4.6KB/s   00:00    
+gauher_save.f90                                                                                                                                    100% 1331     4.6KB/s   00:00    
+gauleg.f90                                                                                                                                         100% 1146     3.9KB/s   00:00    
+getNB.f90                                                                                                                                          100% 3277    11.4KB/s   00:00    
+hist                                                                                                                                               100%   29KB 100.4KB/s   00:00    
+indexx.f90                                                                                                                                         100% 3466    12.2KB/s   00:00    
+interpolate.f90                                                                                                                                    100% 7400    25.8KB/s   00:00    
+locate.f90                                                                                                                                         100%  512     1.8KB/s   00:00    
+mig_func.f90                                                                                                                                       100%   10KB  35.0KB/s   00:00    
+mig_main.f90                                                                                                                                       100%   53KB 190.1KB/s   00:00    
+migmom082822.f90                                                                                                                                   100%  117KB 318.4KB/s   00:00    
+mig_mom.f90                                                                                                                                        100%  117KB 409.6KB/s   00:00    
+mig_objf.f90                                                                                                                                       100%   18KB  47.3KB/s   00:00    
+mig_params.f90                                                                                                                                     100%   37KB 132.8KB/s   00:00    
+mig_params_wait.f90                                                                                                                                100%   36KB 126.5KB/s   00:00    
+mig_share.f90                                                                                                                                      100%   46KB 163.2KB/s   00:00    
+migsol082822.f90                                                                                                                                   100%   66KB 238.8KB/s   00:00    
+migsol090122.f90                                                                                                                                   100%  104KB 366.3KB/s   00:00    
+migsol090222.f90                                                                                                                                   100%   66KB 211.6KB/s   00:00    
+mig_sol.f90                                                                                                                                        100%   47KB 162.6KB/s   00:00    
+mig.x                                                                                                                                              100%  652KB   2.2MB/s   00:00    
+mig_xtramom.f90                                                                                                                                    100%   40KB 118.8KB/s   00:00    
+mig_yaz.f90                                                                                                                                        100%   37KB 130.1KB/s   00:00    
+mom090522.txt                                                                                                                                      100%  365KB   1.2MB/s   00:00    
+mom1.txt                                                                                                                                           100%  365KB   1.2MB/s   00:00    
+momgrfalse.txt                                                                                                                                     100%  364KB   1.2MB/s   00:00    
+momgroupsfalse.txt                                                                                                                                 100%  364KB   1.2MB/s   00:00    
+momgroupstrue                                                                                                                                      100%  364KB   1.2MB/s   00:00    
+momgrtrue.txt                                                                                                                                      100%  364KB   1.2MB/s   00:00    
+mom.mod                                                                                                                                            100%   59KB 207.4KB/s   00:00    
+momnonlabinc.txt                                                                                                                                   100% 1445KB   1.7MB/s   00:00    
+mom.txt                                                                                                                                            100%  365KB   1.2MB/s   00:00    
+myaz.mod                                                                                                                                           100%   58KB 201.6KB/s   00:00    
+nodelist                                                                                                                                           100%   85     0.3KB/s   00:00    
+nr.f90                                                                                                                                             100%   84KB 298.3KB/s   00:00    
+nr.mod                                                                                                                                             100%   29KB 102.0KB/s   00:00    
+nrtype.f90                                                                                                                                         100% 1413     4.9KB/s   00:00    
+nrtype.mod                                                                                                                                         100% 1802     6.2KB/s   00:00    
+nrutil.f90                                                                                                                                         100%   29KB 104.5KB/s   00:00    
+nrutil.mod                                                                                                                                         100% 7802    26.6KB/s   00:00    
+objf.mod                                                                                                                                           100%   59KB 208.4KB/s   00:00    
+opt090522.txt                                                                                                                                      100%  581KB   1.9MB/s   00:00    
+opt.txt                                                                                                                                            100% 4457KB   2.0MB/s   00:02    
+out1.txt                                                                                                                                           100%   53KB 183.8KB/s   00:00    
+outgrfalse.txt                                                                                                                                     100%  149KB 524.1KB/s   00:00    
+outgroupsfalse.txt                                                                                                                                 100%  149KB 377.8KB/s   00:00    
+outgroupstrue                                                                                                                                      100%   18KB  63.3KB/s   00:00    
+outgrtrue.txt                                                                                                                                      100%   18KB  46.9KB/s   00:00    
+outjmaxer.txt                                                                                                                                      100%   11KB  37.6KB/s   00:00    
+outnonlabinc.txt                                                                                                                                   100% 1803     4.6KB/s   00:00    
+out.txt                                                                                                                                            100% 3871    13.5KB/s   00:00    
+outz5nepsmove5.txt                                                                                                                                 100%   18KB  63.0KB/s   00:00    
+params.mod                                                                                                                                         100%   55KB 194.4KB/s   00:00    
+pNelder_mead_cluster040615.f90                                                                                                                     100%   45KB 157.8KB/s   00:00    
+pNelder_mead_hold.f90                                                                                                                              100%   42KB 122.0KB/s   00:00    
+pnelder_mead.mod                                                                                                                                   100% 1872     6.5KB/s   00:00    
+pNelder_mead_train.f90                                                                                                                             100%   36KB 116.1KB/s   00:00    
+program.f90                                                                                                                                        100%  566KB   1.9MB/s   00:00    
+read_data.f90                                                                                                                                      100%   11KB  38.7KB/s   00:00    
+regression.f90                                                                                                                                     100%   10KB  37.4KB/s   00:00    
+share.mod                                                                                                                                          100%   58KB 203.6KB/s   00:00    
+SLgenlib.f90                                                                                                                                       100%   53KB 161.8KB/s   00:00    
+sol.mod                                                                                                                                            100%   59KB 206.9KB/s   00:00    
+sort2.f90                                                                                                                                          100%  369     1.3KB/s   00:00    
+testran.f90                                                                                                                                        100%  310     1.1KB/s   00:00    
+ECLP022:migit ahu$ rm *.mod
+ECLP022:migit ahu$ rm mom*.txt
+ECLP022:migit ahu$ rm chk*.txt
+ECLP022:migit ahu$ rm out*.txt
+ECLP022:migit ahu$ rm migsol09*
+rm: migsol09*: No such file or directory
+ECLP022:migit ahu$ cd m090622/
+ECLP022:m090622 ahu$ rm *.mod
+ECLP022:m090622 ahu$ rm mom*.txt
+ECLP022:m090622 ahu$ rm chk*.txt
+ECLP022:m090622 ahu$ rm out*.txt
+ECLP022:m090622 ahu$ rm migsol09*
+ECLP022:m090622 ahu$ dir
+-bash: dir: command not found
+ECLP022:m090622 ahu$ 
+ECLP022:m090622 ahu$ ls -al
+total 36128
+drwxr-xr-x@  49 ahu  staff     1568 Sep  6 11:15 .
+drwxr-xr-x@ 214 ahu  staff     6848 Sep  6 11:13 ..
+-rwxr--r--@   1 ahu  staff    54745 Sep  6 11:13 SLgenlib.f90
+-rwxr--r--@   1 ahu  staff    26056 Sep  6 11:12 alib.f90
+-rw-r--r--@   1 ahu  staff     2511 Sep  6 11:12 bestpar.txt
+-rw-r--r--@   1 ahu  staff     4121 Sep  6 11:12 bestval.txt
+-rw-r--r--@   1 ahu  staff     2511 Sep  6 11:12 bp040219_2.txt
+-rw-r--r--@   1 ahu  staff     2511 Sep  6 11:12 bp041019_3.txt
+-rwxr--r--@   1 ahu  staff     1273 Sep  6 11:12 compmig
+-rwxr--r--@   1 ahu  staff      193 Sep  6 11:12 copumig
+-rw-r--r--@   1 ahu  staff  3974100 Sep  6 11:12 dursim1.txt
+-rw-r--r--@   1 ahu  staff  4697484 Sep  6 11:12 familymigpsid.txt
+-rwxr--r--@   1 ahu  staff     1331 Sep  6 11:12 gauher.f90
+-rwxr--r--@   1 ahu  staff     1331 Sep  6 11:13 gauher_save.f90
+-rwxr--r--@   1 ahu  staff     1146 Sep  6 11:13 gauleg.f90
+-rwxr--r--@   1 ahu  staff     3277 Sep  6 11:13 getNB.f90
+-rw-r--r--@   1 ahu  staff    29300 Sep  6 11:13 hist
+-rwxr--r--@   1 ahu  staff     3466 Sep  6 11:13 indexx.f90
+-rwxr--r--@   1 ahu  staff     7400 Sep  6 11:13 interpolate.f90
+-rwxr--r--@   1 ahu  staff      512 Sep  6 11:13 locate.f90
+-rwxr-xr-x@   1 ahu  staff   667696 Sep  6 11:13 mig.x
+-rwxr--r--@   1 ahu  staff    10133 Sep  6 11:13 mig_func.f90
+-rw-r--r--@   1 ahu  staff    54563 Sep  6 11:13 mig_main.f90
+-rw-r--r--@   1 ahu  staff   119646 Sep  6 11:13 mig_mom.f90
+-rw-r--r--@   1 ahu  staff    18414 Sep  6 11:13 mig_objf.f90
+-rw-r--r--@   1 ahu  staff    38340 Sep  6 11:13 mig_params.f90
+-rw-r--r--@   1 ahu  staff    36888 Sep  6 11:13 mig_params_wait.f90
+-rwxr--r--@   1 ahu  staff    47440 Sep  6 11:13 mig_share.f90
+-rw-r--r--@   1 ahu  staff    48477 Sep  6 11:13 mig_sol.f90
+-rwxr--r--@   1 ahu  staff    41462 Sep  6 11:13 mig_xtramom.f90
+-rwxr--r--@   1 ahu  staff    37922 Sep  6 11:13 mig_yaz.f90
+-rw-r--r--@   1 ahu  staff   120121 Sep  6 11:13 migmom082822.f90
+-rw-r--r--@   1 ahu  staff    67890 Sep  6 11:13 migsol082822.f90
+-rw-r--r--@   1 ahu  staff   373190 Sep  6 11:13 momgroupstrue
+-rw-r--r--@   1 ahu  staff       85 Sep  6 11:13 nodelist
+-rwxr--r--@   1 ahu  staff    85678 Sep  6 11:13 nr.f90
+-rwxr--r--@   1 ahu  staff     1413 Sep  6 11:13 nrtype.f90
+-rwxr--r--@   1 ahu  staff    30176 Sep  6 11:13 nrutil.f90
+-rw-r--r--@   1 ahu  staff  4563997 Sep  6 11:13 opt.txt
+-rw-r--r--@   1 ahu  staff   594667 Sep  6 11:13 opt090522.txt
+-rw-r--r--@   1 ahu  staff    18179 Sep  6 11:13 outgroupstrue
+-rw-r--r--@   1 ahu  staff    46304 Sep  6 11:13 pNelder_mead_cluster040615.f90
+-rwxr--r--@   1 ahu  staff    43094 Sep  6 11:13 pNelder_mead_hold.f90
+-rw-r--r--@   1 ahu  staff    36590 Sep  6 11:13 pNelder_mead_train.f90
+-rw-r--r--@   1 ahu  staff   579913 Sep  6 11:13 program.f90
+-rwxr--r--@   1 ahu  staff    11273 Sep  6 11:13 read_data.f90
+-rwxr--r--@   1 ahu  staff    10625 Sep  6 11:13 regression.f90
+-rwxr--r--@   1 ahu  staff      369 Sep  6 11:13 sort2.f90
+-rw-r--r--@   1 ahu  staff      310 Sep  6 11:13 testran.f90
+ECLP022:m090622 ahu$ rm hist
+ECLP022:m090622 ahu$ rm bestpar.txt 
+ECLP022:m090622 ahu$ rm opt*
+ECLP022:m090622 ahu$ rm outgroupstrue 
+ECLP022:m090622 ahu$ rm momgroupstrue 
+ECLP022:m090622 ahu$ rm pNelder_mead_*
+ECLP022:m090622 ahu$ ls -al
+total 23008
+drwxr-xr-x@  40 ahu  staff     1280 Sep  6 11:16 .
+drwxr-xr-x@ 214 ahu  staff     6848 Sep  6 11:13 ..
+-rwxr--r--@   1 ahu  staff    54745 Sep  6 11:13 SLgenlib.f90
+-rwxr--r--@   1 ahu  staff    26056 Sep  6 11:12 alib.f90
+-rw-r--r--@   1 ahu  staff     4121 Sep  6 11:12 bestval.txt
+-rw-r--r--@   1 ahu  staff     2511 Sep  6 11:12 bp040219_2.txt
+-rw-r--r--@   1 ahu  staff     2511 Sep  6 11:12 bp041019_3.txt
+-rwxr--r--@   1 ahu  staff     1273 Sep  6 11:12 compmig
+-rwxr--r--@   1 ahu  staff      193 Sep  6 11:12 copumig
+-rw-r--r--@   1 ahu  staff  3974100 Sep  6 11:12 dursim1.txt
+-rw-r--r--@   1 ahu  staff  4697484 Sep  6 11:12 familymigpsid.txt
+-rwxr--r--@   1 ahu  staff     1331 Sep  6 11:12 gauher.f90
+-rwxr--r--@   1 ahu  staff     1331 Sep  6 11:13 gauher_save.f90
+-rwxr--r--@   1 ahu  staff     1146 Sep  6 11:13 gauleg.f90
+-rwxr--r--@   1 ahu  staff     3277 Sep  6 11:13 getNB.f90
+-rwxr--r--@   1 ahu  staff     3466 Sep  6 11:13 indexx.f90
+-rwxr--r--@   1 ahu  staff     7400 Sep  6 11:13 interpolate.f90
+-rwxr--r--@   1 ahu  staff      512 Sep  6 11:13 locate.f90
+-rwxr-xr-x@   1 ahu  staff   667696 Sep  6 11:13 mig.x
+-rwxr--r--@   1 ahu  staff    10133 Sep  6 11:13 mig_func.f90
+-rw-r--r--@   1 ahu  staff    54563 Sep  6 11:13 mig_main.f90
+-rw-r--r--@   1 ahu  staff   119646 Sep  6 11:13 mig_mom.f90
+-rw-r--r--@   1 ahu  staff    18414 Sep  6 11:13 mig_objf.f90
+-rw-r--r--@   1 ahu  staff    38340 Sep  6 11:13 mig_params.f90
+-rw-r--r--@   1 ahu  staff    36888 Sep  6 11:13 mig_params_wait.f90
+-rwxr--r--@   1 ahu  staff    47440 Sep  6 11:13 mig_share.f90
+-rw-r--r--@   1 ahu  staff    48477 Sep  6 11:13 mig_sol.f90
+-rwxr--r--@   1 ahu  staff    41462 Sep  6 11:13 mig_xtramom.f90
+-rwxr--r--@   1 ahu  staff    37922 Sep  6 11:13 mig_yaz.f90
+-rw-r--r--@   1 ahu  staff   120121 Sep  6 11:13 migmom082822.f90
+-rw-r--r--@   1 ahu  staff    67890 Sep  6 11:13 migsol082822.f90
+-rw-r--r--@   1 ahu  staff       85 Sep  6 11:13 nodelist
+-rwxr--r--@   1 ahu  staff    85678 Sep  6 11:13 nr.f90
+-rwxr--r--@   1 ahu  staff     1413 Sep  6 11:13 nrtype.f90
+-rwxr--r--@   1 ahu  staff    30176 Sep  6 11:13 nrutil.f90
+-rw-r--r--@   1 ahu  staff   579913 Sep  6 11:13 program.f90
+-rwxr--r--@   1 ahu  staff    11273 Sep  6 11:13 read_data.f90
+-rwxr--r--@   1 ahu  staff    10625 Sep  6 11:13 regression.f90
+-rwxr--r--@   1 ahu  staff      369 Sep  6 11:13 sort2.f90
+-rw-r--r--@   1 ahu  staff      310 Sep  6 11:13 testran.f90
+ECLP022:m090622 ahu$ rm bestval.txt 
+ECLP022:m090622 ahu$ rm mig.x 
+ECLP022:m090622 ahu$ rm dursim1.txt 
+ECLP022:m090622 ahu$ rm gauher_save.f90 
+ECLP022:m090622 ahu$ rm mig_params_wait.f90 
+ECLP022:m090622 ahu$ rm mig_xtramom.f90 
+ECLP022:m090622 ahu$ 
+
+
+
+IN DIRECTORY M090622: 
+
+1. In migobjf note that there was no "use share" before. I think that's because it uses sol which uses share already. 
+check which one to do. 
+for now just added use share to migobjf. 
+
+2. with openmp, there is a line truncation problem so the modification of the files mostly have to do with making 
+long lines shorter by splitting them up. 
+
+3. check time variables 
+
+
+
+
+090822 SEPTEMBER 8 2022
+
+ ~/.ssh/zju64  ahu@10.50.0.20:/home/ahu/m090122/*   ~/Dropbox/migit/m090122/ 
+In Dropbox/migit/m090122 deleted all the extra files (including extra f90s. if you need the older versions look at the older directories)
+
+FROM NOW ON WILL USE DIRECTORY M090122 AS THE BASE. IF YOU NEED ANY OLD VERSIONS OF THINGS JUST LOOK AT THE DIRECTORY m090122 in the kg cluster
+
+
+ECLP022:migit ahu$ cd m090122
+ECLP022:m090122 ahu$ rm *
+ECLP022:m090122 ahu$ cd .. 
+ECLP022:migit ahu$ rmdir m090122
+
+TOO CONFUSING
+
+
+1. Tried with different wmovemar in m090122 iteration (wmovemar=200) because marriage move rates are too low
+But this did not really help it seems 
+
+
+2. Try with vsingtest 
+declare vsingtest in module sol
+put in mar market loop 
+                                vsingtest(1:2)=valso(1:2) !ag090522 agsept2022
+
+put in getdec market part 
+            vec(1:2)=vsingtest(1:2) !vsing(1:2) ag090522 agsept2022
+
+
+3. nepsmove and nz values 
+
+4,     stepmin(1:30)=stepos(1:30) !ag090522 agept2022         
+
+
+
+5. 
+6735c6735
+<     integer(i4b), parameter :: nepsmove=2, nepskid=2 !ag090522 nepsmove 3 to 2 !ag090122 agsept2022 changed nepsmove frmo 2 to 5 !ahumarch1022 changed nepsmove to 2 from 13
+---
+>     integer(i4b), parameter :: nepsmove=3, nepskid=2 !ag090122 agsept2022 changed nepsmove frmo 2 to 5 !ahumarch1022 changed nepsmove to 2 from 13
+6766a6767
+< 			print*, "mysay,ia,trueindex ",iter,mysay,ia,trueindex !ahu 030622
+---
+> 			!print*, "mysay,ia,trueindex ",mysay,ia,trueindex !ahu 030622
+12719c12719
+<     print*, "iter,mysay,iwritegen",iter,mysay,iwritegen !ag090522 agsept2022
+---
+>     
+14087,14088c14087
+<     stepmin=stepos !ahu 121118
+<     stepmin(1:30)=stepos(1:30) !ag090522 agept2022         
+---
+>     stepmin=stepos !ahu 121118    
+
+
+
+CHECKING THINGS IN DIRECTORY M030622C
+
+There is still an optimization running in m090122.
+kg cluster m090122 is as of today consistent with m030622 directory at dropbox. Checked this. 
+ECLP022:migit ahu$ scp -i  ~/.ssh/zju64 ~/Dropbox/migit/m030622/*.f90   ahu@10.50.0.20:/home/ahu/m030622c/
+
+
+
+senss timeline 
+birkbeck city emails
+annual rev upgrade 
+
+
+
+
+
+TRYING VSINGTEST AGAIN
+    real(dp) :: vsingtest(2) !ag090822 agsept2022
+                                vsingtest(2)=valso(2) !ag090822
+
+
+in migshare: 
+    real(dp) :: vsingtest(2) !ag090822 agsept2022
+
+
+
+090922 SEPT 9 2022
+
+MIGSOLC in m030622c
+
+
+opened directory m090922 in cluster
+copied f90 files from m030622 from desktop
+copied bp090122final from cluster m090122 iteration and directory 
+
+in main: 
+bp090122final.txt 
+
+iwriteminim=30 from 1 IMPORTANT. DEL LATER. LOOK LATER. CHECK LATER. IMPORTANT. 
+
+in params:
+set ntypp=4 from 1 and first run an iteration with the original starting parameters 
+and maybe compare to that with and without types and that with and without only singles
+will do only singles
+
+in objf:
+    !print*, "iter,mysay,iwritegen",iter,mysay,iwritegen !ag090522 agsept2022
+
+
+
+
+
+np=3
+   66    1. wdif | stay                    0.0157        0.0281        0.0013        0.0000         502655     28890        0.1194
+   66    2. wdif | stay                    0.0503        0.0281        0.0041        0.0029         502423     28890        0.1194
+   67    1. wdif | move                    0.0757        0.0274        0.0118        0.0000            636       820        0.1972
+   67    2. wdif | move                    0.1964        0.0274        0.1449        0.1331           2609       820        0.1972
+   68    1. wdif | eue,s                   0.0157       -0.0924        0.0319        0.0000           1120       420        0.3666
+   68    2. wdif | eue,s                   0.0785       -0.0924        0.0797        0.0478           1120       420        0.3666
+   69    1. wdif | eue,m                   0.0499       -0.0782        0.0466        0.0000            106        21        0.3524
+   69    2. wdif | eue,m                   0.0971       -0.0782        0.0872        0.0406            213        21        0.3524
+   70    1. w|noed                         8.9665        9.7062        1.9918        0.0000         292990     15304        0.2747
+   70    2. w|noed                         9.6328        9.7062        0.0196       -1.9722         293129     15304        0.2747
+   71    1. wvar|noed                      0.0302        0.2747        0.0006        0.0000         292990     15304      101.0594
+   71    2. wvar|noed                      0.2583        0.2747        0.0000       -0.0006         293129     15304      101.0594
+   72    1. w|  ed                         9.3458       10.0473        1.4330        0.0000         241162     17497        0.3435
+   72    2. w|  ed                         9.9927       10.0473        0.0087       -1.4244         241902     17497        0.3435
+   73    1. wvar|ed                        0.0313        0.3435        0.0007        0.0000         241162     17497      137.4002
+   73    2. wvar|ed                        0.2745        0.3435        0.0000       -0.0007         241902     17497      137.4002
+   
+
+
+   31    1. wdif | hmemve=0                0.3698        0.0364        0.0000        0.0000           9425       558        0.2041
+   31    2. wdif | hmemve=0                0.3235        0.0364        0.0000        0.0000           6449       558        0.2041
+   32    1. wdif | hmemve=1                0.0110        0.0082        0.0000        0.0000           1775       262        0.1821
+   32    2. wdif | hmemve=1               -0.0165        0.0082        0.0000        0.0000           1419       262        0.1821
+   33    1. wdif | stay                    0.0402        0.0281        0.0615        0.0000         446829     28890        0.1194
+   33    2. wdif | stay                    0.0378        0.0281        0.0399       -0.0216         459917     28890        0.1194
+   34    1. wdif2 | stay                   0.0115        0.1194        3.7640        0.0000         446829     28890        0.1547
+   34    2. wdif2 | stay                   0.0096        0.1194        3.9002        0.1362         459917     28890        0.1547
+   35    1. wdif | move                    0.3129        0.0274       20.6730        0.0000          11200       820        0.1972
+   35    2. wdif | move                    0.2622        0.0274       13.9815       -6.6914           7868       820        0.1972
+   36    1. wdif2 | move                   0.0873        0.1972        3.7933        0.0000          11200       820        0.1594
+   36    2. wdif2 | move                   0.0785        0.1972        4.4187        0.6254           7868       820        0.1594
+   37    1. wdif | eue,s                  -0.1838       -0.0924        1.1403        0.0000           8682       420        0.3666
+   37    2. wdif | eue,s                  -0.1605       -0.0924        0.6328       -0.5074           7033       420        0.3666
+   38    1. wdif2 | eue,s                  0.1201        0.3666        6.0709        0.0000           8682       420        0.5006
+   38    2. wdif2 | eue,s                  0.0946        0.3666        7.3917        1.3207           7033       420        0.5006
+   39    1. wdif | eue,m                  -0.1667       -0.0782        1.1104        0.0000           1094        21        0.3524
+   39    2. wdif | eue,m                  -0.1349       -0.0782        0.4556       -0.6548            837        21        0.3524
+   40    1. wdif2 | eue,m                  0.1433        0.3524        5.9153        0.0000           1094        21        0.3693
+   40    2. wdif2 | eue,m                  0.1058        0.3524        8.2297        2.3144            837        21        0.3693
+   41    1. w|noed                         9.6842        9.7062        0.0177        0.0000         274624     15304        0.2747
+   41    2. w|noed                         9.6559        9.7062        0.0924        0.0
+
+
+
+
+
+
+When nepsmove is 1 or sigo is 0, then the objval is very jumpy like to 1000's becasue then some people jsut don't go to some of the locations and then 
+there is no emp or wage conditional on those locations
+
+
+
+NOTE NOW I HAVE OJT BACK
+NOTE NOT ITERATING ON: 
+psih(2)
+ECST 
+KCST
+ALPHAED BY ED 
+ANYMORE 
+
+!ahu jan19 012419: not iterating the below anymore 
+psih(2)=0.0_dp
+ECST=0.0_DP
+kcst=0.0_dp
+alphaed(:,2)=alphaed(:,1)
+
+
+
+091122 September 11 2022
+Stopped the singles iteration in m090922 (which was with ntypp=4) and saved output as opt090922 etc.
+And sent another job which is the same as before except I Changed the below: 
+    tstart=0.4_dp*qval !ag091122 agsept2022 changing thermsimp value !0.0_dp !*qval !10.0_dp !
+    tstep=0.4_dp  !ag091122 agsept2022 changing tstep value !0.0_dp !0.7_dp !0.8_dp
+    tfreq=2*COUNT(stepmin /= zero) !ag091122 agsept2022 changing tfreq value
+
+
+
+
+
+
+
+091222 SEPTEMBER 12 2022
+
+Cleaning the directories
+ECLP022:m030622 ahu$ diff gauher.f90 gauher_save.f90 
+ECLP022:m030622 ahu$ 
+So delete all gauher_save in directories as well as other unused f90 files
+
+Deleted all other extra files in m030622 (which was checked to be consistent and same as m090122 in kgcluster which has the last couples optimization with ntypp=1.
+Moved them to a new directory named misc091222
+
+Then created a new directory in /Dropbox/migrepo and started using Gitkraken
+
+
+
+
+
+091322/091422 SEPTEMBER 13/14 2022 
+Changed indices of vm0_c,vf0_c,wc for loop optimization inside sol 
+
+------------
+OPTIMIZAITON TIPS STAR INSIGHT STAR INSIGHT (all of the below can be found in m090122cc) 
+-----------
+The original runtime was 166.98/195.75
+
+See the below loop that is inside sol within the q0 loop (after index and ia)
+The innermost loop here is x0 but emax first dim is q0.
+
+			do x0=1,nx
+                        if ( maxval(qq2w(:,q0)) <= np1 ) then !state variable part of the q space i.e. w <= np1
+				!prob=matmul( reshape(ppcq(:,q0,x0),(/nq,1/)) , reshape(ppcx(:,q0,x0),(/1,nx/)) )
+				!emaxm_c(q0,x0,ia)=sum(prob*vm_c)
+				!emaxf_c(q0,x0,ia)=sum(prob*vf_c)                    
+	                         emaxm_c(q0,x0,ia)=0.0_dp
+				emaxf_c(q0,x0,ia)=0.0_dp
+                            do q=1,nq
+                                do x=1,nx
+				emaxm_c(q0,x0,ia)=emaxm_c(q0,x0,ia)+ppcq(q,q0,x0)*ppcx(x,q0,x0)*vm_c(q,x)
+				emaxf_c(q0,x0,ia)=emaxf_c(q0,x0,ia)+ppcq(q,q0,x0)*ppcx(x,q0,x0)*vf_c(q,x)
+                                end do 
+                            end do 
+                        end if !state variable part of the q space i.e. w <= np1
+			end do	 !x0						
+
+So I changed the emax dims to x0,q0 instead. So now that loop is:
+                            do q=1,nq
+                            do x=1,nx
+                            do x0=1,nx
+                                emaxm_c(x0,q0,ia)=emaxm_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vm_c(x,q)
+				emaxf_c(x0,q0,ia)=emaxf_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vf_c(x,q)
+                            end do 
+                            end do 
+                            end do	 				
+
+and the new runtime became 155.50/180.64
+------------------------------------------
+Then I also did the following: 
+
+After changing the emax dims, I also had to change the v0c and other dims. 
+after doing this now in getdec, within the choice j loop we got
+do j=1,nj
+i=ch(j ...) ---> is the q counterpart of choice j
+......
+vecj(3,.)=vm0_c(x,i,ia,index) + mar + move etc. 
+vecj(4,.)=vf0_c(x,i,ia,index) + mar + move etc. 
+wc(1,x,i,trueindex) + wc(2,x,i,trueindex) + nonlabinc + nonlabinc 
+.......
+end do 
+The dims are x,i rather than i,x because I had to change emax dims to i,x 
+(and therefore also had to change dims of v0c's and the rest) 
+This was for opt purposes within sol. 
+But that was not very good for the above illustrated loop within getdec which goes
+through j (i.e. q). 
+So I declared new variables called
+v0ctemp and wctemp and then assigning them 
+the v0c and wc values within sol before the start of q0 loop in sol by the following: 
+                !for loop opt 
+                do q=1,nq
+                    do x=1,nx
+                        vm0ctemp(q,x,ia,index)=vm0_c(x,q,ia,index) ---> NOTE THAT V0CTEMP HAS TO HAVE INDEX AS DIM NOT FOR SOL BUT FOR SIMULATION (FOR WHEN GROUPS=TRUE) STAR INSIGHT 
+                        vf0ctemp(q,x,ia,index)=vf0_c(x,q,ia,index) 
+                        wmctemp(q,x,trueindex)=wc(1,x,q,trueindex)
+                        wfctemp(q,x,trueindex)=wc(2,x,q,trueindex)
+                    end do
+		end do 
+v0ctemp and wctemp have (i,x) dimensions rather than (x,i) and they are 
+assigned the v0c and wc values by the above loop within sol before q0 loop
+Then in getdec, they replace v0c and wc. 
+do j=1,nj
+i=ch(j ...) ---> is the q counterpart of choice j
+......
+vecj(3,.)=vm0ctemp(i,x,ia,index) + mar + move etc. 
+vecj(4,.)=vf0ctemp(i,x,ia,index) + mar + move etc. 
+wmctemp(i,x,...+wfctemp+nonlabinc+nonlabinc
+.......
+end do 
+This did not save additional time. Now the runtime became 156.76/182.14 
+--------------------------------------
+BUT then I got rid of the ia,index dim in vm0ctemp. 
+THIS DID save some time 
+In other words, I replaced the loop within sol with: 
+                do q=1,nq
+                    do x=1,nx
+                        vm0ctemp(q,x)=vm0_c(x,q,ia,index) 
+                        vf0ctemp(q,x)=vf0_c(x,q,ia,index) 
+                        wmctemp(q,x,trueindex)=wc(1,x,q,trueindex)
+                        wfctemp(q,x,trueindex)=wc(2,x,q,trueindex)
+                    end do 
+		end do 
+And the loop within getdec with: 
+do j=1,nj
+i=ch(j ...) ---> is the q counterpart of choice j
+......
+vecj(3,.)=vm0ctemp(i,x) + mar + move etc. 
+vecj(4,.)=vf0ctemp(i,x) + mar + move etc. 
+wmctemp(i,x,...+wfctemp+nonlabinc+nonlabinc
+.......
+end do 
+Run time with 4 types and nepsmove=3 and nz=1 became 143.55/169.54
+Not sure why exactly though. 
+-----------------------------
+To check whether and why ia,index makes such a difference I did a run with 
+no emax dim change (i.e. emax(q,x ,ia) as before
+just assigning v0ctemp(q,x) to v0c(q,x,ia,index) within sol and then using v0ctemp in getdec
+So nothing about the x dim being at the first dim for any array 
+and the only difference is literally just the assignment of v0ctemp(q,x) with no ia,index and using that within getdec instead of v0c(q,x,ia,index) 
+The runtime of this (test0) was 159/183.62
+
+     		do q=1,nq
+                    do x=1,nx
+                        vm0ctemp(q,x)=vm0_c(q,x,ia,index)
+                        vf0ctemp(q,x)=vf0_c(q,x,ia,index)
+                        !wmctemp(q,x,trueindex)=wc(1,q,x,trueindex)
+                        !wfctemp(q,x,trueindex)=wc(2,q,x,trueindex)
+                    end do
+                end do
+
+
+                 if (callfrom==40) then !calling from sol
+                    vecj(3,j) = vm0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
+                    vecj(4,j) = vf0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    !vecj(5,j) = wmctemp(i,x,trueindex) + wc(2,i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
+                    else if (callfrom==80) then !calling from simulation
+                    vecj(3,j) = vm0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
+                    vecj(4,j) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    !vecj(5,j) = wc(1,i,x,trueindex) + wc(2,i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
+                end if
+
+(with or without wctemp doesn't make a difference)
+So it is the emax dim change that saves time and then on top of that the getting rid of ia,index that saves time
+They both save the same amount of time separately (around 10-15 seconds) and when combined (with x dims at the beginning)
+they save 20-25 seconds. 
+so that the runtime becomes (test3) 143.55/169.54
+---------------------------
+A summary of the above runtimes:
+
+
+before emaxindexchange-start:    original
+iter,obj:      1             2367.17        166.98          0.38         17.81
+run time:         195.75
+
+
+emaxindexchange-end: (this is also before the opt of v0ctemp,wctemp dims)     test1
+iter,obj:      1             2367.17        155.50          0.36         18.08
+run time:         180.64
+
+
+v0wctempdimchange=end: (this is also before the opt of v0wctempnoianoindex )     test2
+iter,obj:      1             2367.17        156.76          0.38         18.12
+run time:         182.14
+
+
+v0wctempnoianoindex-end     test3
+iter,obj:      1             2367.17        143.55          0.37         17.58
+run time:         169.54
+
+
+v0ctempnoianoindex but no emax dim change and just wctemp in loop in sol (without putting it in getdec)    test0
+I don't think wctemp stuff makes any difference at all anyway 
+iter,obj:      1             2367.17        159.00          0.37         17.82
+run time:         183.62
+
+--------------------
+
+
+091422 SEPTEMBER 14 2022
+The version with saved time (emax dim change and v0ctemp with no ia/index) is commit 03727a (test3 above)
+
+
+
+092022 SEPTEMBER 20 2022 
+
+m090922 optimization processing
+ran with singles ntypp=4 and no therm ----> bp090922
+ran with singles ntypp=4 with therm as well ----> bp090922therm
+
+Then made a moments file for singles as well as couples where I compare: 
+bp041019_3
+bp090922
+bp090922therm
+
+This comparison moments file is mcomp090922singles and mcomp090922couples
+Ran this comparison in migrepo
+If you compare the wdif move's they decreased a lot especially from bp041019_3 to bp090922
+So then I tried to see what parameter change was most responsible for this
+These runs are commit
+It is sig_wge
+sig_wge has decreased for both genders (not even that much) and that led to a decrease in wdif move
+
+
+
+
+Looking at wage dif moment comparisons between the above parameters:
+First one is bp041019_3 and then bp090922 and then bp090922therm 
+mcomp090922singles MALES: 
+   31    1. wdif | hmemve=0                0.3698        0.0364        0.0000        0.0000           9425       558        0.2041
+   31    2. wdif | hmemve=0                0.2670        0.0364        0.0000        0.0000           6024       558        0.2041
+   31    3. wdif | hmemve=0                0.3141        0.0364        0.0000        0.0000           6933       558        0.2041
+   32    1. wdif | hmemve=1                0.0110        0.0082        0.0000        0.0000           1775       262        0.1821
+   32    2. wdif | hmemve=1                0.0237        0.0082        0.0000        0.0000           1691       262        0.1821
+   32    3. wdif | hmemve=1               -0.0457        0.0082        0.0000        0.0000           1649       262        0.1821
+   33    1. wdif | stay                    0.0402        0.0281        0.0615        0.0000         446829     28890        0.1194
+   33    2. wdif | stay                    0.0359        0.0281        0.0261       -0.0354         470814     28890        0.1194
+   33    3. wdif | stay                    0.0367        0.0281        0.0312       -0.0303         456502     28890        0.1194
+   34    1. wdif2 | stay                   0.0115        0.1194        3.7640        0.0000         446829     28890        0.1547
+   34    2. wdif2 | stay                   0.0086        0.1194        3.9701        0.2061         470814     28890        0.1547
+   34    3. wdif2 | stay                   0.0099        0.1194        3.8803        0.1163         456502     28890        0.1547
+   35    1. wdif | move                    0.3129        0.0274       20.6730        0.0000          11200       820        0.1972
+   35    2. wdif | move                    0.2137        0.0274        8.7995      -11.8734           7715       820        0.1972
+   35    3. wdif | move                    0.2449        0.0274       11.9974       -8.6756           8582       820        0.1972
+   36    1. wdif2 | move                   0.0873        0.1972        3.7933        0.0000          11200       820        0.1594
+   36    2. wdif2 | move                   0.0749        0.1972        4.6930        0.8996           7715       820        0.1594
+   36    3. wdif2 | move                   0.0800        0.1972        4.3139        0.5206           8582       820        0.1594
+   37    1. wdif | eue,s                  -0.1838       -0.0924        1.1403        0.0000           8682       420        0.3666
+   37    2. wdif | eue,s                  -0.1613       -0.0924        0.6482       -0.4921           4810       420        0.3666
+   37    3. wdif | eue,s                  -0.1648       -0.0924        0.7147       -0.4255           7204       420        0.3666
+   38    1. wdif2 | eue,s                  0.1201        0.3666        6.0709        0.0000           8682       420        0.5006
+   38    2. wdif2 | eue,s                  0.0845        0.3666        7.9517        1.8807           4810       420        0.5006
+   38    3. wdif2 | eue,s                  0.0940        0.3666        7.4221        1.3512           7204       420        0.5006
+   39    1. wdif | eue,m                  -0.1667       -0.0782        1.1104        0.0000           1094        21        0.3524
+   39    2. wdif | eue,m                  -0.1487       -0.0782        0.7048       -0.4056            605        21        0.3524
+   39    3. wdif | eue,m                  -0.1442       -0.0782        0.6170       -0.4934            936        21        0.3524
+   40    1. wdif2 | eue,m                  0.1433        0.3524        5.9153        0.0000           1094        21        0.3693
+   40    2. wdif2 | eue,m                  0.1044        0.3524        8.3227        2.4074            605        21        0.3693
+   40    3. wdif2 | eue,m                  0.1139        0.3524        7.7000        1.7847            936        21        0.3693
+
+
+I tried changing different parameter values from bp041019_3 to bp090922 
+All the others (including uloc or other wage parameters or psio or psih) did not give the above changes
+But when I changed 66:69 one by one, then I got the whiff changes as above (slightly less but mostly)
+
+Below, the first run is bo041019_3 
+The second run is all the same parameters except sigwge(1) is lower 
+The third run i all the same parameters except sigwge(2) is lower 
+The fourth run is all the same parameters except sigom 
+The fifth run is all the same parameters except sigof 
+
+
+mcomp66t69
+   31    1. wdif | hmemve=0                0.3698        0.0364        0.0000        0.0000           9425       558        0.2041
+   31    2. wdif | hmemve=0                0.3064        0.0364        0.0000        0.0000           7065       558        0.2041
+   31    3. wdif | hmemve=0                0.3678        0.0364        0.0000        0.0000           9480       558        0.2041
+   31    4. wdif | hmemve=0                0.3698        0.0364        0.0000        0.0000           9425       558        0.2041
+   31    5. wdif | hmemve=0                0.3698        0.0364        0.0000        0.0000           9425       558        0.2041
+   32    1. wdif | hmemve=1                0.0110        0.0082        0.0000        0.0000           1775       262        0.1821
+   32    2. wdif | hmemve=1               -0.0073        0.0082        0.0000        0.0000           1619       262        0.1821
+   32    3. wdif | hmemve=1                0.0100        0.0082        0.0000        0.0000           1786       262        0.1821
+   32    4. wdif | hmemve=1                0.0110        0.0082        0.0000        0.0000           1775       262        0.1821
+   32    5. wdif | hmemve=1                0.0110        0.0082        0.0000        0.0000           1775       262        0.1821
+   33    1. wdif | stay                    0.0402        0.0281        0.0615        0.0000         446829     28890        0.1194
+   33    2. wdif | stay                    0.0379        0.0281        0.0404       -0.0211         448752     28890        0.1194
+   33    3. wdif | stay                    0.0402        0.0281        0.0614       -0.0001         446770     28890        0.1194
+   33    4. wdif | stay                    0.0402        0.0281        0.0615        0.0000         446829     28890        0.1194
+   33    5. wdif | stay                    0.0402        0.0281        0.0615        0.0000         446829     28890        0.1194
+   34    1. wdif2 | stay                   0.0115        0.1194        3.7640        0.0000         446829     28890        0.1547
+   34    2. wdif2 | stay                   0.0093        0.1194        3.9239        0.1599         448752     28890        0.1547
+   34    3. wdif2 | stay                   0.0115        0.1194        3.7640        0.0000         446770     28890        0.1547
+   34    4. wdif2 | stay                   0.0115        0.1194        3.7640        0.0000         446829     28890        0.1547
+   34    5. wdif2 | stay                   0.0115        0.1194        3.7640        0.0000         446829     28890        0.1547
+   35    1. wdif | move                    0.3129        0.0274       20.6730        0.0000          11200       820        0.1972
+   35    2. wdif | move                    0.2479        0.0274       12.3299       -8.3430           8684       820        0.1972
+   35    3. wdif | move                    0.3111        0.0274       20.4003       -0.2727          11266       820        0.1972
+   35    4. wdif | move                    0.3129        0.0274       20.6730        0.0000          11200       820        0.1972
+   35    5. wdif | move                    0.3129        0.0274       20.6730        0.0000          11200       820        0.1972
+   36    1. wdif2 | move                   0.0873        0.1972        3.7933        0.0000          11200       820        0.1594
+   36    2. wdif2 | move                   0.0723        0.1972        4.8961        1.1028           8684       820        0.1594
+   36    3. wdif2 | move                   0.0878        0.1972        3.7532       -0.0401          11266       820        0.1594
+   36    4. wdif2 | move                   0.0873        0.1972        3.7933        0.0000          11200       820        0.1594
+   36    5. wdif2 | move                   0.0873        0.1972        3.7933        0.0000          11200       820        0.1594
+   37    1. wdif | eue,s                  -0.1838       -0.0924        1.1403        0.0000           8682       420        0.3666
+   37    2. wdif | eue,s                  -0.1403       -0.0924        0.3129       -0.8274           8714       420        0.3666
+   37    3. wdif | eue,s                  -0.1840       -0.0924        1.1453        0.0050           8680       420        0.3666
+   37    4. wdif | eue,s                  -0.1838       -0.0924        1.1403        0.0000           8682       420        0.3666
+   37    5. wdif | eue,s                  -0.1838       -0.0924        1.1403        0.0000           8682       420        0.3666
+   38    1. wdif2 | eue,s                  0.1201        0.3666        6.0709        0.0000           8682       420        0.5006
+   38    2. wdif2 | eue,s                  0.0848        0.3666        7.9324        1.8614           8714       420        0.5006
+   38    3. wdif2 | eue,s                  0.1202        0.3666        6.0673       -0.0037           8680       420        0.5006
+   38    4. wdif2 | eue,s                  0.1201        0.3666        6.0709        0.0000           8682       420        0.5006
+   38    5. wdif2 | eue,s                  0.1201        0.3666        6.0709        0.0000           8682       420        0.5006
+   39    1. wdif | eue,m                  -0.1667       -0.0782        1.1104        0.0000           1094        21        0.3524
+   39    2. wdif | eue,m                  -0.1236       -0.0782        0.2914       -0.8191           1056        21        0.3524
+   39    3. wdif | eue,m                  -0.1684       -0.0782        1.1531        0.0427           1111        21        0.3524
+   39    4. wdif | eue,m                  -0.1667       -0.0782        1.1104        0.0000           1094        21        0.3524
+   39    5. wdif | eue,m                  -0.1667       -0.0782        1.1104        0.0000           1094        21        0.3524
+   40    1. wdif2 | eue,m                  0.1433        0.3524        5.9153        0.0000           1094        21        0.3693
+   40    2. wdif2 | eue,m                  0.1031        0.3524        8.4132        2.4979           1056        21        0.3693
+   40    3. wdif2 | eue,m                  0.1428        0.3524        5.9448        0.0294           1111        21        0.3693
+   40    4. wdif2 | eue,m                  0.1433        0.3524        5.9153        0.0000           1094        21        0.3693
+   40    5. wdif2 | eue,m                  0.1433        0.3524        5.9153        0.0000           1094        21        0.3693
+
+
+
+
+September 22 2022
+
+
+Issues: 
+4 types and for each type, the parameters are:
+ptypehs   0 for type1 
+ptypecol  0 for type1
+alf1t
+alf2t
+cst     0 for type1
+mumar   should it be 0 for type1? 
+
+Have been so far normalizing ptype for type 1 to 0. 1 minus thingie. 
+
+
+Have been so far normalizing cst type1 to 0 but where? 
+is it set to 0 in parameters file or params or main or where. Answer: It's 0 in parameters file see bp041019_3.txt
+and why is its step not zero? Answer: For no good reason. 
+It looks like I've been iterating on it even though its starting value is 0 (set somewhere to be figured out where)
+The reason cost for type 1 needs to be normalized to 0 is because I have moveshocks and sigo can't be identified otherwise, right? 
+
+
+Should we normalize mumar type 1 to 0? 
+So far it's been fixed at 375 for all types and I haven't been iterating on it. 
+One reason to normalize it would be if we have sigmar, then mumar for one of the types needs ot be normalized to 0, correct? 
+But we don't have sigmar. 
+AT least we either have sigmove OR sigmar. Right? No. I separated them. I have both nz loops AND nepsmove loop. 
+But nz has been aways 1 lately. 
+What happens if I increase nz? 
+
+
+Still need to choose whether to pick bp090922 or bp090922therm. Not sure which one is better. 
+
+
+was not iterating on ptypes before (for any type) and now will
+was not iterating on mumar's before for any type (it was fixed at a nonzero value) and now will 
+
+Why am I doing all this? 
+Iterating on ptypes just because. no particular reason. still not sure whether that's the right thing to do or whether to keep them fixed at 0.25 
+which is what I had started doing a long time ago
+
+
+Iterating on mumar for all types just because. Can restrict mumar for type1 to be 0 but that might be too restrictive since already normalizing cst. 
+(what's too much would be to keep BOTH cst and mumar for type 1 fixed at 0) 
+
+A reason for iterating on mumar is to try to get the marmove rates higher (if I increase mumar for some types of couples (1,2,3,or 4) AND if I get them to have 
+a cst parameter that is positive then married people do move much more.
+But since it won't make sense to have ap positive cst, i will just try to rely on sig0. For example for type 3, if mumar is very high and cut is very low (in absolute value but still negative in real value), then maybe a high sign would get them to move sometimes when they get positive moveshocks? 
+
+
+
+mom092322_cstpositive_formovemar
+This run is with high positive cost values along with high mumar values for one of the types (type 3 in this case) 
+The others are left at normal values
+The move rates for single and married men can be found below: 
+
+ptypehs              0.25      0.25      0.25      0.25      0.25
+ptypecol             0.25      0.25      0.25      0.25      0.25
+alf1t                9.58      9.58      9.58      9.58      9.58
+alf2t                9.21      9.21      9.21      9.21      9.21
+cst                 -1.73     -1.73     -1.73     -1.73     -1.73
+mu_mar               0.30      0.30      0.30      0.30      0.30
+ptypehs              0.25      0.25      0.25      0.25      0.25
+ptypecol             0.25      0.25      0.25      0.25      0.25
+alf1t                8.91      8.91      8.91      8.91      8.91
+alf2t                8.65      8.65      8.65      8.65      8.65
+cst                 -1.94     -1.94   5000.00  10000.00  20000.00
+mu_mar               0.30   2000.00   2000.00   2000.00   2000.00
+ptypehs              0.25      0.25      0.25      0.25      0.25
+ptypecol             0.25      0.25      0.25      0.25      0.25
+alf1t                9.56      9.56      9.56      9.56      9.56
+alf2t                9.16      9.16      9.16      9.16      9.16
+cst                 -1.81     -1.81     -1.81     -1.81     -1.81
+mu_mar               0.30      0.30      0.30      0.30      0.30
+
+
+
+single male
+    2    1. move by age     17             0.0486        0.0000        0.0000        0.0000          13443         0        0.0000
+    2    2. move by age     17             0.0450        0.0000        0.0000        0.0000          12908         0        0.0000
+    2    3. move by age     17             0.0869        0.0000        0.0000        0.0000          12908         0        0.0000
+    2    4. move by age     17             0.1558        0.0000        0.0000        0.0000          12908         0        0.0000
+    2    5. move by age     17             0.2664        0.0000        0.0000        0.0000          12908         0        0.0000
+    3    1. mv|ned by a     17             0.0486        0.0000        0.0000        0.0000          13443         0        0.0000
+    3    2. mv|ned by a     17             0.0450        0.0000        0.0000        0.0000          12908         0        0.0000
+    3    3. mv|ned by a     17             0.0869        0.0000        0.0000        0.0000          12908         0        0.0000
+    3    4. mv|ned by a     17             0.1558        0.0000        0.0000        0.0000          12908         0        0.0000
+    3    5. mv|ned by a     17             0.2664        0.0000        0.0000        0.0000          12908         0        0.0000
+    4    1. move by age     18             0.0393        0.0252        0.0081        0.0000          12878       516        0.0246
+    4    2. move by age     18             0.0347        0.0252        0.0037       -0.0044          11913       516        0.0246
+    4    3. move by age     18             0.0717        0.0252        0.0880        0.0799          11913       516        0.0246
+    4    4. move by age     18             0.1299        0.0252        0.4468        0.4387          11913       516        0.0246
+    4    5. move by age     18             0.2385        0.0252        1.8523        1.8442          11913       516        0.0246
+    5    1. move by age     23             0.0329        0.0691        0.0204        0.0000          21623       666        0.0643
+    5    2. move by age     23             0.0360        0.0691        0.0170       -0.0034          18387       666        0.0643
+    5    3. move by age     23             0.0474        0.0691        0.0073       -0.0131          18404       666        0.0643
+    5    4. move by age     23             0.0811        0.0691        0.0022       -0.0181          18698       666        0.0643
+    5    5. move by age     23             0.1705        0.0691        0.1600        0.1396          18464       666        0.0643
+    6    1. move by age     28             0.0230        0.0479        0.0135        0.0000          17546       376        0.0456
+    6    2. move by age     28             0.0272        0.0479        0.0094       -0.0042          13446       376        0.0456
+    6    3. move by age     28             0.0295        0.0479        0.0074       -0.0061          13507       376        0.0456
+    6    4. move by age     28             0.0489        0.0479        0.0000       -0.0135          14408       376        0.0456
+    6    5. move by age     28             0.1014        0.0479        0.0628        0.0492          13635       376        0.0456
+    7    1. move by age     33             0.0223        0.0319        0.0030        0.0000          14677       251        0.0309
+    7    2. move by age     33             0.0243        0.0319        0.0019       -0.0011          10710       251        0.0309
+    7    3. move by age     33             0.0256        0.0319        0.0013       -0.0017          10792       251        0.0309
+    7    4. move by age     33             0.0426        0.0319        0.0037        0.0007          11815       251        0.0309
+    7    5. move by age     33             0.0724        0.0319        0.0533        0.0504          11016       251        0.0309
+    8    1. move by age     38             0.0203        0.0391        0.0094        0.0000          11942       179        0.0376
+    8    2. move by age     38             0.0237        0.0391        0.0063       -0.0030           8530       179        0.0376
+    8    3. move by age     38             0.0241        0.0391        0.0060       -0.0034           8613       179        0.0376
+    8    4. move by age     38             0.0392        0.0391        0.0000       -0.0094           9581       179        0.0376
+    8    5. move by age     38             0.0568        0.0391        0.0084       -0.0010           8813       179        0.0376
+
+married males
+  205    1. move by age     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  205    2. move by age     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  205    3. move by age     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  205    4. move by age     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  205    5. move by age     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  206    1. mv|ned by a     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  206    2. mv|ned by a     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  206    3. mv|ned by a     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  206    4. mv|ned by a     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  206    5. mv|ned by a     17             0.0000        0.0000        0.0000        0.0000              0         0        0.0000
+  207    1. move by age     18             0.0016        0.0833       17.4979        0.0000            632        12        0.0764
+  207    2. move by age     18             0.0034        0.0833       16.7144       -0.7835           1165        12        0.0764
+  207    3. move by age     18             0.0739        0.0833        0.2307      -17.2672           1163        12        0.0764
+  207    4. move by age     18             0.2527        0.0833       75.1008       57.6029           1112        12        0.0764
+  207    5. move by age     18             0.5190        0.0833      496.9674      479.4694           1131        12        0.0764
+  208    1. move by age     23             0.0044        0.0466        8.0160        0.0000           3410       279        0.0444
+  208    2. move by age     23             0.0037        0.0466        8.2749        0.2589           6178       279        0.0444
+  208    3. move by age     23             0.0213        0.0466        2.8717       -5.1443           6139       279        0.0444
+  208    4. move by age     23             0.1604        0.0466       58.3504       50.3344           5541       279        0.0444
+  208    5. move by age     23             0.5087        0.0466      961.3403      953.3243           6041       279        0.0444
+  209    1. move by age     28             0.0004        0.0288        5.7642        0.0000           4825       590        0.0280
+  209    2. move by age     28             0.0015        0.0288        5.3368       -0.4274           8739       590        0.0280
+  209    3. move by age     28             0.0093        0.0288        2.7328       -3.0313           8640       590        0.0280
+  209    4. move by age     28             0.0939        0.0288       30.3093       24.5451           7271       590        0.0280
+  209    5. move by age     28             0.4977        0.0288     1571.2158     1565.4516           8419       590        0.0280
+  210    1. move by age     33             0.0006        0.0151        2.8162        0.0000           4730       728        0.0149
+  210    2. move by age     33             0.0010        0.0151        2.6586       -0.1576           8612       728        0.0149
+  210    3. move by age     33             0.0057        0.0151        1.2024       -1.6137           8494       728        0.0149
+  210    4. move by age     33             0.0723        0.0151       44.0270       41.2109           7008       728        0.0149
+  210    5. move by age     33             0.4934        0.0151     3074.5912     3071.7750           8198       728        0.0149
+  211    1. move by age     38             0.0015        0.0129        2.0436        0.0000           4055       699        0.0127
+  211    2. move by age     38             0.0020        0.0129        1.8552       -0.1883           7435       699        0.0127
+  211    3. move by age     38             0.0070        0.0129        0.5493       -1.4943           7320       699        0.0127
+  211    4. move by age     38             0.0559        0.0129       29.1297       27.0861           5957       699        0.0127
+  211    5. move by age     38             0.4940        0.0129     3642.8781     3640.8345           7024       699        0.0127
+
+As you can see for cst=5000 the initial move rates at age 18 are indeed high enough (around 7 percent) 
+but then at age 23 they are 2 percent adn then 28 they are 0.9 percent and 33 they are around 0.5 percent. 
+
+for cst=10000 the initial move rates at age 18 are very high at 25 percent. But that's the only way to get 
+some nonzero like looking move rates for the latter ages. 
+
+Can try values between 5000 and 10000
+
+And also need to play with mumar values (high mumar values for the high positive cst type so that the high positive cst people are the ones who marry)
+
+
+
+
+
+
+************************************************************************************************************************************
+092422 START
+SEPTEMBER 24 2022 
+starting from 092422 tag
+
+
+SEE MOM092422_2 TAG
+changed the setting of type parameters and their normalizations. see the
+tried to put high and positive cst values for some types
+later will also play with mumar so that the types with high mumar also have high positive cost value s
+but for now just played with cst values for some types 
+we do get finally high move rates for married people when we do this (for some types but overall as well 
+You can see this in MOM092422_2 BUT beware that there are some weirded out w ned moments because of calcvar stuff
+corrected that because it was just something that was due to me putting wdif moments at top, which come before w ned by type moments 
+so the calcvar was messing up with their calculation but only whatever moment comes afterward
+
+**********************
+SEE BIG-GETMOM-CHGE 092422 TAG
+made big get mom changes
+basically got rid of some commented out extra things
+put all of them in another file 
+
+Here are some of the potentially useful comments from there
+        !ahu summer18 041118: the below getmar by gender and ia was added just to figure out the eps2 problem (why marriage rates were so sensitive to eps2 and 
+        !why they were so different by gender). I figured it out now (i.e. the gender disparity in marriage rates go away when I set fem's psio equal to male's
+        !but when I was looking at these getmar rates I also noticed the following: 
+        !if I am recording age17 rel as 0 and when they make their decision at age 18 I record the rel for age18 as potentiall ymarried
+        !but that is not consistent with data is it?
+        !ahu jan19 010219: so I am still writing the age 17 (mad) mar rate. age 17 mar rate does not exit in the data since we don't record age 17 rel there. 
+        !so the weight on this moment is 0 but then it's wrel for age=mna and age=19
+        !do ia=mnad,mnad
+        !    call condmom(im,( dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%sexr==1 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
+        !    write(name(im),'("getmarbyia,m  ",tr1,i4)') ia
+        !    weights(im)=0.0_dp
+        !    im=im+1
+        !    call condmom(im,( dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%sexr==2 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
+        !    write(name(im),'("getmarbyia,f  ",tr1,i4)') ia
+        !    weights(im)=0.0_dp
+        !    im=im+1
+        !end do            
+    
+        !Note about conditioning on age:
+        !The max endage in data is 47. 
+        !The way sim is done, for those whose endage is 47, the last age where variables get recorded is ia-1=46. 
+        !This is because dat(ia-1,.) is recorded for each ia. So for the last age 47, the variables for 46 gets written
+        !But then there is nothing after age 46, despite the fact that we do have people whose endage is 46 (namely 47). 
+
+        !call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%rel==1  .AND. dat(MNA+1:MXA,:)%rel>=0 .AND. move(MNA:MXAD,:)==0 ), d1*one(dat(MNA+1:MXA,:)%rel==0),mom,cnt,var)
+        !write(name(im),'("getdiv | nomv",tr1,i4)') 
+        !weights(im)=wrel
+
+                                      
+
+        !ahu jan19 010119: commenting out the below and not doing the nummove by rel moments 
+        !this is because for example in data nummove-0 is 0.84 while both nummove_mar and _sin are 0.92 something. 
+        !I think the norelchg requirement is the reason. With that requirement it is not clear what these moments mean and 
+        !they might be hindering the matching of the move by age moments. For example, there are times when nummove=0 is understated by a whole lot in sim
+        !whereas movey age is overstated 
+        !call condmom(im,(  cohogen(:)==co ) ,   d1* one( nummove_mar(MXAI,:)==0 ) ,mom,cnt,var)	
+        !write(name(im),'("nummove_mar=0 ",tr1)')  
+        !weights(im)=wmove
+        !im=im+1
+
+
+
+  
+
+        !ahu summer18: before the below moments were conditioned on cosexrel instead of just cosex. 
+        !I remove the rel conditioning because sometimes these seem to have noone in the cells and they lead to jumpiness 
+        !See notes for 042118. 
+        !ia=MNAd
+        !call condmom(im,( cosex(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 ),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
+        !write(name(im),'("e|u by ia",tr5,i2)') ia
+        !weights(im)=0.0_dp
+        !im=im+1 
+        !call condmom(im,( cosex(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr==1 .AND. dat(ia+1,:)%logwr>=0  ),   d1*dat(ia+1,:)%logwr ,mom,cnt,var)		
+        !write(name(im),'("w|u by ia",tr5,i2)') ia
+        !weights(im)=0.0_dp 
+        !im=im+1 
+
+
+        !headloc(ihead)=im; headstr(ihead)='Labor market hours by gender/rel/ia';ihead=ihead+1
+        !ahu 061211: have to control for ia here because the two brs have different ia compositions
+        !ahu 061211: br 2 has no hours/kids/cohmar simultaneously in the biannual years so if you condition on all that you will just get something until they are ia 28 or something (depending on what the br grouping is)
+        !ahu 061211: and so if we don't control for ia, it looks as if br 2 females who are cohabiting have decreased their hours of work. but this is just a composition effect.
+        !ahu 061211: excluding ia 20 because, something looks weird. br 2 works too few hours at ia 20 (for females,coh,nokid). so then when I include them, it looks as if br 2 coh females with no kids work less in the later br. 
+        !do g=1,2
+        !   do j=0,1
+        !       CALL condmom(im,((dat%co==co).AND.(dat%sexr==g).AND.(dat%rel==j).AND.(dat%hhr>=0).AND.(iacat==1)),dat%hhr,mom,cnt,var)
+        !       WRITE(name(im),'("hrs/gender/rel ",2I4)') g,j
+        !       weights(im)=whour
+        !       im=im+1 
+        !   end do 
+        !end do
+
+***********************
+
+
+
+
+
+092422 END 
+************************************************************************************************************************************
+
+
+
+
+
+
+
+
+---------------
+
+
+Week 1 - ENROLLMENT WEEK 
+Week 2 - September 27 - Klaus
+Week 3 - October 4 - Klaus
+Week 4 - October 11 - Klaus
+Week 5 - October 18 - Klaus
+Week 6 - October 25 - Klaus
+Week 7 - READING WEEK
+Week 8 - November 8 - Ahu 
+Week 9 - November 15 - Ahu 
+Week 10 - November 22 - Ahu 
+Week 11 - November 29 - Ahu 
+Week 12 - December 6 - Ahu 
+-------
+
+
