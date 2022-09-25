@@ -202,19 +202,25 @@ nonlabinc=0.0_dp !ahu030622
     nonlabinc=0.0_dp
     pars=pars1
     !changing only type parameters in pars
+    !pars(70)=0 !ptype set to 0 in getpars
+    !pars(71)=0 !ptype set to 0 in getpars
+    !pars(74)=0 !cst1 this is set in getpars as it is a normalization
     pars(75)=0.0015_dp !mumar1 !should this be set to 0? 
+
     pars(76)=0.0_dp !ptypehs2 
     pars(77)=0.0_dp !ptypecol2
-    pars(80)=4000.0_dp !cst2 
+    pars(80)=5000.0_dp !cst2 
     pars(81)=0.0015_dp !mumar2    
+    
     pars(82)=0.0_dp !ptypehs3 
     pars(83)=0.0_dp !ptypecol3
-    pars(86)=5000.0_dp !cst3
+    pars(86)=8000.0_dp !cst3
     pars(87)=0.0015_dp !mumar3
+    
     pars(88)=0.0_dp !ptypehs4 
     pars(89)=0.0_dp !ptypecol4
-    pars(92)=8000.0_dp !cst4 
-    pars(93)=0.0015_dp !mumar4
+    pars(92)=12000.0_dp !cst4 
+    pars(93)=0.0015_dp !mumar4    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp     
     
@@ -223,19 +229,25 @@ nonlabinc=0.0_dp !ahu030622
     nonlabinc=0.0_dp
     pars=pars1
     !changing only type parameters in pars
-    pars(75)=0.000015_dp !mumar1 !should this be set to 0? 
+    !pars(70)=0 !ptype set to 0 in getpars
+    !pars(71)=0 !ptype set to 0 in getpars
+    !pars(74)=0 !cst1 this is set in getpars as it is a normalization
+    pars(75)=0.015_dp !mumar1 !should this be set to 0? 
+
     pars(76)=0.0_dp !ptypehs2 
     pars(77)=0.0_dp !ptypecol2
-    pars(80)=-100.0_dp !cst2 
-    pars(81)=0.000015_dp !mumar2    
+    pars(80)=5000.0_dp !cst2 
+    pars(81)=0.015_dp !mumar2    
+    
     pars(82)=0.0_dp !ptypehs3 
     pars(83)=0.0_dp !ptypecol3
-    pars(86)=5000.0_dp !cst3
-    pars(87)=0.15_dp !mumar3
+    pars(86)=8000.0_dp !cst3
+    pars(87)=0.015_dp !mumar3
+    
     pars(88)=0.0_dp !ptypehs4 
     pars(89)=0.0_dp !ptypecol4
-    pars(92)=5000.0_dp !cst4 
-    pars(93)=1.0_dp !mumar4
+    pars(92)=12000.0_dp !cst4 
+    pars(93)=0.015_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp     
 

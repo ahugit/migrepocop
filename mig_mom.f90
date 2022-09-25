@@ -815,7 +815,7 @@ end FUNCTION random
         corel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co  .and. dat(MNAD:MXAD,:)%rel==1 .and. norelchg(MNAD:MXAD,:)==1 )
 		!cohogen(:)=  maxval(dat(mna:mxai,:)%co)  		            
         headloc(ihead)=im
-        headstr(ihead)='EVERYONE'
+        headstr(ihead)='everyone'
         ihead=ihead+1
     
         call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
@@ -836,6 +836,24 @@ end FUNCTION random
         end do 
 
 
+        do ia=mna,mxad,30 !ahu030622  changed from maxai-1 to mxad
+            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%edr==1 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
+            write(name(im),'("getmarbyia,ned",tr1,i4)') ia
+            weights(im)=0.0_dp
+            im=im+1
+            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%edr==2 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
+            write(name(im),'("getmarbyia, ed",tr1,i4)') ia
+            weights(im)=0.0_dp
+            im=im+1
+        end do      
+        do ia=mna,mxad,30 !ahu030622 changed from maxai-1 to mxad
+            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 ), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
+            write(name(im),'("get div by ia",tr1,i4)') ia
+            weights(im)=wrel
+            im=im+1
+        end do            
+
+
         !do ia=mna,mxai
         !    call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel>=0  .AND. dat(ia,:)%edr==1 ), d1*one(dat(ia,:)%rel==1),mom,cnt,var)
         !    write(name(im),'("mar by ia,ned",tr1,i4)') ia
@@ -846,35 +864,21 @@ end FUNCTION random
         !    weights(im)=0.0_dp
         !    im=im+1
         !end do            
-        do ia=mna,mxad,10 !ahu030622  changed from maxai-1 to mxad
-            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%edr==1 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
-            write(name(im),'("getmarbyia,ned",tr1,i4)') ia
-            weights(im)=0.0_dp
-            im=im+1
-            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%edr==2 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
-            write(name(im),'("getmarbyia, ed",tr1,i4)') ia
-            weights(im)=0.0_dp
-            im=im+1
-        end do                               !do ia=mna,mxai
+                         
+        !do ia=mna,mxai
         !    call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel>=0 ), d1*one(dat(ia,:)%rel==1),mom,cnt,var)
         !    write(name(im),'("mar by ia",tr5,i4)') ia
         !    weights(im)=wrel
         !    im=im+1
-        !end do            
-        do ia=mna,mxad,10 !ahu030622 changed from maxai-1 to mxad
-            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 ), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
-            write(name(im),'("get div by ia",tr1,i4)') ia
-            weights(im)=wrel
-            im=im+1
-        end do            
+        !end do
 
-
+       !loop by only sex
         do g=minsex,maxsex
             cosex(MNAD:MXA,:)= (dat(MNAD:MXA,:)%co==co .and. dat(MNAD:MXA,:)%sexr==g  )
 
             headloc(ihead)=im
-            if (g==1) headstr(ihead)='all men'
-            if (g==2) headstr(ihead)='all fem'
+            if (g==1) headstr(ihead)='group II-III: all men'
+            if (g==2) headstr(ihead)='group II-III: all fem'
             ihead=ihead+1
 
             call condmom(im,(  cohogen(:)==co .and. sexgen(:)==g ) ,   d1* one( nummove(:)==0 ) ,mom,cnt,var)	
@@ -889,44 +893,51 @@ end FUNCTION random
             write(name(im),'("nummove>=2 ",tr5)')  
             weights(im)=0.0_dp
             im=im+1
+
+            do i=1,ntypp
+                call condmom(im,( cosex(MNA:MXAD,:) .AND.  move(MNA:MXAD,:)>=0  .AND. dat(MNA:MXAD,:)%typ==i ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
+                write(name(im),'("mv by typ ",I4)') i 
+                weights(im)=0.0_dp ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+                im=im+1
+            end do !type
     
-            do i=1,nl            
+            do i=1,nl,8            
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA+1:MXA,:)%l==i .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
                 write(name(im),'("%hme-mvs to",tr3,i4)') i
                 weights(im)=wmove 
                 im=im+1 
             end do  	
-            do i=1,5
+            do i=1,5,4
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  .AND. dur(MNA:MXAD,:)==i),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
                 write(name(im),'("e|u by dur",tr5,i2)') i
                 weights(im)=whour
                 im=im+1 
             end do 
-            do i=1,5
+            do i=1,5,4
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%logwr>=0  .AND. dur(MNA:MXAD,:)==i ),   d1*dat(MNA+1:MXA,:)%logwr ,mom,cnt,var)		
                 write(name(im),'("w|u by dur",tr5,i2)') i
                 weights(im)=wwage
                 im=im+1 
             end do 
-            do i=1,5
+            do i=1,5,4
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  .AND. dur(MNA:MXAD,:)==i .AND. dat(MNA:MXAD,:)%edr==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
                 write(name(im),'("e|u by dur ned",tr5,i2)') i
                 weights(im)=whour
                 im=im+1 
             end do 
-            do i=1,5
+            do i=1,5,4
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  .AND. dur(MNA:MXAD,:)==i .AND. dat(MNA:MXAD,:)%edr==2 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
                 write(name(im),'("e|u by dur  ed",tr5,i2)') i
                 weights(im)=whour
                 im=im+1 
             end do 
-            do i=1,5
+            do i=1,5,4
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%logwr>=0  .AND. dur(MNA:MXAD,:)==i  .AND. dat(MNA:MXAD,:)%edr==1),   d1*dat(MNA+1:MXA,:)%logwr ,mom,cnt,var)		
                 write(name(im),'("w|u by dur ned",tr5,i2)') i
                 weights(im)=wwage
                 im=im+1 
             end do 
-            do i=1,5
+            do i=1,5,4
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%logwr>=0  .AND. dur(MNA:MXAD,:)==i  .AND. dat(MNA:MXAD,:)%edr==2),   d1*dat(MNA+1:MXA,:)%logwr ,mom,cnt,var)		
                 write(name(im),'("w|u by dur  ed",tr5,i2)') i
                 weights(im)=wwage
@@ -941,7 +952,7 @@ end FUNCTION random
             end do 
             
             ia=MNA
-            do i=1,nl
+            do i=1,nl,8
                 call condmom(im,( cosex(ia:ia+3,:) .AND. dat(ia:ia+3,:)%hhr==1 .AND. dat(ia:ia+3,:)%l==i .AND. dat(ia:ia+3,:)%logwr>=0 ),   d1*dat(ia:ia+3,:)%logwr ,mom,cnt,var)		
                 write(name(im),'("w|loc 18:21",tr9,i4)') i			
                 weights(im)=wwage
@@ -951,7 +962,7 @@ end FUNCTION random
  
 
 
-        !FIRST LOOP FOR SEX AND REL
+        !loop by sex and rel 
         do g=minsex,maxsex
             do j=0,maxrelo
             if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
@@ -970,19 +981,6 @@ end FUNCTION random
             ihead=ihead+1
 
 
-            do i=1,ntypp
-                CALL condmom(im,(   cosexrel(MNA:MXAD,:) .AND.  dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%edr==1 .AND. dat(MNA:MXAD,:)%logwr>=0  .AND. dat(MNA:MXAD,:)%typ==i ) ,d1*dat(MNA:MXAD,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("w |ned by typ",tr1,I4)') i
-                weights(im)=0.0_dp
-                im=im+1
-            end do
-                
-            do i=1,ntypp
-                CALL condmom(im,(   cosexrel(MNA:MXAD,:) .AND.  dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%edr==2 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%typ==i ) ,d1*dat(MNA:MXAD,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("w | ed by typ",tr1,I4)') i
-                weights(im)=0.0_dp
-                im=im+1
-            end do
 
             do i=1,ntypp
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND.  move(MNA:MXAD,:)>=0  .AND. dat(MNA:MXAD,:)%typ==i ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
@@ -1004,11 +1002,25 @@ end FUNCTION random
             weights(im)=0.0_dp  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
             !calcvar(im)=1 if you leave these on then the moments that follow do weird things since cacvar-1 calculates incorporating the moments after. 
             im=im+1 
+            do i=1,ntypp
+                CALL condmom(im,(   cosexrel(MNA:MXAD,:) .AND.  dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%edr==1 .AND. dat(MNA:MXAD,:)%logwr>=0  .AND. dat(MNA:MXAD,:)%typ==i ) ,d1*dat(MNA:MXAD,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("w |ned by typ",tr1,I4)') i
+                weights(im)=0.0_dp
+                im=im+1
+            end do
+                
+            do i=1,ntypp
+                CALL condmom(im,(   cosexrel(MNA:MXAD,:) .AND.  dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%edr==2 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%typ==i ) ,d1*dat(MNA:MXAD,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("w | ed by typ",tr1,I4)') i
+                weights(im)=0.0_dp
+                im=im+1
+            end do
+
             end do !rel j
         end do !sex g
 
 
-
+        !loop by sex and rel
         do g=minsex,maxsex
             do j=0,maxrelo
             if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
@@ -1525,7 +1537,7 @@ end FUNCTION random
         if (extramoments) then
             
             
-
+        !loop by sex and rel
         do g=1,maxsex
             do j=0,MAXRELO
             if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
