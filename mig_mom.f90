@@ -877,8 +877,8 @@ end FUNCTION random
             cosex(MNAD:MXA,:)= (dat(MNAD:MXA,:)%co==co .and. dat(MNAD:MXA,:)%sexr==g  )
 
             headloc(ihead)=im
-            if (g==1) headstr(ihead)='group II-III: all men'
-            if (g==2) headstr(ihead)='group II-III: all fem'
+            if (g==1) headstr(ihead)='all men'
+            if (g==2) headstr(ihead)='all fem'
             ihead=ihead+1
 
             call condmom(im,(  cohogen(:)==co .and. sexgen(:)==g ) ,   d1* one( nummove(:)==0 ) ,mom,cnt,var)	
@@ -909,37 +909,13 @@ end FUNCTION random
             end do  	
             do i=1,5,4
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  .AND. dur(MNA:MXAD,:)==i),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-                write(name(im),'("e|u by dur",tr5,i2)') i
+                write(name(im),'("e|u bydur",tr5,i2)') i
                 weights(im)=whour
                 im=im+1 
             end do 
             do i=1,5,4
                 call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%logwr>=0  .AND. dur(MNA:MXAD,:)==i ),   d1*dat(MNA+1:MXA,:)%logwr ,mom,cnt,var)		
-                write(name(im),'("w|u by dur",tr5,i2)') i
-                weights(im)=wwage
-                im=im+1 
-            end do 
-            do i=1,5,4
-                call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  .AND. dur(MNA:MXAD,:)==i .AND. dat(MNA:MXAD,:)%edr==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-                write(name(im),'("e|u by dur ned",tr5,i2)') i
-                weights(im)=whour
-                im=im+1 
-            end do 
-            do i=1,5,4
-                call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  .AND. dur(MNA:MXAD,:)==i .AND. dat(MNA:MXAD,:)%edr==2 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-                write(name(im),'("e|u by dur  ed",tr5,i2)') i
-                weights(im)=whour
-                im=im+1 
-            end do 
-            do i=1,5,4
-                call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%logwr>=0  .AND. dur(MNA:MXAD,:)==i  .AND. dat(MNA:MXAD,:)%edr==1),   d1*dat(MNA+1:MXA,:)%logwr ,mom,cnt,var)		
-                write(name(im),'("w|u by dur ned",tr5,i2)') i
-                weights(im)=wwage
-                im=im+1 
-            end do 
-            do i=1,5,4
-                call condmom(im,( cosex(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%logwr>=0  .AND. dur(MNA:MXAD,:)==i  .AND. dat(MNA:MXAD,:)%edr==2),   d1*dat(MNA+1:MXA,:)%logwr ,mom,cnt,var)		
-                write(name(im),'("w|u by dur  ed",tr5,i2)') i
+                write(name(im),'("w|u bydur",tr5,i2)') i
                 weights(im)=wwage
                 im=im+1 
             end do 
@@ -963,8 +939,8 @@ end FUNCTION random
 
 
         !loop by sex and rel 
-        do g=minsex,maxsex
-            do j=0,maxrelo
+        do j=maxrelo,0,-1
+            do g=minsex,maxsex    
             if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
                 cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g )			                    
             else 
@@ -1016,13 +992,13 @@ end FUNCTION random
                 im=im+1
             end do
 
-            end do !rel j
-        end do !sex g
+            end do !sex g
+        end do !rel j
 
 
         !loop by sex and rel
-        do g=minsex,maxsex
-            do j=0,maxrelo
+        do j=maxrelo,0,-1
+            do g=minsex,maxsex
             if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
                 cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g )			                    
             else 
@@ -1524,8 +1500,8 @@ end FUNCTION random
                 im=im+1 
             end do 
 
-            end do !j
-        end do !g
+            end do !g
+        end do !j
                 
     
             
@@ -1538,8 +1514,8 @@ end FUNCTION random
             
             
         !loop by sex and rel
-        do g=1,maxsex
-            do j=0,MAXRELO
+        do j=MAXRELO,0,-1
+            do g=1,maxsex
             if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
                 cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g )			                    
             else 
@@ -1594,8 +1570,8 @@ end FUNCTION random
                 end do
             end do 
             
-            end do !rel
-        end do !sex 
+            end do !sex
+        end do !rel
             
             
         end if !extramoments
