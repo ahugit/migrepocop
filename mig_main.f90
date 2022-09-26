@@ -292,7 +292,7 @@ nonlabinc=0.0_dp !ahu030622
 	!	end if 
 
         maxfn=8000
-        if (myid==0) then  
+        if (mysay==0) then  
             iprint=20
         else 
             iprint=-1
