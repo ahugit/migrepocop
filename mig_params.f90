@@ -13,7 +13,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
 !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.,optimize=.false.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true. !ahu030622
+logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true. !ahu030622
 logical :: nonneg
     logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
 	integer(i4b), parameter :: numit=2 !ahumarch1122
@@ -169,29 +169,29 @@ contains
     parname=''
     j=1
     !ahu jan19 012819: not iterating on ed offers anymore. replacing them with curloc and ofloc offers instead 
-	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=5.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(1)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=5.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(2)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,of,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp!psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,of,m' ; stepos(j)=5.0_dp  ; if (onlyfem) stepos(j)=0.0_dp!psio is for the offer function
 	psio(3)=realpar(j)	            ; j=j+1
 	realpar(j)=par(j)               ; parname(j)='emp,of,m' ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function !NO MORE OFLOC LAYOFF NONSENSE
 	psio(4)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=-1.2_dp ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=5.2_dp ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(5)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=-1.5_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=5.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
 	psio(6)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,of,f' ; stepos(j)=1.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,of,f' ; stepos(j)=5.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
 	psio(7)=realpar(j)	            ; j=j+1
 	realpar(j)=par(j)               ; parname(j)='emp,of,f' ; stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function !NO MORE OFLOC LAYOFF NONSENSE
 	psio(8)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,cur,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,cur,m' ; stepos(j)=5.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(9)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,of,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,of,m' ; stepos(j)=5.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(10)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,cur,f' ; stepos(j)=0.2_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,cur,f' ; stepos(j)=5.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(11)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,of,f' ; stepos(j)=1.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,of,f' ; stepos(j)=5.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(12)=realpar(j)	            ; j=j+1
     !print*, 'Here is psio12',j-1
 
@@ -202,7 +202,7 @@ contains
 	realpar(j)=min2pls(par(j))      ; parname(j)='ro'	; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	ro=realpar(j)                   ; j=j+1
 
-	realpar(j)=logit(par(j))               ; parname(j)='psih(1)' ; stepos(j)=-1.0_dp !ahu jan19 011719 changing to logit
+	realpar(j)=logit(par(j))               ; parname(j)='psih(1)' ; stepos(j)=1.0_dp !ahu jan19 011719 changing to logit
 	psih(1)=realpar(j)	            ; j=j+1
 	realpar(j)=logit(par(j))               ; parname(j)='psih(2)' ; stepos(j)=0.0_dp !ahu jan19 011719 changing to logit
 	psih(2)=realpar(j)	            ; j=j+1
@@ -227,16 +227,17 @@ contains
 	uhome(1)=realpar(j)                             ; j=j+1
     realpar(j) = par(j)              ; parname(j)='uhome(2)' ; stepos(j)=0.5_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	uhome(2)=realpar(j)                             ; j=j+1
-    realpar(j)=par(j)            ; parname(j)='ecst'	; stepos(j)=0.5_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
+    realpar(j)=par(j)            ; parname(j)='ecst'	; stepos(j)=1.5_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
     ecst=realpar(j)                                     ; j=j+1               ! types
-	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=0.5_dp*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
+	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=0.0_dp !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
 	kcst=realpar(j)                                     ; j=j+1
 	realpar(j) = -1.0_dp*mult1 * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=1.5_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
 	divpenalty=realpar(j)                               ; j=j+1
     !print*, 'Here is divpenalty',j-1,divpenalty 
 
     realpar(j:j+1) = mult1 * logit(par(j:j+1))          ; parname(j)='alphaed(m,ned)' ; parname(j+1)='alphaed(f,ned)'    !27:28   !ahu jan19 012719 changing it yet again back to logit because there is not that much of different in objval between alpha=0 and alpha=-49000    !ahu jan19 012019 changing it back to min2pls  ! noed !ahu 112718 changing to only plus from: mult1*min2pls(par(7:8))   !mult1 * logit(par(7))	
-	stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp ; 	stepos(j+1)=0.5_dp  ; if (onlymales) stepos(j+1)=0.0_dp 
+	stepos(j)=1.0_dp*par(j)         ; if (onlyfem) stepos(j)=0.0_dp 
+    stepos(j+1)=1.0_dp*par(j+1)     ; if (onlymales) stepos(j+1)=0.0_dp 
     alphaed(:,1)=realpar(j:j+1)                         ; j=j+2
     !realpar(j:j+1)= mult1 * min2pls(par(j:j+1))           ; parname(j)='alphaed(m,ed)' ; parname(j+1)='alphaed(f,ed)'         !ahu jan19 012019 changing it back to min2pls       ! ed !ahu 112718 changing to only plus from: mult1 * min2pls(par(9:10))	 !mult1 * logit(par(9:10))	
 	!stepos(j)=5.0_dp ; 	stepos(j+1)=5.0_dp   ; if (onlymales) stepos(j+1)=0.0_dp 
@@ -255,7 +256,7 @@ contains
 			    realpar(j) = 0.0_dp  ; stepos(j)=0.0_dp
 			    uloc(i)=0.0_dp
 		    else 
-			    realpar(j) = par(j) ; stepos(j)=0.5_dp*PAR(J)    !mult1 * min2pls( par(j) )
+			    realpar(j) = par(j) ; stepos(j)=0.0_dp  !*PAR(J)    !mult1 * min2pls( par(j) )
 			    uloc(i)=realpar(j)
 		    end if 
             parname(j)='uloc' 
@@ -267,7 +268,7 @@ contains
     do i=1,nl
         realpar(j)=par(j) !1.5_dp*min2pls(par(j))+8.5_dp 
 		alf10(i)=realpar(j)
-        parname(j)='alf10' ; stepos(j)=0.15_dp ; if (i==3) stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !dont iterate on alpha10(1) for a second
+        parname(j)='alf10' ; stepos(j)=0.5_dp ; if (i==3) stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !dont iterate on alpha10(1) for a second
         j=j+1
     end do 
     !print*, 'Here is alf11 etc',j
@@ -283,7 +284,7 @@ contains
     do i=1,nl
 		realpar(j)=par(j) !1.5_dp*min2pls(par(j))+8.5_dp    
 		alf20(i)=realpar(j) 
-        parname(j)='alf20' ; stepos(j)=0.15_dp  ; if (onlymales) stepos(j)=0.0_dp 
+        parname(j)='alf20' ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp 
 		j=j+1
 	end do 
     !print*, 'Here is alf21 etc',j
@@ -296,13 +297,13 @@ contains
     realpar(j)=0.0_dp                               ; parname(j)='alf23' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
 	alf23=realpar(j)	                            ; j=j+1
 	
-    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j:j+1)=0.7_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
+    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j:j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
-    realpar(j)=par(j)                               ; parname(j)='sigo_m'	; stepos(j)=0.5_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=par(j)                               ; parname(j)='sigo_m'	; stepos(j)=1.5_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
     !print*, "Here it is sigom", j,par(j),realpar(j)
     sigo_m=realpar(j)                                ; j=j+1
-    realpar(j)=par(j)                               ; parname(j)='sigo_f'	; stepos(j)=0.5_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
+    realpar(j)=par(j)                               ; parname(j)='sigo_f'	; stepos(j)=1.5_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
     !print*, "Here it is sigof", j,par(j),realpar(j)
     sigo_f=realpar(j)                                ; j=j+1
 
@@ -313,9 +314,9 @@ contains
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
             realpar(j)=0.0_dp                           ; parname(j)='ptypecol'  ; stepos(j)=0.0_dp
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.2_dp  ; if (onlyfem) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
-            realpar(j)=par(j)                          ; parname(j)='alf2t'     ; stepos(j)=0.2_dp  ; if (onlymales) stepos(j)=0.0_dp
+            realpar(j)=par(j)                          ; parname(j)='alf2t'     ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
@@ -329,12 +330,17 @@ contains
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
             realpar(j)=par(j)                            ; parname(j)='ptypecol'  ; stepos(j)=1.5_dp*par(j)
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.2_dp  ; if (onlyfem) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.2_dp  ; if (onlymales) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
-            realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=1.5_dp*par(j)
-            cst(i)=realpar(j)                           ; j=j+1 
+            if (i<4) then
+                realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=1.5_dp*par(j)
+                cst(i)=realpar(j)                           ; j=j+1 
+            else if (i==4) then
+                realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=0.2_dp*par(j)
+                cst(i)=realpar(j)                           ; j=j+1 
+            end if
             realpar(j)=multmar * min2pls(par(j))                         ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         end if 
