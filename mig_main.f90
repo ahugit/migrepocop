@@ -292,8 +292,9 @@ nonlabinc=0.0_dp !ahu030622
 	!	end if 
 
         maxfn=8000
-        if (mysay==0) then  
+        if (iam==0) then  
             iprint=20
+            open(unit=6538, file='nelder2013.txt',status='replace')		
         else 
             iprint=-1
         end if 
@@ -305,7 +306,10 @@ nonlabinc=0.0_dp !ahu030622
         call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, ifault)
 
 		if (iam==0) then ; print*, "out of minim now and here is ifault ", ifault ; end if 	
-	else 
+        if (iam==0) then  
+            close(6538)
+        end if 
+    else 
 		!conditional_moments=.false.		
 		conditional_moments=.true.	       
         
