@@ -1,0 +1,10 @@
+
+!/bin/bash
+
+echo "Copying files to all other nodes!"
+
+for ITEM in mig.x familymigpsid.txt bestpar042717.txt
+do
+scp $ITEM ec2-34-197-68-126.compute-1.amazonaws.com:/home/ec2-user/migit/.
+done
+
