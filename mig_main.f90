@@ -6,7 +6,7 @@
 program main 
 	use params !, only: myid,iter,parname,npars,stepmin
 	use objf
-	use pnelder_mead  
+	use Nelder_Mead !pnelder_mead  
     
 	!use alib, only: logitinv
 	implicit none	
@@ -15,15 +15,10 @@ program main
 	integer, parameter :: nj=10,nj2=2*nj
 	integer :: i,j,k,pp,ierror,k1,k2
 	! declarations for simulated annealing: at temperature t, a new point that is worse by an amount will be accepted with probability exp(-q/t)
-	real(8) :: pars(npars),qval,incr,realpars(npars),realpars1(npars),val
+	real(8) :: pars(npars),incr,realpars(npars),realpars1(npars),val
 	real(sp) :: q1val(nj2),step(nj2),lb,ub
-	integer, parameter :: maxfcn=8000	!ahu 121918		! max number of function calls
-	integer :: iwriteminim,ind(1)
-	real(8), parameter :: stopcr=0.01_dp			! convergence criterion
-	integer, parameter :: nloop=npars,iquad=0			
-	real(8), parameter :: simp=0.0_dp
-	real(8) :: var(npars)
-	integer :: ifault,track(npars)
+    integer :: maxfn,iprint,nloop,iquad,ifault
+    real(8) :: qval,stopcr,simp,var(npars)
 	!ahu 121818: the below are no longer declared as parameters. their value is set below in the program. 
     real(8) :: tstart !=15. 			! starting temperature (set to zero to turn off simulated annealing)
 	real(8) :: tstep !=0.8			! fraction temperature reduced at each step
@@ -282,19 +277,33 @@ nonlabinc=0.0_dp !ahu030622
     
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
-		!if (iam==0) then ; iwriteminim=1 ; else ; iwriteminim=-1 ; end if 
+		!if (iam==0) then ; iprint=1 ; else ; iprint=-1 ; end if 
 		!open(unit=64,file='step11_10.txt',status='old',action='read') ; read(64,*) stepmin	; close(64) 			
 		!open(unit=64,file='step111416.txt',status='old',action='read') ; read(64,*) stepmin	; close(64) 			
         !open(unit=64,file='stepp.txt',status='old',action='read') ; read(64,*) stepmin	; close(64) 
         !stepmin=0.5_dp
 
         
-        iwriteminim=30
-		if (groups) then 
-			call pminim(pars, stepmin, npars, qval, maxfcn, iwriteminim, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,mygroup,numgroup,tstart, tstep	, tfreq, saseed)
-		else 
-			call pminim(pars, stepmin, npars, qval, maxfcn, iwriteminim, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,iam,numworld,tstart, tstep	, tfreq, saseed)
-		end if 
+       ! iprint=30
+	!	if (groups) then 
+	!		call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,mygroup,numgroup,tstart, tstep	, tfreq, saseed)
+	!	else 
+	!		call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,iam,numworld,tstart, tstep	, tfreq, saseed)
+	!	end if 
+
+        maxfn=8000
+        if (myid==0) then  
+            iprint=20
+        else 
+            iprint=-1
+        end if 
+        stopcr=0.01_dp
+        nloop=npars
+        iquad=1 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
+        simp=0.0_dp
+        !call minim(p,    step,    nop, func,  maxfn,  iprint, stopcr, nloop, iquad,  simp, var, functn, ifault)
+        call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, ifault)
+
 		if (iam==0) then ; print*, "out of minim now and here is ifault ", ifault ; end if 	
 	else 
 		!conditional_moments=.false.		
