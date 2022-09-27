@@ -6,7 +6,7 @@
 program main 
 	use params !, only: myid,iter,parname,npars,stepmin
 	use objf
-	use Nelder_Mead !pnelder_mead  
+	use pnelder_mead  
     
 	!use alib, only: logitinv
 	implicit none	
