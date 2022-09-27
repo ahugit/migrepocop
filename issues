@@ -1,4 +1,6 @@
 move(ia,:)>=0  conditioning statement in move moments why. 
 logwr conditioning on logwr>=0 why. 
 nonlabinc=0 is this still a problem for fem emp rates? one would think so. should I increase nonlabinc? 
+opt issue: does random seed generate different sequences in chi relative to aws? 
+is that why the objval as well as the  opt files look so different (Especialy for simulated annealing) 
 
