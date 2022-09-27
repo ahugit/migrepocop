@@ -3,4 +3,5 @@ logwr conditioning on logwr>=0 why.
 nonlabinc=0 is this still a problem for fem emp rates? one would think so. should I increase nonlabinc? 
 opt issue: does random seed generate different sequences in chi relative to aws? 
 is that why the objval as well as the  opt files look so different (Especialy for simulated annealing) 
-
+writebest issue: this is not really an issue but: in pnmead's new output I checked out more closely whats' happening. first of all the therm stuff is too much. need to decrease tstep as well as tststepnext otherwise it'll never get anywhere. because for example, mom.txt is written with an objval of 259 (starting value is 500 something, remember this is onlysingles). but when i looked at opt in the current simplex, 259 is no longer there. Why? Probably becasue with the addition of thermsimp to it, that 259 became (due to random number additions) one of the worst points (even though it's the best so far) and then it got replaced. If you do too much therm addition then you'll get situations like that. True eventually the algorithm will probably or hopefully find its way back there but it'll take a long long time. 
+This also reveals taht there's a discrepancy between the mom.txt write whenever there's a best value and the writing of the best values called from pnmead. The latter is an entirely different monster. 
