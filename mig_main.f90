@@ -294,7 +294,7 @@ nonlabinc=0.0_dp !ahu030622
         maxfn=8000
         if (iam==0) then  
             iprint=20
-            open(unit=6538, file='nelder2013.txt',status='replace')		
+            open(unit=6538, file='lavas.txt',status='replace')		
         else 
             iprint=-1
         end if 
@@ -303,7 +303,7 @@ nonlabinc=0.0_dp !ahu030622
         iquad=1 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
         simp=0.0_dp
         !call minim(p,    step,    nop, func,  maxfn,  iprint, stopcr, nloop, iquad,  simp, var, functn, ifault)
-        call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, ifault)
+        call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)
 
 		if (iam==0) then ; print*, "out of minim now and here is ifault ", ifault ; end if 	
         if (iam==0) then  
