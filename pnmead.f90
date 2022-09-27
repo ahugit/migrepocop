@@ -286,7 +286,7 @@ Main_loop: DO
     WRITE(LOUT,'("check: neval>tstepnext?")') 
     write(LOUT,'("if yes: lower temp and get the new temp as SAtemp=SAtemp*Tstep and new tstepnext as tstepnext=tstepnext+Tfreq : ")')
     write(LOUT,'("if no:  leave SAtemp and tstepnext as they are  lower temp and get the new temp as SAtemp=SAtemp*Tstep: ")') 
-    WRITE(LOUT,'("note that tstep does not change"),g14.6') tstep 
+    WRITE(LOUT,'("note that tstep does not change",g14.6)') tstep 
     WRITE(LOUT,*) 
   END IF 
 
