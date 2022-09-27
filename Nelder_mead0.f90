@@ -12,7 +12,7 @@ PUBLIC :: minim
 CONTAINS
 
 SUBROUTINE minim(p, step, nop, func, maxfn, iprint, stopcr, nloop, iquad,  &
-                 simp, var, functn, ifault)
+                 simp, var, functn, functn2, ifault)
 
 !     A PROGRAM FOR FUNCTION MINIMIZATION USING THE SIMPLEX METHOD.
 
@@ -90,6 +90,7 @@ REAL(8), INTENT(IN)      :: stopcr, simp
 REAL(8), INTENT(IN OUT)  :: p(:), step(:)
 REAL(8), INTENT(OUT)     :: var(:), func
 EXTERNAL functn
+EXTERNAL functn2
 !INTERFACE
 !  SUBROUTINE functn(p, func)
 !    IMPLICIT NONE
@@ -104,7 +105,7 @@ EXTERNAL functn
 REAL(8)   :: g(nop+1,nop), h(nop+1), pbar(nop), pstar(nop), pstst(nop), &
                aval(nop), pmin(nop), temp(nop), bmat(nop*(nop+1)/2),  &
                vc(nop*(nop+1)/2), ymin, rmax, hstst, a0, hmin, test, hmean, &
-               hstd, hstar, hmax, savemn
+               hstd, hstar, hmax, savemn, best1
 
 REAL(8), PARAMETER :: zero = 0._dp, half = 0.5_dp, one = 1._dp, two = 2._dp
 INTEGER     :: i, i1, i2, iflag, ii, ij, imax, imin, irank, irow, j, j1, jj, &
@@ -295,7 +296,16 @@ Main_loop: DO
 !     IF LOOP = NLOOP TEST FOR CONVERGENCE, OTHERWISE REPEAT MAIN CYCLE.
 
   250 IF (loop < nloop) CYCLE Main_loop
-
+  IF (iprint>0) THEN	
+    write(lout,*) 
+    write(lout,*) 
+    write(lout,*) "calling write now but just parameters and not the moments. see the change in functn2 " !ahu s15
+    write(lout,*) 
+    write(lout,*) 
+      best1=MINLOC(h(1:np1))
+      CALL functn2(g(best1(1),:),h(best1(1)))
+  ENDIF
+  
 !     CALCULATE MEAN & STANDARD DEVIATION OF FUNCTION VALUES FOR THE
 !     CURRENT SIMPLEX.
 
