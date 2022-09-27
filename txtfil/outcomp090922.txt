@@ -1,0 +1,114 @@
+ numworld,Iam           36           5
+ numworld,Iam           36          16
+ numworld,Iam           36          34
+ numworld,Iam           36           3
+ numworld,Iam           36           4
+ numworld,Iam           36           6
+ numworld,Iam           36           8
+ numworld,Iam           36          12
+ numworld,Iam           36          15
+ numworld,Iam           36          21
+ numworld,Iam           36          30
+ numworld,Iam           36          33
+ numworld,Iam           36           2
+ numworld,Iam           36           7
+ numworld,Iam           36           9
+ numworld,Iam           36          11
+ numworld,Iam           36          13
+ numworld,Iam           36          17
+ numworld,Iam           36          19
+ numworld,Iam           36          20
+ numworld,Iam           36          22
+ numworld,Iam           36          24
+ numworld,Iam           36          25
+ numworld,Iam           36          26
+ numworld,Iam           36          27
+ numworld,Iam           36          31
+ numworld,Iam           36          35
+ numworld,Iam           36           1
+ numworld,Iam           36          18
+ numworld,Iam           36          28
+ numworld,Iam           36          32
+ numworld,Iam           36           0
+ numworld,Iam           36          14
+ numworld,Iam           36          23
+ numworld,Iam           36          29
+ numworld,Iam           36          10
+iam,numgroup,mygroup,mygrank,mygsize:
+  32   1   0  32****
+iam,numgroup,mygroup,mygrank,mygsize:
+  35   1   0  35****
+iam,numgroup,mygroup,mygrank,mygsize:
+  33   1   0  33****
+iam,numgroup,mygroup,mygrank,mygsize:
+  34   1   0  34****
+iam,numgroup,mygroup,mygrank,mygsize:
+   3   1   0   3****
+iam,numgroup,mygroup,mygrank,mygsize:
+   4   1   0   4****
+iam,numgroup,mygroup,mygrank,mygsize:
+   2   1   0   2****
+iam,numgroup,mygroup,mygrank,mygsize:
+   6   1   0   6****
+iam,numgroup,mygroup,mygrank,mygsize:
+   7   1   0   7****
+iam,numgroup,mygroup,mygrank,mygsize:
+  29   1   0  29****
+iam,numgroup,mygroup,mygrank,mygsize:
+   9   1   0   9****
+iam,numgroup,mygroup,mygrank,mygsize:
+   8   1   0   8****
+iam,numgroup,mygroup,mygrank,mygsize:
+  11   1   0  11****
+iam,numgroup,mygroup,mygrank,mygsize:
+   0   1   0   0****
+mycos,mytyps,myhomes,myindexs
+iam,numgroup,mygroup,mygrank,mygsize:
+  12   1   0  12****
+iam,numgroup,mygroup,mygrank,mygsize:
+   5   1   0   5****
+iam,numgroup,mygroup,mygrank,mygsize:
+  13   1   0  13****
+iam,numgroup,mygroup,mygrank,mygsize:
+   1   1   0   1****
+iam,numgroup,mygroup,mygrank,mygsize:
+  17   1   0  17****
+iam,numgroup,mygroup,mygrank,mygsize:
+  19   1   0  19****
+iam,numgroup,mygroup,mygrank,mygsize:
+  15   1   0  15****
+iam,numgroup,mygroup,mygrank,mygsize:
+  20   1   0  20****
+iam,numgroup,mygroup,mygrank,mygsize:
+  14   1   0  14****
+iam,numgroup,mygroup,mygrank,mygsize:
+  22   1   0  22****
+iam,numgroup,mygroup,mygrank,mygsize:
+  24   1   0  24****
+iam,numgroup,mygroup,mygrank,mygsize:
+  25   1   0  25****
+iam,numgroup,mygroup,mygrank,mygsize:
+  26   1   0  26****
+iam,numgroup,mygroup,mygrank,mygsize:
+  18   1   0  18****
+iam,numgroup,mygroup,mygrank,mygsize:
+  23   1   0  23****
+iam,numgroup,mygroup,mygrank,mygsize:
+  21   1   0  21****
+iam,numgroup,mygroup,mygrank,mygsize:
+  27   1   0  27****
+iam,numgroup,mygroup,mygrank,mygsize:
+  28   1   0  28****
+iam,numgroup,mygroup,mygrank,mygsize:
+  30   1   0  30****
+iam,numgroup,mygroup,mygrank,mygsize:
+  16   1   0  16****
+iam,numgroup,mygroup,mygrank,mygsize:
+  31   1   0  31****
+iam,numgroup,mygroup,mygrank,mygsize:
+  10   1   0  10****
+iter,obj:      1              410.24          0.49          0.36         42.84
+iter,obj:      2              203.25          0.46          0.36         42.92
+iter,obj:      3              215.36          0.80          0.48         56.50
+ Here is qval,tstart,tstep,tfreq   215.36436049949552        215.36436049949552       0.80000000000000004              126
+run time:         203.53
