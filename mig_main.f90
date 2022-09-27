@@ -283,28 +283,27 @@ nonlabinc=0.0_dp !ahu030622
         !open(unit=64,file='stepp.txt',status='old',action='read') ; read(64,*) stepmin	; close(64) 
         !stepmin=0.5_dp
 
-        
-       ! iprint=30
-	!	if (groups) then 
-	!		call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,mygroup,numgroup,tstart, tstep	, tfreq, saseed)
-	!	else 
-	!		call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,iam,numworld,tstart, tstep	, tfreq, saseed)
-	!	end if 
-
         maxfn=8000
-        if (iam==0) then  
-            iprint=20
-            open(unit=6538, file='lavas.txt',status='replace')		
-        else 
-            iprint=-1
-        end if 
+        !if (iam==0) then  
+            iprint=30
+        !    open(unit=6538, file='lavas.txt',status='replace')		
+        !else 
+        !    iprint=-1
+        !end if 
         stopcr=0.01_dp
         nloop=npars
         iquad=1 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
         simp=0.0_dp
         !call minim(p,    step,    nop, func,  maxfn,  iprint, stopcr, nloop, iquad,  simp, var, functn, ifault)
-        call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)
+        !call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)
+     
+    	if (groups) then 
+			call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,mygroup,numgroup,tstart, tstep	, tfreq, saseed)
+		else 
+			call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,iam,numworld,tstart, tstep	, tfreq, saseed)
+		end if 
 
+   
 		if (iam==0) then ; print*, "out of minim now and here is ifault ", ifault ; end if 	
         if (iam==0) then  
             close(6538)
