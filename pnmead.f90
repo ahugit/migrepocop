@@ -274,6 +274,7 @@ Main_loop: DO
     IF ((iprint > 0).AND.(realrank==0)) THEN
         WRITE(LOUT,*) 
         WRITE(LOUT,'("beginning of Main_loop, just augmented loop: loop=loop+1")') 
+        write(LOUT,'("T0,tstep,tfreq (these do not change): ",2g14.6)') T0,tstep,tfreq
         write(LOUT,'("current SAtemp,tstepnext are: ",2g14.6)') SAtemp,tstepnext
         write(LOUT,'("loop is: ",I8)') loop
         write(LOUT,'("neval is: ",I8)') neval
@@ -282,11 +283,11 @@ Main_loop: DO
   IF ((iprint > 0).AND.(realrank==0)) THEN
     WRITE(LOUT,*) 
     WRITE(LOUT,*) 
-    WRITE(LOUT,*) 
+    WRITE(LOUT,'("Should I lower temperature?")') 
     WRITE(LOUT,'("check: neval>tstepnext?")') 
-    write(LOUT,'("if yes: lower temp and get the new temp as SAtemp=SAtemp*Tstep and new tstepnext as tstepnext=tstepnext+Tfreq : ")')
-    write(LOUT,'("if no:  leave SAtemp and tstepnext as they are  lower temp and get the new temp as SAtemp=SAtemp*Tstep: ")') 
-    WRITE(LOUT,'("note that tstep does not change",g14.6)') tstep 
+    write(LOUT,'("---if yes: lower temp and get the new temp as SAtemp=SAtemp*Tstep and new tstepnext as tstepnext=tstepnext+Tfreq : ")')
+    write(LOUT,'("---if no:  leave SAtemp and tstepnext as they are  lower temp and get the new temp as SAtemp=SAtemp*Tstep: ")') 
+    WRITE(LOUT,*) 
     WRITE(LOUT,*) 
   END IF 
 
@@ -295,23 +296,24 @@ Main_loop: DO
       tstepnext=tstepnext+Tfreq ! next time will lower temperature
       IF ((iprint > 0).AND.(realrank==0)) THEN
         WRITE(LOUT,*) 
-        WRITE(LOUT,'("neval>tstepnext? yes")') 
-        write(LOUT,'("lower temp and get the new temp as SAtemp=SAtemp*Tstep and new tstepnext as tstepnext=tstepnext+Tfreq : ")') 
-        write(LOUT,'("new SAtemp,tstepnext are : ",2g14.6)') SAtemp,tstepnext
+        WRITE(LOUT,*) 
+        WRITE(LOUT,'("neval>tstepnex so lower away!t")') 
+        write(LOUT,'("---> lower temp and get the new temp as SAtemp=SAtemp*Tstep and new tstepnext as tstepnext=tstepnext+Tfreq : ")') 
+        write(LOUT,'("     new SAtemp,tstepnext are : ",2g14.6)') SAtemp,tstepnext
         WRITE(LOUT,*) 
       END IF 
         !if (realrank==0) write(*,'("lowering temperature now ",2I4,g14.6,I4)') realrank,loop,SAtemp,tstepnext
   ENDIF
 
   IF ((iprint > 0).AND.(realrank==0)) THEN
-    WRITE(LOUT,*) "out of the neval>tstepnext if statement "
+    WRITE(LOUT,*) "After checking wtr I should lower temperature i.e. out of the neval>tstepnext if statement "
     write(LOUT,'("next time, will lower temprature when neval>tstepnext: ",I8)') tstepnext          
     write(LOUT,'("neval,tstepnext: ",2I8)') neval,tstepnext              
   END IF 
 
   IF ((iprint > 0).AND.(realrank==0)) THEN
     WRITE(LOUT,*) 
-    write(LOUT,'("get thermsimp,thermstar,thermstst ")')       
+    write(LOUT,'("compute and add thermal fluctuations: thermsimp,thermstar,thermstst ")')       
     WRITE(LOUT,*) 
   END IF 
 
@@ -320,7 +322,6 @@ Main_loop: DO
   thermstar(1:nprocs)=-1*SAtemp*LOG(SArandom(SAnrand,nop+2:nop+nprocs+1))
   thermstst(1:nprocs)=-1*SAtemp*LOG(SArandom(SAnrand,2*nop+2:2*nop+nprocs+1))
     IF ((iprint > 0).AND.(realrank==0)) THEN
-        write(lout,*) 
         write(lout,*) 
         WRITE(LOUT,'(tr3,"i",tr6,"SArandom",tr3,"logSArandom",tr4,"SAtemp*log",tr5,"thermsimp",tr6,"h",tr7,"htherm=h+thermsimp")')
         do i=1,np1
@@ -338,8 +339,6 @@ Main_loop: DO
   
 ! SORT SIMPLEX SO VALUES OF h (with thermal fluctuations)  ARE INCREASING IN INDEX. SORT g AND h
   IF ((iprint > 0).AND.(realrank==0)) THEN
-    write (lout,*)
-    write (lout,*)
     write (lout,*)
     WRITE (lout,*) "sort simplex so values of h (with thermal fluctuations) are increasing in index. sort g and h acordingly"
     write (lout,*)
@@ -368,12 +367,8 @@ Main_loop: DO
       !FIND THE CENTROID OF THE VERTICES OF BEST np1 MINUS nprocs POINTS
   IF ((iprint > 0).AND.(realrank==0)) THEN
     write (lout,*)
-    write (lout,*)
-    write (lout,*)
     WRITE (lout,*) "calculate pbar [the centroid fo the vertices of best np1 MINUS nprocs points]"
     WRITE (lout,*) "do i=1,np1-nprocs .... pbar = pbar + g(i,:)"
-    write (lout,*)
-    write (lout,*)
     write (lout,*)
   END IF 
     
@@ -403,8 +398,6 @@ Main_loop: DO
   myimax=np1-myrank
   IF ((iprint > 0).AND.(realrank==0)) THEN
     write (lout,*)
-    write (lout,*)
-    write (lout,*)
     WRITE (lout,*) "assign each processor one of the nprocs worst points"
     WRITE (lout,*) "myimax=np1-myrank"
     WRITE (lout,*) "for example: if numprocs is 2 so that myrank is 0 or 1, we will have myimax=np1 for myrank=0 and myimax=np1-1 for myrank=1. "
@@ -430,15 +423,12 @@ Main_loop: DO
 	WRITE (lout,'("(R) PSTAR = a * (PBAR - g(imax,:)) + PBAR ")') 
 	WRITE (lout,'("(RR) HSTAR=functn(PSTAR,HSTAR) ")') 
 	WRITE (lout,*) 
- END IF
-
- IF ((iprint > 0).AND.(realrank==0)) THEN
-	WRITE (lout,*) 
 	WRITE (lout,'("now each processor follows different instructions based on their hstar  ")') 
 	WRITE (lout,'("and they return a point mypoint with value myval in appropriate index corresponding to which proccessor. ")') 
 	WRITE (lout,'("record what happened in appropriate engry of mycase ")') 
 	WRITE (lout,*) 
- END IF
+END IF
+
 	! NOW EACH PROCESSOR DOES THE FOLLOWING SEPARATELY:
 	! Each processor follows instrcutions based on hstar, returns a point MYPOINT with value MYVAL
 	! in approproate index corresponding to which processor. Record what happened in entry of MYCASE
@@ -551,20 +541,19 @@ Main_loop: DO
   
 	
 	if (iprint>0.and.realrank==0) then
+    write(lout,*) "do 0 to nprocs and writes down what their mycase situation is (after broadcast)"
+    write(lout,*) "For case=1 where the reflection PSTAR gives a HSTAR lower than current min, we do  expansion to calculate a new PSTST through expanding and then compare that PSTST to PSTAR"
+    write(lout,*) "For case=2 where the reflection PSTAR gives a HSTAR higher than current min BUT lower than htherm(myimax-1), we do nothing (no new PSTST) "
+    write(lout,*) "For case=3, where the reflection PSTAR gives a HSTAR higher than both the current min AND htherm(myimax-1)"
+    write(lout,*) "............we do contraction to calculate a new PSTST by convx combo of pstar and pbar "
+    write(lout,*) "............then we compare PSTST to EITHER pstar OR the worst point of the original simplex (depending on which is better):  "
+    write(lout,*)
+    write(lout,*)
 		do ii=0,nprocs
-      write(lout,*) "This goes through all 0 to nprocs and writes down what their mycase situation is (after broadcast)"
-			write(lout,*) 
-			write(lout,'(TR2,"myrank",TR2,"mycase",TR5,"myval")')
-			write(lout,'(2(4x,I4),F10.2)') myrank,mycase(ii+1),myval(ii+1)
-      write(lout,*) "For case=1 where the reflection PSTAR gives a HSTAR lower than current min, we do  expansion to calculate a new PSTST through expanding and then compare that PSTST to PSTAR"
-      write(lout,*) "For case=2 where the reflection PSTAR gives a HSTAR higher than current min BUT lower than htherm(myimax-1), we do nothing (no new PSTST) "
-      write(lout,*) "For case=3, where the reflection PSTAR gives a HSTAR higher than both the current min AND htherm(myimax-1)"
-      write(lout,*) "............we do contraction to calculate a new PSTST by convx combo of pstar and pbar "
-      write(lout,*) "............then we compare PSTST to EITHER pstar OR the worst point of the original simplex (depending on which is better):  "
-      write(lout,*)
-      write(lout,*)
+        write(lout,'(TR2,"myrank",TR2,"mycase",TR5,"myval")')
+        write(lout,'(2(4x,I4),F10.2)') myrank,mycase(ii+1),myval(ii+1)  
       if (mycase(ii+1)==1) then
-        write(lout,*) "case 1: hstar-thermstar(myrank+1) < htherm(1) where htherm(1) is the minimum"
+        write(lout,*) "mycase(ii+1)=1: hstar-thermstar(myrank+1) < htherm(1) where htherm(1) is the minimum"
         write(lout,*) "nonparal: hstar < hmin. reflection did well i.e. hstar is lower than the current min (htherm(1))"
         write(lout,*) " ---> expand further i.e. expand pbar in the direction of pstar --> call it pstst"
         write(lout,*) " ---> call functn to get h at expansion pt pstst and call it hstst: PSTST,HSTST"
@@ -572,14 +561,14 @@ Main_loop: DO
         write(lout,*) " -------------> if hstst>=hstar then return reflection point (pstar) i.e. mypoint(myrank+1,:)=pstar,myval(myrank+1)=hstar"  
         write(lout,*)   
       else if (mycase(ii+1)==2) then
-        write(lout,*) "case 2:hstar-thermstar(myrank+1) > htherm(1) BUT  hstar-thermstar(myrank+1)<htherm(np1-myrank-1) i.e hstar<htherm(np1-1) or (np1-2) ... (np1-myrank-1) .. etc"
-        write(lout,*) "case 2: hstar > hmi but lower than htherm(myimax-1) "
+        write(lout,*) "mycase(ii+1)=2: hstar-thermstar(myrank+1) > htherm(1) BUT  hstar-thermstar(myrank+1)<htherm(np1-myrank-1) i.e hstar<htherm(np1-1) or (np1-2) ... (np1-myrank-1) .. etc"
+        write(lout,*) "mycase(ii+1)=2: hstar > hmi but lower than htherm(myimax-1) "
 				write(lout,*) "nonparal: hstar is not <hmin. but lower than some point, replace p(imax) with pstar and hmax with hstar"
 				write(lout,*) "nonparal: note that in nonparallel version it's different, it doesn't sort the objvalue array and it compares hstar to aNY point other than imax"
 				write(lout,*) " ---> do nothing and just return the reflection point pstar i.e. mycase(..)=2,mypoint(myrank+1,:)=pstar,myval(myrank+1)=hstar."
 				write(lout,*) " ---> Note that this is the only case in which the processor does not do an extra function call"
 			else if (mycase(ii+1)>2) then
-        write(lout,*) "case 3 or 4: hstar-thermstar(myrank+1) > htherm(1) AND  hstar-thermstar(myrank+1)>htherm(np1-myrank-1)"
+        write(lout,*) "mycase(ii+1)=3 or 4: hstar-thermstar(myrank+1) > htherm(1) AND  hstar-thermstar(myrank+1)>htherm(np1-myrank-1)"
 				write(lout,*) "nonparal: hstar > all func values except possibly hmax.  "
 				write(lout,*) "nonparal: if hstar<=hmax, replace p(imax) with pstar/ hmax with hstar test whether it is < func value at some point other than p(imax)"
         write(lout,*) "reflection did not do any good i.e. hstar not better than the best AND not better than MY worst point (after imax)"
@@ -604,8 +593,8 @@ Main_loop: DO
 	if (iprint>0.and.realrank==0) then
 		write(lout,*) 
 		write(lout,*) "now check cases"
-		write(lout,*) "if at least one proces did not have case 4, then replace worst points and restart loop"   
-		write(lout,*) "if all processes had case 4, then shrink"
+		write(lout,*) "-----if at least one proces did not have case 4, then replace worst points and restart loop"   
+		write(lout,*) "-----if all processes had case 4, then shrink"
     write(LOUT,'("current SAtemp,tstepnext are: ",2g14.6)') SAtemp,tstepnext
     write(LOUT,'("loop is: ",I8)') loop
     write(LOUT,'("neval is: ",I8)') neval
@@ -616,15 +605,15 @@ Main_loop: DO
 
   ! if at least one processor did not have case 4, replace the worst nprocs points of simplex
   if (MINVAL(mycase(1:nprocs))<4) then ! use points and values from each processor
-	if (iprint>0.and.realrank==0) then
-		write(lout,*) 
-		write(lout,*) "At least one process did not have case 4 ---> replace the worst nprocs points of simplex with mypoint(1:nprocs) and restart loop"
-		write(lout,*) "g(np1-nprocs+1:np1,:)=mypoint(1:nprocs,:)"   
-		write(lout,*) "h(np1-nprocs+1:np1)=myval(1:nprocs)"
-		write(lout,*) "go to 250"
-		write(lout,*) 
-		write(lout,*) 
-	end if 
+    if (iprint>0.and.realrank==0) then
+      write(lout,*) 
+      write(lout,*) "At least one process did not have case 4 ---> replace the worst nprocs points of simplex with mypoint(1:nprocs) and restart loop"
+      write(lout,*) "-----> g(np1-nprocs+1:np1,:)=mypoint(1:nprocs,:)"   
+      write(lout,*) "-----> h(np1-nprocs+1:np1)=myval(1:nprocs)"
+      write(lout,*) "-----> go to 250 (which starts main cycle if loop<nloop)"
+      write(lout,*) 
+      write(lout,*) 
+    end if 
 	  g(np1-nprocs+1:np1,:)=mypoint(1:nprocs,:)
     h(np1-nprocs+1:np1)=myval(1:nprocs)
     GO TO 250
@@ -652,13 +641,20 @@ Main_loop: DO
 	write(lout,*) "increase count of number of evals per procesor (nevalp=nevalp+nrounds) "
 	write(lout,*) 
  end if 	 
+ if (iprint>0.and.realrank==0) then
+  write(lout,*) "right bfre function_distribute: "
+	write(lout,'("nevalp,nrounds (this is a value left from share outcome loop so 1 or 2):",2I8)') nevalp,nrounds
+	write(lout,*) 
+end if 
   !SUBROUTINE function_distribute(npoints,minrank,maxrank,points,vals,nevalps,func)
   CALL function_distribute(nap,0,nprocs-1,g(2:np1,:),h(2:np1),nrounds,functn,myrank)
   ! increase count of number of evals per processor
   nevalp=nevalp+nrounds
 if (iprint>0.and.realrank==0) then
+	write(lout,*) 
+	write(lout,*) 
+	write(lout,*) 
   write(lout,*) "right after function_distribute: count number of function evaluations, print as appropriate"
-  write(lout,*) "nrounds is no of evals per processor (it can be >1 depending on mycase"
   write(lout,*) "nevalp=nevalp+nrounds"
 	write(lout,'("nevalp,nrounds:",2I8)') nevalp,nrounds
   write(lout,*) "now starting do loop for updating neval=neval+1 within do i=1,np1 and cmmented out printing"
@@ -672,6 +668,7 @@ end if
   END DO
  if (iprint>0.and.realrank==0) then
 	write(lout,*) 
+  write(lout,*) 
 	write(lout,'("after counting evals and commented out printing write(..) neval,h(i),g(i,:) from 2 to np1")') 
   write(lout,'("nevalp,neval:",2I8)') nevalp,neval
 	write(lout,*) 
@@ -690,21 +687,38 @@ end if
   write(lout,*) 
 	write(lout,*) 
  end if 
+
   250 IF (loop < nloop) CYCLE Main_loop
 
   IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 
+  	write(lout,'("loop,nloop: ",2I8)') loop,nloop
+    write(lout,'("loop was equal to nloop so did not start main cycle again, now will do the following: ")') 
+    write(lout,'("-- write best so far by calling functn2 ")') 
+    write(lout,'("-- calculate mean & stdev of func values for current simplex (hmean,hstd)")') 
+  	write(lout,'("---------> if hstd>stopcr (and maxfn,neval.nevalp conditions as well) then set iflag and loop to zero and go to the start of the main cycle again ")') 
+  	write(lout,'("---------> if hstd<=stopcr then find the centroid of the current simplex and get the function value there ")') 
+  	write(lout,*) 
     write(lout,*) 
-    write(lout,*) "calling write now but just parameters and not the moments. see the change in functn2 " !ahu s15
+  ENDIF
+
+  IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 
+    write(lout,'("-- writing best so far by calling functn2 but just writing params and not moments .see the change in functn2")') 
     write(lout,*) 
     best1=MINLOC(h(1:np1))
-    CALL functn2(g(best1(1),:),h(best1(1)))
+    CALL functn2(g(best1(1),:),h(best1(1)) )
+    write(lout,'("h(1),h(best1),h(np1) : ",3g14.16)') h(1),h(best1(1)), h(np1)
+  ENDIF
+
+  IF (iprint>0.and.realrank==0) THEN	
+    write(lout,*) 
+    write(lout,'("-- calculating mean & stdev of func values for current simplex (hmean,hstd)")') 
+    write(lout,*) 
   ENDIF
 
 !     CALCULATE MEAN & STANDARD DEVIATION OF FUNCTION VALUES FOR THE
 !     CURRENT SIMPLEX.
-
   hmean = SUM( h(1:np1) ) / np1
   hstd = SUM( (h(1:np1) - hmean) ** 2 )
   hstd = SQRT(hstd / np1)
@@ -713,24 +727,44 @@ end if
 		WRITE (lout,5300) hstd
 	END IF
 
- 
+  IF (iprint>0.and.realrank==0) THEN	
+    write(lout,*) 
+    write(lout,'("-- hstd is above, now do those conditions about hstd and stopcr and maxfn etc.")') 
+    write(lout,*) 
+  ENDIF
+
 !     IF THE RMS > STOPCR, SET IFLAG & LOOP TO ZERO AND GO TO THE
 !     START OF THE MAIN CYCLE AGAIN.
-    IF (iprint>0.and.realrank==0) THEN	
-      write(lout,*) 
-      write(lout,*) 
-      write(lout,*) "if rms>stopcr set iflag and loop to zero and go to the start of the main cycle again " 
-      write(lout,*) "if not        then find the centroid of the current simplex and the function value there " 
-    ENDIF
-    
   IF (hstd > stopcr .AND. (((maxfn>=0).AND.(neval <= maxfn)).OR.((maxfn<0).AND.(nevalp <= -1*maxfn))  )) THEN
     iflag = 0
     loop = 0
+    IF (iprint>0.and.realrank==0) THEN	
+      write(lout,*) 
+      write(lout,*) 
+      write(lout,*) " (hstd > stopcr .AND. (((maxfn>=0).AND.(neval <= maxfn)).OR.((maxfn<0).AND.(nevalp <= -1*maxfn))  )) " 
+      write(lout,*) " so set iflag=0 and loop=0 and start the main cycle again " 
+    ENDIF
     CYCLE Main_loop
   END IF
 
+  IF (iprint>0.and.realrank==0) THEN	
+    write(lout,*) 
+    write(lout,*) 
+    write(lout,*) " .NOT. (hstd > stopcr .AND. (((maxfn>=0).AND.(neval <= maxfn)).OR.((maxfn<0).AND.(nevalp <= -1*maxfn))  )) " 
+    write(lout,*) " so find the centroid of current simplex and get teh function value there " 
+    write(lout,*) " call functn(p,func) "
+    write(lout,*) " neval = neval + 1"
+    write(lout,*) " nevalp = nevalp + 1"  
+    write(lout,*) " IF ((iprint > 0).AND.(realrank==0)) THEN "
+    write(lout,*) "    IF (MOD(neval,iprint) == 0) WRITE (lout,5100) neval, func, p "
+    write(lout,*) " END IF  "
+    write(lout,*) " then test wtr the no. of func values allowed, maxfn, has been overrun. if so, exit with ifault= 1 " 
+    write(lout,*) " if maxfn>0 check based on neval. if maxfn<0 check based on nevalp. "
+    write(lout,*) " i.e.: IF (((maxfn>=0).AND.(neval > maxfn)).OR.((maxfn<0).AND.(nevalp > -1*maxfn))) THEN"
+    write(lout,*) "       if the above if statement true then something ... RETURN "
+    write(lout,*) "       if the above if statement not true then you get out of that if statement ... CONVGENCE CRTI SATISFIED - RETURN "
+  ENDIF
 !     FIND THE CENTROID OF THE CURRENT SIMPLEX AND THE FUNCTION VALUE THERE.
-
   DO i = 1, nop
     IF (step(i) /= zero) THEN
       p(i) = SUM( g(1:np1,i) ) / np1
@@ -743,7 +777,7 @@ end if
   IF ((iprint > 0).AND.(realrank==0)) THEN
     IF (MOD(neval,iprint) == 0) WRITE (lout,5100) neval, func, p
   END IF
-
+ 
 !     TEST WHETHER THE NO. OF FUNCTION VALUES ALLOWED, maxfn, HAS BEEN
 !     OVERRUN; IF SO, EXIT WITH IFAULT = 1.
 !  If MAXFN>0, check based on neval. If MAXFN<0, check based on nevalp.
@@ -762,6 +796,7 @@ end if
     ENDIF
     RETURN
   END IF
+
 
 !     CONVERGENCE CRITERION SATISFIED.
 !     IF IFLAG = 0, SET IFLAG & SAVE HMEAN.
