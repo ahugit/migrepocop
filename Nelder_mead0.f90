@@ -105,7 +105,7 @@ EXTERNAL functn2
 REAL(8)   :: g(nop+1,nop), h(nop+1), pbar(nop), pstar(nop), pstst(nop), &
                aval(nop), pmin(nop), temp(nop), bmat(nop*(nop+1)/2),  &
                vc(nop*(nop+1)/2), ymin, rmax, hstst, a0, hmin, test, hmean, &
-               hstd, hstar, hmax, savemn, best1
+               hstd, hstar, hmax, savemn, best1(1)
 
 REAL(8), PARAMETER :: zero = 0._dp, half = 0.5_dp, one = 1._dp, two = 2._dp
 INTEGER     :: i, i1, i2, iflag, ii, ij, imax, imin, irank, irow, j, j1, jj, &
