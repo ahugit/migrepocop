@@ -198,7 +198,16 @@ Main_loop: DO
     END IF
   END DO
   pbar = pbar / nap
-
+  IF ((iprint > 0)) THEN
+    WRITE (lout,*) 
+    WRITE (lout,*) 
+    WRITE (lout,*) 
+    WRITE (lout,'("Position of centroid PBAR (midway between all points other than imax) is calculated. ")') 
+    WRITE (lout,*) 
+    WRITE (lout,*) 
+    WRITE (lout,*) 
+  END IF
+  
 !     REFLECT MAXIMUM THROUGH PBAR TO PSTAR,
 !     HSTAR = FUNCTION VALUE AT PSTAR.
 
@@ -208,11 +217,31 @@ Main_loop: DO
   IF (iprint > 0) THEN
     IF (MOD(neval,iprint) == 0) WRITE (lout,5100) neval, hstar, pstar
   END IF
-
+  IF ((iprint > 0)) THEN
+    WRITE (lout,*) 
+    WRITE (lout,*) 
+    WRITE (lout,*) 
+    WRITE (lout,'("reflection --> reflecting MAXIMUM through PBAR to get the reflection point PSTAR. ")') 
+    WRITE (lout,'("(R) PSTAR = a * (PBAR - g(imax,:)) + PBAR ")') 
+    WRITE (lout,'("(RR) HSTAR=functn(PSTAR,HSTAR) ")') 
+    WRITE (lout,*) 
+    WRITE (lout,*) 
+    WRITE (lout,*) 
+  END IF
+  
 !     IF HSTAR < HMIN, REFLECT PBAR THROUGH PSTAR,
 !     HSTST = FUNCTION VALUE AT PSTST.
 
   IF (hstar < hmin) THEN
+    IF (iprint > 0) THEN
+      write(lout,*) 
+      write(lout,*) 
+      write(lout,*) "case 1: hstar < hmin. reflection did well i.e. hstar is beter than the best point hmin"
+      write(lout,*) " ---> expand further i.e. expand pbar in the direction of pstar --> call it pstst"
+      write(lout,*) " ---> calling functn to get h at expansion pt pstst and call it hstst: PSTST,HSTST"
+      write(lout,*) 
+      write(lout,*) 
+    end if 
     pstst = c * (pstar - pbar) + pbar
     CALL functn(pstst,hstst)
     neval = neval + 1
@@ -222,11 +251,27 @@ Main_loop: DO
 
 !     IF HSTST < HMIN REPLACE CURRENT MAXIMUM POINT BY PSTST AND
 !     HMAX BY HSTST, THEN TEST FOR CONVERGENCE.
-
+    IF (iprint > 0) THEN
+      write(lout,*) 
+      write(lout,*) " hsts>=hmin ? replace max point with pstar and h(imax) by hstar"
+      write(lout,*) " hstst<hmin ? replace max point with pstst and hmax by hstst"
+      write(lout,*) "then test for convergence"
+      write(lout,*) "........"
+    end if 
     IF (hstst >= hmin) THEN   ! REPLACE MAXIMUM POINT BY PSTAR & H(IMAX) BY HSTAR.
       g(imax,:) = pstar
       h(imax) = hstar
+      IF (iprint > 0) THEN
+        write(lout,*) 
+        write(lout,*) "hsts>=hmin ---> replace max point with pstar and h(imax) by hstar"
+      end if 
+  
     ELSE
+      IF (iprint > 0) THEN
+        write(lout,*) 
+        write(lout,*) "hstst<hmin ---> replace max point with pstst and hmax by hstst"
+      end if 
+
       g(imax,:) = pstst
       h(imax) = hstst
     END IF
@@ -236,7 +281,10 @@ Main_loop: DO
 !     HSTAR IS NOT < HMIN.
 !     TEST WHETHER IT IS < FUNCTION VALUE AT SOME POINT OTHER THAN
 !     P(IMAX).   IF IT IS REPLACE P(IMAX) BY PSTAR & HMAX BY HSTAR.
-
+  write(lout,*) " hstar is not"
+  write(lout,*) "reflection did ok i.e. hstar not beter than the best point, BUT did do better than the second (or third etc. depending on myrank) worst point"
+  write(lout,*) " ---> do nothing and just return the original reflection point pstar."
+  write(lout,*) " ---> Note that this is the only case in which the processor does not do an extra function call"
   DO i = 1, np1
     IF (i /= imax) THEN
       IF (hstar < h(i)) THEN  ! REPLACE MAXIMUM POINT BY PSTAR & H(IMAX) BY HSTAR.
@@ -296,6 +344,7 @@ Main_loop: DO
 !     IF LOOP = NLOOP TEST FOR CONVERGENCE, OTHERWISE REPEAT MAIN CYCLE.
 
   250 IF (loop < nloop) CYCLE Main_loop
+
   IF (iprint>0) THEN	
     write(lout,*) 
     write(lout,*) 
