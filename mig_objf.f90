@@ -274,7 +274,7 @@ contains
 		best=objval
 		if (iwritegen==1) then 
 			call writemoments(objval) 
-			open(unit=749,file='mob0.txt',status='replace')
+			open(unit=749,file='bpobj.txt',status='replace')
 			do i=1,npars 
 				write(749,*) parvec(i) 
 			end do
@@ -297,18 +297,19 @@ contains
 	subroutine writebest(parvector,hminvalue,nevalno,hmeanvalue,hstdev)
 		real(dp), dimension(npars), intent(in) ::parvector ! transformed vector of parameters
 		integer, intent(in) :: nevalno
-		real(dp), intent(in) :: hminvalue,hmeanvalue,hstdev 
+		real(dp), intent(in) :: hminvalue(1),hmeanvalue,hstdev 
 		integer :: i
-			
-		open(unit=61, file='bestval.txt',status='replace')
+		!naming these nelder because writebest is called from nelder_mead and these report the hmin of simplex so far
+		!potentially might differ from the bestpar written by a call from within objfunc (depends on temperature of annealing)
+		open(unit=61, file='bvnel.txt',status='replace')
 			write(61,*) 'neval,hmin,hmean,hstd so far from pnmead are:'
-			write(61,*) nevalno,hminvalue,hmeanvalue,hstdev
+			write(61,*) nevalno,hminvalue(1),hmeanvalue,hstdev
 			write(61,*) 
 			write(61,*) "parameters that correspond to hminvalue so far are:"
 			do i=1,npars ; write(61,*) parvector(i) ; end do
 		close(61)
 
-		open(unit=66,file='bestpar.txt',status='replace')
+		open(unit=66,file='bpnel.txt',status='replace')
 		do i=1,npars ; write(66,*) parvector(i) ; end do
 		close(66)
 	end subroutine

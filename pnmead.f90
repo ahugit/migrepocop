@@ -729,7 +729,7 @@ end if
 	END IF
   IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 
-    write(lout,'("hmean,hstd : ",2g14.16)') hmean,hstd
+    write(lout,'("hmean,hstd : ",2g14.6)') hmean,hstd
     write(lout,*) 
   ENDIF
   IF (iprint>0.and.realrank==0) THEN	
@@ -738,9 +738,9 @@ end if
     write(lout,*) "but just writing params not moments. see the change in functn2"
     best1=MINLOC(h(1:np1))
     CALL functn2(g(best1(1),:),h(best1(1)),neval,hmean,hstd)
-    write(lout,'("hmean,hstd : ",2g14.16)') hmean,hstd
-    write(lout,'("h(1),h(best1),h(np1) : ",3g14.16)') h(1),h(best1(1)), h(np1)
-    write(lout,'("htherm(1),htherm(best1),htherm(np1) : ",3g14.16)') htherm(1),htherm(best1(1)), htherm(np1)
+    write(lout,'("hmean,hstd : ",2g14.6)') hmean,hstd
+    write(lout,'("h(1),h(best1),h(np1) : ",3g14.6)') h(1),h(best1(1)), h(np1)
+    write(lout,'("htherm(1),htherm(best1),htherm(np1) : ",3g14.6)') htherm(1),htherm(best1(1)), htherm(np1)
   ENDIF
 
   IF (iprint>0.and.realrank==0) THEN	
