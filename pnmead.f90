@@ -591,30 +591,33 @@ END IF
 	end if 
 	
 	if (iprint>0.and.realrank==0) then
-		write(lout,*) 
-		write(lout,*) "now check cases"
-		write(lout,*) "-----if at least one proces did not have case 4, then replace worst points and restart loop"   
-		write(lout,*) "-----if all processes had case 4, then shrink"
+    write(lout,*) 
+    write(lout,*) 
+		write(lout,*) "CHECK cases"
+		write(lout,*) "-----IF at least one proces did not have case 4, then replace worst points and restart loop"   
+		write(lout,*) "-----IF all processes had case 4, then shrink"
     write(LOUT,'("current SAtemp,tstepnext are: ",2g14.6)') SAtemp,tstepnext
     write(LOUT,'("loop is: ",I8)') loop
     write(LOUT,'("neval is: ",I8)') neval
-    write(lout,*)
-    write(lout,*)
-    write(lout,*)
+    write(lout,*) "............"
+    write(lout,*) "............"
 	end if 
 
   ! if at least one processor did not have case 4, replace the worst nprocs points of simplex
   if (MINVAL(mycase(1:nprocs))<4) then ! use points and values from each processor
     if (iprint>0.and.realrank==0) then
-      write(lout,*) 
+      write(lout,*) "............"
+      write(lout,*) "............"
       write(lout,*) "At least one process did not have case 4 ---> replace the worst nprocs points of simplex with mypoint(1:nprocs) and restart loop"
       write(lout,*) "-----> g(np1-nprocs+1:np1,:)=mypoint(1:nprocs,:)"   
       write(lout,*) "-----> h(np1-nprocs+1:np1)=myval(1:nprocs)"
       write(lout,*) "-----> go to 250 (which starts main cycle if loop<nloop)"
+      write(LOUT,'("        loop,nloop are: ",2I8)') loop,nloop
+      write(lout,*) "right before GO TO 250"
       write(lout,*) 
       write(lout,*) 
     end if 
-	  g(np1-nprocs+1:np1,:)=mypoint(1:nprocs,:)
+    g(np1-nprocs+1:np1,:)=mypoint(1:nprocs,:)
     h(np1-nprocs+1:np1)=myval(1:nprocs)
     GO TO 250
   endif
@@ -623,10 +626,14 @@ END IF
 !	---> shrink the simplex by replacing each point other than the current minimum 
 !	     by a point mid-way between its current position and the minimum"
 	if (iprint>0.and.realrank==0) then
+    write(lout,*) "............"
+    write(lout,*) "............"
 		write(lout,*) "All the processors had case 4"
 		write(lout,*) "---> shrink the simplex by replacing each point other than the current minimum"
 		write(lout,*) "     by a point mid-way between its current position and the minimum"
-	end if 
+    write(lout,*) 
+    write(lout,*) 
+  end if 
 		
   DO i = 2, np1
       DO j = 1, nop
@@ -635,29 +642,34 @@ END IF
   ENDDO
 
  if (iprint>0.and.realrank==0) then
-	write(lout,*) 
+  write(lout,*) 
+  write(lout,*) 
 	write(lout,*) "after shrink"
-	write(lout,*) "calling function_distribute "
-	write(lout,*) "increase count of number of evals per procesor (nevalp=nevalp+nrounds) "
-	write(lout,*) 
- end if 	 
- if (iprint>0.and.realrank==0) then
-  write(lout,*) "right bfre function_distribute: "
-	write(lout,'("nevalp,nrounds (this is a value left from share outcome loop so 1 or 2):",2I8)') nevalp,nrounds
-	write(lout,*) 
+  write(lout,'("before func_dist: nevalp,nrounds (this is a value left from share outcome loop so 1 or 2):",2I8)') nevalp,nrounds
+	write(lout,*) "note that before this the last time nrounds was assigned a value was in the share outcome loop (1 or 2)"
+  write(lout,*) "............"
+  write(lout,*) "............"
 end if 
   !SUBROUTINE function_distribute(npoints,minrank,maxrank,points,vals,nevalps,func)
   CALL function_distribute(nap,0,nprocs-1,g(2:np1,:),h(2:np1),nrounds,functn,myrank)
   ! increase count of number of evals per processor
   nevalp=nevalp+nrounds
+  if (iprint>0.and.realrank==0) then
+    write(lout,*) 
+    write(lout,*) 
+    write(lout,*) "after func_dist"
+  	write(lout,*) "increase count of number of evals per procesor (nevalp=nevalp+nrounds) "
+    write(lout,'("after func_dist: nevalp,nrounds:",2I8)') nevalp,nrounds
+    write(lout,*) "note that before this the last time nrounds was assigned a value was in the share outcome loop (1 or 2)"
+    write(lout,*) 
+    write(lout,*) 
+  end if 
+
+
 if (iprint>0.and.realrank==0) then
 	write(lout,*) 
 	write(lout,*) 
-	write(lout,*) 
-  write(lout,*) "right after function_distribute: count number of function evaluations, print as appropriate"
-  write(lout,*) "nevalp=nevalp+nrounds"
-	write(lout,'("nevalp,nrounds:",2I8)') nevalp,nrounds
-  write(lout,*) "now starting do loop for updating neval=neval+1 within do i=1,np1 and cmmented out printing"
+  write(lout,*) "starting do loop for updating neval=neval+1 within do i=1,np1 which has some printing (now commented out)"
 end if 
   ! count evals and print 
   DO i=2,np1
@@ -668,10 +680,8 @@ end if
   END DO
  if (iprint>0.and.realrank==0) then
 	write(lout,*) 
-  write(lout,*) 
-	write(lout,'("after counting evals and commented out printing write(..) neval,h(i),g(i,:) from 2 to np1")') 
-  write(lout,'("nevalp,neval:",2I8)') nevalp,neval
-	write(lout,*) 
+  write(lout,'("after updating neval in do loop, neval:",I8)') neval 
+ 	write(lout,*) 
 	write(lout,*) 
  end if 	 
 
@@ -679,12 +689,12 @@ end if
  if (iprint>0.and.realrank==0) then
 	write(lout,*) 
 	write(lout,*) 
-	!ahu s15 write(lout,'("if loop=nloop, test for convergence, otherwise repeat main cycle",2I6)') nevalp,nrounds
-	!ahu s15 write(lout,'("loop,nloop:",2I6)') nevalp,nrounds
-	write(lout,'("if loop<nloop, repeat main cycle",2I8)') loop,nloop
-  write(lout,'("if loop=nloop, test for convergence and call functn2 which writes best things",2I8)') loop,nloop
-	write(lout,'("loop,nloop:",2I8)') loop,nloop
   write(lout,*) 
+  write(lout,*) "CHECK loop<?nloop"
+  write(lout,'("-----IF loop<nloop, repeat main cycle")')
+  write(lout,'("-----IF loop=nloop, test for convergence (with other conds) and if not convgd cond then repeat main cycle")') 
+	write(lout,'("loop,nloop:",2I8)') loop,nloop
+  write(lout,*) "right before: 250 IF (loop < nloop) CYCLE Main_loop "
 	write(lout,*) 
  end if 
 
@@ -692,20 +702,17 @@ end if
 
   IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 
+    write(lout,*) "right after: 250 IF (loop < nloop) CYCLE Main_loop "
   	write(lout,'("loop,nloop: ",2I8)') loop,nloop
     write(lout,'("loop was equal to nloop so did not start main cycle again, now will do the following: ")') 
-    write(lout,'("-- write best so far by calling functn2 ")') 
-    write(lout,'("-- calculate mean & stdev of func values for current simplex (hmean,hstd)")') 
-  	write(lout,'("---------> if hstd>stopcr (and maxfn,neval.nevalp conditions as well) then set iflag and loop to zero and go to the start of the main cycle again ")') 
-  	write(lout,'("---------> if hstd<=stopcr then find the centroid of the current simplex and get the function value there ")') 
   	write(lout,*) 
     write(lout,*) 
   ENDIF
 
   IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 
-    write(lout,'("-- writing best so far by calling functn2 but just writing params and not moments .see the change in functn2")') 
-    write(lout,*) 
+    write(lout,'("write best so far by calling functn2 ")') 
+    write(lout,*) "but just writing params not moments. see the change in functn2"
     best1=MINLOC(h(1:np1))
     CALL functn2(g(best1(1),:),h(best1(1)) )
     write(lout,'("h(1),h(best1),h(np1) : ",3g14.16)') h(1),h(best1(1)), h(np1)
@@ -713,8 +720,9 @@ end if
 
   IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 
-    write(lout,'("-- calculating mean & stdev of func values for current simplex (hmean,hstd)")') 
     write(lout,*) 
+    write(lout,'("calculate mean & stdev of func values for current simplex (hmean,hstd)")') 
+    write(lout,*) "write hstd"
   ENDIF
 
 !     CALCULATE MEAN & STANDARD DEVIATION OF FUNCTION VALUES FOR THE
@@ -729,27 +737,33 @@ end if
 
   IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 
-    write(lout,'("-- hstd is above, now do those conditions about hstd and stopcr and maxfn etc.")') 
     write(lout,*) 
-  ENDIF
-
+    write(lout,*) "CHECK hstd>?stopcr"
+    write(lout,'("---------> IF hstd>stopcr (and maxfn,neval.nevalp conditions as well) then set iflag and loop to zero and go to the start of the main cycle again ")') 
+    write(lout,'("---------> IF hstd<=stopcr then find the centroid of the current simplex and get the function value there ")') 
+    write(lout,*) "............"
+    write(lout,*) "............"
+  END IF
 !     IF THE RMS > STOPCR, SET IFLAG & LOOP TO ZERO AND GO TO THE
 !     START OF THE MAIN CYCLE AGAIN.
   IF (hstd > stopcr .AND. (((maxfn>=0).AND.(neval <= maxfn)).OR.((maxfn<0).AND.(nevalp <= -1*maxfn))  )) THEN
     iflag = 0
     loop = 0
     IF (iprint>0.and.realrank==0) THEN	
-      write(lout,*) 
-      write(lout,*) 
+      write(lout,*) "............"
+      write(lout,*) "............"
       write(lout,*) " (hstd > stopcr .AND. (((maxfn>=0).AND.(neval <= maxfn)).OR.((maxfn<0).AND.(nevalp <= -1*maxfn))  )) " 
       write(lout,*) " so set iflag=0 and loop=0 and start the main cycle again " 
+      write(lout,*) " right before CYCLE MAIN_LOOP " 
+      write(lout,*) 
+      write(lout,*)   
     ENDIF
     CYCLE Main_loop
   END IF
 
   IF (iprint>0.and.realrank==0) THEN	
-    write(lout,*) 
-    write(lout,*) 
+    write(lout,*) "............"
+    write(lout,*) "............"
     write(lout,*) " .NOT. (hstd > stopcr .AND. (((maxfn>=0).AND.(neval <= maxfn)).OR.((maxfn<0).AND.(nevalp <= -1*maxfn))  )) " 
     write(lout,*) " so find the centroid of current simplex and get teh function value there " 
     write(lout,*) " call functn(p,func) "
@@ -758,11 +772,13 @@ end if
     write(lout,*) " IF ((iprint > 0).AND.(realrank==0)) THEN "
     write(lout,*) "    IF (MOD(neval,iprint) == 0) WRITE (lout,5100) neval, func, p "
     write(lout,*) " END IF  "
-    write(lout,*) " then test wtr the no. of func values allowed, maxfn, has been overrun. if so, exit with ifault= 1 " 
-    write(lout,*) " if maxfn>0 check based on neval. if maxfn<0 check based on nevalp. "
-    write(lout,*) " i.e.: IF (((maxfn>=0).AND.(neval > maxfn)).OR.((maxfn<0).AND.(nevalp > -1*maxfn))) THEN"
-    write(lout,*) "       if the above if statement true then something ... RETURN "
-    write(lout,*) "       if the above if statement not true then you get out of that if statement ... CONVGENCE CRTI SATISFIED - RETURN "
+    write(lout,*) " CHECK wtr the no. of func values allowed, maxfn, has been overrun. if so, exit with ifault= 1 " 
+    write(lout,*) " IF maxfn>0 check based on neval. if maxfn<0 check based on nevalp. "
+    write(lout,*) " i.e.: ---->IF (((maxfn>=0).AND.(neval > maxfn)).OR.((maxfn<0).AND.(nevalp > -1*maxfn))) THEN"
+    write(lout,*) "       ---->IF the above if statement true then something ... RETURN "
+    write(lout,*) "       ---->IF the above if statement not true then you get out of that if statement ... CONVGENCE CRTI SATISFIED - RETURN "
+    write(lout,*) "............"
+    write(lout,*) "............"
   ENDIF
 !     FIND THE CENTROID OF THE CURRENT SIMPLEX AND THE FUNCTION VALUE THERE.
   DO i = 1, nop
