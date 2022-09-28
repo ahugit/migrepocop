@@ -395,7 +395,7 @@ contains
                     !write(60,'(1i5,". ",1a23,4f10.4,5x,2i10,f10.4)')	i,name(i),momsim_save(i,t),momdat_save(i,t),qcont_save(i,t),qcont_save(i,t)-qcont_save(i,3),cntsim_save(i,t),cntdat_save(i,t),vardat_save(i,t)
                 end if 
             else 
-                write(60,'(2i5,". ",1a23,2F14.4,2f14.4,5x,2i10,f14.4)')	i,t,name(i),momsim_save(i,t),momdat_save(i,t),qcont_save(i,t),qcont_save(i,t)-qcont_save(i,1),cntsim_save(i,t),cntdat_save(i,t),vardat_save(i,t)
+                write(60,'(2i5,". ",1a40,2F14.4,2f14.4,5x,2i10,f14.4)')	i,t,name(i),momsim_save(i,t),momdat_save(i,t),qcont_save(i,t),qcont_save(i,t)-qcont_save(i,1),cntsim_save(i,t),cntdat_save(i,t),vardat_save(i,t)
                 !write(61,'(8i5,2f20.4)')	i,t,mominfo(0:5,i),momsim_save(i,t),momdat_save(i,t)
             end if 
         end do
