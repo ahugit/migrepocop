@@ -259,7 +259,8 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp     
         
-    
+    if (iam==0) print*, 'Here is qval: ', qval
+ 
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
 		!if (iam==0) then ; iprint=1 ; else ; iprint=-1 ; end if 
@@ -272,25 +273,24 @@ nonlabinc=0.0_dp !ahu030622
         stepmin=stepos !ahu 121118
         maxfn=8000
         !if (iam==0) then  
-        iprint=10
+        iprint=20
         !    open(unit=6538, file='lavas.txt',status='replace')		
         !else 
         !    iprint=-1
         !end if 
-        stopcr=1.0_dp
-        nloop=npars+20
+        stopcr=100.0_dp
+        nloop=npars+2
         iquad=1 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
         simp=0.0_dp
         !sim annealing parameters: 
-        tstart=0.4_dp*qval  !T0: starting temp (can set to zero to turn off sim annealing)
-        tstep=0.5_dp        !fraction temp reduced at each step
-        tfreq=COUNT(stepmin /= zero) !number of function calls between temp reductions
+        tstart=0.2_dp*qval  !T0: starting temp (can set to zero to turn off sim annealing)
+        tstep=0.2_dp        !fraction temp reduced at each tfreq
+        tfreq=10 !COUNT(stepmin /= zero) !number of function calls between temp reductions
         saseed=1            !seed for random numbers
 
         !call minim(p,    step,    nop, func,  maxfn,  iprint, stopcr, nloop, iquad,  simp, var, functn, ifault)
         !call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)    
-         if (iam==0) print*, 'Here is qval,tstart,tstep,tfreq', qval,tstart,tstep,tfreq
- 
+    
     	if (groups) then 
 			call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,mygroup,numgroup,tstart, tstep	, tfreq, saseed)
 		else 
