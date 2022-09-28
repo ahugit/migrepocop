@@ -266,7 +266,7 @@ contains
 	q_save(t)=objval
 	par_save(:,t)=parvec 
 	realpar_save(:,t)=realparvec
-	if (iwritegen==1) then
+	if (iwritegen==1.and.(.not.optimize)) then
 		i=maxloc(abs(par_save(:,t)-par_save(:,1)),1)
 	    write(63,'(i4,". ",1a20,2f20.2,4f14.4)') i,parname(i),q_save(1),q_save(t),par_save(i,1),par_save(i,t),realpar_save(i,1),realpar_save(i,t)
     end if 
