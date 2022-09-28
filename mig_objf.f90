@@ -276,7 +276,7 @@ contains
 			call writemoments(objval) 
 			open(unit=749,file='mob0.txt',status='replace')
 			do i=1,npars 
-				write(749,*) parvector(i) 
+				write(749,*) parvec(i) 
 			end do
 			close(749)
 		end if 
