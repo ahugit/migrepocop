@@ -294,7 +294,7 @@ contains
 
 	! subroutine to be called by parallel simplex optimization whenever it's time to check if have new best point
 	! note that called by master. master will have current vale of 'best' from the last time this was called.
-	subroutine writebest(parvector,nevalno,hminvalue,hmeanvalue,hstdev)
+	subroutine writebest(parvector,hminvalue,nevalno,hmeanvalue,hstdev)
 		real(dp), dimension(npars), intent(in) ::parvector ! transformed vector of parameters
 		integer, intent(in) :: nevalno
 		real(dp), intent(in) :: hminvalue,hmeanvalue,hstdev 
