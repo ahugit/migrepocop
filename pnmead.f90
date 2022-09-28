@@ -849,7 +849,7 @@ IF((iprint >= 0).AND.(realrank==0)) THEN
   ENDIF
   WRITE (lout,5800) p
   WRITE (lout,5900) func
-  CLOSE(LOUT) ! ahu f14
+  !CLOSE(LOUT) ! ahu f14 ahu 092822 if you close this then you won't have the below (quadratic surface, second derivatives etc.)
 END IF
 IF (iquad <= 0) RETURN
 
