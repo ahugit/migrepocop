@@ -272,7 +272,14 @@ contains
     end if 
 	if ((.not.optimize).or.(optimize.and.objval<best)) then	
 		best=objval
-		if (iwritegen==1) call writemoments(objval) 
+		if (iwritegen==1) then 
+			call writemoments(objval) 
+			open(unit=749,file='mob0.txt',status='replace')
+			do i=1,npars 
+				write(749,*) parvector(i) 
+			end do
+			close(749)
+		end if 
 	end if 
     
     deallocate(decm0_s,decf0_s)
@@ -282,22 +289,28 @@ contains
     deallocate(vm0_c,vf0_c)
 	deallocate(vm0ctemp,vf0ctemp)
 
-    
 	iter=iter+1	
 	end subroutine objfunc
 
 	! subroutine to be called by parallel simplex optimization whenever it's time to check if have new best point
 	! note that called by master. master will have current vale of 'best' from the last time this was called.
-	subroutine writebest(parvector)
+	subroutine writebest(parvector,nevalno,hminvalue,hmeanvalue,hstdev)
 		real(dp), dimension(npars), intent(in) ::parvector ! transformed vector of parameters
+		integer, intent(in) :: nevalno
+		real(dp), intent(in) :: hminvalue,hmeanvalue,hstdev 
 		integer :: i
-		!if (qwrite<best) then
-			write(61,*) 'Found a better point'
+			
+		open(unit=61, file='bestval.txt',status='replace')
+			write(61,*) 'neval,hmin,hmean,hstd so far from pnmead are:'
+			write(61,*) nevalno,hminvalue,hmeanvalue,hstdev
+			write(61,*) 
+			write(61,*) "parameters that correspond to hminvalue so far are:"
 			do i=1,npars ; write(61,*) parvector(i) ; end do
-			open(unit=66,file='bestpar.txt',status='replace')
-			do i=1,npars ; write(66,*) parvector(i) ; end do
-			close(66)
-		!end if 
+		close(61)
+
+		open(unit=66,file='bestpar.txt',status='replace')
+		do i=1,npars ; write(66,*) parvector(i) ; end do
+		close(66)
 	end subroutine
 
 	subroutine writemoments(objval)

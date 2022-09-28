@@ -689,15 +689,17 @@ end if
  if (iprint>0.and.realrank==0) then
 	write(lout,*) 
 	write(lout,*) 
-  write(lout,*) 
+  write(lout,'("loop,nloop:",2I8)') loop,nloop
   write(lout,*) "CHECK loop<?nloop"
   write(lout,'("-----IF loop<nloop, repeat main cycle")')
-  write(lout,'("-----IF loop=nloop, test for convergence (with other conds) and if not convgd cond then repeat main cycle")') 
-	write(lout,'("loop,nloop:",2I8)') loop,nloop
+  write(lout,'("-----IF loop=nloop, calc hmean&stdev, write best of h so far and test for convergence (there are other conditions so see code) ")') 
+  write(lout,'("--------------------------------------------------IF not convgd cond then repeat main cycle")')
+ end if 
+ if (iprint>0.and.realrank==0) then
+  write(lout,*) 
   write(lout,*) "right before: 250 IF (loop < nloop) CYCLE Main_loop "
 	write(lout,*) 
- end if 
-
+end if 
   250 IF (loop < nloop) CYCLE Main_loop
 
   IF (iprint>0.and.realrank==0) THEN	
@@ -707,15 +709,6 @@ end if
     write(lout,'("loop was equal to nloop so did not start main cycle again, now will do the following: ")') 
   	write(lout,*) 
     write(lout,*) 
-  ENDIF
-
-  IF (iprint>0.and.realrank==0) THEN	
-    write(lout,*) 
-    write(lout,'("write best so far by calling functn2 ")') 
-    write(lout,*) "but just writing params not moments. see the change in functn2"
-    best1=MINLOC(h(1:np1))
-    CALL functn2(g(best1(1),:),h(best1(1)) )
-    write(lout,'("h(1),h(best1),h(np1) : ",3g14.16)') h(1),h(best1(1)), h(np1)
   ENDIF
 
   IF (iprint>0.and.realrank==0) THEN	
@@ -734,6 +727,21 @@ end if
 	IF ((iprint > 0).AND.(realrank==0)) THEN
 		WRITE (lout,5300) hstd
 	END IF
+  IF (iprint>0.and.realrank==0) THEN	
+    write(lout,*) 
+    write(lout,'("hmean,hstd : ",2g14.16)') hmean,hstd
+    write(lout,*) 
+  ENDIF
+  IF (iprint>0.and.realrank==0) THEN	
+    write(lout,*) 
+    write(lout,'("write best so far by calling functn2 ")') 
+    write(lout,*) "but just writing params not moments. see the change in functn2"
+    best1=MINLOC(h(1:np1))
+    CALL functn2(g(best1(1),:),h(best1(1)),neval,hmean,hstd)
+    write(lout,'("hmean,hstd : ",2g14.16)') hmean,hstd
+    write(lout,'("h(1),h(best1),h(np1) : ",3g14.16)') h(1),h(best1(1)), h(np1)
+    write(lout,'("htherm(1),htherm(best1),htherm(np1) : ",3g14.16)') htherm(1),htherm(best1(1)), htherm(np1)
+  ENDIF
 
   IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 

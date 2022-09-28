@@ -119,10 +119,7 @@ program main
     iter=1
 	iwritegen=0
 	if (iam==0) iwritegen=1
-	if (iam==0.and.optimize) then 
-		open(unit=61, file='bestval.txt',status='replace')
-	end if 
-	if (iam==0.and.iwritegen==1) then						! ahu april13: to check how much objval changes with each stepsize and make sure that the objval changes by similar amounts when changing each parameter. otherwise the simplex does weird things. and also to check how much the pminim routine changes objval with each iteration during estimation but the latter is not as important. 
+	if (iam==0.and.iwritegen==1.and.(.not.optimize)) then						! ahu april13: to check how much objval changes with each stepsize and make sure that the objval changes by similar amounts when changing each parameter. otherwise the simplex does weird things. and also to check how much the pminim routine changes objval with each iteration during estimation but the latter is not as important. 
 		open(unit=63, file='chkobj.txt',status='replace')	
 	end if 
 	if (iam==0.and.chkstep) then 
@@ -261,19 +258,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(93)=0.1_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp     
-    
-
-    stepmin=stepos !ahu 121118
-    tstart=qval !ag091122 agsept2022 changing thermsimp value !0.0_dp !*qval !10.0_dp !
-    tstep=0.8_dp  !ag091122 agsept2022 changing tstep value !0.0_dp !0.7_dp !0.8_dp
-    tfreq=2*COUNT(stepmin /= zero) !ag091122 agsept2022 changing tfreq value
-    saseed=1
-    !call objfunc(pars,qval) ; realpars=realpartemp  
-
-    
-  
-    if (iam==0) print*, 'Here is qval,tstart,tstep,tfreq', qval,tstart,tstep,tfreq
-    
+        
     
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
@@ -283,20 +268,29 @@ nonlabinc=0.0_dp !ahu030622
         !open(unit=64,file='stepp.txt',status='old',action='read') ; read(64,*) stepmin	; close(64) 
         !stepmin=0.5_dp
 
+        !optimization parameters:
+        stepmin=stepos !ahu 121118
         maxfn=8000
         !if (iam==0) then  
-            iprint=30
+        iprint=10
         !    open(unit=6538, file='lavas.txt',status='replace')		
         !else 
         !    iprint=-1
         !end if 
-        stopcr=0.01_dp
-        nloop=npars
+        stopcr=1.0_dp
+        nloop=npars+20
         iquad=1 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
         simp=0.0_dp
+        !sim annealing parameters: 
+        tstart=0.4_dp*qval  !T0: starting temp (can set to zero to turn off sim annealing)
+        tstep=0.5_dp        !fraction temp reduced at each step
+        tfreq=COUNT(stepmin /= zero) !number of function calls between temp reductions
+        saseed=1            !seed for random numbers
+
         !call minim(p,    step,    nop, func,  maxfn,  iprint, stopcr, nloop, iquad,  simp, var, functn, ifault)
-        !call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)
-     
+        !call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)    
+         if (iam==0) print*, 'Here is qval,tstart,tstep,tfreq', qval,tstart,tstep,tfreq
+ 
     	if (groups) then 
 			call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,mygroup,numgroup,tstart, tstep	, tfreq, saseed)
 		else 
