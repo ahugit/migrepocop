@@ -15,7 +15,7 @@
 !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
 logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
 logical, parameter :: optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.
-logical, parameter :: typemoments==.true.
+logical, parameter :: typemoments=.true.
 logical :: nonneg
     logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
 	integer(i4b), parameter :: numit=2 !ahumarch1122
