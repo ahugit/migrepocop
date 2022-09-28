@@ -734,7 +734,7 @@ end if
   ENDIF
   IF (iprint>0.and.realrank==0) THEN	
     write(lout,*) 
-    write(lout,'("write best so far by calling functn2 ")') 
+    write(lout,'("writing best so far by calling functn2 ")') 
     write(lout,*) "but just writing params not moments. see the change in functn2"
     best1=MINLOC(h(1:np1))
     CALL functn2(g(best1(1),:),h(best1(1)),neval,hmean,hstd)

@@ -1,3 +1,19 @@
+            !ahu 122818 commenting out the loc moment
+            !do i=1,nl
+            !    call condmom(im,( cosexrel(MNA:MXA,:) .AND. dat(MNA:MXA,:)%hhr>=0 .AND. dat(MNA:MXA,:)%l>0 ),   d1*one( dat(MNA:MXA,:)%l==i ),mom,cnt,var)		
+            !    write(name(im),'("loc",tr11,i2)') i			
+            !    weights(im)=wmovebyrel ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+            !    im=im+1 
+            !end do 
+        
+            !do i=1,nl
+            !    call condmom(im,( cosexrel(MNA:MXA,:) .AND. dat(MNA:MXA,:)%hhr>=0 .AND. dat(MNA:MXA,:)%l==i ),   d1*one( dat(MNA:MXA,:)%hhr==1 ),mom,cnt,var)		
+            !    write(name(im),'("e|loc",tr9,i4)') i			
+            !    weights(im)=whour  ; if (onlysingles.and.j==1) weights(im)=0.0_dp
+            !    im=im+1
+            !end do 
+
+!*****************************
 do i=1,ndat
     !Just generating cohort and sex of someone because don't have initcond in this routine
     cohogen(i)=   maxval(dat(MNAD:MXA,i)%co)
