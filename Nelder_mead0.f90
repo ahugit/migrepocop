@@ -277,10 +277,11 @@ Main_loop: DO
     END IF
     GO TO 250
   END IF
-
+!------------- 
+!CASE 2?
 !     HSTAR IS NOT < HMIN.
 !     TEST WHETHER IT IS < FUNCTION VALUE AT SOME POINT OTHER THAN
-!     P(IMAX).   IF IT IS REPLACE P(IMAX) BY PSTAR & HMAX BY HSTAR.
+!     P(IMAX).   IF IT IS, then REPLACE P(IMAX) BY PSTAR & HMAX BY HSTAR. and GO TO 250 to possibly start new cycle
   write(lout,*) " hstar is not"
   write(lout,*) "reflection did ok i.e. hstar not beter than the best point, BUT did do better than the second (or third etc. depending on myrank) worst point"
   write(lout,*) " ---> do nothing and just return the original reflection point pstar."
@@ -294,10 +295,14 @@ Main_loop: DO
       END IF
     END IF
   END DO
-
+!----------------------
+! CASE 3 OR 4?
 !     HSTAR > ALL FUNCTION VALUES EXCEPT POSSIBLY HMAX.
 !     IF HSTAR <= HMAX, REPLACE P(IMAX) BY PSTAR & HMAX BY HSTAR.
-
+!     AFTER REPLACING P(IMAX) WITH PSTAR THEN CONTRACT TO GET POINT PSTST 
+!     THEN COMPARE PSTST TO   HMAX . 
+!                  ---------IF LESS, THEN REPLACE P(IMAX) WITH PSTST AND GO TO 250 
+!                  --------- IF MORE, THEN SHRINK AND GO TO 250
   IF (hstar <= hmax) THEN
     g(imax,:) = pstar
     hmax = hstar
