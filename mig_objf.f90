@@ -246,7 +246,7 @@ contains
 	timing(8)=secnds(timing(7))
 	timing(9)=secnds(0.0)
     !if (iter==1) print*, 'my name is ',mysay,' and iwritegen is ',iwritegen
-	if (iwritegen==1) then ; write(*,'("iter,obj,time: ",i6,f20.2,4f14.2)') iter,objval,timing(2),timing(4),timing(6),timing(8) ; end if  
+	!if (iwritegen==1) then ; write(*,'("iter,obj,time: ",i6,f20.2,4f14.2)') iter,objval,timing(2),timing(4),timing(6),timing(8) ; end if  
 	!ahu 0317 write(*,'("iter,obj: ",3i6,f20.2,3f14.2)') mygroup,mysay,iter,q,timing(2),timing(4),timing(6)  
     
 	! save the moments and objective function values from the first iteration, for comparison to the later ones: 
@@ -293,8 +293,8 @@ contains
 
 	timing(10)=secnds(timing(9))
 	timing(11)=secnds(timing(1))
-	if (iwritegen==1) then ; write(*,'(7f14.2)') timing(2),timing(4),timing(6),timing(8),timing(10),timing(2)+timing(4)+timing(6)+timing(8)+timing(10),timing(11) ; end if  
-
+	!if (iwritegen==1) then ; write(*,'(7f14.2)') timing(2),timing(4),timing(6),timing(8),timing(10),timing(2)+timing(4)+timing(6)+timing(8)+timing(10),timing(11) ; end if  
+	if (iwritegen==1) then ; write(*,'("iter,obj,time: ",i6,7f14.2)') iter,objval,timing(2),timing(4),timing(6),timing(8),timing(10),timing(11) ; end if  
 	iter=iter+1	
 	end subroutine objfunc
 
