@@ -37,7 +37,7 @@ program main
 	integer :: numgroup,numworld,iam,mygrank0 !mygrank,ngroups,mygroup,nprocs_world,iam
 	integer :: mpi_group_world,mygsize
 	integer :: mpierr,mpistat(mpi_status_size)
-    real(4), allocatable, diension(:,:) :: mytime 
+    real(4), allocatable, dimension(:,:) :: mytime 
 	call mpi_init(mpierr)
 	call mpi_comm_rank(mpi_comm_world,iam,mpierr)
 	call mpi_comm_size(mpi_comm_world,numworld,mpierr)
@@ -45,7 +45,7 @@ program main
     mysay=iam
 	conditional_moments=.true.		
     if (iam==0) print*, "Here is numworld", numworld
-    
+
     allocate(mytime(numworld,2))
    
 	if (groups) then 	
