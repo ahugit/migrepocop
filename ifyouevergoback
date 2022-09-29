@@ -1,0 +1,17 @@
+Note that I noticed a bug which was that the different procesors (even when group=1 i.e. for example when there are 36 processors with ntypp=4), each processor was giving a different objval. 
+This is because when I tidied up getmom and moved around some moment do loops, I left the do counter j (for rel) within a do loop which was only over g for example. So j was not being assigned. 
+And yet I had the following statement in that g do loop: 
+if (onlysingles.and.j==1) weights(im)=0.0_dp 
+So different processors were assigning different values to j and for some of them momwgts had 0 for those particular moments and for some others it had a positive weight (whatever positive weight was assigned before that if statement). So momwgts was different for different processors. 
+All other things that contribute to objval were the same though. which shows that 
+mpi reduceall works well. 
+So then I got rid of those j's 
+BUT also got rid of that if onlysingles statement altogether since the weights are automatically assigned zero depending on maxrel if it is an onlysingles run. 
+in getmom: objval error so got rid of sth see below
+!ag092922 sept2022: note that I got rid of all the if stateements following weights(im) i.e. if(onlysingles and j==1) weights(im)=0.0_dp
+ !got rid of them because I don't need them if I have maxrel0 since maxrel0 is set to 1 if onlysingles in the above if statement before the co do loop starts. 
+    !this if (onlysingles and j==1) was leading to bugs i.e. different processors would have different momwgt (all else same tho at least)
+    !because I wasn't assigning j in the loops for just co or cosex (j is for rel) and when I moved around the moments do loops I forgot that j there 
+    !so it was being assigned something different for each processor and they were each gibing different momwgt because of that. 
+    !but just get rid of onlysingles if statements after weights(im) since you don't need that anyway (due tot he presence of maxrel)
+
