@@ -222,13 +222,41 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=8000.0_dp !cst4 
     pars(93)=0.1_dp !mumar4
     call getpars(pars,realpars)
-    !mytime(iam+1,1)=secnds(0.0)
+    call objfunc(pars,qval) ; realpars=realpartemp        
+
+    pars(66)=0.4_dp
+    call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp         
+
+    pars(66)=0.4_dp
+    pars(68)=20000_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp         
+
+!pars(33)=8000.0_dp 
+!pars(34)=0.0_dp
+!pars(35)=1000.0_dp
+!pars(36)=500.0_dp 
+!pars(37)=500.0_dp 
+!pars(38)=500.0_dp 
+!pars(39)=500.0_dp 
+!pars(40)=9000.0_dp 
+!pars(41)=500.0_dp 
+!    uloc             -3855.20      0.00
+!    uloc                 0.00      0.00
+!    uloc             -1859.38      0.00
+!    uloc              -450.20      0.00
+!    uloc              5710.53      0.00
+!    uloc              -141.03      0.00
+!    uloc               115.02      0.00
+!    uloc              2346.33      0.00
+!    uloc              -915.58      0.00
+     
+    !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
     !if (iam==0) print*, 'Here is qval: ', qval
     !if (iam==0) print*, 'iam,qval,mytime ', iam,qval,mytime(iam+1,2)
     deallocate(mytime)
-
 
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
