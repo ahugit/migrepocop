@@ -224,24 +224,23 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp        
 
-    pars(66)=0.4_dp
+    pars(66)=0.3_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp         
 
-    pars(66)=0.4_dp
-    pars(68)=20000_dp
+    pars(66)=0.3_dp
+    pars(33)=-5000.0_dp 
+    pars(34)=0.0_dp
+    pars(35)=-2000.0_dp
+    pars(36)=-600.0_dp 
+    pars(37)=9000.0_dp 
+    pars(38)=-400.0_dp 
+    pars(39)=500.0_dp 
+    pars(40)=8000.0_dp 
+    pars(41)=100.0_dp   
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp         
 
-!pars(33)=8000.0_dp 
-!pars(34)=0.0_dp
-!pars(35)=1000.0_dp
-!pars(36)=500.0_dp 
-!pars(37)=500.0_dp 
-!pars(38)=500.0_dp 
-!pars(39)=500.0_dp 
-!pars(40)=9000.0_dp 
-!pars(41)=500.0_dp 
 !    uloc             -3855.20      0.00
 !    uloc                 0.00      0.00
 !    uloc             -1859.38      0.00
