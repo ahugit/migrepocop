@@ -283,13 +283,13 @@ nonlabinc=0.0_dp !ahu030622
         !else 
         !    iprint=-1
         !end if 
-        stopcr=100.0_dp
+        stopcr=20.0_dp
         nloop=npars+2
         iquad=1 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
         simp=0.0_dp
         !sim annealing parameters: 
-        tstart=0.0_dp*qval  !T0: starting temp (can set to zero to turn off sim annealing)
-        tstep=0.2_dp        !fraction temp reduced at each tfreq
+        tstart=0.3_dp*qval  !T0: starting temp (can set to zero to turn off sim annealing)
+        tstep=0.3_dp        !fraction temp reduced at each tfreq
         tfreq=10 !COUNT(stepmin /= zero) !number of function calls between temp reductions
         saseed=1            !seed for random numbers
 
