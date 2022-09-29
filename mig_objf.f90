@@ -26,7 +26,7 @@ contains
 	integer(i4b), dimension(nmom) :: cntsim,mycnt
 	integer(i4b), parameter :: datcountbar=10 !ahu jan19 010219 changing from 20 to 10 in order for emp at age 18 to count (thereis only 12 in that cell) because it identifies offer rates
 	real(dp) :: time(10),mutemp1,mutemp2,mutemp3
-    real(4) :: timing(6)
+    real(4) :: timing(11)
 	integer(i4b) :: i,t,mycommrank,mpierr   
     !print*, "iter,mysay,iwritegen",iter,mysay,iwritegen !ag090522 agsept2022
     !initiate
@@ -43,7 +43,7 @@ contains
     mycnt=9999
     
 	time(1)=secnds(0.0)
-    
+	timing(1)=secnds(0.0)
     if (groups) then 
         nindex=nin
     else 
@@ -142,7 +142,6 @@ contains
     
     
 	if (skriv) call yaz0	
-    timing(1)=secnds(0.0)
     call solve		
     timing(2)=secnds(timing(1))
     timing(3)=secnds(0.0)
@@ -164,6 +163,7 @@ contains
 	end if 
 	deallocate(dat)
     timing(6)=secnds(timing(5))
+    timing(7)=secnds(0.0)    
 	if (groups) then 
 		call mpi_comm_rank(comm,mycommrank,mpierr)
 		call mpi_allreduce(mycnt,cntsim,nmom,mpi_integer,mpi_sum,comm,mpierr)
@@ -243,8 +243,10 @@ contains
 	end do
 	qcont=momwgt*msm_wgt*(momdat-momsim)**2
 	objval=sum(qcont) 
+	timing(8)=secnds(timing(7))
+	timing(9)=secnds(0.0)
     !if (iter==1) print*, 'my name is ',mysay,' and iwritegen is ',iwritegen
-	if (iwritegen==1) then ; write(*,'("iter,obj,time: ",i6,f20.2,3f14.2)') iter,objval,timing(2),timing(4),timing(6) ; end if  
+	if (iwritegen==1) then ; write(*,'("iter,obj,time: ",i6,f20.2,4f14.2)') iter,objval,timing(2),timing(4),timing(6),timing(8) ; end if  
 	!ahu 0317 write(*,'("iter,obj: ",3i6,f20.2,3f14.2)') mygroup,mysay,iter,q,timing(2),timing(4),timing(6)  
     
 	! save the moments and objective function values from the first iteration, for comparison to the later ones: 
@@ -288,6 +290,10 @@ contains
     deallocate(dec_mar)
     deallocate(vm0_c,vf0_c)
 	deallocate(vm0ctemp,vf0ctemp)
+
+	timing(10)=secnds(timing(9))
+	timing(11)=secnds(timing(1))
+	if (iwritegen==1) then ; write(*,'(7f14.2)') timing(2),timing(4),timing(6),timing(8),timing(10),timing(2)+timing(4)+timing(6)+timing(8)+timing(10),timing(11) ; end if  
 
 	iter=iter+1	
 	end subroutine objfunc
