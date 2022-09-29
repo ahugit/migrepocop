@@ -12,13 +12,13 @@
 	!integer(i4b), parameter :: rp = kind(1.0d0)			! kind(1.0) !!!
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
-!ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
-logical, parameter :: optimize=.false.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.
-logical, parameter :: typemoments=.true.
-logical :: nonneg
+    !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
+    integer(i4b), parameter :: numit=2
+    logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
+    logical, parameter :: optimize=.false.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: typemoments=.true.
+    logical :: nonneg
     logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
-	integer(i4b), parameter :: numit=4 !ahumarch1122
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
 	real(dp), parameter :: eps = 1.0d-6,zero=0.0_dp,epstest=2.0_dp					! could do tiny(.) but that gives a number that is way too small and therefore not appropriate for those places where we check the inequalities or equalities	
 	real(dp), parameter :: eps2= 1.0d-6
