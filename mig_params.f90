@@ -14,7 +14,7 @@
     integer(i4b), parameter :: nl=9,ndecile=10
 !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
 logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
-logical, parameter :: optimize=.false.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.
+logical, parameter :: optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.
 logical, parameter :: typemoments=.true.
 logical :: nonneg
     logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
@@ -57,7 +57,7 @@ logical :: nonneg
 	integer(i4b), parameter :: ndata    = 5233 !5390 !2386   
 	integer(i4b), parameter :: ndataobs = 84507 !86873 !41494  
 	integer(i4b), parameter :: nsim     = ndata*nsimeach  
-	integer(i4b), parameter :: nmom     = 800 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 500 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	

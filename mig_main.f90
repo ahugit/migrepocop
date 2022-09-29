@@ -262,8 +262,8 @@ nonlabinc=0.0_dp !ahu030622
     mytime(iam+1,1)=secnds(0.0)
     call objfunc(pars,qval) ; realpars=realpartemp     
     mytime(iam+1,2)=secnds(mytime(iam+1,1))        
-    if (iam==0) print*, 'Here is qval: ', qval
-    print*, 'iam,qval,mytime ', iam,qval,mytime(iam+1,2)
+    !if (iam==0) print*, 'Here is qval: ', qval
+    if (iam==0) print*, 'iam,qval,mytime ', iam,qval,mytime(iam+1,2)
     deallocate(mytime)
 
 	if (optimize) then 
