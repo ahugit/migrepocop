@@ -244,7 +244,7 @@ contains
 	qcont=momwgt*msm_wgt*(momdat-momsim)**2
 	objval=sum(qcont) 
     !if (iter==1) print*, 'my name is ',mysay,' and iwritegen is ',iwritegen
-	if (iwritegen==1) then ; write(*,'("iter,obj: ",i6,f20.2,3f14.2)') iter,objval,timing(2),timing(4),timing(6) ; end if  
+	if (iwritegen==1) then ; write(*,'("iter,obj,time: ",i6,f20.2,3f14.2)') iter,objval,timing(2),timing(4),timing(6) ; end if  
 	!ahu 0317 write(*,'("iter,obj: ",3i6,f20.2,3f14.2)') mygroup,mysay,iter,q,timing(2),timing(4),timing(6)  
     
 	! save the moments and objective function values from the first iteration, for comparison to the later ones: 

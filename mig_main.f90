@@ -37,14 +37,16 @@ program main
 	integer :: numgroup,numworld,iam,mygrank0 !mygrank,ngroups,mygroup,nprocs_world,iam
 	integer :: mpi_group_world,mygsize
 	integer :: mpierr,mpistat(mpi_status_size)
-
+    real(4), allocatable, diension(:,:) :: mytime 
 	call mpi_init(mpierr)
 	call mpi_comm_rank(mpi_comm_world,iam,mpierr)
 	call mpi_comm_size(mpi_comm_world,numworld,mpierr)
 	print*, "numworld,Iam ", numworld,iam
     mysay=iam
 	conditional_moments=.true.		
-
+    if (iam==0) print*, "Here is numworld", numworld
+    
+    allocate(mytime(numworld,2))
    
 	if (groups) then 	
 		if (mod(numworld,ninp)>0) then ; print*, "numworld needs to be a multiple of ninp " ; end if 
@@ -74,8 +76,8 @@ program main
         !    print*, 'The two ways of calculating mygrank are not equal'
         !    stop
         !end if 
-        write(*,'("iam,numgroup,mygroup,mygrank,mygsize:")') !ahu 0317
-        write(*,'(5i4)') iam,numgroup,mygroup,mygrank,mygsize !ahu 0317
+       ! write(*,'("iam,numgroup,mygroup,mygrank,mygsize:")') !ahu 0317
+       ! write(*,'(5i4)') iam,numgroup,mygroup,mygrank,mygsize !ahu 0317
         
         pp=0
         do i=1,ncop
@@ -257,10 +259,13 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=8000.0_dp !cst4 
     pars(93)=0.1_dp !mumar4
     call getpars(pars,realpars)
+    mytime(iam+1,1)=secnds(0.0)
     call objfunc(pars,qval) ; realpars=realpartemp     
-        
+    mytime(iam+1,2)=secnds(mytime(iam+1,1))        
     if (iam==0) print*, 'Here is qval: ', qval
- 
+    print*, 'iam,qval,mytime ', iam,qval,mytime(iam+1,2)
+    deallocate(mytime)
+
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
 		!if (iam==0) then ; iprint=1 ; else ; iprint=-1 ; end if 
