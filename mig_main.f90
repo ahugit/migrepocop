@@ -198,34 +198,113 @@ nonlabinc=0.0_dp !ahu030622
     !changing only type parameters in pars
     !pars(70)=0 !ptype set to 0 in getpars
     !pars(71)=0 !ptype set to 0 in getpars
-    pars(72)=9.0_dp !alf1t
-    pars(73)=9.0_dp !alf2t
+    pars(72)=9.5_dp !alf1t
+    pars(73)=8.9_dp !alf2t
     !pars(74)=0 !cst1 this is set in getpars as it is a normalization
     pars(75)=0.1_dp !mumar1 !should this be set to 0? 
 
-    pars(76)=0.0_dp !ptypehs2 
-    pars(77)=0.0_dp !ptypecol2
-    pars(78)=9.3_dp !alf1t
-    pars(79)=9.3_dp !alf2t
-    pars(80)=5000.0_dp !cst2 
+    pars(76)=1.0_dp !ptypehs2 
+    pars(77)=1.0_dp !ptypecol2
+    pars(78)=9.0_dp !alf1t
+    pars(79)=8.9_dp !alf2t
+    pars(80)=-100.0_dp !cst2 
     pars(81)=0.1_dp !mumar2    
     
-    pars(82)=0.0_dp !ptypehs3 
-    pars(83)=0.0_dp !ptypecol3
-    pars(84)=9.3_dp !alf1t
-    pars(85)=8.9_dp !alf2t
-    pars(86)=5000.0_dp !cst3
+    pars(82)=1.0_dp !ptypehs3 
+    pars(83)=1.0_dp !ptypecol3
+    pars(84)=9.0_dp !alf1t
+    pars(85)=9.1_dp !alf2t
+    pars(86)=-500.0_dp !cst3
     pars(87)=0.1_dp !mumar3
     
-    pars(88)=0.0_dp !ptypehs4 
-    pars(89)=0.0_dp !ptypecol4
-    pars(90)=9.3_dp !alf1t
-    pars(91)=8.5_dp !alf2t
-    pars(92)=5000.0_dp !cst4 
+    pars(88)=1.0_dp !ptypehs4 
+    pars(89)=1.0_dp !ptypecol4
+    pars(90)=9.0_dp !alf1t
+    pars(91)=9.2_dp !alf2t
+    pars(92)=8000.0_dp !cst4 
     pars(93)=0.1_dp !mumar4
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp     
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp     
     
+
+    open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    nonlabinc=0.0_dp
+    pars=pars1
+    !changing only type parameters in pars
+    !changing only type parameters in pars
+    !pars(70)=0 !ptype set to 0 in getpars
+    !pars(71)=0 !ptype set to 0 in getpars
+    pars(72)=9.0_dp !alf1t
+    pars(73)=8.9_dp !alf2t
+    !pars(74)=0 !cst1 this is set in getpars as it is a normalization
+    pars(75)=0.1_dp !mumar1 !should this be set to 0? 
+
+    pars(76)=1.0_dp !ptypehs2 
+    pars(77)=1.0_dp !ptypecol2
+    pars(78)=9.5_dp !alf1t
+    pars(79)=8.9_dp !alf2t
+    pars(80)=-100.0_dp !cst2 
+    pars(81)=0.1_dp !mumar2    
+    
+    pars(82)=1.0_dp !ptypehs3 
+    pars(83)=1.0_dp !ptypecol3
+    pars(84)=9.0_dp !alf1t
+    pars(85)=9.1_dp !alf2t
+    pars(86)=-500.0_dp !cst3
+    pars(87)=0.1_dp !mumar3
+    
+    pars(88)=1.0_dp !ptypehs4 
+    pars(89)=1.0_dp !ptypecol4
+    pars(90)=9.0_dp !alf1t
+    pars(91)=9.2_dp !alf2t
+    pars(92)=8000.0_dp !cst4 
+    pars(93)=0.1_dp !mumar4
+    call getpars(pars,realpars)
+    !mytime(iam+1,1)=secnds(0.0)
+    call objfunc(pars,qval) ; realpars=realpartemp         
+    !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
+    !if (iam==0) print*, 'Here is qval: ', qval
+    !if (iam==0) print*, 'iam,qval,mytime ', iam,qval,mytime(iam+1,2)
+    deallocate(mytime)
+
+
+
+    open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    nonlabinc=0.0_dp
+    pars=pars1
+    !changing only type parameters in pars
+    !changing only type parameters in pars
+    !pars(70)=0 !ptype set to 0 in getpars
+    !pars(71)=0 !ptype set to 0 in getpars
+    pars(72)=9.0_dp !alf1t
+    pars(73)=8.9_dp !alf2t
+    !pars(74)=0 !cst1 this is set in getpars as it is a normalization
+    pars(75)=0.1_dp !mumar1 !should this be set to 0? 
+
+    pars(76)=1.0_dp !ptypehs2 
+    pars(77)=1.0_dp !ptypecol2
+    pars(78)=9.0_dp !alf1t
+    pars(79)=8.9_dp !alf2t
+    pars(80)=-100.0_dp !cst2 
+    pars(81)=0.1_dp !mumar2    
+    
+    pars(82)=1.0_dp !ptypehs3 
+    pars(83)=1.0_dp !ptypecol3
+    pars(84)=9.5_dp !alf1t
+    pars(85)=9.1_dp !alf2t
+    pars(86)=-500.0_dp !cst3
+    pars(87)=0.1_dp !mumar3
+    
+    pars(88)=1.0_dp !ptypehs4 
+    pars(89)=1.0_dp !ptypecol4
+    pars(90)=9.0_dp !alf1t
+    pars(91)=9.2_dp !alf2t
+    pars(92)=8000.0_dp !cst4 
+    pars(93)=0.1_dp !mumar4
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp     
+
+
 
     open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
@@ -247,24 +326,19 @@ nonlabinc=0.0_dp !ahu030622
     
     pars(82)=1.0_dp !ptypehs3 
     pars(83)=1.0_dp !ptypecol3
-    pars(84)=9.4_dp !alf1t
+    pars(84)=9.0_dp !alf1t
     pars(85)=9.1_dp !alf2t
     pars(86)=-500.0_dp !cst3
     pars(87)=0.1_dp !mumar3
     
     pars(88)=1.0_dp !ptypehs4 
     pars(89)=1.0_dp !ptypecol4
-    pars(90)=9.4_dp !alf1t
+    pars(90)=9.5_dp !alf1t
     pars(91)=9.2_dp !alf2t
     pars(92)=8000.0_dp !cst4 
     pars(93)=0.1_dp !mumar4
     call getpars(pars,realpars)
-    mytime(iam+1,1)=secnds(0.0)
-    call objfunc(pars,qval) ; realpars=realpartemp     
-    mytime(iam+1,2)=secnds(mytime(iam+1,1))        
-    !if (iam==0) print*, 'Here is qval: ', qval
-    if (iam==0) print*, 'iam,qval,mytime ', iam,qval,mytime(iam+1,2)
-    deallocate(mytime)
+    call objfunc(pars,qval) ; realpars=realpartemp    
 
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
