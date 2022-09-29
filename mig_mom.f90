@@ -830,6 +830,20 @@ end FUNCTION random
             if (g==2) headstr(ihead)='all fem'
             ihead=ihead+1
 
+            !ahu jan19 010219: so I am still writing the age 17 (mad) mar rate. age 17 mar rate does not exit in the data since we don't record age 17 rel there. 
+            !so the weight on this moment is 0 but then it's wmovebyrel
+            ia=MNAD
+            CALL condmom(im,( cosex(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
+            WRITE(name(im),'("move by age ",I4)') ia
+            weights(im)=wmove
+            im=im+1
+            do ia=MNA,MXAD,5
+                CALL condmom(im,( cosex(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
+                WRITE(name(im),'("move by age",tr3,I4)') ia
+                weights(im)=wmove
+                im=im+1
+            end do     
+
             call condmom(im,(  cohogen(:)==co .and. sexgen(:)==g ) ,   d1* one( nummove(:)==0 ) ,mom,cnt,var)	
             write(name(im),'("nummove=0 ",tr5)')  
             weights(im)=wmove
@@ -962,7 +976,7 @@ end FUNCTION random
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
             write(name(im),'("move | e ",tr5)')  
             weights(im)=wmovebyrel
-            im=im+      
+            im=im+1  
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("%hme-mvs",tr3)')  !added this ahu 121718
             weights(im)=wmovebyrel
