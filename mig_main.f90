@@ -230,6 +230,13 @@ nonlabinc=0.0_dp !ahu030622
     pars(81)=0.0015_dp !mumar2
     pars(87)=0.0015_dp !mumar3
     pars(93)=0.1_dp    !mumar4
+    pars(68:69)=100000.0_dp   
+    !pars(74)= cst1 norm to 0 in getpars
+    pars(80)=-5000.0_dp
+    pars(86)=-5000.0_dp
+    pars(92)=1000.0_dp 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
  
@@ -240,7 +247,11 @@ nonlabinc=0.0_dp !ahu030622
     pars(81)=0.0015_dp !mumar2
     pars(87)=0.0015_dp !mumar3
     pars(93)=0.1_dp    !mumar4
-    pars(68:69)=200000.0_dp
+    pars(68:69)=100000.0_dp   
+    !pars(74)= cst1 norm to 0 in getpars
+    pars(80)=-50000.0_dp
+    pars(86)=-50000.0_dp
+    pars(92)=-200.0_dp 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
  
