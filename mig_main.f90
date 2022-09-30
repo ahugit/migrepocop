@@ -220,8 +220,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(91)=9.2_dp !alf2t
     pars(92)=8000.0_dp !cst4 
     pars(93)=0.1_dp !mumar4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp        
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp        
 
     open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
@@ -229,6 +229,16 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp        
 
+
+    open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    nonlabinc=0.0_dp
+    pars=pars1
+    pars(75)=0.0015_dp !mumar1
+    pars(81)=0.0015_dp !mumar2
+    pars(87)=0.0015_dp !mumar3
+    pars(93)=0.1_dp    !mumar4
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
      
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
