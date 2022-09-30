@@ -121,7 +121,7 @@ program main
     iter=1
 	iwritegen=0
 	if (iam==0) iwritegen=1
-	if (iam==0.and.iwritegen==1.and.(.not.optimize)) then						! ahu april13: to check how much objval changes with each stepsize and make sure that the objval changes by similar amounts when changing each parameter. otherwise the simplex does weird things. and also to check how much the pminim routine changes objval with each iteration during estimation but the latter is not as important. 
+	if (iam==0.and.iwritegen==1.and.chkobj) then						! ahu april13: to check how much objval changes with each stepsize and make sure that the objval changes by similar amounts when changing each parameter. otherwise the simplex does weird things. and also to check how much the pminim routine changes objval with each iteration during estimation but the latter is not as important. 
 		open(unit=63, file='chkobj.txt',status='replace')	
 	end if 
 	if (iam==0.and.chkstep) then 
@@ -223,7 +223,7 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp        
 
-    open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
     pars=pars1
     call getpars(pars,realpars)
