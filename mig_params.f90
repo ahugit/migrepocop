@@ -14,7 +14,7 @@
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
     integer(i4b), parameter :: numit=2
-    logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
+    logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.false.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.true.
     logical :: nonneg
@@ -36,7 +36,6 @@
 	logical, parameter :: indsimplexwrite=.false.		! in optimiation with parallel simplex, re-solve model and write moments to file whenever check for,find new best point 
 	logical, parameter :: write_welfare=.false.			! write things needed for welfare calculations
 	logical, parameter :: grid_usage=.false.			! keep track of how much of each grid is being used in simulations
-	logical, parameter :: moremom=.false.
 	logical, parameter :: icheck_eqvmvf=.false.,icheck_eqvcvs=.false.,icheck_probs=.false.
 	integer(i4b), parameter :: npars    = 93
     character(len=15), dimension(npars) :: parname ! names of each parameter   !ahu 121118 now declkare as global it here instead of getsteps
@@ -57,7 +56,7 @@
 	integer(i4b), parameter :: ndata    = 5233 !5390 !2386   
 	integer(i4b), parameter :: ndataobs = 84507 !86873 !41494  
 	integer(i4b), parameter :: nsim     = ndata*nsimeach  
-	integer(i4b), parameter :: nmom     = 600 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 1200 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	
