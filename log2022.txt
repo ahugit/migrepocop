@@ -2790,6 +2790,935 @@ Here are some of the potentially useful comments from there
 ************************************************************************************************************************************
 
 
+FROM LOGSO: 
+
+
+
+
+
+
+
+September 25 2022
+
+m092522_3
+
+as you can see from below, cost increases from type 1 to type 4.
+in run 1 mumar is low
+in run 2 mumar is high
+in both the alf1t and alf2t’s are 9 for all types
+
+in both run’s the mar rates are lower for the high cst types
+in run 1 where mumar is low, the move rates for mar men are around 0 for almost all types despite the fact that the cst is high and positive for the higher types
+		this is mainly because for higher cost types, the mar rates are nearly 0 so there is no married people for those higher cost types
+		so the move rates conditional on mar does not mean much for those higher cost types
+in run 2, where mumar is high, the move rates for mar men are indeed higher for higher cost types
+so it seems you need a high enough mumar for this cost thing to work (to work for getting high enough move mar rates)
+
+
+also note that for run1, the mar rates are lower for higher cost types (relative to the lower cost types) 
+and for run2 as well, i.e. the mar rates are lower for higher cost types
+
+
+
+sig_wge              0.20      0.20
+sig_wge              0.20      0.20
+sigo_m            3440.09   3440.09
+sigo_f            2754.42   2754.42
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst                  0.00      0.00
+mu_mar              37.50    375.00
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst               5000.00   5000.00
+mu_mar              37.50    375.00
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst               8000.00   8000.00
+mu_mar              37.50    375.00
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst              12000.00  12000.00
+mu_mar              37.50    375.00
+    1    1. mar                            0.2215        0.5890        0.5579        0.0000        1151870     62443        0.2421
+    1    2. mar                            0.4880        0.5890        0.0421       -0.5158        1151870     62443        0.2421
+    2    1. mar by typ       1             0.6526        0.0000        0.0000        0.0000         285224         0        0.0000
+    2    2. mar by typ       1             0.7187        0.0000        0.0000        0.0000         285224         0        0.0000
+    3    1. mar by typ       2             0.1593        0.0000        0.0000        0.0000         287849         0        0.0000
+    3    2. mar by typ       2             0.5588        0.0000        0.0000        0.0000         287849         0        0.0000
+    4    1. mar by typ       3             0.0789        0.0000        0.0000        0.0000         290231         0        0.0000
+    4    2. mar by typ       3             0.4153        0.0000        0.0000        0.0000         290231         0        0.0000
+    5    1. mar by typ       4             0.0007        0.0000        0.0000        0.0000         288566         0        0.0000
+    5    2. mar by typ       4             0.2623        0.0000        0.0000        0.0000         288566         0        0.0000
+
+married men I
+   95    1. mv by typ    1                 0.0005        0.0000        0.0000        0.0000          85199         0        0.0000
+   95    2. mv by typ    1                 0.0018        0.0000        0.0000        0.0000          94674         0        0.0000
+   96    1. mv by typ    2                 0.0007        0.0000        0.0000        0.0000          24466         0        0.0000
+   96    2. mv by typ    2                 0.0110        0.0000        0.0000        0.0000          77302         0        0.0000
+   97    1. mv by typ    3                 0.0003        0.0000        0.0000        0.0000          13181         0        0.0000
+   97    2. mv by typ    3                 0.0286        0.0000        0.0000        0.0000          60138         0        0.0000
+   98    1. mv by typ    4                 0.0000        0.0000        0.0000        0.0000             78         0        0.0000
+   98    2. mv by typ    4                 0.1461        0.0000        0.0000        0.0000          37473         0        0.0000
+   99    1. wdif | hmemve=0                0.2318        0.0753        0.0000        0.0000             36       208        0.1848
+   99    2. wdif | hmemve=0                0.0334        0.0753        0.0000        0.0000           2056       208        0.1848
+  100    1. wdif | hmemve=1               -0.3642       -0.0608        0.0000        0.0000              1        89        0.1792
+  100    2. wdif | hmemve=1                0.0018       -0.0608        0.0000        0.0000            792        89        0.1792
+  101    1. wdif | stay                    0.0326        0.0197        0.0000        0.0000         112155     13809        0.1224
+  101    2. wdif | stay                    0.0329        0.0197        0.0000        0.0000         239884     13809        0.1224
+
+single men I
+   80    1. mv by typ    1                 0.0310        0.0000        0.0000        0.0000          44533         0        0.0000
+   80    2. mv by typ    1                 0.0222        0.0000        0.0000        0.0000          33774         0        0.0000
+   81    1. mv by typ    2                 0.0693        0.0000        0.0000        0.0000         112785         0        0.0000
+   81    2. mv by typ    2                 0.0880        0.0000        0.0000        0.0000          48679         0        0.0000
+   82    1. mv by typ    3                 0.1393        0.0000        0.0000        0.0000         126973         0        0.0000
+   82    2. mv by typ    3                 0.1646        0.0000        0.0000        0.0000          65211         0        0.0000
+   83    1. mv by typ    4                 0.3214        0.0000        0.0000        0.0000         138275         0        0.0000
+   83    2. mv by typ    4                 0.3446        0.0000        0.0000        0.0000          81493         0        0.0000
+   84    1. wdif | hmemve=0                0.0655        0.0443        0.0000        0.0000          25282       165        0.2325
+   84    2. wdif | hmemve=0                0.0594        0.0443        0.0000        0.0000          15550       165        0.2325
+   85    1. wdif | hmemve=1                0.0070        0.0750        0.0000        0.0000           4627        70        0.1764
+   85    2. wdif | hmemve=1               -0.0039        0.0750        0.0000        0.0000           2781        70        0.1764
+   86    1. wdif | stay                    0.0387        0.0460        0.0000        0.0000         302642      5272        0.1430
+   86    2. wdif | stay                    0.0435        0.0460        0.0000        0.0000         152591      5272        0.1430
+
+now run a different one with all the same as m0925_3 but with higher mumar for run1: 
+because in m092522_3, the mumar of run1 was too low and no one got married especially for the higher cost types so it was hard to tell their move rates conditional on marriage. 
+
+
+m092522_4
+sig_wge              0.20      0.20
+sig_wge              0.20      0.20
+sigo_m            3440.09   3440.09
+sigo_f            2754.42   2754.42
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst                  0.00      0.00
+mu_mar             150.00    375.00
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst               5000.00   5000.00
+mu_mar             150.00    375.00
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst               8000.00   8000.00
+mu_mar             150.00    375.00
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst              12000.00  12000.00
+mu_mar             150.00    375.00
+
+everyone
+    1    2. mar                            0.4880        0.5890        0.0421       -0.0991        1151870     62443        0.2421
+    2    1. mar by typ       1             0.7054        0.0000        0.0000        0.0000         285224         0        0.0000
+    2    2. mar by typ       1             0.7187        0.0000        0.0000        0.0000         285224         0        0.0000
+    3    1. mar by typ       2             0.4654        0.0000        0.0000        0.0000         287849         0        0.0000
+    3    2. mar by typ       2             0.5588        0.0000        0.0000        0.0000         287849         0        0.0000
+    4    1. mar by typ       3             0.3241        0.0000        0.0000        0.0000         290231         0        0.0000
+    4    2. mar by typ       3             0.4153        0.0000        0.0000        0.0000         290231         0        0.0000
+    5    1. mar by typ       4             0.1255        0.0000        0.0000        0.0000         288566         0        0.0000
+    5    2. mar by typ       4             0.2623        0.0000        0.0000        0.0000         288566         0        0.0000
+
+single men I                                                                                                            
+   80    1. mv by typ    1                 0.0281        0.0000        0.0000        0.0000          35459         0        0.0000
+   80    2. mv by typ    1                 0.0222        0.0000        0.0000        0.0000          33774         0        0.0000
+   81    1. mv by typ    2                 0.1008        0.0000        0.0000        0.0000          58063         0        0.0000
+   81    2. mv by typ    2                 0.0880        0.0000        0.0000        0.0000          48679         0        0.0000
+   82    1. mv by typ    3                 0.1970        0.0000        0.0000        0.0000          78769         0        0.0000
+   82    2. mv by typ    3                 0.1646        0.0000        0.0000        0.0000          65211         0        0.0000
+   83    1. mv by typ    4                 0.3883        0.0000        0.0000        0.0000         110293         0        0.0000
+   83    2. mv by typ    4                 0.3446        0.0000        0.0000        0.0000          81493         0        0.0000
+   84    1. wdif | hmemve=0                0.0571        0.0443        0.0000        0.0000          22884       165        0.2325
+   84    2. wdif | hmemve=0                0.0594        0.0443        0.0000        0.0000          15550       165        0.2325
+   85    1. wdif | hmemve=1               -0.0027        0.0750        0.0000        0.0000           3784        70        0.1764
+   85    2. wdif | hmemve=1               -0.0039        0.0750        0.0000        0.0000           2781        70        0.1764
+   86    1. wdif | stay                    0.0437        0.0460        0.0000        0.0000         177835      5272        0.1430
+   86    2. wdif | stay                    0.0435        0.0460        0.0000        0.0000         152591      5272        0.1430
+
+
+married men I                                                                                                           
+   95    1. mv by typ    1                 0.0013        0.0000        0.0000        0.0000          92735         0        0.0000
+   95    2. mv by typ    1                 0.0018        0.0000        0.0000        0.0000          94674         0        0.0000
+   96    1. mv by typ    2                 0.0051        0.0000        0.0000        0.0000          69125         0        0.0000
+   96    2. mv by typ    2                 0.0110        0.0000        0.0000        0.0000          77302         0        0.0000
+   97    1. mv by typ    3                 0.0073        0.0000        0.0000        0.0000          51277         0        0.0000
+   97    2. mv by typ    3                 0.0286        0.0000        0.0000        0.0000          60138         0        0.0000
+   98    1. mv by typ    4                 0.0119        0.0000        0.0000        0.0000          22109         0        0.0000
+   98    2. mv by typ    4                 0.1461        0.0000        0.0000        0.0000          37473         0        0.0000
+   99    1. wdif | hmemve=0                0.0601        0.0753        0.0000        0.0000            376       208        0.1848
+   99    2. wdif | hmemve=0                0.0334        0.0753        0.0000        0.0000           2056       208        0.1848
+  100    1. wdif | hmemve=1                0.0177       -0.0608        0.0000        0.0000            220        89        0.1792
+  100    2. wdif | hmemve=1                0.0018       -0.0608        0.0000        0.0000            792        89        0.1792
+  101    1. wdif | stay                    0.0319        0.0197        0.0000        0.0000         216648     13809        0.1224
+  101    2. wdif | stay                    0.0329        0.0197        0.0000        0.0000         239884     13809        0.1224
+
+in this run again the cst varies by type in the same way for both runs.
+the only difference between run1 and run2 is mumar. mumar is low for run1 and higher for run2.
+as you can see from the above, the mar rate falls with cst (across types the cst vary so the higher types have higher positive costs and they mar rate is lower 
+for both runs the cst parameter by type is 0/5K/8K/12K
+for run1 the mar rate by type is 70/46/32/12 percent
+for run2 the mar rate by type is 71/55/41/26 percent
+the interesting thing is: 
+MAR RATE OF TYPE 1 IS 70 PERCENT FOR MUMAR=150 AND 71 PERCENT FOR MUMAR=375
+ON THE OTHER HAND
+MAR RATE OF TYPE 4 IS 12 PERCENT FOR MUMAR=150 AND 26 PERCENT FOR MUMAR=375
+so the difference in mar rate between the mumar=150 run and mumar=375 run is higher for higher positive csts (I Wonder if that would be the case for higher negative costs too?)
+and this makes a lot of sense because with high positive cost any move is more beneficial so they marry less since when they marry, they are not able to take 
+advantage of that benefit as much since then they are not able to move as much. at least I guess that’s why. 
+STAR INSIGHT STAR INSIGHT STAR INSIGHT TWO STAR INSIGHTS HERE, ONE IS THE ONE ABOVE AND THE OTHER IS:
+as you can see, the mv by typ is higher for the second run for each type which means you can get higher move rates for the same cst value if mumar is higher. 
+which is better for me since a very high positive cst is hard to justify. but maybe I can still high move mar rates by just increasing mumar for some types. 
+
+m092522_5
+
+alf23                0.00      0.00
+sig_wge              0.20      0.20
+sig_wge              0.20      0.20
+sigo_m            3440.09   3440.09
+sigo_f            2754.42   2754.42
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst                  0.00      0.00
+mu_mar            2499.98  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst               1000.00   1000.00
+mu_mar            2499.98  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst               1000.00   1000.00
+mu_mar            2499.98  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst               1000.00   1000.00
+mu_mar            2499.98  24979.19
+
+everyone                                                                                                                
+    1    1. mar                            0.7637        0.5890        0.1261        0.0000        1151870     62443        0.2421
+    1    2. mar                            0.7737        0.5890        0.1410        0.0149        1151870     62443        0.2421
+    2    1. mar by typ       1             0.7619        0.0000        0.0000        0.0000         285224         0        0.0000
+    2    2. mar by typ       1             0.7717        0.0000        0.0000        0.0000         285224         0        0.0000
+    3    1. mar by typ       2             0.7666        0.0000        0.0000        0.0000         287849         0        0.0000
+    3    2. mar by typ       2             0.7766        0.0000        0.0000        0.0000         287849         0        0.0000
+    4    1. mar by typ       3             0.7629        0.0000        0.0000        0.0000         290231         0        0.0000
+    4    2. mar by typ       3             0.7728        0.0000        0.0000        0.0000         290231         0        0.0000
+    5    1. mar by typ       4             0.7633        0.0000        0.0000        0.0000         288566         0        0.0000
+    5    2. mar by typ       4             0.7739        0.0000        0.0000        0.0000         288566         0        0.0000
+
+married men I                                                                                                           
+   64    1. mv by typ    1                 0.0037        0.0000        0.0000        0.0000         102001         0        0.0000
+   64    2. mv by typ    1                 0.0041        0.0000        0.0000        0.0000         103665         0        0.0000
+   65    1. mv by typ    2                 0.0046        0.0000        0.0000        0.0000         104522         0        0.0000
+   65    2. mv by typ    2                 0.0054        0.0000        0.0000        0.0000         106311         0        0.0000
+   66    1. mv by typ    3                 0.0044        0.0000        0.0000        0.0000         105836         0        0.0000
+   66    2. mv by typ    3                 0.0046        0.0000        0.0000        0.0000         107539         0        0.0000
+   67    1. mv by typ    4                 0.0047        0.0000        0.0000        0.0000         103158         0        0.0000
+   67    2. mv by typ    4                 0.0054        0.0000        0.0000        0.0000         105120         0        0.0000
+   68    1. wdif | hmemve=0                0.1354        0.0753        0.0000        0.0000            768       208        0.1848
+   68    2. wdif | hmemve=0                0.0654        0.0753        0.0000        0.0000            820       208        0.1848
+   69    1. wdif | hmemve=1                0.0595       -0.0608        0.0000        0.0000            426        89        0.1792
+   69    2. wdif | hmemve=1                0.0346       -0.0608        0.0000        0.0000            488        89        0.1792
+   70    1. wdif | stay                    0.0328        0.0197        0.0000        0.0000         374488     13809        0.1224
+   70    2. wdif | stay                    0.0328        0.0197        0.0000        0.0000         380166     13809        0.1224
+
+
+single men I                                                                                                            
+   94    1. mv by typ    1                 0.0178        0.0000        0.0000        0.0000          28560         0        0.0000
+   94    2. mv by typ    1                 0.0173        0.0000        0.0000        0.0000          27438         0        0.0000
+   95    1. mv by typ    2                 0.0208        0.0000        0.0000        0.0000          28788         0        0.0000
+   95    2. mv by typ    2                 0.0198        0.0000        0.0000        0.0000          27594         0        0.0000
+   96    1. mv by typ    3                 0.0198        0.0000        0.0000        0.0000          29263         0        0.0000
+   96    2. mv by typ    3                 0.0192        0.0000        0.0000        0.0000          28178         0        0.0000
+   97    1. mv by typ    4                 0.0197        0.0000        0.0000        0.0000          29004         0        0.0000
+   97    2. mv by typ    4                 0.0190        0.0000        0.0000        0.0000          27676         0        0.0000
+   98    1. wdif | hmemve=0                0.2339        0.0443        0.0000        0.0000            512       165        0.2325
+   98    2. wdif | hmemve=0                0.2407        0.0443        0.0000        0.0000            449       165        0.2325
+   99    1. wdif | hmemve=1                0.0608        0.0750        0.0000        0.0000            225        70        0.1764
+   99    2. wdif | hmemve=1                0.0836        0.0750        0.0000        0.0000            188        70        0.1764
+  100    1. wdif | stay                    0.0555        0.0460        0.0000        0.0000          79797      5272        0.1430
+  100    2. wdif | stay                    0.0574        0.0460        0.0000        0.0000          75557      5272        0.1430
+
+
+even very high mumar doesn’t seem to cut it at least as far as getting high move mar rates goes
+the only difference here between the two runs is mumar value 
+was trying to see whether I can get away with just a higher mumar instead of a cst value very high (to get move mar right, that is)
+although this might also very much depend on other parameters that are not being played around with here (such as alft’s or sigwage or sigo etc.) 
+
+nohup /usr/lib64/mpich/bin/mpiexec -np 72 -wdir /home/ec2-user/m092522 /home/ec2-user/m092522/mig.x > /home/ec2-user/m092522/out.txt &
+
+
+
+now for the next run, I will change the alf1t’s and see how things differ. 
+trying both same high values for alt’s for all types as well as (in a later run) trying different alf2t-alf1t differences across types
+for example do they move more when their wages are more similar? 
+so make it so that for some types the difference between alf1t and alf2t is higher 
+
+
+but first the next run is just having different alf1t/alf2t values across types (and between the two runs the values of alf1’s are different)
+
+m092522_6
+sig_wge              0.20      0.20
+sig_wge              0.20      0.20
+sigo_m            3440.09   3440.09
+sigo_f            2754.42   2754.42
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      8.50
+alf2t                9.00      8.50
+cst                  0.00      0.00
+mu_mar           24979.19  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst               5000.00   5000.00
+mu_mar           24979.19  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.40
+alf2t                9.00      9.40
+cst               5000.00   5000.00
+mu_mar           24979.19  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.80
+alf2t                9.00      9.80
+cst               5000.00   5000.00
+mu_mar           24979.19  24979.19
+
+everyone                                                                                                                
+    1    1. mar                            0.7737        0.5890        0.1410        0.0000        1151870     62443        0.2421
+    1    2. mar                            0.7737        0.5890        0.1410       -0.0000        1151870     62443        0.2421
+    2    1. mar by typ       1             0.7717        0.0000        0.0000        0.0000         285224         0        0.0000
+    2    2. mar by typ       1             0.7717        0.0000        0.0000        0.0000         285224         0        0.0000
+    3    1. mar by typ       2             0.7766        0.0000        0.0000        0.0000         287849         0        0.0000
+    3    2. mar by typ       2             0.7766        0.0000        0.0000        0.0000         287849         0        0.0000
+    4    1. mar by typ       3             0.7728        0.0000        0.0000        0.0000         290231         0        0.0000
+    4    2. mar by typ       3             0.7728        0.0000        0.0000        0.0000         290231         0        0.0000
+    5    1. mar by typ       4             0.7739        0.0000        0.0000        0.0000         288566         0        0.0000
+    5    2. mar by typ       4             0.7738        0.0000        0.0000        0.0000         288566         0        0.0000
+
+married men I                                                                                                           
+   64    1. mv by typ    1                 0.0041        0.0000        0.0000        0.0000         103665         0        0.0000
+   64    2. mv by typ    1                 0.0035        0.0000        0.0000        0.0000         103665         0        0.0000
+   65    1. mv by typ    2                 0.0192        0.0000        0.0000        0.0000         106311         0        0.0000
+   65    2. mv by typ    2                 0.0192        0.0000        0.0000        0.0000         106311         0        0.0000
+   66    1. mv by typ    3                 0.0189        0.0000        0.0000        0.0000         107539         0        0.0000
+   66    2. mv by typ    3                 0.0226        0.0000        0.0000        0.0000         107539         0        0.0000
+   67    1. mv by typ    4                 0.0199        0.0000        0.0000        0.0000         105120         0        0.0000
+   67    2. mv by typ    4                 0.0321        0.0000        0.0000        0.0000         105108         0        0.0000
+   68    1. wdif | hmemve=0                0.0469        0.0753        0.0000        0.0000           1883       208        0.1848
+   68    2. wdif | hmemve=0                0.0452        0.0753        0.0000        0.0000           3712       208        0.1848
+   69    1. wdif | hmemve=1               -0.0174       -0.0608        0.0000        0.0000            998        89        0.1792
+   69    2. wdif | hmemve=1               -0.0619       -0.0608        0.0000        0.0000           1284        89        0.1792
+   70    1. wdif | stay                    0.0329        0.0197        0.0000        0.0000         376209     13809        0.1224
+   70    2. wdif | stay                    0.0328        0.0197        0.0000        0.0000         375440     13809        0.1224
+   71    1. w |ned by typ    1             9.4409        0.0000        0.0000        0.0000          52734         0        0.0000
+   71    2. w |ned by typ    1             8.9352        0.0000        0.0000        0.0000          52658         0        0.0000
+   72    1. w |ned by typ    2             9.4374        0.0000        0.0000        0.0000          54628         0        0.0000
+   72    2. w |ned by typ    2             9.4374        0.0000        0.0000        0.0000          54628         0        0.0000
+   73    1. w |ned by typ    3             9.4388        0.0000        0.0000        0.0000          55225         0        0.0000
+   73    2. w |ned by typ    3             9.8448        0.0000        0.0000        0.0000          55441         0        0.0000
+   74    1. w |ned by typ    4             9.4447        0.0000        0.0000        0.0000          53631         0        0.0000
+   74    2. w |ned by typ    4            10.2593        0.0000        0.0000        0.0000          54194         0        0.0000
+ 
+married fem I                                                                                                           
+   79    1. mv by typ    1                 0.0042        0.0000        0.0000        0.0000         104562         0        0.0000
+   79    2. mv by typ    1                 0.0028        0.0000        0.0000        0.0000         104562         0        0.0000
+   80    1. mv by typ    2                 0.0303        0.0000        0.0000        0.0000         105214         0        0.0000
+   80    2. mv by typ    2                 0.0303        0.0000        0.0000        0.0000         105214         0        0.0000
+   81    1. mv by typ    3                 0.0323        0.0000        0.0000        0.0000         104658         0        0.0000
+   81    2. mv by typ    3                 0.0277        0.0000        0.0000        0.0000         104658         0        0.0000
+   82    1. mv by typ    4                 0.0313        0.0000        0.0000        0.0000         106221         0        0.0000
+   82    2. mv by typ    4                 0.0343        0.0000        0.0000        0.0000         106220         0        0.0000
+   83    1. wdif | hmemve=0                0.1805       -0.0200        0.0000        0.0000           1052        52        0.1587
+   83    2. wdif | hmemve=0                0.2194       -0.0200        0.0000        0.0000           2190        52        0.1587
+   84    1. wdif | hmemve=1                0.0374       -0.0348        0.0000        0.0000            806        35        0.1477
+   84    2. wdif | hmemve=1               -0.0043       -0.0348        0.0000        0.0000            902        35        0.1477
+   85    1. wdif | stay                    0.0357        0.0360        0.0000        0.0000         226633      7157        0.1088
+   85    2. wdif | stay                    0.0352        0.0360        0.0000        0.0000         230135      7157        0.1088
+   86    1. w |ned by typ    1             9.3631        0.0000        0.0000        0.0000          39540         0        0.0000
+   86    2. w |ned by typ    1             8.8557        0.0000        0.0000        0.0000          39222         0        0.0000
+   87    1. w |ned by typ    2             9.3520        0.0000        0.0000        0.0000          39596         0        0.0000
+   87    2. w |ned by typ    2             9.3520        0.0000        0.0000        0.0000          39596         0        0.0000
+   88    1. w |ned by typ    3             9.3627        0.0000        0.0000        0.0000          39230         0        0.0000
+   88    2. w |ned by typ    3             9.7695        0.0000        0.0000        0.0000          40312         0        0.0000
+   89    1. w |ned by typ    4             9.3446        0.0000        0.0000        0.0000          38755         0        0.0000
+   89    2. w |ned by typ    4            10.1758        0.0000        0.0000        0.0000          40677         0        0.0000
+  
+single men I                                                                                                            
+   94    1. mv by typ    1                 0.0173        0.0000        0.0000        0.0000          27438         0        0.0000
+   94    2. mv by typ    1                 0.0204        0.0000        0.0000        0.0000          27438         0        0.0000
+   95    1. mv by typ    2                 0.0794        0.0000        0.0000        0.0000          27594         0        0.0000
+   95    2. mv by typ    2                 0.0794        0.0000        0.0000        0.0000          27594         0        0.0000
+   96    1. mv by typ    3                 0.0824        0.0000        0.0000        0.0000          28178         0        0.0000
+   96    2. mv by typ    3                 0.0738        0.0000        0.0000        0.0000          28178         0        0.0000
+   97    1. mv by typ    4                 0.0775        0.0000        0.0000        0.0000          27676         0        0.0000
+   97    2. mv by typ    4                 0.0738        0.0000        0.0000        0.0000          27685         0        0.0000
+   98    1. wdif | hmemve=0                0.1731        0.0443        0.0000        0.0000           1060       165        0.2325
+   98    2. wdif | hmemve=0                0.2140        0.0443        0.0000        0.0000           1758       165        0.2325
+   99    1. wdif | hmemve=1                0.0271        0.0750        0.0000        0.0000            401        70        0.1764
+   99    2. wdif | hmemve=1               -0.0133        0.0750        0.0000        0.0000            478        70        0.1764
+  100    1. wdif | stay                    0.0575        0.0460        0.0000        0.0000          74320      5272        0.1430
+  100    2. wdif | stay                    0.0572        0.0460        0.0000        0.0000          75017      5272        0.1430
+  101    1. w |ned by typ    1             9.1421        0.0000        0.0000        0.0000           9875         0        0.0000
+  101    2. w |ned by typ    1             8.6350        0.0000        0.0000        0.0000           9781         0        0.0000
+  102    1. w |ned by typ    2             9.1276        0.0000        0.0000        0.0000          10441         0        0.0000
+  102    2. w |ned by typ    2             9.1276        0.0000        0.0000        0.0000          10441         0        0.0000
+  103    1. w |ned by typ    3             9.1331        0.0000        0.0000        0.0000          10392         0        0.0000
+  103    2. w |ned by typ    3             9.5409        0.0000        0.0000        0.0000          10529         0        0.0000
+  104    1. w |ned by typ    4             9.1333        0.0000        0.0000        0.0000          10097         0        0.0000
+  104    2. w |ned by typ    4             9.9540        0.0000        0.0000        0.0000          10482         0        0.0000
+ 
+
+m092522_7
+sig_wge              0.20      0.20
+sig_wge              0.20      0.20
+sigo_m            3440.09   3440.09
+sigo_f            2754.42   2754.42
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.00      9.00
+alf2t                9.00      9.00
+cst                  0.00      0.00
+mu_mar           24979.19  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.30      9.30
+alf2t                9.30      9.30
+cst               5000.00   8000.00
+mu_mar           24979.19  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.30      9.30
+alf2t                8.90      8.90
+cst               5000.00   8000.00
+mu_mar           24979.19  24979.19
+ptypehs              0.25      0.25
+ptypecol             0.25      0.25
+alf1t                9.30      9.30
+alf2t                8.50      8.50
+cst               5000.00   8000.00
+mu_mar           24979.19  24979.19
+
+ everyone                                                                                                                
+    1    1. mar                            0.7737        0.5890        0.1410        0.0000        1151870     62443        0.2421
+    1    2. mar                            0.7737        0.5890        0.1410        0.0000        1151870     62443        0.2421
+    2    1. mar by typ       1             0.7717        0.0000        0.0000        0.0000         285224         0        0.0000
+    2    2. mar by typ       1             0.7717        0.0000        0.0000        0.0000         285224         0        0.0000
+    3    1. mar by typ       2             0.7766        0.0000        0.0000        0.0000         287849         0        0.0000
+    3    2. mar by typ       2             0.7766        0.0000        0.0000        0.0000         287849         0        0.0000
+    4    1. mar by typ       3             0.7728        0.0000        0.0000        0.0000         290231         0        0.0000
+    4    2. mar by typ       3             0.7728        0.0000        0.0000        0.0000         290231         0        0.0000
+    5    1. mar by typ       4             0.7739        0.0000        0.0000        0.0000         288566         0        0.0000
+    5    2. mar by typ       4             0.7739        0.0000        0.0000        0.0000         288566         0        0.0000
+
+married men I                                                                                                           
+   64    1. mv by typ    1                 0.0041        0.0000        0.0000        0.0000         103665         0        0.0000
+   64    2. mv by typ    1                 0.0041        0.0000        0.0000        0.0000         103665         0        0.0000
+   65    1. mv by typ    2                 0.0205        0.0000        0.0000        0.0000         106311         0        0.0000
+   65    2. mv by typ    2                 0.0492        0.0000        0.0000        0.0000         106311         0        0.0000
+   66    1. mv by typ    3                 0.0175        0.0000        0.0000        0.0000         107539         0        0.0000
+   66    2. mv by typ    3                 0.0517        0.0000        0.0000        0.0000         107539         0        0.0000
+   67    1. mv by typ    4                 0.0193        0.0000        0.0000        0.0000         105120         0        0.0000
+   67    2. mv by typ    4                 0.0647        0.0000        0.0000        0.0000         105120         0        0.0000
+   68    1. wdif | hmemve=0                0.0872        0.0753        0.0000        0.0000           2117       208        0.1848
+   68    2. wdif | hmemve=0                0.0638        0.0753        0.0000        0.0000           4914       208        0.1848
+   69    1. wdif | hmemve=1               -0.0339       -0.0608        0.0000        0.0000           1070        89        0.1792
+   69    2. wdif | hmemve=1               -0.0475       -0.0608        0.0000        0.0000           1856        89        0.1792
+   70    1. wdif | stay                    0.0327        0.0197        0.0000        0.0000         377049     13809        0.1224
+   70    2. wdif | stay                    0.0329        0.0197        0.0000        0.0000         367961     13809        0.1224
+   71    1. w |ned by typ    1             9.4409        0.0000        0.0000        0.0000          52734         0        0.0000
+   71    2. w |ned by typ    1             9.4409        0.0000        0.0000        0.0000          52734         0        0.0000
+   72    1. w |ned by typ    2             9.7404        0.0000        0.0000        0.0000          54868         0        0.0000
+   72    2. w |ned by typ    2             9.7345        0.0000        0.0000        0.0000          54387         0        0.0000
+   73    1. w |ned by typ    3             9.7444        0.0000        0.0000        0.0000          55419         0        0.0000
+   73    2. w |ned by typ    3             9.7397        0.0000        0.0000        0.0000          54586         0        0.0000
+   74    1. w |ned by typ    4             9.7505        0.0000        0.0000        0.0000          53948         0        0.0000
+   74    2. w |ned by typ    4             9.7449        0.0000        0.0000        0.0000          52572         0        0.0000
+
+
+single men I                                                                                                            
+   94    1. mv by typ    1                 0.0173        0.0000        0.0000        0.0000          27438         0        0.0000
+   94    2. mv by typ    1                 0.0173        0.0000        0.0000        0.0000          27438         0        0.0000
+   95    1. mv by typ    2                 0.0722        0.0000        0.0000        0.0000          27594         0        0.0000
+   95    2. mv by typ    2                 0.1363        0.0000        0.0000        0.0000          27594         0        0.0000
+   96    1. mv by typ    3                 0.0798        0.0000        0.0000        0.0000          28178         0        0.0000
+   96    2. mv by typ    3                 0.1428        0.0000        0.0000        0.0000          28178         0        0.0000
+   97    1. mv by typ    4                 0.0742        0.0000        0.0000        0.0000          27676         0        0.0000
+   97    2. mv by typ    4                 0.1338        0.0000        0.0000        0.0000          27676         0        0.0000
+   98    1. wdif | hmemve=0                0.1850        0.0443        0.0000        0.0000           1402       165        0.2325
+   98    2. wdif | hmemve=0                0.1513        0.0443        0.0000        0.0000           2667       165        0.2325
+   99    1. wdif | hmemve=1               -0.0038        0.0750        0.0000        0.0000            471        70        0.1764
+   99    2. wdif | hmemve=1               -0.0018        0.0750        0.0000        0.0000            718        70        0.1764
+  100    1. wdif | stay                    0.0573        0.0460        0.0000        0.0000          75042      5272        0.1430
+  100    2. wdif | stay                    0.0574        0.0460        0.0000        0.0000          73405      5272        0.1430
+  101    1. w |ned by typ    1             9.1421        0.0000        0.0000        0.0000           9875         0        0.0000
+  101    2. w |ned by typ    1             9.1421        0.0000        0.0000        0.0000           9875         0        0.0000
+  102    1. w |ned by typ    2             9.4302        0.0000        0.0000        0.0000          10549         0        0.0000
+  102    2. w |ned by typ    2             9.4304        0.0000        0.0000        0.0000          10601         0        0.0000
+  103    1. w |ned by typ    3             9.4378        0.0000        0.0000        0.0000          10505         0        0.0000
+  103    2. w |ned by typ    3             9.4351        0.0000        0.0000        0.0000          10539         0        0.0000
+  104    1. w |ned by typ    4             9.4358        0.0000        0.0000        0.0000          10251         0        0.0000
+  104    2. w |ned by typ    4             9.4358        0.0000        0.0000        0.0000          10234         0        0.0000
+
+STAR INSIGHT: wdif is higher with higher alf1t’s which makes sense 
+
+
+starting an opt with onlysingles and some parameters with big steps. changed steps in getpars
+
+
+
+*************************
+SEPTEMBER 28 2022 (read together with the commit history for this day please. I didn’t copy everything here)
+
+See migrepo for the changes of the last couple of days 
+But in summary 
+I ran some onlysingles opt with pnmead as well as Neldermead0 from 2013. 
+
+
+Ran Neldermead0 on both china and aws. China stopped. These can be found in optstp files. 
+The Neldermead0 run on aws went for about 10 hours and it did change parameters quite a bit (though initially I thought they were not changing that much and so I went back to pnmead since that one has simulated annealing. But you can use both interchangeably and see how things look in comparison. 
+——> These runs you can find in neldermead0end tag
+
+Note however that the aws objval is slightly different than the china objval 
+And when I run pnmead on both, I get opt that looks quite different. I think this is because of the random seed situation but I’m not sure. 
+
+IMPORTANT CHECK LATER ISSUES FILE: need to check whether random seed gives very different sequence of random numbers on china vs. aws clusters. 
+
+Note that the Neldermead0 run (in the commit with neldermead0end tag) that I did in the aws cluster was with a Neldermead0 file that is different than the 2013 original (I added something for dp as well as best1 and write best (fntnc2)). I tried adding more comments to it but didn’t finish doing this. See branch. 
+
+After the nedlermead0end tag, I started an attempt to add more comments to the neldermead0 file but this attempt is unfinished. 
+After that I went back to adding comments to pnmead instead and added a lot of comments. 
+
+
+Now running an opt in chi with pnmead (with the version that has a lot of comments added). ——> see tag pnmead-commentsadd-fin
+
+
+opt issue: does random seed generate different sequences in chi relative to aws?
+is that why the objval as well as the  opt files look so different (Especialy for simulated annealing)
+writebest issue: this is not really an issue but: in pnmead's new output I checked out more closel
+y whats' happening. first of all the therm stuff is too much. need to decrease tstep as well as ts
+tstepnext otherwise it'll never get anywhere. because for example, mom.txt is written with an objv
+al of 259 (starting value is 500 something, remember this is onlysingles). but when i looked at op
+t in the current simplex, 259 is no longer there. Why? Probably becasue with the addition of therm
+simp to it, that 259 became (due to random number additions) one of the worst points (even though it's the best so far) and then it got replaced. If you do too much therm addition then you'll get
+situations like that. True eventually the algorithm will probably or hopefully find its way back t
+here but it'll take a long long time.  
+This also reveals taht there's a discrepancy between the mom.txt write whenever there's a best val
+ue and the writing of the best values called from pnmead. The latter is an entirely different mons
+ter. ——> See the changes I made to fnctn2 in pnmead and write best in obj and all the other necessary changes that come with those. 
+
+
+
+tstart=qval
+tstep=0.8
+tfreq=2*count(step-in/=zero)
+temperature setting issue: the above this is way too much 
+
+
+Added more arguments to write best:
+writebest is called from pnmead and it writes the minvalue of h and the parameters that correspond to it as well as neval,hmean,hstd. 
+I also write the parameters (along with moments) that are best so far by calling from within obj. note that this is a different thing than the call of writebest from within pnmead. They should be consistent especially if the temp is low at that point (because sometimes if the temp is high then the good points might be discarded since then htherm will be quite different with respect to h)
+
+
+
+pnmeadl close(lout)
+this is because in the opt092822tempsmall run, I noticed that there was no output after convergence even though quad=1. i.e. no quadratic surface fitting adn second derivatives output. At this point I had already sent another opt job to chi. Then I realized that the 092822tempsmall job was actuall ystill running. I just didn't see it because there is close(lout) right before quadratic surface fitting starts. It does a lot of function calls at that point so it was still running and writing to fort.6. So then I stopped both jobs and now will send a new one. 
+
+*************************************
+SEPTEMBER 29 2022 
+MB092822TEMPSMALL this is the onlysingles opt that converged because stopcr=100. copying the wages below to figure out how to change the next init parameters. see after the below. 
+155    1. w|1819                         9.1388        9.2422        0.5134        0.0000          16491       410        0.2082
+  155    2. w|1819                         9.2016        9.2422        0.0789       -0.4345          17009       410        0.2082
+  156    1. wvar|1819                      0.0558        0.2082        0.0033        0.0000          16491       410       69.4327
+  156    2. wvar|1819                      0.0690        0.2082        0.0028       -0.0006          17009       410       69.4327
+  157    1. w|1819 l    1                  9.2661        9.4171        0.0000        0.0000            510         4        0.0610
+  157    2. w|1819 l    1                  9.3493        9.4171        0.0000        0.0000            593         4        0.0610
+  158    1. wvar|1819 l    1               0.0566        0.0610        0.0000        0.0000            510         4       22.2003
+  158    2. wvar|1819 l    1               0.0626        0.0610        0.0000        0.0000            593         4       22.2003
+  159    1. w|1819 l    2                  9.1600        9.1778        0.0131        0.0000           2378        44        0.2405
+  159    2. w|1819 l    2                  9.2413        9.1778        0.1678        0.1547           2592        44        0.2405
+  160    1. wvar|1819 l    2               0.0513        0.2405        0.0045        0.0000           2378        44       78.8113
+  160    2. wvar|1819 l    2               0.0602        0.2405        0.0041       -0.0004           2592        44       78.8113
+  161    1. w|1819 l    3                  9.2264        9.3213        0.5464        0.0000           3172        80        0.1649
+  161    2. w|1819 l    3                  9.3009        9.3213        0.0251       -0.5213           3418        80        0.1649
+  162    1. wvar|1819 l    3               0.0502        0.1649        0.0023        0.0000           3172        80       56.4196
+  162    2. wvar|1819 l    3               0.0616        0.1649        0.0019       -0.0004           3418        80       56.4196
+  163    1. w|1819 l    4                  9.0929        9.2662        1.5280        0.0000           1952        71        0.1966
+  163    2. w|1819 l    4                  9.1651        9.2662        0.5196       -1.0084           2083        71        0.1966
+  164    1. wvar|1819 l    4               0.0541        0.1966        0.0030        0.0000           1952        71       66.9712
+  164    2. wvar|1819 l    4               0.0650        0.1966        0.0026       -0.0004           2083        71       66.9712
+  165    1. w|1819 l    5                  9.0767        9.1424        0.2003        0.0000           3361        48        0.2153
+  165    2. w|1819 l    5                  9.0768        9.1424        0.1999       -0.0004           2946        48        0.2153
+  166    1. wvar|1819 l    5               0.0498        0.2153        0.0040        0.0000           3361        48       67.9881
+  166    2. wvar|1819 l    5               0.0579        0.2153        0.0036       -0.0004           2946        48       67.9881
+  167    1. w|1819 l    6                  9.1011        9.1679        0.2612        0.0000           1627        40        0.1708
+  167    2. w|1819 l    6                  9.1588        9.1679        0.0049       -0.2563           1724        40        0.1708
+  168    1. wvar|1819 l    6               0.0523        0.1708        0.0025        0.0000           1627        40       55.4654
+  168    2. wvar|1819 l    6               0.0623        0.1708        0.0021       -0.0004           1724        40       55.4654
+  169    1. w|1819 l    7                  9.0789        9.2756        1.7893        0.0000           1471        38        0.2162
+  169    2. w|1819 l    7                  9.1376        9.2756        0.8808       -0.9085           1545        38        0.2162
+  170    1. wvar|1819 l    7               0.0510        0.2162        0.0037        0.0000           1471        38       74.1590
+  170    2. wvar|1819 l    7               0.0612        0.2162        0.0032       -0.0004           1545        38       74.1590
+  171    1. w|1819 l    8                  9.0660        9.0982        0.0472        0.0000            751        30        0.2193
+  171    2. w|1819 l    8                  9.1182        9.0982        0.0183       -0.0288            743        30        0.2193
+  172    1. wvar|1819 l    8               0.0528        0.2193        0.0040        0.0000            751        30       69.2743
+  172    2. wvar|1819 l    8               0.0650        0.2193        0.0034       -0.0006            743        30       69.2743
+  173    1. w|1819 l    9                  9.2248        9.3315        0.4901        0.0000           1269        55        0.2323
+  173    2. w|1819 l    9                  9.3109        9.3315        0.0184       -0.4717           1365        55        0.2323
+  174    1. wvar|1819 l    9               0.0521        0.2323        0.0041        0.0000           1269        55       79.5147
+  174    2. wvar|1819 l    9               0.0605        0.2323        0.0037       -0.0004           1365        55       79.5147
+  
+
+wvar 1819 (the 156 moment) is a good indicator of whether there is enough variation in the loc specific intercepts of alf. 
+Need to change those in order to get that right because the var’s are too low. 
+The vars are also too low within each location at age 1819. This means that sigwge is too low as well. sigwge for males is now 0.2 and it didn’t change much in the optimization. 
+Because when it increases, then the wdif’s increase too much. I think sigwge needs to be lower to get a low wdif. And we instead get wage increase by increasing the experience coefficient. At least that’s what I remember. 
+
+BUT why does wdif increase when I increase alft. Shouldn’t that cancel out since these are log wage differences?  or DOES wdif increase when I increase alft? NEED TO CHECK THIS. PARAM TRY. 
+
+
+
+
+
+objval issue
+    print*, "mysay etc.", mysay,momwgt(1:10)   !,sum(momwgt(11:50))/nmom,sum(momwgt(51:200))/nmom
+
+	qcont=momwgt*msm_wgt*(momdat-momsim)**2
+	objval=sum(qcont) 
+	timing(8)=secnds(timing(7))
+	timing(9)=secnds(0.0)
+	print*, "mysay etc.", mysay,mycos(mysay),mytyps(mysay),myhomes(mysay),sum(momsim)/nmom,objval
+    !if (iter==1) print*, 'my name is ',mysay,' and iwritegen is ',iwritegen
+	if (iwritegen==1) then ; write(*,'("iter,obj,time: ",i6,f20.2,4f14.2)') iter,objval,timing(2),timing(4),timing(6),timing(8) ; end if  
+	!ahu 0317 write(*,'("iter,obj: ",3i6,f20.2,3f14.2)') mygroup,mysay,iter,q,timing(2),timing(4),timing(6)  
+
+
+	print*, "mysay,momsim,qval", mysay,momsim(50:54),objval
+
+    
+    !ag092922 sept2022: note that I got rid of all the if stateements following weights(im) i.e. if(onlysingles and j==1) weights(im)=0.0_dp
+    !got rid of them because I don't need them if I have maxrel0 since maxrel0 is set to 1 if onlysingles in the above if statement before the co do loop starts. 
+    !this if (onlysingles and j==1) was leading to bugs i.e. different processors would have different momwgt (all else same tho at least)
+    !because I wasn't assigning j in the loops for just co or cosex (j is for rel) and when I moved around the moments do loops I forgot that j there 
+    !so it was being assigned something different for each processor and they were each gibing different momwgt because of that. 
+    !but just get rid of onlysingles if statements after weights(im) since you don't need that anyway (due tot he presence of maxrel)
+	cohort: do co=1,nco
+
+
+
+STAR INSIGHT
+wnedvar for 18 or 18:19 or for all ages within each loc is too low 
+wnedvar for 18 or earlier ages comes mostly from sigwge and type ——> it is too low 
+wnedvar for later ages comes mostly from sigwge and type and experience ——> it is too low
+wdif move is not very very high but it’s also not low enough —> so can’t increase sigwge
+w by age is increasing fine ——> can’t increase experience coefficient
+so then need to increase alft variance across types 
+that’s the only way to increase those wvar’s without messing up wdif move etc. (type intercepts don’t affect wdif move. at least it shouldn’t!)
+need to nacres ealft variance across types but by how much? and which? 
+
+did some wage ident tries 
+
+see m092922_wageident1 and 2
+the wage intercepts 
+the issue is what to normalize 
+now type 3 alfloc in the wage intercept is normalized to 0 
+that gives me the type intercepts 
+because otherwise they are not separately ident, right? 
+it makes sense? maybe. 
+according to a little exercise I Did it looks that way 
+
+consider the following 
+4 + 5/5.4 + 2/2.3/2.6  the second term is types and the third term is loc intercepts, say 
+now consider 
+4 + 3/3.4  + 4/4.3/4/6 
+the above are the same exact sums and the var across types is the same between the scenario 1 and scenario 2 so the var within location would not identify these separately I think.
+
+if you normalize one of the locs to 0 that will sort of give an idea about hte mean and var of the type intercepts so it will be a start
+
+in m092922_wageident1 I tried  some different alf1t combos’ along with also decreasing all the alf10s’ (even loc 3) and decreasing all alf10’s (keeping loc 3 at 0) 
+need to look at this run to process. 
+
+and in m092922_wageident2, I tried various alf1t’s. they had the following values:
+9.6   9.1   9.2   9.3  (alll the 4 runs had these values but which type has which value differed and that’s it)
+the above are type 1, 2, 3, 4 respectively 
+It ddoesn’t seem to make a difference where I put the high alf i.e. the 9.6
+
+but the above variance just as is is around 0.2. but when I do the run, the var’s within locs are around 0.1
+So one way to increase that loc var is to increase the variance across types 
+and this can also be seen from thew deciles
+right now there are 0 percent people in the high wage deciles 
+
+in m092922_wageident3 I did another run with 9.8 instead of 9.6 (all else same)
+
+now the var’s are higher but still not high enough 
+the mean wage (node’s) conditional on loc are about right 
+wdif move is too high 
+wdif stay I don’t know 
+wdecile’s about right
+
+so the one way to increase the var cord on loc is to increase one of the alf1t’s even more but that would be too high (higher than 9.8 too high since deciles look ok) 
+the other way is to increase sigwge but that will increase wdif move’s too much 
+
+wdif move’s are too high even wdif home move’s 
+so then maybe one thing to do is to increase uloc differences across locations (to get wdif move’s down? but I am not sure if I ever tried this) and increase sigwage (to increase var conditional on loc) 
+or how about sigo?
+
+m092922_wgeident4 
+was with 9.8 alt’s 
+and then second run very high sigwge 
+and third run very high sigwge (to increase wvar with sigwge) but with high sigo
+since a high sigwge gives a high wdif move I tried to balance that out by increasing sigo a lot but it didn’t’ work 
+wdif move way too high (it does go down with sigo higher but not enough) and wdif eue,s way too high negative
+
+m092922_wgeident5
+was with 9.8 alt’s 
+and then second run very high sigwge 
+and third run very high sigwge (to increase wvar with sigwge) but with high loc differentials
+since a high sigwge gives a high wdif move I tried to balance that out by increasing uloc differentials a lot but it didn’t’ work 
+wdif move way too high and eue,s way too high negative 
+
+m092922_wgeident6
+run2 is good. that is with higher alft values for some types adn lower alft for others (and ptype changed so that it has less weight in intermediate values). 
+run3 is all of above but with higher sigwge
+run2 is with more extreme values for alf1t and ptype's also different (ptype for the intermediate alft value lowered. ptypehs that is). sigwge increasing is just not going to work because it increases wdif move too much. in run2 wdif's look ok AND wvar's are ok too. mean wages seem a bit high though.
+run3 was with all of above but with higher sigwge and it didn't work out because it increases wdif a lot. 
+
+*************************************************************************
+SEPTEMBER 30 2022 
+
+An opt ran in chi but stopped at naval 370 something 
+The objval did improve and things look ok 
+The starting point was with ptype’s and alf1t’s adjusted to get good mean wages, var’s and waif’s (See the discussion above. al the wgeident run’s 
+were to find a good initial point for this run). 
+The opt for this run is labeled m093022 
+
+Ran the best parameters (so far but stopped) from this run for couples 
+see m093022_mar for those moments
+The objval is much higher for bp093022 relative to the starting point
+For example single men emp transition rates ee move seems to be way too low here. even though in the singles run they are fine. 
+I think this is because the marriage rates are way too high (because mummar’s for all types were very high) and the ee move single men moment is picking up 
+the fact that ee move is different by age (or whatever it is, it is about the marriage rates causing these moments to not look good). 
+STAR INSIGHT STAR INSIGHT (it’s what I just said, the star insight is, that is). 
+
+
+so now try with lower mumar's for some of the types (especially type 1-3 but not 4 since that’s the one with high positive cst for move)
+this is m093022_mar2:
+it worked! the mar rates are lower (though not low enough at all) and the single men emp trans rates are back up! so my hypo was correct! 
+
+
+by the way for fem wages: 
+forgot to normalize one of the location intercept 
+normalize loc 3 intercept to 0 (which is fine because that param is 0.09 now and the loc 3 mean wage moment look too high now) 
+and her loc 5 alf20 needs to increase by like 0.15 or so (wned at age 18:19 is too low) 
+and also for fem’s the wvar moments too low so play around with alf2t or sigwge or intercepts or something 
+
+
+fro mm093022 (onlysingles):
+as you can see below ,
+wvar noed (200) is too low 
+wvarned|1819 (76)  is too low as well 
+wvarned|18:19 by loc9 (86)  is too low as well     
+wvarned|20:25 by loc9  (88) is too low as well 
+(note  80    1. wvarned|18:19 by loc   1   is low but it’s low in the data too but that doesn’t mean anything because it’s only 11 people in data)
+so increasing loc intercept variance (alf20) will not help 
+one thing to do would be to increase the experience coefficient but fem wages by age already increase too much (see by age moments) 
+the only thing to do seems to be to increase the alf2t variance across types 
+put a higher alf2t for one of the types since that will also help with getting some women in the higher deciles (see wdecile for fem)
+increasing sigwge will hep with these variance moments but then that will increase wdif move for her a lot and it’s already too high 
+STAR INSIGHT STAR INSGIHT 
+note that wdif move for fem is too high BUT it’s actually low for age 18  and wdif move only increases way too much for all later ages (look at wdif by ia). 
+why? 
+also note that in first run wdif move age 18 was also high and the opt brought it down but could not bring it down for later ages 
+why? 
+this is probably because those age 18 moves are home moves. and the opt increased her homemove utility so the wdif when she moves home is much lower now 
+but this doesn’t help the wdif for the later moves 
+how do I bring wdif for later moves down? the same problem is also there for single men but in the model moments they don’t change as 
+drastically as they do for fem model moments wdif move by ia. in single men case they are just consistently high for all ages (whereas in data they are negative!) 
+The only way to get around that problem has to be the uloc differentials but I am not sure. I tried this before and it didn’t really work. 
+maybe look at prop of moves to and from by loc and see which ones you can adjust 
+
+
+
+single fem wages                                                                                                        
+  199    1. w|noed                                          9.3503        9.3127        0.0579        0.0000         193735     10134        0.2442
+  199    2. w|noed                                          9.3338        9.3127        0.0182       -0.0396         196472     10134        0.2442
+  200    1. wvar|noed                                       0.1277        0.2442        0.0016        0.0000         193735     10134       83.2196
+  200    2. wvar|noed                                       0.1247        0.2442        0.0017        0.0001         196472     10134       83.2196
+  203    1. wdif | hmemve=0                                 0.3409        0.0040       26.4022        0.0000           4019       234        0.2150
+  203    2. wdif | hmemve=0                                 0.2658        0.0040       15.9377      -10.4645           1816       234        0.2150
+  204    1. wdif | hmemve=1                                 0.0169        0.0844        1.3635        0.0000           1033       123        0.1673
+  204    2. wdif | hmemve=1                                -0.1625        0.0844       18.2222       16.8587            503       123        0.1673
+  205    1. wdif | stay                                     0.0367        0.0395        0.0037        0.0000         271721     16724        0.1044
+  205    2. wdif | stay                                     0.0384        0.0395        0.0006       -0.0031         276239     16724        0.1044
+  206    1. wdif2 | stay                                    0.0105        0.1044        4.3076        0.0000         271721     16724        0.1024
+  206    2. wdif2 | stay                                    0.0110        0.1044        4.2609       -0.0467         276239     16724        0.1024
+  207    1. wdif | move                                     0.2747        0.0317       14.7575        0.0000           5052       357        0.2000
+  207    2. wdif | move                                     0.1729        0.0317        4.9829       -9.7746           2319       357        0.2000
+  208    1. wdif2 | move                                    0.1302        0.2000        1.2086        0.0000           5052       357        0.2018
+  208    2. wdif2 | move                                    0.1493        0.2000        0.6364       -0.5722           2319       357        0.2018
+  209    1. wdif | eue,s                                   -0.1024       -0.0127        1.3676        0.0000           3264       694        0.2944
+  209    2. wdif | eue,s                                   -0.0916       -0.0127        1.0586       -0.3090           3533       694        0.2944
+  210    1. wdif2 | eue,s                                   0.1391        0.2944        4.3135        0.0000           3264       694        0.2793
+  210    2. wdif2 | eue,s                                   0.1348        0.2944        4.5604        0.2469           3533       694        0.2793
+  211    1. wdif | eue,m                                   -0.1036       -0.1054        0.0005        0.0000            338        25        0.3062
+  211    2. wdif | eue,m                                   -0.0497       -0.1054        0.5070        0.5065            206        25        0.3062
+  212    1. wdif2 | eue,m                                   0.1679        0.3062        3.9413        0.0000            338        25        0.2427
+  212    2. wdif2 | eue,m                                   0.1447        0.3062        5.3744        1.4331            206        25        0.2427
+  213    1. wdif | stay ia       18                         0.0552        0.0365        0.0866        0.0000           1899        88        0.2016
+  213    2. wdif | stay ia       18                         0.0604        0.0365        0.1409        0.0543           1967        88        0.2016
+  214    1. wdif | stay ia       28                         0.0447        0.0656        0.2027        0.0000          11715       626        0.1080
+  214    2. wdif | stay ia       28                         0.0464        0.0656        0.1699       -0.0328          11844       626        0.1080
+  215    1. wdif | stay ia       38                         0.0290        0.0149        0.0899        0.0000           9639       584        0.1107
+  215    2. wdif | stay ia       38                         0.0309        0.0149        0.1153        0.0254           9768       584        0.1107
+  216    1. wdif | stay ia       48                         0.0214        0.0167        0.0147        0.0000           5880       496        0.0729
+  216    2. wdif | stay ia       48                         0.0222        0.0167        0.0208        0.0061           5937       496        0.0729
+  217    1. wdif | move ia       18                         0.3168       -0.4444        0.0000        0.0000             24         3        0.4831
+  217    2. wdif | move ia       18                         0.0267       -0.4444        0.0000        0.0000             12         3        0.4831
+  218    1. wdif | move ia       28                         0.2502        0.0108       22.8264        0.0000            222        14        0.1256
+  218    2. wdif | move ia       28                         0.1225        0.0108        4.9719      -17.8545            104        14        0.1256
+  219    1. wdif | move ia       38                         0.3021        0.0183        0.0000        0.0000            175         6        0.0837
+  219    2. wdif | move ia       38                         0.2248        0.0183        0.0000        0.0000             82         6        0.0837
+  220    1. wdif | move ia       48                         0.1977        0.1178        0.0000        0.0000            158         3        0.0132
+  220    2. wdif | move ia       48                         0.1926        0.1178        0.0000        0.0000            116         3        0.0132
+
+all fem w and wvar at 18 and 18:19 .. for ident                                                                         
+   73    1. wnned|18 small samp size!                       9.0263        9.0049        0.0000        0.0000           2131       129        0.2125
+   73    2. wnned|18 small samp size!                       9.0071        9.0049        0.0000        0.0000           2202       129        0.2125
+   74    1. wvarned|18 small samp size!                     0.0910        0.2125        0.0000        0.0000           2131       129       70.0171
+   74    2. wvarned|18 small samp size!                     0.0898        0.2125        0.0000        0.0000           2202       129       70.0171
+   75    1. wnned|1819                                      9.0432        9.0268        0.0136        0.0000           5925       326        0.1984
+   75    2. wnned|1819                                      9.0229        9.0268        0.0008       -0.0128           6072       326        0.1984
+   76    1. wvarned|1819                                    0.0915        0.1984        0.0018        0.0000           5925       326       64.0170
+   76    2. wvarned|1819                                    0.0894        0.1984        0.0019        0.0001           6072       326       64.0170
+   77    1. wned|18 by loc small!   1                       9.2122        9.1617        0.0000        0.0000             89         5        0.1478
+   77    2. wned|18 by loc small!   1                       9.1796        9.1617        0.0000        0.0000             91         5        0.1478
+   78    1. wvarned|18 by loc small!   1                    0.1056        0.1478        0.0000        0.0000             89         5       48.5446
+   78    2. wvarned|18 by loc small!   1                    0.1031        0.1478        0.0000        0.0000             91         5       48.5446
+   79    1. wned|18:19 by loc   1                           9.2286        9.1938        0.1377        0.0000            214        11        0.0880
+   79    2. wned|18:19 by loc   1                           9.1864        9.1938        0.0063       -0.1314            224        11        0.0880
+   80    1. wvarned|18:19 by loc   1                        0.1141        0.0880        0.0002        0.0000            214        11       29.0151
+   80    2. wvarned|18:19 by loc   1                        0.1073        0.0880        0.0001       -0.0001            224        11       29.0151
+   81    1. wned|20:25 by loc   1                           9.3551        9.3409        0.0154        0.0000           1189        54        0.1307
+   81    2. wned|20:25 by loc   1                           9.3089        9.3409        0.0785        0.0631           1505        54        0.1307
+   82    1. wvarned|20:25 by loc   1                        0.1084        0.1307        0.0001        0.0000           1189        54       43.0319
+   82    2. wvarned|20:25 by loc   1                        0.0936        0.1307        0.0003        0.0002           1505        54       43.0319
+   83    1. wned|18 by loc small!   9                       9.1000        9.0139        0.0000        0.0000            194        18        0.1960
+   83    2. wned|18 by loc small!   9                       9.0702        9.0139        0.0000        0.0000            202        18        0.1960
+   84    1. wvarned|18 by loc small!   9                    0.1002        0.1960        0.0000        0.0000            194        18       65.0524
+   84    2. wvarned|18 by loc small!   9                    0.0940        0.1960        0.0000        0.0000            202        18       65.0524
+   85    1. wned|18:19 by loc   9                           9.1211        9.0439        0.2930        0.0000            504        41        0.2035
+   85    2. wned|18:19 by loc   9                           9.0895        9.0439        0.1022       -0.1907            535        41        0.2035
+   86    1. wvarned|18:19 by loc   9                        0.0988        0.2035        0.0016        0.0000            504        41       66.9540
+   86    2. wvarned|18:19 by loc   9                        0.0883        0.2035        0.0020        0.0003            535        41       66.9540
+   87    1. wned|20:25 by loc   9                           9.2271        9.2945        0.2203        0.0000           3098       227        0.2061
+   87    2. wned|20:25 by loc   9                           9.2114        9.2945        0.3356        0.1153           3335       227        0.2061
+   88    1. wvarned|20:25 by loc   9                        0.1000        0.2061        0.0016        0.0000           3098       227       69.6596
+   88    2. wvarned|20:25 by loc   9                        0.0998        0.2061        0.0016        0.0000           3335       227       69.6596
+   89    1. wdif | stay                                     0.0367        0.0395        0.0037        0.0000         271721     16724        0.1044
+   89    2. wdif | stay                                     0.0384        0.0395        0.0006       -0.0031         276239     16724        0.1044
+   90    1. wdif | move                                     0.2747        0.0317       14.7575        0.0000           5052       357        0.2000
+   90    2. wdif | move                                     0.1729        0.0317        4.9829       -9.7746           2319       357        0.2000
+   91    1. wdif | eue,s                                   -0.1024       -0.0127        1.3676        0.0000           3264       694        0.2944
+   91    2. wdif | eue,s                                   -0.0916       -0.0127        1.0586       -0.3090           3533       694        0.2944
+   92    1. wdif | eue,m                                   -0.1036       -0.1054        0.0005        0.0000            338        25        0.3062
+   92    2. wdif | eue,m                                   -0.0497       -0.1054        0.5070        0.5065            206        25        0.3062
+   93    1. wned|18:19 by loc   1                           9.2286        9.1938        0.1377        0.0000            214        11        0.0880
+   93    2. wned|18:19 by loc   1                           9.1864        9.1938        0.0063       -0.1314            224        11        0.0880
+   94    1. wned|18:19 by loc   2                           9.0543        9.0588        0.0010        0.0000            930        32        0.2168
+   94    2. wned|18:19 by loc   2                           9.0548        9.0588        0.0007       -0.0002           1012        32        0.2168
+   95    1. wned|18:19 by loc   3                           9.1134        9.0276        0.3083        0.0000           1079        70        0.2391
+   95    2. wned|18:19 by loc   3                           9.0934        9.0276        0.1811       -0.1272           1151        70        0.2391
+   96    1. wned|18:19 by loc   4                           8.9976        8.9704        0.0408        0.0000            641        36        0.1809
+   96    2. wned|18:19 by loc   4                           8.9780        8.9704        0.0031       -0.0376            693        36        0.1809
+   97    1. wned|18:19 by loc   5                           8.9918        9.1336        0.8965        0.0000           1147        46        0.2244
+   97    2. wned|18:19 by loc   5                           8.9550        9.1336        1.4218        0.5252            958        46        0.2244
+   98    1. wned|18:19 by loc   6                           9.0240        9.0132        0.0207        0.0000            648        33        0.0567
+   98    2. wned|18:19 by loc   6                           9.0026        9.0132        0.0200       -0.0006            700        33        0.0567
+   99    1. wned|18:19 by loc   7                           8.9491        8.8501        0.4045        0.0000            576        30        0.2423
+   99    2. wned|18:19 by loc   7                           8.9291        8.8501        0.2579       -0.1466            619        30        0.2423
+  100    1. wned|18:19 by loc   8                           8.9885        9.0054        0.0199        0.0000            186        26        0.1440
+  100    2. wned|18:19 by loc   8                           8.9282        9.0054        0.4137        0.3938            180        26        0.1440
+  101    1. wned|18:19 by loc   9                           9.1211        9.0439        0.2930        0.0000            504        41        0.2035
+  101    2. wned|18:19 by loc   9                           9.0895        9.0439        0.1022       -0.1907            535        41        0.2035
+
+
+m093022_magic:
+OMG IT WORKED!
+BASED ON THE ABOVE DISCUSSION, AFTER THE LAST RUN (M093022_MAR2) I INCREASED SIGO FOR BOTH MALES AND FEMALES BY A LOT. TO 200K. AND IT WORKED! 
+look at tag m093022_mar2 and m093022_magic to see the difference (note that the other difference is also that I normalized fem loc3 alf20 to 0 in get pars but this is nothing)
+IT WORKED!       STAR INSIGHT STAR INSIGHT 
+WHAT WORKED 
+WDIF MOVE ACTUALLY WENT DOWN A LOT 
+IT 
+WENT 
+DOWN 
+
+FOR EXAMPLE FOR SINGLE MALES WDIF MOVE BY IA IS ACTUALLY NEGATIVE NOW JUST LIKE IN THE DATA. 
+FOR MARRIED MEN WDIF MVE BY IA IS NOT NEGATIVE BUT IT WENT DOWN A LOT FOR EACH AGE. PLUS THEIR OVERALL WDIF MOVE LOOKS JUST RIGHT. CAN IGNORE THE IA THING BUT MAYBE NOT. 
+
+BUT NOW THE MOVE RATES ARE UP BY A LOT. AND EE MVOE AND EU MOVE ARE TOO LOW. 
+MAYBE TRY INCREASING COST OF MOVE AND SEE WHAT THAT DOES. SINCE THAT’S A ONE TIME THING MAYBE IT WON’T AFFECT THINGS THAT MUCH. 
+
+ALSO THE OVERALL MAR RATE WENT DOWN TO 50 STH PERCENT. BUT THE GETMAR BY IA RATES ARE WAY TOO HIGH AND GETDIV RATES ARE TOO HIGH. 
+GET MAR RATES WERE HIGH BEFORE AS WELL. 
+BUT GETDIV RATES INCREASED WITH THE INCREASE OF SIGO —> THIS MAKES SENSE! —> STAR INSIGHT! 
+
+BY THE WAY, SOME OF THE WAGE AND EMP MOMENTS (CONDITIONAL ON RELSTAT) MIGHT BE OFF BECAUSE THESE GETMAR AND GETDIV RATES ARE NOT RIGHT —-> STAR INSIGHT
+
+NOW THE QUESTION IS WHAT HAPPENS WHEN I INCREASE CST FOR SOME TYPES? 
+
+
+
+m093022_magic2
+did sigo 100K (lower than 200K of the prev run but still very high) 
+and high costs (in absval) for all types (including type 4). 
+in the second run, the cost was even higher in absval 
+between first and second run, 
+move rates did go down 
+wdif move rates did not go back up 
+mar rates changed too, they increased from run1 to run2 (which makes sense 
+
+
+m093022_magic3
+less high sigo and even higher cst in absval (all typ)
+this seems better but need to take care of the getmar rates to see what's actually happenign with other moments conditional on relstat
+div rates are ok now (in the second run where cst is higher) 
+get mar rates too high (so overall mar rates too high as well) 
+
+decrease pmeet? 
+
+
+
+
+
+
 
 
 
