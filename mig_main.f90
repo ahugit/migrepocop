@@ -189,7 +189,7 @@ nonlabinc=0.0_dp !ahu030622
     !call objfunc(pars,qval) ; realpars=realpartemp     
 
 
-    open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    !open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
     pars=pars1
     !changing only type parameters in pars
@@ -235,8 +235,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(80)=-15000.0_dp
     pars(86)=-15000.0_dp
     pars(92)=-1000.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
  
     open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
@@ -250,8 +250,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(80)=-30000.0_dp
     pars(86)=-30000.0_dp
     pars(92)=-5000.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
@@ -266,8 +266,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(86)=-30000.0_dp
     pars(92)=-5000.0_dp 
     pars(21)=-2.5_dp !pmeet to bring down getmar rates
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
  
     open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
@@ -316,8 +316,8 @@ nonlabinc=0.0_dp !ahu030622
         simp=0.0_dp
         !sim annealing parameters: 
         tstart=0.3_dp*qval  !T0: starting temp (can set to zero to turn off sim annealing)
-        tstep=0.3_dp        !fraction temp reduced at each tfreq
-        tfreq=10 !COUNT(stepmin /= zero) !number of function calls between temp reductions
+        tstep=0.5_dp        !fraction temp reduced at each tfreq
+        tfreq=COUNT(stepmin /= zero) !number of function calls between temp reductions
         saseed=1            !seed for random numbers
 
         !call minim(p,    step,    nop, func,  maxfn,  iprint, stopcr, nloop, iquad,  simp, var, functn, ifault)
