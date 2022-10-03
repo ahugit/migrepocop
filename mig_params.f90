@@ -280,7 +280,7 @@ contains
     !print*, 'Here is alf11 etc',j
     realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=0.2_dp  ; if (onlyfem) stepos(j)=0.0_dp
 	alf11=realpar(j)                                ; j=j+1
-    print*, 'Here is alf12',j	
+    !print*, 'Here is alf12',j	
     realpar(j)=3.0_dp*logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.2_dp  ; if (onlyfem) stepos(j)=0.0_dp
     alf12=realpar(j)                                ; j=j+1
     !print*, 'Here is alf13',j	
@@ -301,7 +301,7 @@ contains
     !print*, 'Here is alf21 etc',j
 	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=0.2_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf21=realpar(j)                                ; j=j+1
-    print*, 'Here is alf22',j	    
+    !print*, 'Here is alf22',j	    
     realpar(j)=3.0_dp*logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.2_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf22=realpar(j)                                ; j=j+1
     !print*, 'Here is alf23',j	
