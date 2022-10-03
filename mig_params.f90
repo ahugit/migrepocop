@@ -13,9 +13,9 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=5
+    integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.false.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.false.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
     logical :: nonneg
     logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
@@ -86,7 +86,7 @@
     !ahu 122818 changed wmove mar from 100 to 1000
     !ag090122 agsept2022 real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=50.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     !ag090122 agsept2022: increasing wmovemar to 100 because mar move rates are too low
-    real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=50.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=200.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
+    real(dp), parameter :: wtrans=100.0_dp,wwaged=50.0_dp,wdifww=100.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=200.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     !real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=1.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     !real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=1.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     !real(dp), parameter :: wrel=10.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=1.0_dp,wkid=1.0_dp,wmovemar=10.0_dp,wmovesin=10.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
@@ -311,10 +311,10 @@ contains
     realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j:j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
-    realpar(j)=par(j)                               ; parname(j)='sigo_m'	; stepos(j)=2.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=par(j)                               ; parname(j)='sigo_m'	; stepos(j)=0.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
     !print*, "Here it is sigom", j,par(j),realpar(j)
     sigo_m=realpar(j)                                ; j=j+1
-    realpar(j)=par(j)                               ; parname(j)='sigo_f'	; stepos(j)=2.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
+    realpar(j)=par(j)                               ; parname(j)='sigo_f'	; stepos(j)=0.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
     !print*, "Here it is sigof", j,par(j),realpar(j)
     sigo_f=realpar(j)                                ; j=j+1
 
