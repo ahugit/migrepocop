@@ -273,9 +273,9 @@ nonlabinc=0.0_dp !ahu030622
     open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
     pars=pars1
-    pars(75)=0.0015_dp !mumar1
-    pars(81)=0.0015_dp !mumar2
-    pars(87)=0.0015_dp !mumar3
+    pars(75)=0.0005_dp !mumar1
+    pars(81)=0.0005_dp !mumar2
+    pars(87)=0.0005_dp !mumar3
     pars(93)=0.01_dp    !mumar4
     pars(68:69)=30000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
