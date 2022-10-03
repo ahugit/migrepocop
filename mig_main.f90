@@ -275,7 +275,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(75)=0.0015_dp !mumar1
     pars(81)=0.0015_dp !mumar2
     pars(87)=0.0015_dp !mumar3
-    pars(93)=0.1_dp    !mumar4
+    pars(93)=0.05_dp    !mumar4
     pars(68:69)=30000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
     pars(80)=-30000.0_dp
@@ -284,8 +284,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(21)=-2.5_dp !pmeet to bring down getmar rates
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
-    pars(52)=-1.0_dp !increasing alf12 because of nexp
-    pars(64)=-1.5_dp !increasing alf22 because of nexp
+    pars(52)=-1.5_dp !increasing alf12 because of nexp
+    pars(64)=-2.0_dp !increasing alf22 because of nexp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -295,7 +295,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(75)=0.0015_dp !mumar1
     pars(81)=0.0015_dp !mumar2
     pars(87)=0.0015_dp !mumar3
-    pars(93)=0.1_dp    !mumar4
+    pars(93)=0.05_dp    !mumar4
     pars(68:69)=30000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
     pars(80)=-50000.0_dp
@@ -304,8 +304,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(21)=-2.5_dp !pmeet to bring down getmar rates
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
-    pars(52)=-1.0_dp !increasing alf12 because of nexp
-    pars(64)=-1.5_dp !increasing alf22 because of nexp
+    pars(52)=-1.5_dp !increasing alf12 because of nexp
+    pars(64)=-2.0_dp !increasing alf22 because of nexp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -315,7 +315,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(75)=0.0015_dp !mumar1
     pars(81)=0.0015_dp !mumar2
     pars(87)=0.0015_dp !mumar3
-    pars(93)=0.1_dp    !mumar4
+    pars(93)=0.05_dp    !mumar4
     pars(68:69)=30000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
     pars(80)=-30000.0_dp
@@ -324,8 +324,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(21)=-2.5_dp !pmeet to bring down getmar rates
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
-    pars(52)=-1.0 !increasing alf12 because of nexp
-    pars(64)=-1.5_dp !increasing alf22 because of nexp
+    pars(52)=-1.5 !increasing alf12 because of nexp
+    pars(64)=-2.0_dp !increasing alf22 because of nexp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -335,7 +335,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(75)=0.0015_dp !mumar1
     pars(81)=0.0015_dp !mumar2
     pars(87)=0.0015_dp !mumar3
-    pars(93)=0.1_dp    !mumar4
+    pars(93)=0.05_dp    !mumar4
     pars(68:69)=30000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
     pars(80)=-30000.0_dp
@@ -344,8 +344,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(21)=-2.5_dp !pmeet to bring down getmar rates
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
-    pars(52)=-1.0_dp !increasing alf12 because of nexp
-    pars(64)=-1.5_dp !increasing alf22 because of nexp
+    pars(52)=-1.5_dp !increasing alf12 because of nexp
+    pars(64)=-2.0_dp !increasing alf22 because of nexp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -356,7 +356,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(75)=0.0015_dp !mumar1
     pars(81)=0.0015_dp !mumar2
     pars(87)=0.0015_dp !mumar3
-    pars(93)=0.1_dp    !mumar4
+    pars(93)=0.05_dp    !mumar4
     pars(68:69)=30000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
     pars(80)=-50000.0_dp
@@ -365,8 +365,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(21)=-2.5_dp !pmeet to bring down getmar rates
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
-    pars(52)=-1.0_dp !increasing alf12 because of nexp
-    pars(64)=-1.5_dp !increasing alf22 because of nexp
+    pars(52)=-1.5_dp !increasing alf12 because of nexp
+    pars(64)=-2.0_dp !increasing alf22 because of nexp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
