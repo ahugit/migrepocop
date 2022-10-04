@@ -286,6 +286,17 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    open(unit=2,file='bpnel100422.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    nonlabinc=0.0_dp
+    pars=pars1
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='bpobj100422.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    nonlabinc=0.0_dp
+    pars=pars1
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
