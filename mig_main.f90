@@ -240,8 +240,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
     pars(52)=-1.8_dp !increasing alf12 because of nexp
     pars(64)=-2.2_dp !increasing alf22 because of nexp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
  
 
     open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
@@ -262,8 +262,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(52)=-1.8_dp !increasing alf12 because of nexp
     pars(64)=-2.2_dp !increasing alf22 because of nexp
     !pars(9)=0.5_dp !u cur m (to bring up eu move and ee move so that they don't say I'll find a job after I movey)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     nonlabinc=0.0_dp
