@@ -791,6 +791,9 @@ contains
 	bshock_f=0.0_dp
     !moveshock_m=0.0_dp
     !moveshock_f=0.0_dp
+	if (iwritegen==1) print*, "moveshock_m ", moveshock_m(:)
+	if (iwritegen==1) print*, "moveshock_f ", moveshock_f(:)
+	
 
     
 
