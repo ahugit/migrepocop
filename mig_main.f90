@@ -247,69 +247,69 @@ nonlabinc=0.0_dp !ahu030622
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp   
  
+
  
 !************************
-    pars(68:69)=40000.0_dp   
+    pars(68:69)=10000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
-    pars(80)=-80000.0_dp
-    pars(86)=-80000.0_dp
-    pars(92)=-80000.0_dp 
-    pars(66)=pars1(66)+1.0
+    pars(80)=-30000.0_dp
+    pars(86)=-30000.0_dp
+    pars(92)=-30000.0_dp 
+    !pars(66)=pars1(66)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-    pars(68:69)=40000.0_dp   
+    pars(68:69)=10000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
-    pars(80)=-80000.0_dp
-    pars(86)=-80000.0_dp
-    pars(92)=-120000.0_dp 
-    pars(66)=pars1(66)+1.0
+    pars(80)=-20000.0_dp
+    pars(86)=-20000.0_dp
+    pars(92)=-20000.0_dp 
+    !pars(66)=pars1(66)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68:69)=40000.0_dp   
+    pars(68:69)=10000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
-    pars(80)=-90000.0_dp
-    pars(86)=-90000.0_dp
-    pars(92)=-150000.0_dp 
-    pars(66)=pars1(66)+1.0
+    pars(80)=-10000.0_dp
+    pars(86)=-10000.0_dp
+    pars(92)=-10000.0_dp 
+    !pars(66)=pars1(66)+1.0_dp
     call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    call objfunc(pars,qval) ; realpars=realpartemp  
 
 !************************
 
-    pars(68:69)=50000.0_dp   
+    pars(68:69)=10000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
-    pars(80)=-80000.0_dp
-    pars(86)=-80000.0_dp
-    pars(92)=-80000.0_dp 
-    pars(66)=pars1(66)+1.0
+    pars(80)=-30000.0_dp
+    pars(86)=-30000.0_dp
+    pars(92)=-30000.0_dp 
+    !pars(66)=pars1(66)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-    pars(68:69)=50000.0_dp   
+    pars(68:69)=15000.0_dp   
     !pars(74)= cst1 norm to 0 in getpars
-    pars(80)=-80000.0_dp
-    pars(86)=-80000.0_dp
-    pars(92)=-120000.0_dp 
-    pars(66)=pars1(66)+1.0
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(68:69)=50000.0_dp   
-    !pars(74)= cst1 norm to 0 in getpars
-    pars(80)=-90000.0_dp
-    pars(86)=-90000.0_dp
-    pars(92)=-150000.0_dp 
-    pars(66)=pars1(66)+1.0
+    pars(80)=-30000.0_dp
+    pars(86)=-30000.0_dp
+    pars(92)=-30000.0_dp 
+    !pars(66)=pars1(66)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-!*************************
-    
+    pars(68:69)=30000.0_dp   
+    !pars(74)= cst1 norm to 0 in getpars
+    pars(80)=-30000.0_dp
+    pars(86)=-30000.0_dp
+    pars(92)=-30000.0_dp 
+    !pars(66)=pars1(66)+1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+!*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
     !if (iam==0) print*, 'Here is qval: ', qval
