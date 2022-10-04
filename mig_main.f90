@@ -286,18 +286,33 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    open(unit=2,file='bpnel100422.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+
+    open(unit=2,file='bpobj100422.txt',status='old',action='read') ; read(2,*) pars2	; close(2)
     nonlabinc=0.0_dp
-    pars=pars1
+    pars=pars2(1:12)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    open(unit=2,file='bpobj100422.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
-    nonlabinc=0.0_dp
-    pars=pars1
+    pars=pars2(13:21)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars=pars2(22:41)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars=pars2(42:63)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars=pars2(64:69)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+ 
+    pars=pars2(70:npars)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+ 
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
     !if (iam==0) print*, 'Here is qval: ', qval
