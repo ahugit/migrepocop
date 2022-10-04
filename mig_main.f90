@@ -289,27 +289,27 @@ nonlabinc=0.0_dp !ahu030622
 
     open(unit=2,file='bpobj100422.txt',status='old',action='read') ; read(2,*) pars2	; close(2)
     nonlabinc=0.0_dp
-    pars=pars2(1:12)
+    pars(1:12)=pars2(1:12)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars=pars2(13:21)
+    pars(13:21)=pars2(13:21)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars=pars2(22:41)
+    pars(22:41)=pars2(22:41)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars=pars2(42:63)
+    pars(42:63)=pars2(42:63)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars=pars2(64:69)
+    pars(64:69)=pars2(64:69)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
  
-    pars=pars2(70:npars)
+    pars(70:npars)=pars2(70:npars)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
  
