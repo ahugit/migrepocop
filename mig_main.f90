@@ -260,6 +260,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=-10000.0_dp 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+    stepmin=stepos
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
@@ -356,8 +357,8 @@ nonlabinc=0.0_dp !ahu030622
             end do 
         end if 
         
-		if (chkstep) then
-            lb=0.4_sp ; ub=1.25_sp ; incr=0.1_dp
+		if (chkstep) then !don't forget to set stepmin equal to stepos (i.e. assign it some value! with getpars!)
+            lb=0.4_sp ; ub=1.25_sp ; incr=0.2_dp
             do i=1,npars
                 !if (  parname(i)=='cst(1)'.or.parname(i)=='cst(2)'.or.parname(i)=='ecst' ) then
                 !    stepmin(i)=0.2_dp
