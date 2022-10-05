@@ -1588,6 +1588,7 @@ end FUNCTION random
                     write(name(im),'("e | u move by ia",I4)') ia  
                     weights(im)=0.0_dp
                     im=im+1 
+                    end do 
                 end do 
             end do 
 
