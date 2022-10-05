@@ -359,7 +359,7 @@ nonlabinc=0.0_dp !ahu030622
         
 		if (chkstep) then !don't forget to set stepmin equal to stepos (i.e. assign it some value! with getpars!)
             lb=0.4_sp ; ub=1.25_sp ; incr=0.2_dp
-            do i=1,npars
+            do i=64,npars
                 !if (  parname(i)=='cst(1)'.or.parname(i)=='cst(2)'.or.parname(i)=='ecst' ) then
                 !    stepmin(i)=0.2_dp
                 !else 
