@@ -331,7 +331,7 @@ contains
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
-            realpar(j)= 0.0_dp                          ; parname(j)='cst'       ; stepos(j)=0.0_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
+            realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=2.5_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
             realpar(j)=multmar * min2pls(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    
@@ -366,7 +366,7 @@ contains
     end do 
  
     psih(2)=0.0_dp
-    alphaed(:,2)=alphaed(:,1)
+    !alphaed(:,2)=alphaed(:,1)
     mu_o=0.0_dp
     scst=0.0_dp
     sig_mar=0.0_dp
