@@ -812,11 +812,11 @@ end FUNCTION random
         im=im+1
 
         headloc(ihead)=im; headstr(ihead)='Kids';ihead=ihead+1
-        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(kidtrans(MNA:MXAD,:)>=0).AND.(iacat(MNA:MXAD,:)==1)),d1*kidtrans(MNA:MXAD,:),mom,cnt,var)
+        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(kidtrans(MNA:MXAD,:)>=0)),d1*kidtrans(MNA:MXAD,:),mom,cnt,var)
         WRITE(name(im),'("kidtrans-married ")') 
         weights(im)=0.0_dp !wkid
         im=im+1
-        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%kidr>=0).AND.(iacat(MNA:MXAD,:)==1)),d1*dat(MNA:MXAD,:)%kidr,mom,cnt,var)
+        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%kidr>=0)),d1*dat(MNA:MXAD,:)%kidr,mom,cnt,var)
         WRITE(name(im),'("kids-married     ")') 
         weights(im)= 0.0_dp !wkid 
         im=im+1
@@ -1219,7 +1219,6 @@ end FUNCTION random
             weights(im)=wtrans  
             im=im+1 
 
- 
             
             !do i=1,nl
             !    CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 .AND. dat(mna:mxa,:)%l==i) ,d1*dat(mna:mxa,:)%logwr,mom,cnt,var)
@@ -1384,6 +1383,8 @@ end FUNCTION random
             im=im+1 
         end do  
         
+
+
         headloc(ihead)=im; headstr(ihead)='after the first move what proportion is return to home? (all)';ihead=ihead+1     
         CALL condmom(im,( coho(MNA:MXAD,:).AND.  (moverank(MNA:MXAD,:)>1).AND.(move(MNA:MXAD,:)==1)  ),d1*one(homemove(MNA:MXAD,:)==0),mom,cnt,var)
         WRITE(name(im),'("non-home ")') 
@@ -1587,7 +1588,6 @@ end FUNCTION random
                     write(name(im),'("e | u move by ia",I4)') ia  
                     weights(im)=0.0_dp
                     im=im+1 
-                    end do
                 end do 
             end do 
 

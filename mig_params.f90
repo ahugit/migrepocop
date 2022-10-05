@@ -365,77 +365,12 @@ contains
         realpar(indust2(i))=ptypecol(i)
     end do 
  
-!ahu jan19 012419: not iterating the below anymore 
-psih(2)=0.0_dp
-!ECST=-8000.0_DP
-!kcst=0.0_dp
-alphaed(:,2)=alphaed(:,1)
-
-
-
-    !alf11=alf21
-    !alf12=alf22
-    !alf13=alf23
-    !psio(1:4)=psio(5:8)
-    !psio(9:10)=psio(11:12)
-    
-    
-    !ahu 121918 make all types the same 
-    !    alf1t=0.0_dp
-    !    alf2t=0.0_dp
-    !    cst=-10000.0_dp
-    !    mu_mar=1993.0_dp
-    !if (ntypp==1) then 
-    !    ptypehs=1.0_dp 
-    !    ptypecol=1.0_dp 
-    !else 
-    !    ptypehs=0.25_dp
-    !    ptypecol=0.25_dp
-    !end if
-    !print*, 'ptypehs', ptypehs
-    !print*, 'ptypecol',ptypecol
-    !print*, 'alf1t',alf1t
-    !print*, 'alf2t',alf2t
-    !print*, 'cst',cst
-    !print*, 'mu_mar',mu_mar
-
-    
-
-    
-    
-    !print*, 'ptype', ptypehs, ptypecol
-    
-    !print*, 'Here is IT ISISISISISI npars', j-1
-    !if (j.ne.npars) then
-    !    print*, 'j not equal to npars',j,npars
-    !    stop
-    !end if
-
-
+    psih(2)=0.0_dp
+    alphaed(:,2)=alphaed(:,1)
     mu_o=0.0_dp
-    !sig_o=1000.0_dp
     scst=0.0_dp
     sig_mar=0.0_dp
-    
-    !alf11=0.0_Dp 
-    !alf12=0.0_dp
-    !alf13=0.0_dp 
-    !sig_wge=0.0001_dp
-    
-    !if (ntypp==1) then 
-    !    ptypehs(1)=1.0_dp    ! types
-    !    ptypecol(1)=1.0_dp  ! types
-    !else if (ntypp==2) then 
-    !    ptypehs(ntypp)=1.0_dp-ptypehs(1)    ! types
-    !    ptypecol(ntypp)=1.0_dp-ptypecol(1)  ! types
-    !end if     
-    !alf1t(1)=0.0_dp                 ! types
-    !alf2t(1)=0.0_dp                 ! types
     alphakid(:,1)=0.0_dp
-
-    !cst=0.0_dp
-    !ecst=0.0_dp
-    !kcst=0.0_dp
     
     
     !***********************
