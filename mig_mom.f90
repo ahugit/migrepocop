@@ -811,183 +811,15 @@ end FUNCTION random
         weights(im)=wrel !; if (onlysingles) weights(im)=0.0_dp   !forget about that if statement usually. just putting there to get im to go up by 1 for the next loop
         im=im+1
 
-        headloc(ihead)=im; headstr(ihead)='Kids';ihead=ihead+1
-        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(kidtrans(MNA:MXAD,:)>=0)),d1*kidtrans(MNA:MXAD,:),mom,cnt,var)
-        WRITE(name(im),'("kidtrans-married ")') 
-        weights(im)=0.0_dp !wkid
-        im=im+1
-        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%kidr>=0)),d1*dat(MNA:MXAD,:)%kidr,mom,cnt,var)
-        WRITE(name(im),'("kids-married     ")') 
-        weights(im)= 0.0_dp !wkid 
-        im=im+1
 
-       !loop by only sex
-        do g=minsex,maxsex
-            cosex(MNAD:MXA,:)= (dat(MNAD:MXA,:)%co==co .and. dat(MNAD:MXA,:)%sexr==g  )
-
-            headloc(ihead)=im
-            if (g==1) headstr(ihead)='all men move'
-            if (g==2) headstr(ihead)='all fem move'
-            ihead=ihead+1
-
-            !ahu jan19 010219: so I am still writing the age 17 (mad) mar rate. age 17 mar rate does not exit in the data since we don't record age 17 rel there. 
-            !so the weight on this moment is 0 but then it's wmovebyrel
-            ia=MNAD
-            CALL condmom(im,( cosex(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
-            WRITE(name(im),'("move by age ",I4)') ia
-            weights(im)=wmove
-            im=im+1
-            do ia=MNA,MXAD,5
-                CALL condmom(im,( cosex(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
-                WRITE(name(im),'("move by age",tr3,I4)') ia
-                weights(im)=wmove
-                im=im+1
-            end do     
-
-            call condmom(im,(  cohogen(:)==co .and. sexgen(:)==g ) ,   d1* one( nummove(:)==0 ) ,mom,cnt,var)	
-            write(name(im),'("nummove=0 ",tr5)')  
-            weights(im)=wmove
-            im=im+1
-            call condmom(im,(  cohogen(:)==co  .and. sexgen(:)==g ),   d1* one( nummove(:)==1 ) ,mom,cnt,var)	
-            write(name(im),'("nummove=1 ",tr5)')  
-            weights(im)=wmove
-            im=im+1
-            call condmom(im,(  cohogen(:)==co  .and. sexgen(:)==g ),   d1* one( nummove(:)>=2 ) ,mom,cnt,var)	
-            write(name(im),'("nummove>=2 ",tr5)')  
-            weights(im)=wmove
-            im=im+1
-
-
-            headloc(ihead)=im
-            if (g==1) headstr(ihead)='all men w and wvar at 18 and 18:19 .. for ident'
-            if (g==2) headstr(ihead)='all fem w and wvar at 18 and 18:19 .. for ident'
-            ihead=ihead+1
-
-            CALL condmom(im,(   cosex(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0) ,d1*dat(18,:)%logwr,mom,cnt,var)
-            WRITE(name(im),'("wnned|18 small samp size!")') 
-            weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
-            calcvar(im)=1
-            im=im+1
-            CALL condmom(im,(   cosex(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0) ,d1*  (dat(18,:)%logwr**2),mom,cnt,var)
-            WRITE(name(im),'("wvarned|18 small samp size!")') 
-            weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-            calcvar(im)=5
-            im=im+1
-            CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0) ,d1*dat(18:19,:)%logwr,mom,cnt,var)
-            WRITE(name(im),'("wnned|1819 ")') 
-            weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
-            calcvar(im)=1
-            im=im+1
-            CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0) ,d1*  (dat(18:19,:)%logwr**2),mom,cnt,var)
-            WRITE(name(im),'("wvarned|1819 ")') 
-            weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-            calcvar(im)=5
-            im=im+1            
-            do i=1,nl,8
-                CALL condmom(im,(   cosex(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0 .AND. dat(18,:)%l==i) ,d1*dat(18,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("wned|18 by loc small!",i4)') i
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-                calcvar(im)=1
-                im=im+1
-                CALL condmom(im,(   cosex(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0  .AND. dat(18,:)%l==i) ,d1*  (dat(18,:)%logwr**2),mom,cnt,var)
-                WRITE(name(im),'("wvarned|18 by loc small!",i4)') i
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
-                calcvar(im)=5
-                im=im+1
-                CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0 .AND. dat(18:19,:)%l==i) ,d1*dat(18:19,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("wned|18:19 by loc",i4)') i
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-                calcvar(im)=1
-                im=im+1
-                CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0  .AND. dat(18:19,:)%l==i) ,d1*  (dat(18:19,:)%logwr**2),mom,cnt,var)
-                WRITE(name(im),'("wvarned|18:19 by loc",i4)') i
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
-                calcvar(im)=5
-                im=im+1
-                CALL condmom(im,(   cosex(20:25,:) .AND.  dat(20:25,:)%hhr==1 .AND. dat(20:25,:)%edr==1 .AND. dat(20:25,:)%logwr>=0 .AND. dat(20:25,:)%l==i) ,d1*dat(20:25,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("wned|20:25 by loc",i4)') i
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-                calcvar(im)=1
-                im=im+1
-                CALL condmom(im,(   cosex(20:25,:) .AND.  dat(20:25,:)%hhr==1 .AND. dat(20:25,:)%edr==1 .AND. dat(20:25,:)%logwr>=0  .AND. dat(20:25,:)%l==i) ,d1*  (dat(20:25,:)%logwr**2),mom,cnt,var)
-                WRITE(name(im),'("wvarned|20:25 by loc",i4)') i
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
-                calcvar(im)=5
-                im=im+1
-            end do 
-            call condmom(im,( cosex(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==0 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | stay ",tr2)')  
-            weights(im)=wdifww  
-            !calcvar(im)=1
-            im=im+1 
-            call condmom(im,( cosex(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | move ",tr2)')  
-            weights(im)=wdifww 
-            !calcvar(im)=1
-            im=im+1             
-            call condmom(im,( cosex(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1 .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | eue,s ",tr2)')  
-            weights(im)=wdifww
-            !calcvar(im)=1
-            im=im+1 
-            call condmom(im,( cosex(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1   .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l/=dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l>0 ),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | eue,m ",tr2)')  
-            weights(im)=wdifww 
-            !calcvar(im)=1
-            im=im+1 
-
-
-            do i=1,nl
-                CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0 .AND. dat(18:19,:)%l==i) ,d1*dat(18:19,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("wned|18:19 by loc",i4)') i
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-                !calcvar(im)=1
-                im=im+1
-                !CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0  .AND. dat(18:19,:)%l==i) ,d1*  (dat(18:19,:)%logwr**2),mom,cnt,var)
-                !WRITE(name(im),'("wvarned|18:19 by loc",i4)') i
-                !weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
-                !calcvar(im)=5
-                !im=im+1
-            end do 
-
-                            
-            headloc(ihead)=im
-            if (g==1) headstr(ihead)='all men wdecile for ident'
-            if (g==2) headstr(ihead)='all fem wdecile for ident'
-            ihead=ihead+1
-
-            do ddd=1,ndecile-1
-                CALL condmom(im,(   cosex(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
-                WRITE(name(im),'("wdecile|ned",tr1,i4)') ddd
-                weights(im)=wwaged !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
-                im=im+1
-            end do
-            do ddd=1,ndecile-1
-                CALL condmom(im,(   cosex(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==2 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
-                WRITE(name(im),'("wdecile| ed",tr1,i4)') ddd
-                weights(im)=wwaged !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess       
-                im=im+1
-            end do
-
-            
-
-            !ia=18
-            !do i=1,nl
-            !    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0 .AND. dat(ia,:)%l==i) ,d1*dat(ia,:)%logwr,mom,cnt,var)
-            !    WRITE(name(im),'("w|noed l 18",tr1,i4)') i
-            !    weights(im)=0.0_dp ; if (onlysingles.and.j==1) weights(im)=0.0_dp            
-            !    im=im+1
-            !end do 
-            
-            !ia=18
-            !do i=1,nl
-            !    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0 .AND. dat(ia,:)%l==i) ,d1*dat(ia,:)%logwr,mom,cnt,var)
-            !    WRITE(name(im),'("w|ed l  18",tr1,i4)') i
-            !    weights(im)=0.0_dp ; if (onlysingles.and.j==1) weights(im)=0.0_dp            
-            !    im=im+1
-            !end do 
-        end do !g for sex
-        !******************************************
+        !if (j==1) then !only do kid by age for married. for singles, it looks weird in the data (.30, .8, .16,.19) 
+        !    do ia=MNA,MXAD,8
+        !        CALL condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%kidr>=1 ),d1*one( dat(ia,:)%kidr==2 ),mom,cnt,var)
+        !        WRITE(name(im),'("kid  by age",tr3,I4)') ia
+        !        weights(im)=whour 
+        !        im=im+1
+        !    end do            
+        !end if
 
         !***************************************
         !START OF LOOP BY SEX AND REL
@@ -1030,6 +862,16 @@ end FUNCTION random
             write(name(im),'("move | e ",tr5)')  
             weights(im)=wmovebyrel
             im=im+1  
+
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%kidr==1  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
+            write(name(im),'("move | nokid ",tr1)')  
+            weights(im)=wmovebyrel 
+            im=im+1
+            
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%kidr==2  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
+            write(name(im),'("move | kid ",tr3)')  
+            weights(im)=wmovebyrel
+            im=im+1
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("%hme-mvs",tr3)')  !added this ahu 121718
             weights(im)=wmovebyrel
@@ -1159,65 +1001,124 @@ end FUNCTION random
           if (g==2.and.j==1) headstr(ihead)='married fem emp transitions'
           ihead=ihead+1
 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-            write(name(im),'("e | u stay",tr3)')  
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1  .and.  dat(MNA:MXAD,:)%edr==1) ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
+            write(name(im),'("e | u move ned",tr3)')  
             weights(im)=wtrans 
             im=im+1 
 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-            write(name(im),'("e | u move",tr3)')  
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1  .and.  dat(MNA:MXAD,:)%edr==2) ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
+            write(name(im),'("e | u move ed",tr3)')  
             weights(im)=wtrans 
             im=im+1 
 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-            write(name(im),'("e | e stay",tr3)')  
-            weights(im)=wtrans 
-            im=im+1 
-            
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-            write(name(im),'("e | e move",tr3)')  
-            weights(im)=wtrans 
-            im=im+1 
+            do ia=mna, 35
+                call condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 .AND. move(ia,:)==1 .and.  dat(ia,:)%edr==1),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
+                write(name(im),'("e | u move by ia (ned)",i4)')  
+                weights(im)=0.0_dp
+                im=im+1 
+            end do 
 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. move(MNA:MXAD,:)==0),mom,cnt,var)		
-            write(name(im),'("e-stay | e ",tr3)')  
-            weights(im)=wtrans 
-            im=im+1 
-            
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. move(MNA:MXAD,:)==0),mom,cnt,var)		
-            write(name(im),'("u-stay | e ",tr3)')  
-            weights(im)=wtrans  
-            im=im+1 
-            
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. move(MNA:MXAD,:)==1),mom,cnt,var)		
-            write(name(im),'("e-move | e ",tr3)')  
-            weights(im)=wtrans  
-            im=im+1 
-            
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. move(MNA:MXAD,:)==1),mom,cnt,var)		
-            write(name(im),'("u-move | e ",tr3)')  
-            weights(im)=wtrans  
-            im=im+1 
+            do ia=mna, 35
+                call condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 .AND. move(ia,:)==1 .and.  dat(ia,:)%edr==2),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
+                write(name(im),'("e | u move by ia (ed)",i4)')  
+                weights(im)=0.0_dp
+                im=im+1 
+            end do 
+    
+		headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+        write(name(im),'("ee|ee stay")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+        write(name(im),'("eu|ee stay")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+        write(name(im),'("ue|ee stay")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+        write(name(im),'("uu|ee stay")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+        write(name(im),'("ee|ee move")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+        write(name(im),'("eu|ee move")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+        write(name(im),'("ue|ee move")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+        write(name(im),'("uu|ee move")')  
+        weights(im)=wtrans 
+        im=im+1 
 
-                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. move(MNA:MXAD,:)==0),mom,cnt,var)		
-            write(name(im),'("e-stay | u ",tr3)')  
-            weights(im)=wtrans
-            im=im+1 
+          
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
+        write(name(im),'("e | u stay",tr3)')  
+        weights(im)=wtrans 
+        im=im+1 
+
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
+        write(name(im),'("e | u move",tr3)')  
+        weights(im)=wtrans 
+        im=im+1 
+
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
+        write(name(im),'("e | e stay",tr3)')  
+        weights(im)=wtrans 
+        im=im+1 
+        
+        call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
+        write(name(im),'("e | e move",tr3)')  
+        weights(im)=wtrans 
+        im=im+1 
+
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. move(MNA:MXAD,:)==0),mom,cnt,var)		
+            !write(name(im),'("e-stay | e ",tr3)')  
+            !weights(im)=wtrans 
+            !im=im+1 
             
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. move(MNA:MXAD,:)==0),mom,cnt,var)		
-            write(name(im),'("u-stay | u ",tr3)')  
-            weights(im)=wtrans  
-            im=im+1 
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. move(MNA:MXAD,:)==0),mom,cnt,var)		
+            !write(name(im),'("u-stay | e ",tr3)')  
+            !weights(im)=wtrans  
+            !im=im+1 
             
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. move(MNA:MXAD,:)==1),mom,cnt,var)		
-            write(name(im),'("e-move | u ",tr3)')  
-            weights(im)=wtrans  
-            im=im+1 
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. move(MNA:MXAD,:)==1),mom,cnt,var)		
+            !write(name(im),'("e-move | e ",tr3)')  
+            !weights(im)=wtrans  
+            !im=im+1 
             
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. move(MNA:MXAD,:)==1),mom,cnt,var)		
-            write(name(im),'("u-move | u ",tr3)')  
-            weights(im)=wtrans  
-            im=im+1 
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. move(MNA:MXAD,:)==1),mom,cnt,var)		
+            !write(name(im),'("u-move | e ",tr3)')  
+            !weights(im)=wtrans  
+            !im=im+1 
+
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. move(MNA:MXAD,:)==0),mom,cnt,var)		
+            !write(name(im),'("e-stay | u ",tr3)')  
+            !weights(im)=wtrans
+            !im=im+1 
+            
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. move(MNA:MXAD,:)==0),mom,cnt,var)		
+            !write(name(im),'("u-stay | u ",tr3)')  
+            !weights(im)=wtrans  
+            !im=im+1 
+            
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. move(MNA:MXAD,:)==1),mom,cnt,var)		
+            !write(name(im),'("e-move | u ",tr3)')  
+            !weights(im)=wtrans  
+            !im=im+1 
+            
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. move(MNA:MXAD,:)==1),mom,cnt,var)		
+            !write(name(im),'("u-move | u ",tr3)')  
+            !weights(im)=wtrans  
+            !im=im+1 
 
             
             !do i=1,nl
@@ -1260,7 +1161,15 @@ end FUNCTION random
             !    !weights(im)=wwage     
             !    !im=im+1
             !end do 
-            
+     
+
+            headloc(ihead)=im
+            if (g==1.and.j==0) headstr(ihead)='single men emp and wages misc'
+            if (g==1.and.j==1) headstr(ihead)='married men emp and wages misc'
+            if (g==2.and.j==0) headstr(ihead)='single fem emp and wages misc'
+            if (g==2.and.j==1) headstr(ihead)='married fem emp and wages misc'
+            ihead=ihead+1
+
             call condmom(im,( cosexrel(mna:mxa,:) .AND. dat(mna:mxa,:)%hhr>=0 ), d1*one( dat(mna:mxa,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e ",tr13)')			
             weights(im)=whour 
@@ -1290,27 +1199,6 @@ end FUNCTION random
                 weights(im)=whour 
                 if (ia<mna) weights(im)=0.0_dp
                 im=im+1
-            end do       
-            do ia=agestart(NOCOLLEGE),mxad,10
-                CALL condmom(im,( cosexrel(ia,:) .AND.    dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0 ) ,d1*dat(ia,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("w|noed by age",tr1,I2)') ia
-                weights(im)=wwage 
-                im=im+1
-                !CALL condmom(im,( cosexrel(ia,:) .AND.    dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0 ) ,d1*  (dat(ia,:)%logwr-mom(im-1))**2   ,mom,cnt,var)
-                !WRITE(name(im),'("wvar|noed by age",tr1,I2)') ia
-                !weights(im)=wwage
-                !im=im+1
-            end do            
-            
-            do ia=agestart(COLLEGE),mxad,10
-                CALL condmom(im,( cosexrel(ia,:) .AND.   dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0 ) ,d1*dat(ia,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("w|  ed by age",tr1,I2)') ia
-                weights(im)=wwage 
-                im=im+1
-                !CALL condmom(im,( cosexrel(ia,:) .AND.    dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0 ) ,d1*  (dat(ia,:)%logwr-mom(im-1))**2   ,mom,cnt,var)
-                !WRITE(name(im),'("wvar|ed by age",tr1,I2)') ia
-                !weights(im)=wwage 
-                !im=im+1
             end do            
         
             !do i=1,nl
@@ -1319,24 +1207,7 @@ end FUNCTION random
             !    weights(im)=wwage 
             !    im=im+1 
             !end do 
-        
-            if (j==1) then !only do kid by age for married. for singles, it looks weird in the data (.30, .8, .16,.19) 
-                do ia=MNA,MXAD,8
-                    CALL condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%kidr>=1 ),d1*one( dat(ia,:)%kidr==2 ),mom,cnt,var)
-                    WRITE(name(im),'("kid  by age",tr3,I4)') ia
-                    weights(im)=whour 
-                    im=im+1
-                end do            
-            end if 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%kidr==1  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
-            write(name(im),'("move | nokid ",tr1)')  
-            weights(im)=wmovebyrel 
-            im=im+1
-            
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%kidr==2  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
-            write(name(im),'("move | kid ",tr3)')  
-            weights(im)=wmovebyrel
-            im=im+1
+         
             
             call condmom(im,( cosexrel(MNA:MXA,:) .AND. dat(MNA:MXA,:)%kidr==1 .AND. dat(MNA:MXA,:)%hhr>=0 ),   d1*one( dat(MNA:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | nokid",tr5)') 
@@ -1348,14 +1219,145 @@ end FUNCTION random
             weights(im)=whour 
             im=im+1 
 
+   
+            do ia=agestart(NOCOLLEGE),mxad,10
+                CALL condmom(im,( cosexrel(ia,:) .AND.    dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0 ) ,d1*dat(ia,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("w|noed by age",tr1,I2)') ia
+                weights(im)=wwage 
+                im=im+1
+            end do            
+            
+            do ia=agestart(COLLEGE),mxad,10
+                CALL condmom(im,( cosexrel(ia,:) .AND.   dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0 ) ,d1*dat(ia,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("w|  ed by age",tr1,I2)') ia
+                weights(im)=wwage 
+                im=im+1
+            end do    
 
             end do !j rel
         end do !g sex
         !END OF MOMENTS BY SEX AND REL 
         !*****************************************************************************************
 
+
+
         !*****************************************************************************************
         !START EVERYONE MOMENTS
+       !loop by only sex
+        do g=minsex,maxsex
+            cosex(MNAD:MXA,:)= (dat(MNAD:MXA,:)%co==co .and. dat(MNAD:MXA,:)%sexr==g  )
+
+            headloc(ihead)=im
+            if (g==1) headstr(ihead)='all men w and wvar at 18 and 18:19 .. for ident'
+            if (g==2) headstr(ihead)='all fem w and wvar at 18 and 18:19 .. for ident'
+            ihead=ihead+1
+
+            !CALL condmom(im,(   cosex(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0) ,d1*dat(18,:)%logwr,mom,cnt,var)
+            !WRITE(name(im),'("wnned|18 small samp size!")') 
+            !weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+            !calcvar(im)=1
+            !im=im+1
+            !CALL condmom(im,(   cosex(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0) ,d1*  (dat(18,:)%logwr**2),mom,cnt,var)
+            !WRITE(name(im),'("wvarned|18 small samp size!")') 
+            !weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+            !calcvar(im)=5
+            !im=im+1
+            CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0) ,d1*dat(18:19,:)%logwr,mom,cnt,var)
+            WRITE(name(im),'("wnned|1819 ")') 
+            weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+            calcvar(im)=1
+            im=im+1
+            CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0) ,d1*  (dat(18:19,:)%logwr**2),mom,cnt,var)
+            WRITE(name(im),'("wvarned|1819 ")') 
+            weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+            calcvar(im)=5
+            im=im+1            
+            do i=1,nl,8
+                !CALL condmom(im,(   cosex(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0 .AND. dat(18,:)%l==i) ,d1*dat(18,:)%logwr,mom,cnt,var)
+                !WRITE(name(im),'("wned|18 by loc small!",i4)') i
+                !weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                !calcvar(im)=1
+                !im=im+1
+                !CALL condmom(im,(   cosex(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0  .AND. dat(18,:)%l==i) ,d1*  (dat(18,:)%logwr**2),mom,cnt,var)
+                !WRITE(name(im),'("wvarned|18 by loc small!",i4)') i
+                !weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
+                !calcvar(im)=5
+                !im=im+1
+                CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0 .AND. dat(18:19,:)%l==i) ,d1*dat(18:19,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("wned|18:19 by loc",i4)') i
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                calcvar(im)=1
+                im=im+1
+                CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0  .AND. dat(18:19,:)%l==i) ,d1*  (dat(18:19,:)%logwr**2),mom,cnt,var)
+                WRITE(name(im),'("wvarned|18:19 by loc",i4)') i
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
+                calcvar(im)=5
+                im=im+1
+                CALL condmom(im,(   cosex(20:25,:) .AND.  dat(20:25,:)%hhr==1 .AND. dat(20:25,:)%edr==1 .AND. dat(20:25,:)%logwr>=0 .AND. dat(20:25,:)%l==i) ,d1*dat(20:25,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("wned|20:25 by loc",i4)') i
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                calcvar(im)=1
+                im=im+1
+                CALL condmom(im,(   cosex(20:25,:) .AND.  dat(20:25,:)%hhr==1 .AND. dat(20:25,:)%edr==1 .AND. dat(20:25,:)%logwr>=0  .AND. dat(20:25,:)%l==i) ,d1*  (dat(20:25,:)%logwr**2),mom,cnt,var)
+                WRITE(name(im),'("wvarned|20:25 by loc",i4)') i
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
+                calcvar(im)=5
+                im=im+1
+            end do 
+
+
+            do i=1,nl
+                CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0 .AND. dat(18:19,:)%l==i) ,d1*dat(18:19,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("wned|18:19 by loc",i4)') i
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                !calcvar(im)=1
+                im=im+1
+                !CALL condmom(im,(   cosex(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0  .AND. dat(18:19,:)%l==i) ,d1*  (dat(18:19,:)%logwr**2),mom,cnt,var)
+                !WRITE(name(im),'("wvarned|18:19 by loc",i4)') i
+                !weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
+                !calcvar(im)=5
+                !im=im+1
+            end do 
+
+                            
+            headloc(ihead)=im
+            if (g==1) headstr(ihead)='all men wdecile for ident'
+            if (g==2) headstr(ihead)='all fem wdecile for ident'
+            ihead=ihead+1
+
+            do ddd=1,ndecile-1
+                CALL condmom(im,(   cosex(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
+                WRITE(name(im),'("wdecile|ned",tr1,i4)') ddd
+                weights(im)=wwaged !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
+                im=im+1
+            end do
+            do ddd=1,ndecile-1
+                CALL condmom(im,(   cosex(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==2 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
+                WRITE(name(im),'("wdecile| ed",tr1,i4)') ddd
+                weights(im)=wwaged !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess       
+                im=im+1
+            end do
+
+            
+
+            !ia=18
+            !do i=1,nl
+            !    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0 .AND. dat(ia,:)%l==i) ,d1*dat(ia,:)%logwr,mom,cnt,var)
+            !    WRITE(name(im),'("w|noed l 18",tr1,i4)') i
+            !    weights(im)=0.0_dp ; if (onlysingles.and.j==1) weights(im)=0.0_dp            
+            !    im=im+1
+            !end do 
+            
+            !ia=18
+            !do i=1,nl
+            !    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0 .AND. dat(ia,:)%l==i) ,d1*dat(ia,:)%logwr,mom,cnt,var)
+            !    WRITE(name(im),'("w|ed l  18",tr1,i4)') i
+            !    weights(im)=0.0_dp ; if (onlysingles.and.j==1) weights(im)=0.0_dp            
+            !    im=im+1
+            !end do 
+        end do !g for sex
+        !******************************************
+
         headloc(ihead)=im
         headstr(ihead)='getmar and getdiv rates'
         ihead=ihead+1
@@ -1376,6 +1378,9 @@ end FUNCTION random
             im=im+1
         end do            
 
+        headloc(ihead)=im
+        headstr(ihead)='moves to and from'
+        ihead=ihead+1
         do i=1,nl,8            
             call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA+1:MXA,:)%l==i .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("%hme-mvs to",tr3,i4)') i
@@ -1383,7 +1388,6 @@ end FUNCTION random
             im=im+1 
         end do  
         
-
 
         headloc(ihead)=im; headstr(ihead)='after the first move what proportion is return to home? (all)';ihead=ihead+1     
         CALL condmom(im,( coho(MNA:MXAD,:).AND.  (moverank(MNA:MXAD,:)>1).AND.(move(MNA:MXAD,:)==1)  ),d1*one(homemove(MNA:MXAD,:)==0),mom,cnt,var)
@@ -1408,21 +1412,39 @@ end FUNCTION random
             im=im+1 
         end do  
 
+
+
+
+
+        headloc(ihead)=im
+        headstr(ihead)='kids rates'
+        ihead=ihead+1
+        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(kidtrans(MNA:MXAD,:)>=0)),d1*kidtrans(MNA:MXAD,:),mom,cnt,var)
+        WRITE(name(im),'("kidtrans-married ")') 
+        weights(im)=0.0_dp !wkid
+        im=im+1
+        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%kidr>=0)),d1*dat(MNA:MXAD,:)%kidr,mom,cnt,var)
+        WRITE(name(im),'("kids-married     ")') 
+        weights(im)= 0.0_dp !wkid 
+        im=im+1
+
             !headloc(ihead)=im; headstr(ihead)=' ';ihead=ihead+1		
-        do i=1,nl
-            call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%l==i  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)		
-            write(name(im),'("mvfr | loc",tr4,i4)') i
-            weights(im)=wmove 
-            im=im+1 
-        end do
+        !do i=1,nl
+        !    call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%l==i  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)		
+        !    write(name(im),'("mvfr | loc",tr4,i4)') i
+        !    weights(im)=wmove 
+        !    im=im+1 
+        !end do
 
-        do i=1,nl
-            call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA+1:MXA,:)%l==i .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)		
-            write(name(im),'("mvto | loc",tr4,i4)') i
-            weights(im)=wmove
-            im=im+1 
-        end do 
-
+        !do i=1,nl
+        !    call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA+1:MXA,:)%l==i .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)		
+        !    write(name(im),'("mvto | loc",tr4,i4)') i
+        !    weights(im)=wmove
+        !    im=im+1 
+        !end do 
+        headloc(ihead)=im
+        headstr(ihead)='duration rates'
+        ihead=ihead+1
         do g=minsex,maxsex
             cosex(MNAD:MXA,:)= (dat(MNAD:MXA,:)%co==co .and. dat(MNAD:MXA,:)%sexr==g  )
             do i=1,5,2
@@ -1439,23 +1461,23 @@ end FUNCTION random
             end do 
         end do !g sex
 
-        do g=minsex,maxsex
-            cosex(MNAD:MXA,:)= (dat(MNAD:MXA,:)%co==co .and. dat(MNAD:MXA,:)%sexr==g  )
-            ia=MNA
-            do i=1,nl
-                call condmom(im,( cosex(ia,:) .AND. dat(ia,:)%hhr==1 .AND. dat(ia,:)%l==i .AND. dat(ia,:)%logwr>=0 ),   d1*dat(ia,:)%logwr ,mom,cnt,var)		
-                write(name(im),'("w|loc a=18 dur,sex",2i4)') i,g	
-                weights(im)=0.0_dp
-                im=im+1 
-            end do      
-            ia=MNA
-            do i=1,nl,8
-                call condmom(im,( cosex(ia:ia+3,:) .AND. dat(ia:ia+3,:)%hhr==1 .AND. dat(ia:ia+3,:)%l==i .AND. dat(ia:ia+3,:)%logwr>=0 ),   d1*dat(ia:ia+3,:)%logwr ,mom,cnt,var)		
-                write(name(im),'("w|loc a=18:21 dur,sex",2i4)') i,g
-                weights(im)=wwage
-                im=im+1 
-            end do 
-        end do !g sex
+        !do g=minsex,maxsex
+        !    cosex(MNAD:MXA,:)= (dat(MNAD:MXA,:)%co==co .and. dat(MNAD:MXA,:)%sexr==g  )
+        !    ia=MNA
+        !    do i=1,nl
+        !        call condmom(im,( cosex(ia,:) .AND. dat(ia,:)%hhr==1 .AND. dat(ia,:)%l==i .AND. dat(ia,:)%logwr>=0 ),   d1*dat(ia,:)%logwr ,mom,cnt,var)		
+        !        write(name(im),'("w|loc a=18 dur,sex",2i4)') i,g	
+        !        weights(im)=0.0_dp
+        !        im=im+1 
+        !    end do      
+        !    ia=MNA
+        !    do i=1,nl,8
+        !        call condmom(im,( cosex(ia:ia+3,:) .AND. dat(ia:ia+3,:)%hhr==1 .AND. dat(ia:ia+3,:)%l==i .AND. dat(ia:ia+3,:)%logwr>=0 ),   d1*dat(ia:ia+3,:)%logwr ,mom,cnt,var)		
+        !        write(name(im),'("w|loc a=18:21 dur,sex",2i4)') i,g
+        !        weights(im)=wwage
+        !        im=im+1 
+        !    end do 
+        !end do !g sex
         !END OF EVERYONE MOMENTS
         !********************************************************
 
