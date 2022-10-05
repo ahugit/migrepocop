@@ -255,12 +255,12 @@ nonlabinc=0.0_dp !ahu030622
     pars(68)=50000.0_dp   
     pars(69)=20000.0_dp   
     pars(74)=-10000.0_dp !cst1 no longer norm 
-    pars(75)=0.00005_dp !mumar1
+    pars(75)=0.0002_dp !mumar1
     pars(80)=-10000.0_dp
-    pars(81)=0.00005_dp !mumar2
+    pars(81)=0.0002_dp !mumar2
     pars(86)=-10000.0_dp
-    pars(87)=0.00005_dp !mumar3
-    pars(92)=-10000.0_dp 
+    pars(87)=0.0002_dp !mumar3
+    pars(92)=-20000.0_dp 
     pars(93)=0.01_dp    !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
@@ -270,30 +270,32 @@ nonlabinc=0.0_dp !ahu030622
     pars(68)=50000.0_dp   
     pars(69)=20000.0_dp   
     pars(74)=-10000.0_dp !cst1 no longer norm 
-    pars(75)=0.00005_dp !mumar1
+    pars(75)=0.0002_dp !mumar1
     pars(80)=-10000.0_dp
-    pars(81)=0.00005_dp !mumar2
+    pars(81)=0.0002_dp !mumar2
     pars(86)=-10000.0_dp
-    pars(87)=0.00005_dp !mumar3
-    pars(92)=-100000.0_dp 
+    pars(87)=0.0002_dp !mumar3
+    pars(92)=-30000.0_dp 
     pars(93)=0.01_dp    !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    
     pars(66)=pars1(66)+1.0_dp
     pars(67)=pars1(67)+0.5_dp
     pars(68)=50000.0_dp   
     pars(69)=20000.0_dp   
     pars(74)=-10000.0_dp !cst1 no longer norm 
-    pars(75)=0.00005_dp !mumar1
+    pars(75)=0.0002_dp !mumar1
     pars(80)=-10000.0_dp
-    pars(81)=0.00005_dp !mumar2
+    pars(81)=0.0002_dp !mumar2
     pars(86)=-10000.0_dp
-    pars(87)=0.00005_dp !mumar3
-    pars(92)=-10000.0_dp 
-    pars(93)=0.1_dp    !mumar4
+    pars(87)=0.0002_dp !mumar3
+    pars(92)=-40000.0_dp 
+    pars(93)=0.01_dp    !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+  
 
 
     pars(66)=pars1(66)+1.0_dp
@@ -301,15 +303,16 @@ nonlabinc=0.0_dp !ahu030622
     pars(68)=50000.0_dp   
     pars(69)=20000.0_dp   
     pars(74)=-10000.0_dp !cst1 no longer norm 
-    pars(75)=0.00005_dp !mumar1
+    pars(75)=0.0002_dp !mumar1
     pars(80)=-10000.0_dp
-    pars(81)=0.00005_dp !mumar2
+    pars(81)=0.0002_dp !mumar2
     pars(86)=-10000.0_dp
-    pars(87)=0.00005_dp !mumar3
-    pars(92)=-100000.0_dp 
-    pars(93)=0.1_dp    !mumar4
+    pars(87)=0.0002_dp !mumar3
+    pars(92)=-50000.0_dp 
+    pars(93)=0.01_dp    !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+ 
 
 
 !*************************    
