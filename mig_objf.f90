@@ -327,13 +327,13 @@ contains
     !open(unit=61 change this 61 to another number since bestval is also 61 maybe among other things, file=momentonlyfile,status='replace')
 	do i=1,npars
 		!write(60,'(1a15,4f12.4)') parname(i),realpar_save(i,1:4)
-        write(60,'(1a15,8f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
+        write(60,'(1a15,2f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
 	end do 
     write(60,*)
     write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
 	write(60,'(4i4,3(2x,i4),4i8,i4)') np,np1,np2,nl,neduc,nexp,nkid,nqs,nq,nx,nxs,nepsmove
 	write(60,*) 
-	write(60,'(tr2,"nz",tr2,"nh",tr1,"ncs",tr2,"nc",tr5,"ndata",tr3,"nsimech",tr6,"nsim",tr2,"ndataobs",tr6,"nmom")') 
+	write(60,'(tr2,"nz",tr2,"nh",tr1,"ncs",tr2,"nc",tr5,"ndata",tr3,"nsimeach",tr6,"nsim",tr2,"ndataobs",tr6,"nmom")') 
 	write(60,'(4i4,5i10)') nz,nh,ncs,nc,ndata,nsimeach,nsim,ndataobs,nmom
 	write(60,*) 
 	write(60,'("wage grid w:")')    !     tr6,"m(1)",tr6,"m(2)",tr6,"m(3)",tr6,"m(4)",tr6,"m(5)",tr4,"h(1)",tr4,"h(2)")') 
