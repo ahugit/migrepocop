@@ -251,68 +251,13 @@ nonlabinc=0.0_dp !ahu030622
  
 !************************
     pars(66)=pars1(66)+1.0_dp
-    pars(67)=pars1(67)+1.0_dp
-    pars(68)=5000.0_dp   
-    pars(69)=2000.0_dp   
-    pars(74)=-10000.0_dp !cst1 no longer norm 
-    pars(80)=-10000.0_dp
-    pars(86)=-10000.0_dp
-    pars(92)=-10000.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(66)=pars1(66)+1.0_dp
-    pars(67)=pars1(67)+1.0_dp
-    pars(68)=10000.0_dp   
-    pars(69)=5000.0_dp   
-    pars(74)=-10000.0_dp !cst1 no longer norm 
-    pars(80)=-10000.0_dp
-    pars(86)=-10000.0_dp
-    pars(92)=-10000.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(66)=pars1(66)+1.0_dp
-    pars(67)=pars1(67)+1.0_dp
+    pars(67)=pars1(67)+0.5_dp
     pars(68)=50000.0_dp   
     pars(69)=20000.0_dp   
     pars(74)=-10000.0_dp !cst1 no longer norm 
     pars(80)=-10000.0_dp
     pars(86)=-10000.0_dp
     pars(92)=-10000.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(66)=pars1(66)+1.0_dp
-    pars(67)=pars1(67)+1.0_dp
-    pars(68)=5000.0_dp 
-    pars(69)=2000.0_dp     
-    pars(74)=-10000.0_dp !cst1 no longer norm 
-    pars(80)=-10000.0_dp
-    pars(86)=-10000.0_dp
-    pars(92)=-10000.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(66)=pars1(66)+1.0_dp
-    pars(67)=pars1(67)+1.0_dp
-    pars(68)=5000.0_dp  
-    pars(69)=2000.0_dp    
-    pars(74)=-5000.0_dp !cst1 no longer norm 
-    pars(80)=-5000.0_dp
-    pars(86)=-5000.0_dp
-    pars(92)=-5000.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(66)=pars1(66)+1.0_dp
-    pars(67)=pars1(67)+1.0_dp
-    pars(68)=5000.0_dp  
-    pars(69)=2000.0_dp    
-    pars(74)=-1000.0_dp !cst1 no longer norm 
-    pars(80)=-1000.0_dp
-    pars(86)=-1000.0_dp
-    pars(92)=-1000.0_dp 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
