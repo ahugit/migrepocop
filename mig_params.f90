@@ -83,15 +83,8 @@
 	real(dp), parameter :: pen=-99999999.0_dp
 	integer(i4b), parameter :: ipen=-99999	
 	real(dp), parameter :: init=pen,initi=ipen
-    !ahu 122818 changed wmove mar from 100 to 1000
-    !ag090122 agsept2022 real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=50.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
-    !ag090122 agsept2022: increasing wmovemar to 100 because mar move rates are too low
-    real(dp), parameter :: wtrans=100.0_dp,wwaged=50.0_dp,wdifww=100.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=200.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
-    !real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=1.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
-    !real(dp), parameter :: wtrans=50.0_dp,wwaged=50.0_dp,wdifww=1.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=10.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
-    !real(dp), parameter :: wrel=10.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=1.0_dp,wkid=1.0_dp,wmovemar=10.0_dp,wmovesin=10.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
-    !real(dp), parameter :: wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwage=1.0_dp,wkid=1.0_dp,wmovemar=1000.0_dp,wmovesin=1.0_dp,wwagebymove=10.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
-    !real(dp), parameter :: wrel=1.0_dp,wmove=1.0_dp,whour=1.0_dp,wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp	! weights for moments for married couples. set in objfunc.
+    real(dp), parameter :: wtrans=1.0_dp,wwaged=1.0_dp,wdifww=1.0_dp,wrel=1.0_dp,wmove=1.0_dp,whour=1.0_d0
+    real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     character(len=23), parameter :: datafilename= 'familymigpsid.txt' ! data filename
 	!character(len=23), parameter :: initcondfile= 'familymiginit111113.txt' ! filename of initial conditions
 	character(len=23) :: momentfile='mom.txt'
