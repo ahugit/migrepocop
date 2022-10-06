@@ -1517,14 +1517,16 @@ end FUNCTION random
             headloc(ihead)=im
             headstr(ihead)='getmar (ned) by typ and getdiv by typ'
             ihead=ihead+1
-            do ia=mna,mxad,30 !ahu030622  changed from maxai-1 to mxad
+            do ia=mna,mxad !ahu030622  changed from maxai-1 to mxad
                 call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0 .AND. dat(ia,:)%edr==1), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
                 write(name(im),'("getmar (ned) by ia ",i4)') ia
                 weights(im)=0.0_dp
                 im=im+1
-                do i=1,ntypp
+            end do 
+            do i=1,ntypp
+                do ia=mna,mxad
                     call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0  .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%typ==i), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
-                    write(name(im),'("getmar (ned) by ia,typ ",2i4)') ia,i
+                    write(name(im),'("getmar (ned) by typ,ia ",2i4)') i,ia
                     weights(im)=0.0_dp
                     im=im+1
                 end do      
