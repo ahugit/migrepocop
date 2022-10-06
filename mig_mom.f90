@@ -1031,14 +1031,14 @@ end FUNCTION random
 
             do ia=mna, 38,10
                 call condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 .AND. move(ia,:)==1 .and.  dat(ia,:)%edr==1),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
-                write(name(im),'("e | u move by ia (ned)",i4)')  
+                write(name(im),'("e | u move by ia (ned)",i4)') ia  
                 weights(im)=0.0_dp
                 im=im+1 
             end do 
 
             do ia=mna, 38,10
                 call condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 .AND. move(ia,:)==1 .and.  dat(ia,:)%edr==2),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
-                write(name(im),'("e | u move by ia (ed)",i4)')  
+                write(name(im),'("e | u move by ia (ed)",i4)') ia
                 weights(im)=0.0_dp
                 im=im+1 
             end do 
@@ -1211,7 +1211,7 @@ end FUNCTION random
                 !If one of the conditioning statements is norelchg, then there is nothing after age 45. 
                 !Since any age 46 no relchg would need a age 47 rel. 
                 !This is why emp and wage by age cond on cosexrel only goes until 45. 
-                do ia=MNAd,23 
+                do ia=MNAD,23 
                     CALL condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr>=0 ) ,d1*one(dat(ia,:)%hhr==1),mom,cnt,var)
                     WRITE(name(im),'("emp by age",tr4,I2)') ia
                     weights(im)=whour 
