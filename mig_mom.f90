@@ -998,13 +998,13 @@ end FUNCTION random
             !weights(im)=100.0_dp 
             !im=im+1 
 
-            do ia=mna,mxad,10
+            do ia=mnad,mxad
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | stay ia ",tr2,i6)')  ia
                 weights(im)=0.0_dp
                 im=im+1 
             end do   
-            do ia=mna,mxad,10
+            do ia=mnad,mxad
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==1 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | move ia ",tr2,i6)')  ia
                 weights(im)=0.0_dp
