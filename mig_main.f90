@@ -288,8 +288,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(75)=0.0002_dp !mumar1
     pars(80)=-10000.0_dp
     pars(81)=0.0002_dp !mumar2
-    pars(86)=-50000.0_dp
-    pars(87)=0.0002_dp !mumar3
+    pars(86)=-10000.0_dp
+    pars(87)=0.01_dp !mumar3
     pars(92)=-50000.0_dp 
     pars(93)=0.01_dp    !mumar4
     call getpars(pars,realpars)
