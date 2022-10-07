@@ -343,26 +343,27 @@ contains
 	type(statevar), dimension(mnad:mxa,ndat), intent(in) :: dat ! data set. first entry is ia index, second observation number
 	integer :: ia,j
 	write(12,*)
-	if (ndat==ndata) then
-		write(12,'("actual data")')			
-	else if (ndat==nsim) then 		
-		write(12,'("simulated data")')	
-	end if 
+	!if (ndat==ndata) then
+!		write(12,'("actual data")')			
+	!else 
+	if (ndat==nsim) then 		
+!		write(12,'("simulated data")')	
 		write(12,*)
-		do j=1,100
-			write(12,'(tr6,"id",tr1,"age",tr2,"co",tr1,"sexr",&
-			& tr1,"rel",tr1,"kid",tr1,"edr",&
+		do j=1,1000
+			write(12,'(tr6,"id",tr1,"age",tr1,"sexr",tr1,"exp",tr1,"hhr",tr4,"logwr",tr1,"kid",tr1,"edr",&
+			& tr1,"rel",&
 			& tr1,"loc",tr1,"mxa",tr1,"mis",tr1,"hme",2(tr1,"emp"),2(tr5,"logw"),tr1,"lsp" )')	
 			write(12,*)
-			do ia=mna,mxa
-				write(12,'(i8,12i4,2f9.2,i4)') j,&
-				& ia,dat(ia,j)%co,dat(ia,j)%sexr,dat(ia,j)%rel,dat(ia,j)%kidr,dat(ia,j)%edr,&
+			do ia=mnad,mxa
+				write(12,'(i8,4i4,f9.2,12i4)') j,&
+				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
 				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
 				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
 			write(12,*)
 			write(12,*)
 			end do
 		end do
+	end if 
 	end subroutine yaz_getmom
 
 	subroutine yaz_sim(gender,rel,q,x)

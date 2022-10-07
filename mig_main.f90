@@ -135,8 +135,10 @@ program main
 	skriv=.false. ; if (iam==0.and.iter==1) skriv=.false.  !ahu030622
     if (.not.groups) skriv=.false. !ahu 0327
     iwritemom=0 ; if (iam==0) iwritemom=1 
-	if (skriv) then 	
-		open(unit=12, file='chkdat.txt',status='replace')		
+    if (iwritegen==1) then 
+    open(unit=12, file='chkdat.txt',status='replace')		
+    end if
+    if (skriv) then 	
 		open(unit=40,file='chkq.txt',status='replace') 
 		open(unit=50,file='chk0.txt',status='replace') 
 		open(unit=100,file='chk1.txt',status='replace')
@@ -263,12 +265,12 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=-50000.0_dp 
     pars(93)=0.01_dp    !mumar4
     pars(16)=-100.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(16)=pars1(16)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !pars(16)=pars1(16)
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     pars(16)=100.0_dp
     call getpars(pars,realpars)

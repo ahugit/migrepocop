@@ -156,7 +156,7 @@ end FUNCTION random
 	type(initcond), dimension(ndata), intent(in) :: init
 	type(statevar), dimension(mnad:mxa,nsim), intent(out) :: sim
 	type(shock), allocatable, dimension(:,:) :: epsim
-	integer(i4b) :: q0,x0,q,x,dec(3),draw(2)
+	integer(i4b) :: q0,x0,q,x,dec(3),draw(2),wageindex(2)
 	integer(i4b) :: relnext,qnext,xnext
 	integer(i4b) :: i0,n0,i,n,z
 	integer(i4b) :: rel0,index,trueindex,ia,r,g,endage
@@ -310,7 +310,21 @@ end FUNCTION random
                 age: do ia=agestart(init(nn)%edr),endage  !mna,endage
         			!if (skriv.and.trueindex==1.and.ia==18) then ; yaz=.TRUE.  ; else ; yaz=.FALSE. ; end if !ahu 0327 trueindex 2 !ahu 040918 del and remove later
                     !if (skriv.and.ia<=20) then ; yaz=.TRUE.  ; else ; yaz=.FALSE. ; end if !ahu 0327 trueindex 2 !ahu 040918 del and remove later
-					call qx2hrwge(g,rel0,q0,x0,trueindex,hh,l,wage,logw)
+                    if (rel0==0) then 
+                        wageindex(g) = q2w(q0)						! wage                         
+                    else if (rel0==1) then 
+                        wageindex(1:2) = qq2w(q0)						! wage                                                 
+                    end if 
+                    !if ( w(g) <= np ) then	
+                    !epswage(g)=wg(wageindex(g),g) !sig_wge(g)*wg(w(g),g)
+				    !ws(g,x,q,trueindex)	= fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x)) 
+                    !else if (w(g) == np1) then 
+                    !epswage(g)=-99.0_dp 
+                    !else 
+                    !    print*, "something wrong"
+                    !    stop 
+                    !end if 
+                    call qx2hrwge(g,rel0,q0,x0,trueindex,hh,l,wage,logw)
 					if (rel0==0) call x2edexpkid(x0,ed(g),expe(g),kid(g))
 					if (rel0==1) then
 						ed(:)=xx2e(:,x0)
@@ -322,7 +336,8 @@ end FUNCTION random
 					!if (yaz) then ; write(400,'(4/,2I8)') r,ia ; write(400,'("State Variables:")') ; call yaz_sim(g,rel0,q0,x0) ; end if 
                     if (yaz) then ; write(400,*) epsim(ia,r)%q,epsim(ia,r)%x,logw(g) ; end if !ahu 012019 del
 					!!ag 110416: changed to have sim(ia-1,r) at the beginning of the sim loop rather than sim(ia,r) in order to not have 0 emp at age 18
-					sim(ia-1,r)%initcond=init(nn)   !co, sex, hme, endage
+					sim(ia-1,r)%wageindex=wageindex(g)   !co, sex, hme, endage
+                    sim(ia-1,r)%initcond=init(nn)   !co, sex, hme, endage
                     sim(ia-1,r)%typ=typsim   !co, sex, hme, endage
                     if (sim(ia-1,r)%edr.ne.ed(g)) then ; print*, 'something wrong with ed' ; stop ; end if
 					sim(ia-1,r)%expr=expe(g)
@@ -629,7 +644,7 @@ end FUNCTION random
     homemove=-99 
 
     headloc(ihead)=im
-	!if (skriv) call yaz_getmom(dat,ndat) 
+	if (iwritegen==1) call yaz_getmom(dat,ndat) 
 	
     do ddd=1,ndecile
         decilegrid(ddd)=8.6_dp+0.25_dp*(ddd-1)
