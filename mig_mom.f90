@@ -313,7 +313,7 @@ end FUNCTION random
                     if (rel0==0) then 
                         wageindex(g) = q2w(q0)						! wage                         
                     else if (rel0==1) then 
-                        wageindex(1:2) = qq2w(q0)						! wage                                                 
+                        wageindex(1:2) = qq2w(1:2,q0)						! wage                                                 
                     end if 
                     !if ( w(g) <= np ) then	
                     !epswage(g)=wg(wageindex(g),g) !sig_wge(g)*wg(w(g),g)
