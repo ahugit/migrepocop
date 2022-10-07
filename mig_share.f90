@@ -1000,6 +1000,8 @@ contains
 			!	fnprhc(j)=exp(  psih(1)   )
 			else 
 				fnprhc(j) = 0.0_dp
+				print*, "I really shouldn't be here when nexp is 2 but maybe it is not"
+				stop
 			end if 
 		else if ( dw == np1 ) then 
 			if ( j-dr == +1 ) then  
