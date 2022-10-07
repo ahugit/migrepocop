@@ -346,16 +346,35 @@ contains
 	!if (ndat==ndata) then
 !		write(12,'("actual data")')			
 	!else 
+	if (ndat==ndat) then 		
+		!		write(12,'("simulated data")')	
+				write(12,*)
+				do j=1,2
+					write(12,'(tr6,"id",tr1,"age",tr1,"sexr",tr1,"exp",tr1,"hhr",tr4,"logwr",tr1,"kid",tr1,"edr",&
+					& tr1,"rel",&
+					& tr1,"loc",tr1,"mxa",tr1,"mis",tr1,"hme",tr1,"hhr",tr1,"hsp",tr4,"logwr",tr3,"logwsp",tr1,"lsp" )')	
+					write(12,*)
+					do ia=mnad,mxa
+						write(12,'(i8,4i4,f9.2,9i4,2f9.2,i4)') j,&
+						& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
+						& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
+						& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
+					write(12,*)
+					write(12,*)
+					end do
+				end do
+			end if 
+	end if
 	if (ndat==nsim) then 		
 !		write(12,'("simulated data")')	
 		write(12,*)
 		do j=1,1000
 			write(12,'(tr6,"id",tr1,"age",tr1,"sexr",tr1,"exp",tr1,"hhr",tr4,"logwr",tr1,"kid",tr1,"edr",&
 			& tr1,"rel",&
-			& tr1,"loc",tr1,"mxa",tr1,"mis",tr1,"hme",2(tr1,"emp"),2(tr5,"logw"),tr1,"lsp" )')	
+			& tr1,"loc",tr1,"mxa",tr1,"mis",tr1,"hme",tr1,"hhr",tr1,"hsp",tr4,"logwr",tr3,"logwsp",tr1,"lsp" )')	
 			write(12,*)
 			do ia=mnad,mxa
-				write(12,'(i8,4i4,f9.2,12i4)') j,&
+				write(12,'(i8,4i4,f9.2,9i4,2f9.2,i4)') j,&
 				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
 				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
 				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
