@@ -363,7 +363,6 @@ contains
 					write(12,*)
 					end do
 				end do
-			end if 
 	end if
 	if (ndat==nsim) then 		
 !		write(12,'("simulated data")')	
