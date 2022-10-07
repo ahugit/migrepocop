@@ -350,12 +350,12 @@ contains
 		!		write(12,'("simulated data")')	
 				write(12,*)
 				do j=1,2
-					write(12,'(tr6,"id",tr1,"age",tr1,"sexr",tr1,"exp",tr1,"hhr",tr4,"logwr",tr1,"kid",tr1,"edr",&
-					& tr1,"rel",&
-					& tr1,"loc",tr1,"mxa",tr1,"mis",tr1,"hme",tr1,"hhr",tr1,"hsp",tr4,"logwr",tr3,"logwsp",tr1,"lsp" )')	
+					write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
+					& tr3,"rel",&
+					& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
 					write(12,*)
-					do ia=mnad,mxa
-						write(12,'(i8,4i4,f9.2,9i4,2f9.2,i4)') j,&
+					do ia=mnad,21
+						write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
 						& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
 						& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
 						& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
@@ -367,13 +367,13 @@ contains
 	if (ndat==nsim) then 		
 !		write(12,'("simulated data")')	
 		write(12,*)
-		do j=1,1000
-			write(12,'(tr6,"id",tr1,"age",tr1,"sexr",tr1,"exp",tr1,"hhr",tr4,"logwr",tr1,"kid",tr1,"edr",&
-			& tr1,"rel",&
-			& tr1,"loc",tr1,"mxa",tr1,"mis",tr1,"hme",tr1,"hhr",tr1,"hsp",tr4,"logwr",tr3,"logwsp",tr1,"lsp" )')	
+		do j=1000,ndat
+			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
+			& tr3,"rel",&
+			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
 			write(12,*)
-			do ia=mnad,mxa
-				write(12,'(i8,4i4,f9.2,9i4,2f9.2,i4)') j,&
+			do ia=mnad,21
+				write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
 				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
 				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
 				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
