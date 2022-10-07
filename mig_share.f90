@@ -206,13 +206,13 @@ contains
 			end do	q0
 		end do x0
 
-		if (iwritegen==1) then
-			print*, "np,5,1",fnprof (np,5,1) 
-			print*, "np,10,1",fnprof (np,10,1) 
-			print*, "np1,5,1", fnprof (np1,5,1) 
-			print*, "np1,10,1",fnprof (np1,10,1) 
-			stop
-		end if 
+		!if (iwritegen==1) then
+		!	print*, "np,5,1",fnprof (np,5,1) 
+		!	print*, "np,10,1",fnprof (np,10,1) 
+		!	print*, "np1,5,1", fnprof (np1,5,1) 
+		!	print*, "np1,10,1",fnprof (np1,10,1) 
+		!	stop
+		!end if 
 
 		pps(:,:,g)=.false.			
 		do i=1,nqs
