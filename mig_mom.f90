@@ -741,11 +741,11 @@ end FUNCTION random
     end if 
 
     ddd=1
-	if (skriv.and.ndat==nsim .and. iter==2) then
+	if (iwritegen==1.and.ndat==nsim) then
 	open(unit=94632, file='dursim2.txt',status='replace')
     do j=1,ndat
         do ia=mnad,mxa
-            if (dat(ia,j)%hme==1) then 
+            if (dat(ia,j)%hme>-99) then 
                 write(94632,'(6i6,F10.2,3I6)' ) j,dat(ia,j)%nn,dat(ia,j)%mm,ia,dat(ia,j)%L,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%EXPR,dat(ia,j)%HME,dat(ia,j)%sexr   !, d1*one( (dat(ia,j)%logwr>decilegrid(ddd) .and. dat(ia,j)%logwr<decilegrid(ddd+1) ) ), decilegrid(ddd),decilegrid(ddd+1)   !,dat(ia,j)%nn,dat(ia,j)%mm,dat(ia,j)%r
 	        end if 
         end do 
