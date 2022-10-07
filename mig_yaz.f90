@@ -347,22 +347,22 @@ contains
 !		write(12,'("actual data")')			
 	!else 
 	if (ndat==ndat) then 		
-		!		write(12,'("simulated data")')	
-				write(12,*)
-				do j=1,2
-					write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
-					& tr3,"rel",&
-					& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
-					write(12,*)
-					do ia=mnad,21
-						write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
-						& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
-						& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
-						& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
-					write(12,*)
-					write(12,*)
-					end do
-				end do
+		!		write(12,'("actual data")')	
+		!		write(12,*)
+		!		do j=1,2
+		!			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
+		!			& tr3,"rel",&
+		!			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
+		!			write(12,*)
+		!			do ia=mnad,21
+		!				write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
+		!				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
+		!				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
+		!				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
+		!			write(12,*)
+		!			write(12,*)
+		!			end do
+		!		end do
 	end if
 	if (ndat==nsim) then 		
 !		write(12,'("simulated data")')	
@@ -371,7 +371,7 @@ contains
 			!write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
 			!& tr3,"rel",&
 			!& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
-			write(12,*)
+			!write(12,*)
 			do ia=mnad,21
 				if (dat(ia,j)%sexr>-99) then 
 				write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
@@ -379,8 +379,8 @@ contains
 				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
 				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
 				end if
-			write(12,*)
-			write(12,*)
+			!write(12,*)
+			!write(12,*)
 			end do
 		end do
 	end if 
