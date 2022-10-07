@@ -373,7 +373,7 @@ contains
 			& tr3,"rel",&
 			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
 			write(12,*)
-			do ia=mnad,25
+			do ia=mnad,mxa
 				if (dat(ia,j)%sexr>-99) then 
 				write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
 				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
@@ -384,7 +384,7 @@ contains
 			write(12,*)
 			end do
 			end if 
-			end do
+		end do
 	end if 
 	end subroutine yaz_getmom
 
