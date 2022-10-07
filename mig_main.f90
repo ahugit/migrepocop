@@ -117,6 +117,7 @@ program main
 	else 
 		numgroup=0 ; mygroup=0 ; mygrank=0 ; myco=0 ; mytyp=0 ; myhome=0
     end if
+    print*, "this is me ",mygrank,mycos(mygrank),mytyps(mygrank),myhomes(mygrank)
 	begintime=secnds(0.0)
     iter=1
 	iwritegen=0
