@@ -362,14 +362,15 @@ end FUNCTION random
 					sim(ia-1,r)%r = r
 					call getmiss(sim(ia-1,r),nomiss)
 					sim(ia-1,r)%nomiss=nomiss
-					!if (yaz) call yaz_simpath(ia-1,nn,mm,r,sim(ia-1,r))
+					if (yaz) call yaz_simpath(ia-1,nn,mm,r,sim(ia-1,r))
 					!if (ia==47 .and. sim(ia-1,r)%hhr ==1) then 
                     !    print*, 'I found it!',ia-1,sim(ia-1,r)%co,sim(ia-1,r)%sexr,sim(ia-1,r)%rel
                     !    stop
                     !end if 
                         
                     
-					if (rel0==0) then
+					if (rel0==0) then 
+                        whereamI=0
 						q = multinom( ppsq(:,q0,x0,g) , epsim(ia,r)%q ) 
 						x = multinom( ppsx(:,q0,x0)   , epsim(ia,r)%x ) 
 						meet=( epsim(ia,r)%meet<=pmeet )
@@ -382,12 +383,13 @@ end FUNCTION random
 						qmatch	= multinom( ppmeetq(:, dec(1) )	, epsim(ia,r)%meetq) 
 						xmatch	= multinom( ppmeetx(:, dec(2) )	, epsim(ia,r)%meetx) 
 						if (yaz) then 
-                        !!!    write(400,'("Trueindex:",I4)') trueindex
-						    write(400,'("Draws:",3F10.2)')  epsim(ia,r)%q, epsim(ia,r)%x, epsim(ia,r)%marie
-						    write(400,'("Draws:",3I10)')  q,x,z
-						    !write(400,'("Draws:")') ; call yaz_sim(g,rel0,q,x)
-						    !write(400,'("Single Dec Before Mar Mkt:")') ; call yaz_sim(g,rel0,qnext,xnext)
-						!!!	write(400,'("Match:")') ;  call yaz_simmatch(meet,qmatch,xmatch,z)
+                            write(400,'("in simulate, rel0=0, whereamI is 0:",I4)') whereamI
+                            write(400,'("Trueindex:",I4)') trueindex
+						    write(400,'("Draws epsimq,epsimx,empsimmarie:",3F10.2)')  epsim(ia,r)%q, epsim(ia,r)%x, epsim(ia,r)%marie
+						    write(400,'("Draws q,x,z:",3I10)')  q,x,z
+						    write(400,'("Draws:")') ; call yaz_sim(g,rel0,q,x)
+						    write(400,'("Single Dec Before Mar Mkt:")') ; call yaz_sim(g,rel0,qnext,xnext)
+						    write(400,'("Match:")') ;  call yaz_simmatch(meet,qmatch,xmatch,z)
                         end if                         
 						if (meet) then 	
 							if (g==1) then ; q = q2qq(dec(1),qmatch) ; x = x2xx(dec(2),xmatch) ; end if 
@@ -400,29 +402,33 @@ end FUNCTION random
 							end if 
 						    if (yaz) then 
                                 write(400,'("HERE IS DECMAR:",6I8)') z,q,x,ia,index,dec_mar(z,x,q,ia,index)
-							    !write(400,'("Decision At Mar Mkt:")') ;  call yaz_simdecmar(relnext)
+							    write(400,'("Decision At Mar Mkt:")') ;  call yaz_simdecmar(relnext)
 						    end if      !!!                   
                         end if !meet      
 					else if (rel0==1) then 
-						whereami=4		! for telling yaz where we are: Couples/Sim
 						q	= multinom( ppcq(:,q0,x0)	, epsim(ia,r)%q) 
 						x	= multinom( ppcx(:,q0,x0)	, epsim(ia,r)%x) 	
 						z	= multinom( mgt		, epsim(ia,r)%marie)
 						iepsmove = multinom( ppso(:)   , epsim(ia,r)%iepsmove ) 
-                        if (yaz) then ; write(400,*) epsim(ia,r)%q,epsim(ia,r)%x,epsim(ia,r)%marie,q,x,z ; end if !ahu 012019 del
-						!!!if (yaz) then 
-                        !!!    write(400,'("Trueindex:",I4)') trueindex
-                        !!!    write(400,'("Draws:")') ; call yaz_sim(g,rel0,q,x)
-						!!!	write(400,'("z: ",I4)') z
-						!!!end if                         
+                        if (yaz) then 
+                            write(400,*) 
+                            write(400,*) 
+                            write(400,'("in simulate, rel0=1, whereamI is 4:",I4)') whereamI
+                            write(400,'("Trueindex:",I4)') trueindex
+						    write(400,'("Draws epsimq,epsimx,empsimmarie:",3F10.2)')  epsim(ia,r)%q, epsim(ia,r)%x, epsim(ia,r)%marie
+						    write(400,'("Draws q,x,z:",3I10)')  q,x,z
+						    write(400,'("Draws:")') ; call yaz_sim(g,rel0,q,x)
+						end if                         
 						!AG090122 AGSEPT2022 dd=(/ ia,trueindex,q,x,z,q0,g,-1,-1,-1,iepsmove /)			    ! (/ ia,index,q,x,z,q0,g,jmax,qmax,relmax /)  							                        
                         !ag090122 agsept2022 call getdec_c(dd,vmax)					            ! jmax=dd(8) ; qmax=dd(9) ; relmax=dd(10)   
                         valso=pen !ag090122 agsept2022
                         callfrom=80 !ag090122 agsept2022
                         dd = (/ia,trueindex,q,x,z,q0,callfrom,-1,-1,-1,iepsmove /) 	! (/ ia,index,q,x,z,q0,gender/callfrom,jmax,qmax,relmax,iepsmove /)  	                                        
-                        call getdec(dd,vmax,valso)
+						!whereamI is for telling yaz where we are when yaz_getdec is called from within getdec
+                        !when whereamI=4 then within getdec, I call yaz_getdec (if skriv and yaz true) to write in 400 the altspecific value functions and bargaining stuff
+                        whereami=4	; call getdec(dd,vmax,valso)  
                         relnext=dd(10)
-						!!!!if (yaz) then ; call yaz_decision(dd,vmax) ; end if	    ! write down decision     
+						whereamI=4 ; if (yaz) then ; call yaz_decision(dd,vmax) ; end if	    ! write down decision     
 						if (relnext==1) then 
 							qnext=dd(9) ; xnext=dd(4) 
 						else if (relnext==0) then 
@@ -433,9 +439,9 @@ end FUNCTION random
 							qnext=dec(1) ; xnext=dec(2)                   
 						end if
 					end if ! rel
-					!!!if (yaz) then 
-					!!!	write(400,'("Next: ")') ; call yaz_sim(g,relnext,qnext,xnext) 
-					!!!end if 
+					if (yaz) then 
+						write(400,'("Next: ")') ; call yaz_sim(g,relnext,qnext,xnext) 
+					end if 
 					newrel0 = (rel0==0.and.relnext==1) 
 					rel0 = relnext 
 					q0 = qnext
@@ -629,7 +635,7 @@ end FUNCTION random
     homemove=-99 
 
     headloc(ihead)=im
-	!if (skriv) call yaz_getmom(dat,ndat) 
+	if (skriv) call yaz_getmom(dat,ndat) 
 	
     do ddd=1,ndecile
         decilegrid(ddd)=8.6_dp+0.25_dp*(ddd-1)

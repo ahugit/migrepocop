@@ -57,10 +57,10 @@ contains
 	end subroutine yaz_decs
 
 
-	subroutine yaz_checknb(dd,vec,transfers,def)         !     (dd,vec,transfers,cornersol,vsum,pc,def)
+	subroutine yaz_getdec(dd,vec,surpluso,pco,asumo,haveenougho)     !(dd,vec)         !     (dd,vec,transfers,cornersol,vsum,pc,def)
 	integer(i4b), intent(in) :: dd(:)
-	real(dp), intent(in) :: vec(5),transfers(2)
-	logical, intent(in) :: def
+	real(dp), intent(in) :: vec(5),surpluso,asumo
+	logical, intent(in) :: pco(1:2),haveenougho
     logical :: pc(2),criter(3),pc_alt(2),criter_alt(3),haveenoughtotransfer,haveenoughtotransfer_alt
 	real(dp) :: dumv(np2,nl),utility(4),wage(4),vdif(2),asum,surplus
 	integer(i4b) :: ia,index,trueindex,q,x,z,q0,g,j,i
@@ -81,9 +81,9 @@ contains
         index=trueindex
     end if
     !kid=maxval(xx2kid(:,x))
-	if (whereami==1) write(200,'(" in solve/getdec_c/checknb ........ j  ")' ) 	
-	if (whereami==5) write(200,'(" in solve/marriage market ")' ) 	
-    if (whereami==4) write(400,'(" in simulation/getdec_c/checknb ........ j  ")' ) 	
+	if (whereami==1) write(200,'(" in solve/getdec/couples ........ j  ")' ) 	
+	if (whereami==5) write(200,'(" in solve/getdec/marriage market ")' ) 	
+    if (whereami==4) write(400,'(" in simulation/getdec/couples ........ j  ")' ) 	
     !if (j==1.or.whereamI==1.or.whereami==2) then 			
 	!	write(200,'(" ************************************************************************************************************************** ")' ) 	
 	!	write(200,'(tr3,"alpha nokid",tr5,"alpha kid",tr9,"uhome",tr10,"umar",tr5,"move cost",9(tr5,"uloc noed"))')
@@ -102,8 +102,8 @@ contains
         stop
     end if 
     write(fnum,*)
-	write(fnum,'(6x,tr5,"age",tr6,"q0",tr7,"q",tr7,"z",tr7,"j",tr4,"altq",tr1,"iepsmve",tr1,"trueind",tr1,"sex",TR3,"X",tr3,"def")' )
-	write(fnum,'(6x,8i8,i4,I4,L6)')	ia,q0,q,z,j,i,iepsmove,trueindex,g,X,def    ! altq is just the q that altrnative j corresponds to
+	write(fnum,'(6x,tr5,"age",tr6,"q0",tr7,"q",tr7,"z",tr7,"j",tr4,"altq",tr1,"iepsmve",tr1,"trueind",tr1,"sex",TR3,"X")' )
+	write(fnum,'(6x,8i8,i4,I4)')	ia,q0,q,z,j,i,iepsmove,trueindex,g,X    ! altq is just the q that altrnative j corresponds to
 	write(fnum,*)
     write(fnum,'(14x         ,tr7,"q",2(tr6,"qs",tr6,"ws",tr6,"ls")     )') 
 	if (WhereamI==1) then
@@ -177,10 +177,10 @@ contains
             !write(fnum,'("these utilities are not indexed now so be careful")')
 		    !write(fnum,'(6x,"alt spec values:") ') 
             write(fnum,'("PC before any transfers (pc):",2L6)') pc
-            write(fnum,'("Abs Val of Total Transfers Needed (asum):",F10.2)') asum
+            write(fnum,'("Abs Val of Total Transfers Needed (asum):",2F10.2)') asum,asumo
             !ahu030822 write(fnum,'("Total Wages (wc):",2L6)') vec(5)
             write(fnum,'("Total Wages (wc):",F10.2)') vec(5) !ahu030822 replacing 2L6 with F10.2
-            write(fnum,'("haveenoughtotransfer? ie vec5+eps-asum>=0.0dp?:",L6)') haveenoughtotransfer !ahu030822
+            write(fnum,'("haveenoughtotransfer? ie vec5+eps-asum>=0.0dp?:",2L6)') haveenoughtotransfer,haveenougho !ahu030822
             write(fnum,'("haveenoughtotransfer_alt? ie vec5-asum>=0.0dp?:",L6)') haveenoughtotransfer_alt !ahu030822   
             write(fnum,'("interior? ie vec5 vs. Vdif1-Vdif2:",2F14.4)') vec(5),Vdif(1)-Vdif(2) !ahumarch1122   
             if ( (.not.pc(1)).or.(.not.pc(2)) ) then 
@@ -199,24 +199,24 @@ contains
             write(fnum,*)
             !write(fnum,'(6x,tr10,"asum",tr4,"w+eps-asum>=0.0dp",3(tr2,"crit")  )' ) 
 		    !write(fnum,'(6x,f14.2,11x,L6,3L6)') asum,haveenoughtotransfer,criter(1:3)     !def  = ( vec(5) + eps - asum  >= 0.0_dp )
-            write(fnum,'(6x,2(tr9,"trans"),tr3,"def" )')         
-            write(fnum,'(6x,2F14.2,L6)') transfers,def                 
-            if (     ( minval(transfers) + eps2) >= 0.0_dp  .and. ( minval(transfers) + epstest ) >= 0.0_dp  ) then 
-                write(fnum,*) "ohere minval"
-            end if 
-            if (      maxval(transfers) <=  ( vec(5)+eps2 ) .and.  maxval(transfers) <= ( vec(5)+epstest ) ) then 
-                write(fnum,*) "ohere maxval"
-            end if 
+            !write(fnum,'(6x,2(tr9,"trans") )')         
+            !write(fnum,'(6x,2F14.2)') transfers            
+            !if (     ( minval(transfers) + eps2) >= 0.0_dp  .and. ( minval(transfers) + epstest ) >= 0.0_dp  ) then 
+            !    write(fnum,*) "ohere minval"
+            !end if 
+            !if (      maxval(transfers) <=  ( vec(5)+eps2 ) .and.  maxval(transfers) <= ( vec(5)+epstest ) ) then 
+            !    write(fnum,*) "ohere maxval"
+            !end if 
         end if !NONNEG
-        write(fnum,'(6x,2(tr10,"vbar"),2(tr12,"vc"),tr5,"wcsum",2(tr4,"pc"),2(tr8,"us"),2(tr8,"uc"),2(tr8,"ws"),2(tr8,"wc"))' )    
-		write(fnum,'(6x,4f14.2,F10.2,2L6,8F10.2)') vec,pc,utility(1:4),wage(1:4)
+        write(fnum,'(6x,2(tr5,"vbar"),2(tr7,"vc"),tr4,"wcsum",2(tr3,"pc"),2(tr7,"us"),2(tr7,"uc"),2(tr7,"ws"),2(tr7,"wc"),2(tr3,"pco") )' )    
+		write(fnum,'(6x,4f9.2,F9.2,2L6,8F9.2,2L6)') vec,pc,utility(1:4),wage(1:4),pco(1:2)        
         write(fnum,*)
-        write(fnum,'(6x,tr7,"surplus",tr2,"sur+eps>=0.0dp",tr2,"sur>=0.0dp",tr3,"def")') 
-		write(fnum,'(6x,f14.2,10x,L6,6x,2L6)') surplus,(surplus+eps>=0.0_dp),(surplus>=0.0_dp),def
-        if (def) then 
-            write(fnum,'(6x,tr10,"vec1",tr1,"vec1+0.5*surpls",tr10,"vec2",tr1,"vec2+0.5*surpls")')
-		    write(fnum,'(6x,f14.2,2x,f14.2,f14.2,2x,f14.2)') vec(1),vec(1)+0.5_dp*surplus,vec(2),vec(2)+0.5_dp*surplus
-        end if 
+		write(fnum,'(6x,tr4,"surpl",tr2,"sur+eps>=0.0dp",tr2,"sur>=0.0dp",tr4,"surpl",tr3,"surplo")') 
+		write(fnum,'(6x,f9.2,10x,L6,6x,L6,2F9.2)') surplus,(surplus+eps>=0.0_dp),(surplus>=0.0_dp),surplus,surpluso
+        !if (def) then 
+        !    write(fnum,'(6x,tr10,"vec1",tr1,"vec1+0.5*surpls",tr10,"vec2",tr1,"vec2+0.5*surpls")')
+		!    write(fnum,'(6x,f14.2,2x,f14.2,f14.2,2x,f14.2)') vec(1),vec(1)+0.5_dp*surplus,vec(2),vec(2)+0.5_dp*surplus
+        !end if 
     end if !whereamI=1 or 4
     
     if (whereamI==5) then 
@@ -240,19 +240,19 @@ contains
 	    surplus=vec(3)-vec(1)+vec(4)-vec(2)+vec(5)
         pc(1:2)	= ( vdif + eps >= 0.0_dp )	!pc(1:2)    = ( vec(3:4) - vec(1:2) >= 0.0_dp )		
         write(fnum,'("Here is q,x",2I4)') q,x
-        write(fnum,'(6x,2(tr10,"vbar"),2(tr12,"vc"),tr5,"wcsum",2(tr4,"pc"),2(tr8,"us"),2(tr8,"uc"),2(tr8,"ws"),2(tr8,"wc") )' )    
-		write(fnum,'(6x,4f14.2,F10.2,2L6,8F10.2)') vec,pc,utility(1:4),wage(1:4)        
+        write(fnum,'(6x,2(tr5,"vbar"),2(tr7,"vc"),tr4,"wcsum",2(tr3,"pc"),2(tr7,"us"),2(tr7,"uc"),2(tr7,"ws"),2(tr7,"wc"),2(tr3,"pco") )' )    
+		write(fnum,'(6x,4f9.2,F9.2,2L6,8F9.2,2L6)') vec,pc,utility(1:4),wage(1:4),pco(1:2)        
         write(fnum,*)
-		write(fnum,'(6x,tr7,"surplus",tr2,"sur+eps>=0.0dp",tr2,"sur>=0.0dp",tr7,"surplus")') 
-		write(fnum,'(6x,f14.2,10x,L6,6x,L6,F14.2)') surplus,(surplus+eps>=0.0_dp),(surplus>=0.0_dp),surplus
-        write(fnum,'(6x,2(tr9,"trans"),tr3,"def" )')         
-        write(fnum,'(6x,2F14.2,L6)') transfers,def
-        if (     ( minval(transfers) + eps2) >= 0.0_dp  .and. ( minval(transfers) + epstest ) >= 0.0_dp  ) then 
-            write(fnum,*) "ohere minval"
-        end if 
-        if (      maxval(transfers) <=  ( vec(5)+eps2 ) .and.  maxval(transfers) <= ( vec(5)+epstest ) ) then 
-            write(fnum,*) "ohere maxval"
-        end if 
+		write(fnum,'(6x,tr4,"surpl",tr2,"sur+eps>=0.0dp",tr2,"sur>=0.0dp",tr4,"surpl",tr3,"surplo")') 
+		write(fnum,'(6x,f9.2,10x,L6,6x,L6,2F9.2)') surplus,(surplus+eps>=0.0_dp),(surplus>=0.0_dp),surplus,surpluso
+        !write(fnum,'(6x,2(tr9,"trans") )')         
+        !write(fnum,'(6x,2F14.2)') transfers
+        !if (     ( minval(transfers) + eps2) >= 0.0_dp  .and. ( minval(transfers) + epstest ) >= 0.0_dp  ) then 
+        !    write(fnum,*) "ohere minval"
+        !end if 
+        !if (      maxval(transfers) <=  ( vec(5)+eps2 ) .and.  maxval(transfers) <= ( vec(5)+epstest ) ) then 
+        !    write(fnum,*) "ohere maxval"
+        !end if 
         !ahu 041118: the below stuff was trying to figure out the eps2 problem. see notes for feb, march and april 2018 more details. 
                         !if (  minval(transfers) + epstest4 >= 0.0_dp .and. maxval(transfers) <= vec(5)+epstest4 ) then
                             !if (  minval(transfers) + epstest5 < 0.0_dp .or. maxval(transfers) > vec(5)+epstest5 ) then
@@ -294,7 +294,7 @@ contains
 	!	write(*,*) tmp(2),mg(z)
 	!	write(*,'(2l6)') ( abs(tmp(2)) > eps ), ( abs(mg(z)) < eps  ) 
 	!end if 
-	end subroutine yaz_checknb
+	end subroutine yaz_getdec
 
 	subroutine yaz_decision(dd,vmax)
 	integer(i4b), intent(in) :: dd(:)
@@ -312,7 +312,7 @@ contains
     end if
     write(fnum,*)
     write(fnum,'(1x,"****************************************************************************************************************** ")' ) 	
-	if (whereami==1.or.whereami==4) then
+	if (whereami==1.or.whereami==4) then !whereamI=1 being called from sol couple loop, whereamI=4 called from sim rel=1
 		q0=dd(6)
 		jmax=dd(8)
 		qmax=dd(9)	
@@ -326,7 +326,7 @@ contains
 		else if (relmax==0) then 
 			write(fnum,'(1x,"decision: get divorced",4i4)') !q0,dd(3:5)
 		end if 
-	else if (whereami==5) then
+	else if (whereami==5) then !whereamI=5 called from sol mar market loop (the decision in sim mar market is written by yaz_simdecmar instead of yaz_decision!)
 		relmax=dd(10)
 		if (relmax==1) then 
 			write(fnum,'(1x,"decision: get married")') 
@@ -434,7 +434,7 @@ contains
 	end subroutine 
 					
 	
-	subroutine yaz0
+	subroutine yaz0 !called from objf just for checks
 	integer(i4b) :: n,i,j,g,q0,x0,q,x
 	real(dp) :: lb,ub,cdf(2),expv,ppcqx_sum_overqx
 	if (skriv) then 

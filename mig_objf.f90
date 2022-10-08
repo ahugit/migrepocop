@@ -400,10 +400,10 @@ contains
     !fnprhc(dr,dw) !(curexp,empstat) !fnprhc only depends on psih(1)   
     write(60,'("experience transitions (fnprhc, governed only by psih(1):")') 
     do i=1,nexp
-    write(*,'("curexp: ",i4,"empstat: np "," fnprhc(curexp,empstat=np) is: ")') i
-    write(*,*) fnprhc(i,np)
-    write(*,'("curexp: ",i4,"empstat: np1 "," fnprhc(curexp,empstat=np1) is: ")') i
-    write(*,*) fnprhc(i,np1)
+    write(60,'("curexp: ",i4,"empstat: np "," fnprhc(curexp,empstat=np) is: ")') i
+    write(60,*) fnprhc(i,np)
+    write(60,'("curexp: ",i4,"empstat: np1 "," fnprhc(curexp,empstat=np1) is: ")') i
+    write(60,*) fnprhc(i,np1)
     end do
 
 

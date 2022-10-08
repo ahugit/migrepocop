@@ -136,17 +136,16 @@ program main
     if (.not.groups) skriv=.false. !ahu 0327
     iwritemom=0 ; if (iam==0) iwritemom=1 
 	if (skriv) then 	
-		open(unit=12, file='chkdat.txt',status='replace')		
+		open(unit=12, file='chkdat.txt',status='replace') !written in call getmom/yaz_getmom	
 		open(unit=40,file='chkq.txt',status='replace') 
-		open(unit=50,file='chk0.txt',status='replace') 
-		open(unit=100,file='chk1.txt',status='replace')
-		open(unit=200,file='chk2.txt',status='replace')
+		open(unit=50,file='chkpars.txt',status='replace')    !written in objf/yaz0
+		open(unit=100,file='chksolgetdec_s.txt',status='replace')
+        !written in sol/couples/getdec/yaz_getdec (whereamI=1), sol/marmkt/getdec/yaz_getdec (whereamI=5)
+		open(unit=200,file='chksolgetdec_c.txt',status='replace') 
 		open(unit=201,file='chk2b.txt',status='replace')		
-		!open(unit=300,file='chk3.txt',status='replace')		
-        open(unit=400, file='chk4.txt',status='replace')		
-		open(unit=500, file='chksimpath.txt',status='replace')		
-        open(unit=88881, file='chkwage.txt',status='replace') 
-        open(unit=56789, file='chktemp.txt',status='replace')
+        !400 is written in simulate, simulate/getdec/yaz_getdec (whereamI=4), yaz_decs,yaz_sim,yaz_simmatch,yaz_simdecmar 
+        open(unit=400, file='chksim.txt',status='replace')   
+		open(unit=500, file='chksimpath.txt',status='replace')	 !written by simulate/yaz_simpath
 	end if 
 	!call cohab_stderr(parvector,stepsize,stderrs)
 nonneg=.TRUE.
