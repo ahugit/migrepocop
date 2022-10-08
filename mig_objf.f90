@@ -327,7 +327,7 @@ contains
     !open(unit=61 change this 61 to another number since bestval is also 61 maybe among other things, file=momentonlyfile,status='replace')
 	do i=1,npars
 		!write(60,'(1a15,4f12.4)') parname(i),realpar_save(i,1:4)
-        write(60,'(1a15,f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
+        write(60,'(1a15,3f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
 	end do 
     write(60,*)
     write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
@@ -371,13 +371,13 @@ contains
     !psio(12) fnprof(np1,10,2)  u of f if f and unemp and draw ofloc: get offer,  0 , nothing happen
     write(60,'("offer probabilities (fnprof, governed by psio):")') 
 	write(60,'("employed men:")') 
-    write(60,'(10x,2x,"offer",4x,"ldoff",3x,"nthing")') 
+    write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
     write(60,'("curloc    ",2x,3F9.2)') fnprof(np,5,1)  !prob(nthing) is the residual so only psio(1:2) governs this
     write(60,'("psio(1:2) ",2x,2F9.2)') psio(1:2)
     write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,10,1)  !prob(nthing) is the residual so only psio(3:4) governs this
     write(60,'("psio(3:4) ",2x,2F9.2)') psio(3:4)
 	write(60,'("employed fem:")') 
-    write(60,'(10x,2x,"offer",4x,"ldoff",3x,"nthing")') 
+    write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
     write(60,'("curloc    ",2x,3F9.2)') fnprof(np,5,2)  !prob(nthing) is the residual so only psio(5:6) governs this
     write(60,'("psio(5:6) ",2x,2F9.2)') psio(5:6)
     write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,19,2)  !prob(nthing) is the residual so only psio(7:8) governs this
@@ -385,20 +385,20 @@ contains
     write(60,*) 
     write(60,*) 
 	write(60,'("unemp men:")') 
-    write(60,'(10x,2x,"offer",4x,"ldoff",3x,"nthing")') 
+    write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
     write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,1)  !prob(nthing) is the residual so only psio(9) governs this
     write(60,'("psio(9) ",2x,F9.2)') psio(9)
     write(60,'("ofloc     ",2x,3F9.2)') fnprof(np1,10,1)  !prob(nthing) is the residual so only psio(11) governs this
     write(60,'("psio(10) ",2x,F9.2)') psio(10)
     write(60,'("unemp fem:")') 
-    write(60,'(10x,2x,"offer",4x,"ldoff",3x,"nthing")') 
+    write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
     write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,2)  !prob(nthing) is the residual so only psio(12) governs this
     write(60,'("psio(11) ",2x,F9.2)') psio(11)
     write(60,'("ofloc     ",2x,3F9.2)') fnprof(np1,10,2)  !prob(nthing) is the residual so only psio(13) governs this
     write(60,'("psio(12) ",2x,F9.2)') psio(12)
-    close(60) 
-    write(60,'("experience transitions (fnprhc, governed only by psih(1):")') 
+	write(60,*) 
     !fnprhc(dr,dw) !(curexp,empstat) !fnprhc only depends on psih(1)   
+    write(60,'("experience transitions (fnprhc, governed only by psih(1):")') 
     do i=1,nexp
     write(*,'("curexp: ",i4,"empstat: np "," fnprhc(curexp,empstat=np) is: ")') i
     write(*,*) fnprhc(i,np)
