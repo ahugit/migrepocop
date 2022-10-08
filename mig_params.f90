@@ -25,7 +25,6 @@
 	integer(i4b), parameter :: nhome=1,nhomep=nl
 	logical :: conditional_moments		! can set this in main
 	logical :: skriv,yaz,insol,yazmax   
-	integer(i4b) :: whereami
 	character(len=1), parameter :: runid='r'		! string inserted into output filenames to identify which run !ahu 062413 set this in main instead 
 	integer(i4b), parameter :: nco=1,ncop=1
 	integer(i4b), parameter :: ntyp=1,ntypp=4   ! types !ahu030622 changed ntypp to 1 (was 4)

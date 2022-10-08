@@ -121,7 +121,7 @@ program main
     iter=1
 	iwritegen=0
 	if (iam==0) iwritegen=1
-	if (iam==0.and.iwritegen==1.and.chkobj) then						! ahu april13: to check how much objval changes with each stepsize and make sure that the objval changes by similar amounts when changing each parameter. otherwise the simplex does weird things. and also to check how much the pminim routine changes objval with each iteration during estimation but the latter is not as important. 
+	if (iwritegen==1.and.chkobj) then						! ahu april13: to check how much objval changes with each stepsize and make sure that the objval changes by similar amounts when changing each parameter. otherwise the simplex does weird things. and also to check how much the pminim routine changes objval with each iteration during estimation but the latter is not as important. 
 		open(unit=63, file='chkobj.txt',status='replace')	
 	end if 
 	if (iam==0.and.chkstep) then 
@@ -140,10 +140,10 @@ program main
 		open(unit=40,file='chkq.txt',status='replace') 
 		open(unit=50,file='chkpars.txt',status='replace')    !written in objf/yaz0
 		open(unit=100,file='chksolgetdec_s.txt',status='replace')
-        !written in sol/couples/getdec/yaz_getdec (whereamI=1), sol/marmkt/getdec/yaz_getdec (whereamI=5)
+        !written in sol/couples/getdec/yaz_getdec (callfrom==40), sol/marmkt/getdec/yaz_getdec (callfrom=50)
 		open(unit=200,file='chksolgetdec_c.txt',status='replace') 
 		open(unit=201,file='chk2b.txt',status='replace')		
-        !400 is written in simulate, simulate/getdec/yaz_getdec (whereamI=4), yaz_decs,yaz_sim,yaz_simmatch,yaz_simdecmar 
+        !400 is written in simulate, simulate/getdec/yaz_getdec (callfrom=80), yaz_decs,yaz_sim,yaz_simmatch,yaz_simdecmar 
         open(unit=400, file='chksim.txt',status='replace')   
 		open(unit=500, file='chksimpath.txt',status='replace')	 !written by simulate/yaz_simpath
 	end if 

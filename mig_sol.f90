@@ -23,7 +23,7 @@ contains
     real(dp), dimension(nxs,nqs) :: vm0_s,vf0_s,vm_s,vf_s,prob_s
 	real(dp), dimension(nx,nq) :: vm_c,vf_c,prob
 	real(dp), dimension(nepsmove,nxs,nqs,nqs) :: vmr,vfr
-	integer(i4b) :: ia,q0,q,x0,x,z,iepsmove,index,trueindex,dd(11),ed(2),qm,xm,qf,xf,callfrom
+	integer(i4b) :: ia,q0,q,x0,x,z,iepsmove,index,trueindex,dd(12),ed(2),qm,xm,qf,xf,callfrom
     !print*, 'Here is iter',iter
 	begintime=secnds(0.0)
     yaz=.false.
@@ -89,7 +89,6 @@ end do
 				vmr=vm(:,:,:,:,ia,index)
 				vfr=vf(:,:,:,:,ia,index) 
 			else 
-				!whereamI=1 ! for telling yaz about where we are
                 !for loop opt 
                 do q=1,nq
                     do x=1,nx
@@ -115,14 +114,13 @@ end do
 								val=0.0_dp
 								umar: do z=nz,1,-1		
                                     moveshocks: do iepsmove=1,nepsmove
-                                        !ag090122 agsept2022 dd = (/ia,trueindex,q,x,z,q0,gender/callfrom,-1,-1,-1,iepsmove /) 	
-                                                                 !(/ia,trueindex,q,x,z,q0,gender/callfrom,jmax,qmax,relmax,iepsmove /)  	
-                                        !ag090122 agsept2022 turnining dd(7) to callfrom instead of gender since gender wasn't being used anyway 
+                                        !callfrom is for telling getdec and therefore yaz_getdec where we are when yaz_getdec is called from within getdec
+                                        !(if skriv and yaz true) when callfrom=40, then within getdec I call yaz_getdec to write in 200 the altspecific value functions and bargaining stuff
+                                        !in getdec when callfrom is 40 or 80, then dd(8) altj and dd(9) altq are filled in within the choice loop
                                         callfrom=40 !ag090122 agsept2022
-                                        dd = (/ia,trueindex,q,x,z,q0,callfrom,-1,-1,-1,iepsmove /) 	! (/ ia,index,q,x,z,q0,gender/callfrom,jmax,qmax,relmax,iepsmove /)  	                                        
-                                        !when whereamI=1 then within getdec, I call yaz_getdec to write in 200 the altspecific value functions and bargaining stuff
-                                        whereamI=1 ; call getdec(dd,vmax,valso)	! dd is inout and dd(8:10) tells you jmax,qmax,relmax 
-                                        whereamI=1 ; if (yaz) then ; call yaz_decision(dd,vmax) ; end if	! write down decision !ahu 032718 del and remove later. I uncommented this write										
+                                        dd = (/ia,trueindex,q,x,z,q0,callfrom,-1,-1,-1,iepsmove,-1 /) 	! (/ ia,index,q,x,z,q0,callfrom,altj/jmax,altq/qmax,relmax,iepsmove,gender /)  	                                        
+                                        call getdec(dd,vmax,valso)	! dd is inout and dd(8:10) tells you jmax,qmax,relmax 
+                                        if (yaz) then ; call yaz_decision(dd,vmax) ; end if	!callfrom tells yaz_decision where we are 									
 		                                val=val+ppso(iepsmove)*mgt(z)*vmax
                                     end do moveshocks
                                 end do umar
@@ -178,18 +176,19 @@ end do
                                 
                                     if (q2w(qm)>np1.or.q2w(qf)>np1.or.q==0.or.x==0) stop   !if (ps0(qm) .and. ps0(qf) .and. q > 0 .and. x >0) then ! all w should be <= np1	and q,x should exist
                                     marshock: do z=1,nz  
-                                    !ag090122 agsept2022 turnining dd(7) to callfrom instead of gender since gender wasn't being used anyway 
-                                    !ag090122 agsept2022 dd = (/ ia,trueindex,q,x,z,q0,-1,-1,q,-1,-1 /) 	! (/ ia,index,q,x,z,q0,gender,jmax,qmax,relmax,iepsmove /)  	
+                                    callfrom=50
+                                    dd = (/ ia,trueindex,q,x,z,q0,callfrom,-1,q,-1,-1,-1 /) ! (/ ia,index,q,x,z,q0,callfrom,altj,altq,rel,iepsmove,gender /)  	                                        
+                                    !callfrom is for telling getdec and therefore yaz_getdec where we are when yaz_getdec is called from within getdec
+                                    !(if skriv and yaz true) when callfrom=50, then within getdec I call yaz_getdec to write in 200 the altspecific value functions and bargaining stuff
+                                    !in getdec when callfrom is 40 or 80, then dd(8) altj and dd(9) altq are filled in within the choice loop
+                                    !in getdec when callfrom is 50, then dd(8) altj is -1 and dd(9) altq is just q (same as dd(3) ) 
                                                         ! g and q0 is just -1 here (/ ia,index,q,x,z,q0,gender,j,q,rel,iepsmove /) 
                                                         ! when in the marriage market, the index that corresponds 
                                                         ! to altq (i.e. i in yaz for example or dim 9 in dd) is just set to q since there is no altq in marriage market
-                                    callfrom=50
-                                    dd = (/ ia,trueindex,q,x,z,q0,callfrom,-1,q,-1,-1 /) 
-                                    !when whereamI=5, then within getdec, I call yaz_getdec to write in 200 the altspecific value functions and bargaining stuff
-                                    whereamI=5 ; call getdec(dd,vmax,valso) 
+                                    call getdec(dd,vmax,valso) 
                                     dec_mar(z,x,q,ia,index)=dd(10)
                                     val=vmax(1:2)         
-                                    whereamI=5 ; if (yaz) then ; call yaz_decision(dd,vmax) ; end if	! write down decision !ahu 032718 del and remove later. I uncommented this write										
+                                    if (yaz) then ; call yaz_decision(dd,vmax) ; end if	!callfrom tells yaz_decision where we are 				
 
                                     !if (  icheck_eqvmvf.and.qr==qp.and.xr==xp.and.  (abs(vec(1)-vec(2)) > eps .or. abs(vsum(1)-vsum(2)) > eps) ) then 
                                     !	print*, "vm not eq to vf!", ia,qr,xr,vec(1:4),vsum
@@ -294,7 +293,7 @@ end do
         relmax=-1            ! initialize
         vmax=pen			! initialize
         transfers=pen 
-        if (Callfrom==40.or.callfrom==80) then !calling from couples whereamI=1 or 4 (couples in sol or couples in sim)
+        if (Callfrom==40.or.callfrom==80) then !calling from sol/couples/getdec (40) OR simul/couples/getdec (80) 
             iepsmove=dd(11)   
             vec=pen
             i = qq2q(1,q) ; n=xx2x(1,x) ; i0 = qq2q(1,q0) 
@@ -336,7 +335,10 @@ end do
                     pc(1:2)	= ( vecj(1:2,j) + eps >= 0.0_dp )
                     asum = sum(  one(.not. pc)  *   abs( vecj(1:2,j) )   ) 
                     haveenough(j)=(  vecj(5,j) + eps - asum  >= 0.0_dp  )
-                    if (yaz) call yaz_getdec(dd,yazvec(1:5),surplusj(j),pc(1:2),asum,haveenough(j))
+                    if (yaz) then 
+                        dd(8)=j ; dd(9)=i !to tell yaz_getdec which alternative is being evaluated (where j is the choice and i is the corresponding q)
+                        call yaz_getdec(dd,yazvec(1:5),surplusj(j),pc(1:2),asum,haveenough(j))
+                    end if
                 end if      
             end do choice    
             de=maxloc(surplusj,MASK=haveenough) 
@@ -346,23 +348,23 @@ end do
                 vdif(1:2)=vecj(1:2,jmax)    
                 vec(3:5)=vecj(3:5,jmax)
                 if (yaz) then ; write(200,*)  ; write(200,*) ; write(400,*) ; write(400,*) ; end if
-                if (yaz.and.whereamI==1) write(200,*) "in sol/getdec couples de(1)>0: jmax,qmax,relmax,surplusJ(jmax),vecj(1:5,jmax) NOW GO TO 2013"
-                if (yaz.and.whereamI==1) write(200,'(I4,I8,I4,6F9.2)') jmax,qmax,relmax,surplusj(jmax),vecj(1:5,jmax)
-                if (yaz.and.whereamI==4) write(400,*) "in sim/getdec couples de(1)>0: jmax,qmax,relmax,surplusJ(jmax),vecj(1:5,jmax) NOW GO TO 2013"
-                if (yaz.and.whereamI==4) write(400,'(I4,I8,I4,6F9.2)') jmax,qmax,relmax,surplusj(jmax),vecj(1:5,jmax)
+                if (yaz.and.callfrom==40) write(200,*) "in sol/getdec couples de(1)>0: jmax,qmax,relmax,surplusJ(jmax),vecj(1:5,jmax) NOW GO TO 2013"
+                if (yaz.and.callfrom==40) write(200,'(I4,I8,I4,6F9.2)') jmax,qmax,relmax,surplusj(jmax),vecj(1:5,jmax)
+                if (yaz.and.callfrom==80) write(400,*) "in sim/getdec couples de(1)>0: jmax,qmax,relmax,surplusJ(jmax),vecj(1:5,jmax) NOW GO TO 2013"
+                if (yaz.and.callfrom==80) write(400,'(I4,I8,I4,6F9.2)') jmax,qmax,relmax,surplusj(jmax),vecj(1:5,jmax)
                 GO TO 2013
             else 
                 jmax=-1 ; qmax=-1  ; relmax=0 ; vmax(1:2)=vec(1:2)
                 if (yaz) then ; write(200,*)  ; write(200,*) ; write(400,*) ; write(400,*) ; end if
-                if (yaz.and.whereamI==1) write(200,*) "in sol/getdec couples de(1)<=0: jmax,qmax,relmax,de(1) NOW GO TO 2017"
-                if (yaz.and.whereamI==1) write(200,*) jmax,qmax,relmax,de(1)
-                if (yaz.and.whereamI==4) write(400,*) "in sim/getdec couples de(1)<=0: jmax,qmax,relmax,de(1) NOW GO TO 2017"
-                if (yaz.and.whereamI==4) write(400,*) jmax,qmax,relmax,de(1)
+                if (yaz.and.callfrom==40) write(200,*) "in sol/getdec couples de(1)<=0: jmax,qmax,relmax,de(1) NOW GO TO 2017"
+                if (yaz.and.callfrom==40) write(200,*) jmax,qmax,relmax,de(1)
+                if (yaz.and.callfrom==80) write(400,*) "in sim/getdec couples de(1)<=0: jmax,qmax,relmax,de(1) NOW GO TO 2017"
+                if (yaz.and.callfrom==80) write(400,*) jmax,qmax,relmax,de(1)
                 GO TO 2017
             end if 
         end if 
 
-        if (callfrom==50) then !calling from singles mar market (only called from sol) (this getdec instance is only called in sol (not sim because I save all decisions to dec array)
+        if (callfrom==50) then !calling from sol/marmkt (this getdec instance is only called in sol (not sim because I save all decisions to dec array)
             iepsmove=-1 
             vec(1:2)=vsingtest(1:2) !ag090822 agsept2022 vsing(1:2) 
             vec(3) = vm0ctemp(q,x) + mg(z,trueindex) 
@@ -376,17 +378,21 @@ end do
             !ahu032122 ahumarch2122 commenting out to save time pc_alt(1:2)=( vdif >= 0.0_dp )	
             asum = sum(  one(.not. pc)  *   abs( vdif )   ) 
             haveenoughtomakeindiff=(  vec(5) + eps - asum  >= 0.0_dp  )
-            de(1)=one( surplus+eps > 0.0_dp .and. haveenoughtomakeindiff ) 
-            if (yaz) call yaz_getdec(dd,vec(1:5),surplus,pc(1:2),asum,haveenoughtomakeindiff) !when called from sol/getdec/marmkt whereamI=5
+            de(1)=one( surplus+eps > 0.0_dp .and. haveenoughtomakeindiff )             
+            if (yaz) then 
+                !callfrom=50 is sol/marmkt/getdec and before calling getdec, dd(9) is just set to q i.e. equal to dd(3) and dd dd(8)=-1 ; dd(9)=-1 !to tell yaz_getdec which alternative is being evaluated (where j is the choice and i is the corresponding q)
+                !but when calling from singles mar market there is no j or i so set equal to -1 
+                call yaz_getdec(dd,vec(1:5),surplus,pc(1:2),asum,haveenoughtomakeindiff) !called from sol/getdec/marmkt 
+            end if 
             if (de(1)>0) then 
                 jmax=-1 ; qmax=-1 ; relmax=1
-                if (yaz.and.whereamI==5) write(200,*) "in sol/getdec marmkt de(1)>0: jmax,qmax,relmax,surplus,vec(1:5) NOW GO TO 2013"
-                if (yaz.and.whereamI==5) write(200,'(I4,I8,I4,6F9.2)') jmax,qmax,relmax,surplus,vec(1:5) 
+                if (yaz) write(200,*) "in sol/getdec marmkt de(1)>0: jmax,qmax,relmax,surplus,vec(1:5) NOW GO TO 2013"
+                if (yaz) write(200,'(I4,I8,I4,6F9.2)') jmax,qmax,relmax,surplus,vec(1:5) 
                 GO TO 2013 !have to calculate vmax and transfers before going to 2017 
             else 
                 jmax=-1 ; qmax=-1  ; relmax=0 ; vmax(1:2)=vec(1:2)
-                if (yaz.and.whereamI==5) write(200,*) "in sol/getdec marmkt de(1)<=0: jmax,qmax,relmax,surplus,vec(1:5) NOW GO TO 2017"
-                if (yaz.and.whereamI==5) write(200,'(I4,I8,I4,6F9.2)') jmax,qmax,relmax,surplus,vec(1:5)                 
+                if (yaz) write(200,*) "in sol/getdec marmkt de(1)<=0: jmax,qmax,relmax,surplus,vec(1:5) NOW GO TO 2017"
+                if (yaz) write(200,'(I4,I8,I4,6F9.2)') jmax,qmax,relmax,surplus,vec(1:5)                 
                 GO TO 2017 ! go directly to 2017
             end if 
         end if 
@@ -417,12 +423,12 @@ end do
         2017 dd(8)=jmax
         dd(9)=qmax
         dd(10)=relmax 
-        if (yaz.and.whereamI==1) write(200,*) "in sol/getdec couples end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
-        if (yaz.and.whereamI==1) write(200,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
-        if (yaz.and.whereamI==5) write(200,*) "in sol/getdec mar mkt end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
-        if (yaz.and.whereamI==5) write(200,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
-        if (yaz.and.whereamI==4) write(400,*) "in sim/getdec couples end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
-        if (yaz.and.whereamI==4) write(400,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers  
+        if (yaz.and.callfrom==40) write(200,*) "in sol/getdec couples end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
+        if (yaz.and.callfrom==40) write(200,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
+        if (yaz.and.callfrom==50) write(200,*) "in sol/getdec mar mkt end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
+        if (yaz.and.callfrom==50) write(200,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
+        if (yaz.and.callfrom==80) write(400,*) "in sim/getdec couples end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
+        if (yaz.and.callfrom==80) write(400,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers  
     end subroutine getdec
 
         !!!!!if (relmax==1) then

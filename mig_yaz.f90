@@ -64,26 +64,27 @@ contains
     logical :: pc(2),criter(3),pc_alt(2),criter_alt(3),haveenoughtotransfer,haveenoughtotransfer_alt
 	real(dp) :: dumv(np2,nl),utility(4),wage(4),vdif(2),asum,surplus
 	integer(i4b) :: ia,index,trueindex,q,x,z,q0,g,j,i
-	integer(i4b) :: a,b,c,qbar(2),iepsmove,fnum
+	integer(i4b) :: a,b,c,qbar(2),iepsmove,fnum,callfrom
 	ia=dd(1) 
 	trueindex=dd(2) 
 	q=dd(3) 
 	x=dd(4) 
 	z=dd(5) 
 	q0=dd(6)
-	g=dd(7) 
+	callfrom=dd(7) !callfrom is 40 if yaz_getdec is being called from sol/couples/getdec is 80 if being called from sim/couples/getdec and is 50 if being called from sol/marmkt
 	j=dd(8) ! alternative that is being evaluated in this call to checknb
 	i=dd(9) ! altq i.e. the q that alternative j corresponds to. if being called by mar market, then this is just q as there is no choice to be made. 
 	iepsmove=dd(11)
+	g=dd(12) !g should be -1 if callfrom=40 or 80 and should be gender if callfrom=50 
     if (groups) then 
         index=1
     else 
         index=trueindex
     end if
     !kid=maxval(xx2kid(:,x))
-	if (whereami==1) write(200,'(" in solve/getdec/couples ........ j  ")' ) 	
-	if (whereami==5) write(200,'(" in solve/getdec/marriage market ")' ) 	
-    if (whereami==4) write(400,'(" in simulation/getdec/couples ........ j  ")' ) 	
+	if (callfrom==40) write(200,'(" in solve/couples/getdec ........ j  ")' ) 	
+	if (callfrom==50) write(200,'(" in solve/marmkt/getdec ")' ) 	
+    if (callfrom==80) write(400,'(" in simul/couples/getdec ........ j  ")' ) 	
     !if (j==1.or.whereamI==1.or.whereami==2) then 			
 	!	write(200,'(" ************************************************************************************************************************** ")' ) 	
 	!	write(200,'(tr3,"alpha nokid",tr5,"alpha kid",tr9,"uhome",tr10,"umar",tr5,"move cost",9(tr5,"uloc noed"))')
@@ -91,26 +92,26 @@ contains
 	!	write(200,'(14f14.2)') alpha(2,1),alpha(2,2),uhome(2),mg(z),movecost(xx2x(2,x),trueindex),uloc(:,1)
 	!	write(200,'(" ************************************************************************************************************************** ")' ) 	
 	!end if     
-    if (whereamI==1) then 
+    if (callfrom==40) then 
         fnum=200
-    else if (whereamI==5) then 
+    else if (callfrom==50) then 
         fnum=200
-    else if (whereamI==4) then 
+    else if (callfrom==80) then 
         fnum=400
     else 
-        print*, 'no whereamI so fnum not assigned. being called by somewhere not meant to be!'
+        print*, 'no callfrom so fnum not assigned. being called by somewhere not meant to be!'
         stop
     end if 
     write(fnum,*)
-	write(fnum,'(6x,tr5,"age",tr6,"q0",tr7,"q",tr7,"z",tr7,"j",tr4,"altq",tr1,"iepsmve",tr1,"trueind",tr1,"sex",TR3,"X")' )
-	write(fnum,'(6x,8i8,i4,I4)')	ia,q0,q,z,j,i,iepsmove,trueindex,g,X    ! altq is just the q that altrnative j corresponds to
+	write(fnum,'(6x,tr5,"age",tr6,"q0",tr7,"q",tr7,"z",tr7,"j",tr4,"altq",tr1,"iepsmve",tr1,"trueind",tr1,"sex",TR3,"x")' )
+	write(fnum,'(6x,8i8,i4,I4)')	ia,q0,q,z,j,i,iepsmove,trueindex,g,x    ! altq is just the q that altrnative j corresponds to
 	write(fnum,*)
     write(fnum,'(14x         ,tr7,"q",2(tr6,"qs",tr6,"ws",tr6,"ls")     )') 
-	if (WhereamI==1) then
-		write(fnum,'(6x,"current ",7i8)') q0,qq2q(1,q0),qq2w(1,q0),qq2l(1,q0),qq2q(2,q0),qq2w(2,q0),qq2l(2,q0)
+	if (callfrom==40.or.callfrom==80) then !no q0 if callfrom=50 (sol/getdec/marmkt)
+	write(fnum,'(6x,"current ",7i8)') q0,qq2q(1,q0),qq2w(1,q0),qq2l(1,q0),qq2q(2,q0),qq2w(2,q0),qq2l(2,q0)
 	end if 
 	write(fnum,'(6x,"draw    ",7i8)') q,qq2q(1,q),qq2w(1,q),qq2l(1,q),qq2q(2,q),qq2w(2,q),qq2l(2,q)
-	if (whereamI==1.or.whereamI==4) then 
+	if (callfrom==40.or.callfrom==80) then !being called from within sol/couples/getdec (40) OR from within simul/couples/getdec (80) 
         write(fnum,'(6x,"alt     ",7i8)') i,qq2q(1,i),qq2w(1,i),qq2l(1,i),qq2q(2,i),qq2w(2,i),qq2l(2,i)
         ! males and females: outside options
 		a=qq2q(1,q) 
@@ -208,19 +209,19 @@ contains
             !    write(fnum,*) "ohere maxval"
             !end if 
         end if !NONNEG
-        write(fnum,'(6x,2(tr5,"vbar"),2(tr7,"vc"),tr4,"wcsum",2(tr3,"pc"),2(tr7,"us"),2(tr7,"uc"),2(tr7,"ws"),2(tr7,"wc"),2(tr3,"pco") )' )    
-		write(fnum,'(6x,4f9.2,F9.2,2L6,8F9.2,2L6)') vec,pc,utility(1:4),wage(1:4),pco(1:2)        
+        write(fnum,'(6x,2(tr10,"vbar"),2(tr12,"vc"),tr4,"wcsum",2(tr3,"pc"),2(tr7,"us"),2(tr7,"uc"),2(tr7,"ws"),2(tr7,"wc"),2(tr3,"pco") )' )    
+		write(fnum,'(6x,4f14.2,F9.2,2L6,8F9.2,2L6)') vec,pc,utility(1:4),wage(1:4),pco(1:2)        
         write(fnum,*)
-		write(fnum,'(6x,tr4,"surpl",tr2,"sur+eps>=0.0dp",tr2,"sur>=0.0dp",tr4,"surpl",tr3,"surplo")') 
-		write(fnum,'(6x,f9.2,10x,L6,6x,L6,2F9.2)') surplus,(surplus+eps>=0.0_dp),(surplus>=0.0_dp),surplus,surpluso
+		write(fnum,'(6x,tr9,"surpl",tr2,"sur+eps>=0.0dp",tr2,"sur>=0.0dp",tr9,"surpl",tr8,"surplo")') 
+		write(fnum,'(6x,f14.2,10x,L6,6x,L6,2F14.2)') surplus,(surplus+eps>=0.0_dp),(surplus>=0.0_dp),surplus,surpluso
         !if (def) then 
         !    write(fnum,'(6x,tr10,"vec1",tr1,"vec1+0.5*surpls",tr10,"vec2",tr1,"vec2+0.5*surpls")')
 		!    write(fnum,'(6x,f14.2,2x,f14.2,f14.2,2x,f14.2)') vec(1),vec(1)+0.5_dp*surplus,vec(2),vec(2)+0.5_dp*surplus
         !end if 
-    end if !whereamI=1 or 4
+    end if !callfrom 40 or 80
     
-    if (whereamI==5) then 
-        !NOTE that when this is being called from the marriage market, the index that corresponds to altq (i.e. i) is just set to q since there is no altq in marriage market
+    if (callfrom==50) then !being called from within sol/marmkt/getdec 
+        !NOTE that when this is being called from the sol/marriage market, the index that corresponds to dd(8) altj is set to -1 and dd(9) altq (i.e. i) is just set to q since there is no altq in marriage market
 		! males: utility,wage,value func
 		a=qq2q(1,i) 
 		b=xx2x(1,x) 
@@ -240,11 +241,11 @@ contains
 	    surplus=vec(3)-vec(1)+vec(4)-vec(2)+vec(5)
         pc(1:2)	= ( vdif + eps >= 0.0_dp )	!pc(1:2)    = ( vec(3:4) - vec(1:2) >= 0.0_dp )		
         write(fnum,'("Here is q,x",2I4)') q,x
-        write(fnum,'(6x,2(tr5,"vbar"),2(tr7,"vc"),tr4,"wcsum",2(tr3,"pc"),2(tr7,"us"),2(tr7,"uc"),2(tr7,"ws"),2(tr7,"wc"),2(tr3,"pco") )' )    
-		write(fnum,'(6x,4f9.2,F9.2,2L6,8F9.2,2L6)') vec,pc,utility(1:4),wage(1:4),pco(1:2)        
+        write(fnum,'(6x,2(tr10,"vbar"),2(tr12,"vc"),tr4,"wcsum",2(tr3,"pc"),2(tr7,"us"),2(tr7,"uc"),2(tr7,"ws"),2(tr7,"wc"),2(tr3,"pco") )' )    
+		write(fnum,'(6x,4f14.2,F9.2,2L6,8F9.2,2L6)') vec,pc,utility(1:4),wage(1:4),pco(1:2)        
         write(fnum,*)
-		write(fnum,'(6x,tr4,"surpl",tr2,"sur+eps>=0.0dp",tr2,"sur>=0.0dp",tr4,"surpl",tr3,"surplo")') 
-		write(fnum,'(6x,f9.2,10x,L6,6x,L6,2F9.2)') surplus,(surplus+eps>=0.0_dp),(surplus>=0.0_dp),surplus,surpluso
+		write(fnum,'(6x,tr9,"surpl",tr2,"sur+eps>=0.0dp",tr2,"sur>=0.0dp",tr9,"surpl",tr8,"surplo")') 
+		write(fnum,'(6x,f14.2,10x,L6,6x,L6,2F14.2)') surplus,(surplus+eps>=0.0_dp),(surplus>=0.0_dp),surplus,surpluso
         !write(fnum,'(6x,2(tr9,"trans") )')         
         !write(fnum,'(6x,2F14.2)') transfers
         !if (     ( minval(transfers) + eps2) >= 0.0_dp  .and. ( minval(transfers) + epstest ) >= 0.0_dp  ) then 
@@ -259,7 +260,7 @@ contains
                                     !write(fnum,*) "ohere45"                    
                             !end if 
                         !end if 
-    end if !whereamI=5
+    end if !callfrom=50
 	!move(:) = fnmove(kid) 
 	!move( qq2l(1,q0) )= 0.0_dp
 	!if (groups) then 
@@ -299,20 +300,21 @@ contains
 	subroutine yaz_decision(dd,vmax)
 	integer(i4b), intent(in) :: dd(:)
     real(8), intent(in) :: vmax(2)
-	integer(i4b) :: q0,jmax,qmax,relmax,fnum
-    if (whereamI==1) then           !in solve/getdec_c/checknb
+	integer(i4b) :: q0,jmax,qmax,relmax,fnum,callfrom
+	callfrom=dd(7)
+    if (callfrom==40) then           !in solve/getdec_c/checknb
         fnum=200
-    else if (whereamI==5) then      !in solve/marriage market
+    else if (callfrom==50) then      !in solve/marriage market
         fnum=200
-    else if (whereamI==4) then      !in simulation/getdec_c/checknb 
+    else if (callfrom==80) then      !in simulation/getdec_c/checknb 
         fnum=400
     else 
-        print*, 'no whereamI so fnum not assigned. being called by somewhere not meant to be!'
+        print*, 'no callfrom so fnum not assigned. being called by somewhere not meant to be!'
         stop
     end if
     write(fnum,*)
     write(fnum,'(1x,"****************************************************************************************************************** ")' ) 	
-	if (whereami==1.or.whereami==4) then !whereamI=1 being called from sol couple loop, whereamI=4 called from sim rel=1
+	if (callfrom==40.or.callfrom==80) then !callfrom=40 means being called from wihtin sol/couples/getdec and callfrom=80 means being called from within simul/couples/getdec
 		q0=dd(6)
 		jmax=dd(8)
 		qmax=dd(9)	
@@ -326,7 +328,7 @@ contains
 		else if (relmax==0) then 
 			write(fnum,'(1x,"decision: get divorced",4i4)') !q0,dd(3:5)
 		end if 
-	else if (whereami==5) then !whereamI=5 called from sol mar market loop (the decision in sim mar market is written by yaz_simdecmar instead of yaz_decision!)
+	else if (callfrom==50) then !callfrom=50 means being called from withing sol/marmkt (the decision in sim mar market is written by yaz_simdecmar instead of yaz_decision!)
 		relmax=dd(10)
 		if (relmax==1) then 
 			write(fnum,'(1x,"decision: get married")') 
@@ -347,18 +349,18 @@ contains
 		write(12,'("actual data")')	
 		write(12,*)
 		do j=1,ndat
-			if (dat(24,j)%sexr>-99) then 
+			if (mod(j,500)=0.0_dp) then !in order to avoid a huge file
 			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
 			& tr3,"rel",&
 			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
 			write(12,*)
 			do ia=mnad,mxa
-				if (dat(ia,j)%sexr>-99) then 
+				!if (dat(ia,j)%sexr>-99) then 
 				write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
 				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
 				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
 				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
-				end if
+				!end if
 			write(12,*)
 			write(12,*)
 			end do
@@ -369,18 +371,18 @@ contains
 		write(12,'("simulated data")')	
 		write(12,*)
 		do j=1,ndat
-			if (dat(24,j)%sexr>-99) then 
+			if (dat(24,j)%sexr>-99).and.mod(j,1000)=0.0_dp) then !to avoid writing a huge output file 
 			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
 			& tr3,"rel",&
 			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
 			write(12,*)
 			do ia=mnad,mxa
-				if (dat(ia,j)%sexr>-99) then 
+				!if (dat(ia,j)%sexr>-99) then 
 				write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
 				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
 				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
 				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
-				end if
+				!end if
 			write(12,*)
 			write(12,*)
 			end do
@@ -797,7 +799,7 @@ contains
 	x=dd(4) 
 	z=dd(5) 
 	q0=dd(6)
-	g=dd(7) 
+	g=dd(12) 
 	!j=dd(8) 
 	if ( qq2q(1,q0)==qq2q(2,q0)  ) then 
 	do xr=1,nxs
@@ -838,33 +840,6 @@ contains
 	end if 
 	end subroutine
 	
-	SUBROUTINE yazsimtemp(dd)    
-	integer(i4b), intent(in) :: dd(:)
-	integer(i4b) :: ia,k,q,x,z,q0,g,j,altq,i
-	integer(i4b) :: a,b,c,qbar(2),kid
-	ia=dd(1) 
-	k=dd(2) ! index
-	q=dd(3) 
-	x=dd(4) 
-	z=dd(5) 
-	q0=dd(6)
-	g=dd(7) 
-	j=dd(8) ! jmax
-	i=dd(9) ! qmax
-	kid=0
-	if (whereamI==1) then 
-		write(200,'(" -------------- SOL: DIV DIV DIV DIV DIV DIV DIV : JCHO,ICHO ",2I8, "--------------")') J,I
-	else if (whereamI==4) then
-		write(200,'(" -------------- SIM: DIV DIV DIV DIV DIV DIV DIV : JCHO,ICHO ",2I8, "--------------")') J,I
-	end if 
-	!if (insol) then 
-	!	write(200,'(" -------------- SOL: MAR MAR MAR MAR MAR MAR MAR : JCHO,ICHO ",2I8, "--------------")') J,I
-	!else 	
-	!	write(200,'(" -------------- SIM: MAR MAR MAR MAR MAR MAR MAR : JCHO,ICHO ",2I8, "--------------")') J,I
-	!end if 	
-	10 FORMAT (/1x,TR5,'Q0',TR6,'X0',TR6,'IA',TR6,'IN',TR7,'Q',TR7,'X', /)
-	20 FORMAT (/1x,TR5,'Q0',TR6,'X0',TR6,'IA',TR6,'IN',2(TR6,'W0'),2(TR6,'L0'),TR9,'EMAXC',TR9,'EMAXS' /)
-	END SUBROUTINE yazsimtemp
 
 	
 end module myaz

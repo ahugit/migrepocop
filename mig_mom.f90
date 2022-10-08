@@ -164,7 +164,7 @@ end FUNCTION random
 	integer(i4b) :: p,k,imax				! for random_seed
 	real(dp) :: rand,vmax(2),logw(2),inc(2),wage(2),dum(2) !dum is just a dummy variable for yaz_checknb
 	logical  :: welldef,newrel0,meet,checkgroups,defj(nc)
-	integer(i4b) :: qmatch,xmatch,dd(11),iepskid,iepsmove,eddummy,expdummy,ww(2),ed(2),expe(2),kid(2)
+	integer(i4b) :: qmatch,xmatch,dd(12),iepskid,iepsmove,eddummy,expdummy,ww(2),ed(2),expe(2),kid(2)
 	real(dp) :: vec(5),mcost(2),surplus,surplusmax,surplusj(nc),val(2),vcheck(2),transfers(2)
 	integer(i4b) :: l0,j,jmax,qmax,relmax,de(1)
 	!integer, allocatable :: newseed(:)
@@ -262,7 +262,7 @@ end FUNCTION random
 			r=r+1
 					!sim(mna,r)%initcond=init(nn)   !co, sex, hme, endage   !ahu0115del
 
-			if (skriv.and.r==1347) then ; yaz=.TRUE.  ; else ; yaz=.FALSE. ; end if 
+			if (skriv.and.mod(r,1000)==0.0_dp) then ; yaz=.TRUE.  ; else ; yaz=.FALSE. ; end if !mod in order to avoid huge output
 
         
 		    IF (init(nn)%edr==1) THEN ! low ed, pick type based on ptypehs(co)
@@ -370,7 +370,6 @@ end FUNCTION random
                         
                     
 					if (rel0==0) then 
-                        whereamI=0
 						q = multinom( ppsq(:,q0,x0,g) , epsim(ia,r)%q ) 
 						x = multinom( ppsx(:,q0,x0)   , epsim(ia,r)%x ) 
 						meet=( epsim(ia,r)%meet<=pmeet )
@@ -383,7 +382,7 @@ end FUNCTION random
 						qmatch	= multinom( ppmeetq(:, dec(1) )	, epsim(ia,r)%meetq) 
 						xmatch	= multinom( ppmeetx(:, dec(2) )	, epsim(ia,r)%meetx) 
 						if (yaz) then 
-                            write(400,'("in simulate, rel0=0, whereamI is 0:",I4)') whereamI
+                            write(400,'("in simulate, rel0=0:",I4)') rel0
                             write(400,'("Trueindex:",I4)') trueindex
 						    write(400,'("Draws epsimq,epsimx,empsimmarie:",3F10.2)')  epsim(ia,r)%q, epsim(ia,r)%x, epsim(ia,r)%marie
 						    write(400,'("Draws q,x,z:",3I10)')  q,x,z
@@ -401,8 +400,8 @@ end FUNCTION random
 								qnext=dec(1) ; xnext=dec(2)
 							end if 
 						    if (yaz) then 
-                                write(400,'("HERE IS DECMAR:",6I8)') z,q,x,ia,index,dec_mar(z,x,q,ia,index)
-							    write(400,'("Decision At Mar Mkt:")') ;  call yaz_simdecmar(relnext)
+                                write(400,'("here is decmar:",6I8)') z,q,x,ia,index,dec_mar(z,x,q,ia,index)
+							    write(400,'("decision at mar mkt:")') ;  call yaz_simdecmar(relnext)
 						    end if      !!!                   
                         end if !meet      
 					else if (rel0==1) then 
@@ -413,22 +412,21 @@ end FUNCTION random
                         if (yaz) then 
                             write(400,*) 
                             write(400,*) 
-                            write(400,'("in simulate, rel0=1, whereamI is 4:",I4)') whereamI
+                            write(400,'("in simulate, rel0=1:",I4)') rel0
                             write(400,'("Trueindex:",I4)') trueindex
 						    write(400,'("Draws epsimq,epsimx,empsimmarie:",3F10.2)')  epsim(ia,r)%q, epsim(ia,r)%x, epsim(ia,r)%marie
 						    write(400,'("Draws q,x,z:",3I10)')  q,x,z
 						    write(400,'("Draws:")') ; call yaz_sim(g,rel0,q,x)
 						end if                         
-						!AG090122 AGSEPT2022 dd=(/ ia,trueindex,q,x,z,q0,g,-1,-1,-1,iepsmove /)			    ! (/ ia,index,q,x,z,q0,g,jmax,qmax,relmax /)  							                        
-                        !ag090122 agsept2022 call getdec_c(dd,vmax)					            ! jmax=dd(8) ; qmax=dd(9) ; relmax=dd(10)   
                         valso=pen !ag090122 agsept2022
+						!callfrom is for telling getdec and therefore yaz_getdec where we are when yaz_getdec is called from within getdec
+                        !(if skriv and yaz true) when callfrom=80 then within getdec, I call yaz_getdec to write in 400 the altspecific value functions and bargaining stuff
+                        !in getdec when callfrom is 40 or 80, then dd(8) altj and dd(9) altq are filled in within the choice loop 
                         callfrom=80 !ag090122 agsept2022
-                        dd = (/ia,trueindex,q,x,z,q0,callfrom,-1,-1,-1,iepsmove /) 	! (/ ia,index,q,x,z,q0,gender/callfrom,jmax,qmax,relmax,iepsmove /)  	                                        
-						!whereamI is for telling yaz where we are when yaz_getdec is called from within getdec
-                        !when whereamI=4 then within getdec, I call yaz_getdec (if skriv and yaz true) to write in 400 the altspecific value functions and bargaining stuff
-                        whereami=4	; call getdec(dd,vmax,valso)  
+                        dd = (/ia,trueindex,q,x,z,q0,callfrom,-1,-1,-1,iepsmove,g /) 	! (/ ia,index,q,x,z,q0,callfrom,altj,altq,relmax,iepsmove,gender /)  	  
+                        call getdec(dd,vmax,valso)  
                         relnext=dd(10)
-						whereamI=4 ; if (yaz) then ; call yaz_decision(dd,vmax) ; end if	    ! write down decision     
+						if (yaz) then ; call yaz_decision(dd,vmax) ; end if	    !callrom tells yaz_decision where we are    
 						if (relnext==1) then 
 							qnext=dd(9) ; xnext=dd(4) 
 						else if (relnext==0) then 
