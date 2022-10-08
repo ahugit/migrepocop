@@ -349,7 +349,7 @@ contains
 		write(12,'("actual data")')	
 		write(12,*)
 		do j=1,ndat
-			if (mod(j,500)=0.0_dp) then !in order to avoid a huge file
+			if (mod(j,500)==0.0_dp) then !in order to avoid a huge file
 			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
 			& tr3,"rel",&
 			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
@@ -371,7 +371,7 @@ contains
 		write(12,'("simulated data")')	
 		write(12,*)
 		do j=1,ndat
-			if (dat(24,j)%sexr>-99).and.mod(j,1000)=0.0_dp) then !to avoid writing a huge output file 
+			if (dat(24,j)%sexr>-99.and.mod(j,1000)==0.0_dp) then !to avoid writing a huge output file 
 			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
 			& tr3,"rel",&
 			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
