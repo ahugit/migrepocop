@@ -116,11 +116,11 @@ contains
 		a=qq2q(1,q) 
 		b=xx2x(1,x) 
 		c=qq2q(1,q0)
-		qbar(1) = decm0_s(iepsmove,a,b,c,ia,index)
+		qbar(1) = decm0_s(iepsmove,b,a,c,ia,index)
 		a=qq2q(2,q) 
 		b=xx2x(2,x) 
 		c=qq2q(2,q0)		
-		qbar(2) = decf0_s(iepsmove,a,b,c,ia,index)
+		qbar(2) = decf0_s(iepsmove,b,a,c,ia,index)
 		write(fnum,'(3x,"qbar",2i8)') qbar(1),qbar(2)
         write(fnum,'(3x,"outside opt",7i8)') q2qq(qbar(1),qbar(2)),qbar(1),q2w(qbar(1)),q2l(qbar(1)),qbar(2),q2w(qbar(2)),q2l(qbar(2))
         !if (def) tmp(1) = (  ( vsum(1) - vec(1) )**0.5_dp ) * (  ( vsum(2) - vec(2) )**0.5_dp ) 
@@ -128,17 +128,17 @@ contains
 		! males: utility,wage,value func
 		a=qq2q(1,i) 
 		b=xx2x(1,x) 
-		utility(1) = utils(1,a,b,trueindex) !utilm_s()
-		utility(3) = utilc(1,i,x,trueindex) !utilm_c(i,x)
-		wage(1)=ws(1,a,b,trueindex)    !wm_s(a,b)
-        wage(3)=wc(1,i,x,trueindex)
+		utility(1) = utils(1,b,a,trueindex) !utilm_s()
+		utility(3) = utilc(1,x,i,trueindex) !utilm_c(i,x)
+		wage(1)=ws(1,b,a,trueindex)    !wm_s(a,b)
+        wage(3)=wc(1,x,i,trueindex)
 		! females: utility,wage,value func
 		a=qq2q(2,i) 
 		b=xx2x(2,x) 
-		utility(2) = utils(2,a,b,trueindex)
-		utility(4) = utilc(2,i,x,trueindex)
-		wage(2)=ws(2,a,b,trueindex)    !wf_s(a,b)
-        wage(4)=wc(2,i,x,trueindex)
+		utility(2) = utils(2,b,a,trueindex)
+		utility(4) = utilc(2,x,i,trueindex)
+		wage(2)=ws(2,b,a,trueindex)    !wf_s(a,b)
+        wage(4)=wc(2,x,i,trueindex)
         if (wage(3)+wage(4) - vec(5) > 0.0_dp ) then
             print*, 'sum of wage3 and wage4 not equal to vec5!'
             stop
@@ -224,17 +224,17 @@ contains
 		! males: utility,wage,value func
 		a=qq2q(1,i) 
 		b=xx2x(1,x) 
-		utility(1) = utils(1,a,b,trueindex) !utilm_s()
-		utility(3) = utilc(1,i,x,trueindex) !utilm_c(i,x)
-		wage(1)=ws(1,a,b,trueindex)    !wm_s(a,b)
-        wage(3)=wc(1,i,x,trueindex)
+		utility(1) = utils(1,b,a,trueindex) !utilm_s()
+		utility(3) = utilc(1,x,i,trueindex) !utilm_c(i,x)
+		wage(1)=ws(1,b,a,trueindex)    !wm_s(a,b)
+        wage(3)=wc(1,x,i,trueindex)
         ! females: utility,wage,value func
 		a=qq2q(2,i) 
 		b=xx2x(2,x) 
-		utility(2) = utils(2,a,b,trueindex)
-		utility(4) = utilc(2,i,x,trueindex)
-		wage(2)=ws(2,a,b,trueindex)    !wf_s(a,b)
-        wage(4)=wc(2,i,x,trueindex)        
+		utility(2) = utils(2,b,a,trueindex)
+		utility(4) = utilc(2,x,i,trueindex)
+		wage(2)=ws(2,b,a,trueindex)    !wf_s(a,b)
+        wage(4)=wc(2,x,i,trueindex)        
         !vdif = vec(3:4) + mg( dd(5) ) - vec(1:2) 	! dd(5) is z
 		vdif = vec(3:4) - vec(1:2) 	
 	    surplus=vec(3)-vec(1)+vec(4)-vec(2)+vec(5)
@@ -343,26 +343,50 @@ contains
 	type(statevar), dimension(mnad:mxa,ndat), intent(in) :: dat ! data set. first entry is ia index, second observation number
 	integer :: ia,j
 	write(12,*)
-	if (ndat==ndata) then
-		write(12,'("actual data")')			
-	else if (ndat==nsim) then 		
-		write(12,'("simulated data")')	
-	end if 
+	if (ndat==ndata) then 		
+		write(12,'("actual data")')	
 		write(12,*)
-		do j=1,100
-			write(12,'(tr6,"id",tr1,"age",tr2,"co",tr1,"sexr",&
-			& tr1,"rel",tr1,"kid",tr1,"edr",&
-			& tr1,"loc",tr1,"mxa",tr1,"mis",tr1,"hme",2(tr1,"emp"),2(tr5,"logw"),tr1,"lsp" )')	
+		do j=1,ndat
+			if (dat(24,j)%sexr>-99) then 
+			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
+			& tr3,"rel",&
+			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
 			write(12,*)
-			do ia=mna,mxa
-				write(12,'(i8,12i4,2f9.2,i4)') j,&
-				& ia,dat(ia,j)%co,dat(ia,j)%sexr,dat(ia,j)%rel,dat(ia,j)%kidr,dat(ia,j)%edr,&
+			do ia=mnad,mxa
+				if (dat(ia,j)%sexr>-99) then 
+				write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
+				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
 				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
 				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
+				end if
 			write(12,*)
 			write(12,*)
 			end do
+			end if 
 		end do
+	end if 
+	if (ndat==nsim) then 		
+		write(12,'("simulated data")')	
+		write(12,*)
+		do j=1,ndat
+			if (dat(24,j)%sexr>-99) then 
+			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
+			& tr3,"rel",&
+			& tr3,"loc",tr3,"mxa",tr3,"mis",tr3,"hme",tr3,"hhr",tr3,"hsp",tr4,"logwr",tr3,"logwsp",tr3,"lsp" )')	
+			write(12,*)
+			do ia=mnad,mxa
+				if (dat(ia,j)%sexr>-99) then 
+				write(12,'(i8,4i6,f9.2,9i6,2f9.2,i6)') j,&
+				& ia,dat(ia,j)%sexr,dat(ia,j)%expr,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%kidr,dat(ia,j)%edr,dat(ia,j)%rel,&
+				& dat(ia,j)%l,dat(ia,j)%endage,dat(ia,j)%nomiss,dat(ia,j)%hme,&
+				& dat(ia,j)%hhr,dat(ia,j)%hhsp,dat(ia,j)%logwr,dat(ia,j)%logwsp,dat(ia,j)%lsp
+				end if
+			write(12,*)
+			write(12,*)
+			end do
+			end if 
+		end do
+	end if 
 	end subroutine yaz_getmom
 
 	subroutine yaz_sim(gender,rel,q,x)
@@ -479,15 +503,20 @@ contains
 		write(50, '(1x,"not wrking (w=np1)",tr10,"m/hs",14x,tr9,"m/col",14x,tr10,"f/hs",14x,tr9,"f/col",14x )') 
 		write(50,'(19x,f14.3,14x,f14.3,14x,f14.3,14x,f14.3,14x )') psio(9:12)	
 		write(50,'(/," probabilities: ")') 
-		do n=1,neduc		!ed
+		!do n=1,neduc		!ed
 			do g=1,2	!sex
 				write(50, '(1x,tr4,"sex",tr6,"ed",4x,"wrking (w<=np)",4x,tr5,"pr(offer)",tr4,"pr(layoff)",tr3,"pr(nothing)" )' ) 
-				write(50,'(2i8,22x,3(f14.3) )') g,n,fnprof(np,n,g)	
+				write(50,'(2i8,22x,3(f14.3) )') g,5,fnprof(np,5,g)	
 				write(50, '(20x,"not wrking (w=np1)",2x,tr5,"pr(offer)",tr4,"pr(layoff)",tr3,"pr(nothing)" )' ) 
-				write(50,'(38x,3(f14.3) )') fnprof(np1,n,g)	
+				write(50,'(38x,3(f14.3) )') fnprof(np1,5,g)	
+				write(50,*) 
+				write(50, '(1x,tr4,"sex",tr6,"ed",4x,"wrking (w<=np)",4x,tr5,"pr(offer)",tr4,"pr(layoff)",tr3,"pr(nothing)" )' ) 
+				write(50,'(2i8,22x,3(f14.3) )') g,10,fnprof(np,10,g)	
+				write(50, '(20x,"not wrking (w=np1)",2x,tr5,"pr(offer)",tr4,"pr(layoff)",tr3,"pr(nothing)" )' ) 
+				write(50,'(38x,3(f14.3) )') fnprof(np1,10,g)	
 				write(50,*) 
 			end do 
-		end do 
+		!end do 
 		write(50,'(/," ---------------- fnprloc parameters ---------------- ")') 
 		!write(50,'(/,"iter psil(1) psil(2) psil(3) ",i6,f14.3)') iter,psil(:)
 		write(50, '(/,6x,tr12,"ne",tr12,"ma",tr11,"enc",tr11,"wnc",tr12,"sa",tr11,"esc",tr11,"wsc",tr9,"mount",tr11,"pac" )' ) 
@@ -515,7 +544,7 @@ contains
         do n=1,np1
         do i=1,nexp
 				if (n==1.or.n==np1) then
-					write(50,'(2i8,4f14.3)') n,i,fnprhc(i,n)
+					write(50,*) n,i,fnprhc(i,n)
 					write(50,*) 
 				end if 
 			end do 
@@ -724,16 +753,16 @@ contains
 			do q=1,nqs	
                 do iepsmove=1,nepsmove
 				if (q2w(q0)<=np1) then 
-					j=decm_s(iepsmove,q,x,q0,age,index)
+					j=decm_s(iepsmove,x,q,q0,age,index)
 					emp_m(1)=emp_m(1)+1 
 					emp_m(2)=emp_m(2)+one(j<=np)
 					!write(300,'(tr2,"in",tr1,"age",tr3,"x",tr4,"q0",tr5,"q",tr3,"dec",tr4,"w0",tr5,"w",tr3,"dec",tr4,"l0",tr5,"l",tr3,"dec",tr6,"emax")')
 					!write(300,'(3i4,9i6,f10.2)') index,age,x,q0,q,j,q2w(q0),q2w(q),q2w(j),q2l(q0),q2l(q),q2l(j),emaxm_s(q,x,age)
-					j=decf_s(iepsmove,q,x,q0,age,index)
+					j=decf_s(iepsmove,x,q,q0,age,index)
 					emp_f(1)=emp_f(1)+1 
 					emp_f(2)=emp_f(2)+one(j<=np)
 					!write(300,'(3i4,9i6,f10.2)') index,age,x,q0,q,j,q2w(q0),q2w(q),q2w(j),q2l(q0),q2l(q),q2l(j),emaxf_s(q,x,age)
-					if (icheck_eqvmvf .and. decm_s(iepsmove,q,x,q0,age,index)/=decf_s(iepsmove,q,x,q0,age,index)) then 
+					if (icheck_eqvmvf .and. decm_s(iepsmove,x,q,q0,age,index)/=decf_s(iepsmove,x,q,q0,age,index)) then 
 						print*, "decsingle not equal! " 
 						stop 
 					end if 

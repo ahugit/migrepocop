@@ -13,7 +13,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=1
+    integer(i4b), parameter :: numit=3
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.false.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.true.
@@ -56,7 +56,7 @@
 	integer(i4b), parameter :: ndata    = 5233 !5390 !2386   
 	integer(i4b), parameter :: ndataobs = 84507 !86873 !41494  
 	integer(i4b), parameter :: nsim     = ndata*nsimeach  
-	integer(i4b), parameter :: nmom     = 1200 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 1500 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	
@@ -196,9 +196,9 @@ contains
 	realpar(j)=min2pls(par(j))      ; parname(j)='ro'	; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	ro=realpar(j)                   ; j=j+1
 
-	realpar(j)=logit(par(j))               ; parname(j)='psih(1)' ; stepos(j)=1.0_dp !ahu jan19 011719 changing to logit
+	realpar(j)=par(j)               ; parname(j)='psih(1)' ; stepos(j)=1.0_dp !ahu jan19 011719 changing to logit
 	psih(1)=realpar(j)	            ; j=j+1
-	realpar(j)=logit(par(j))               ; parname(j)='psih(2)' ; stepos(j)=0.0_dp !ahu jan19 011719 changing to logit
+	realpar(j)=0.0_dp               ; parname(j)='psih(2)' ; stepos(j)=0.0_dp !ahu jan19 011719 changing to logit
 	psih(2)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='psih(3)' ; stepos(j)=0.0_dp !ahu jan19 011519 getting rid of probdown
 	psih(3)=realpar(j)	            ; j=j+1

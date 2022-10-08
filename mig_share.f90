@@ -973,45 +973,46 @@ contains
 	end do 
 	if ( abs(  sum(fnprloc) - 1.0_dp  ) > eps) then ; print*, "error in getfnprloc : offer does not add up " , sum(fnprloc) ; stop ; end if 
 	end function fnprloc
-
+	
 	function fnprhc(dr,dw)
-	integer(i4b), intent(in) :: dr,dw		! experience and employment: w<=np work, w==np1 not work,  w=np2 nothing/can't be a state variable here so if you get this, there's something wrong
-	real(dp), dimension(nexp) :: fnprhc
-	integer(i4b) :: j
-	if (skriv) then 
-		if ( dw > np1 ) then ; print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " ; stop ; end if 
-	end if 
-	fnprhc=0.0_dp
-	do j=1,nexp	
-		if ( dw <= np ) then 
-			if ( j-dr == +1 ) then  
-				fnprhc(j)= psih(1)   !ahu jan19 011719 changing to logit
-            else if (j==dr) then 
-				fnprhc(j)=1.0_dp-psih(1)      !exp(0.0_dp)   !ahu jan19 011719 changing to logit
-			!else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
-			!	fnprhc(j)=exp(  psih(1)   )
-			else 
-				fnprhc(j) = 0.0_dp
-			end if 
-		else if ( dw == np1 ) then 
-			if ( j-dr == +1 ) then  
-				fnprhc(j)=psih(2)    !ahu jan19 011719 changing to logit
-            else if (j==dr) then 
-				fnprhc(j)=1.0_dp-psih(2)      !exp(0.0_dp)   !ahu jan19 011719 changing to logit
-			!else if ( j-dr == -1 ) then  ahu jan19 011519 getting rid of probdown
-		    !		fnprhc(j)=exp(  psih(3)   )
-			else 
-				fnprhc(j) = 0.0_dp
-			end if 
-		end if 
-	end do 	
-	fnprhc(:)=fnprhc(:)/sum(fnprhc)
-    !print*, dr,fnprhc(:)
-    
-	if (skriv) then 
-		if ( abs(sum(fnprhc(:))-1.0_dp) > eps ) then ; print*, " error in fnprhc: prhc does not add up " , dw , sum(fnprhc(:)) ; stop ; end if 
-	end if 
-	end function fnprhc
+        integer(i4b), intent(in) :: dr,dw		! experience and employment: w<=np work, w==np1 not work,  w=np2 nothing/can't be a state variable here so if you get this, there's something wrong
+        real(dp), dimension(nexp) :: fnprhc
+        integer(i4b) :: j
+        if (skriv) then 
+            if ( dw > np1 ) then ; print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " ; stop ; end if 
+        end if 
+        !ahu october2022: note that when j=nexp, there will be no j such that j-dr=+1, so fnprhc(nexp) will be 1/0+1+1 = 1 and all other fnprhc(j)'s are 0. 
+        fnprhc=0.0_dp
+        do j=1,nexp	
+            if ( dw <= np ) then 
+                if ( j-dr == +1 ) then  
+                    fnprhc(j)=exp(psih(1))   !ahu jan19 011719 changing to logit
+                else if (j==dr) then 
+                    fnprhc(j)=exp(0.0_dp)   !ahu jan19 011719 changing to logit
+                else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
+                    fnprhc(j)=0.0_dp
+                else 
+                    fnprhc(j)=0.0_dp
+                end if 
+            else if ( dw == np1 ) then !ahu october2022 no exp increase or decrease if unemp. so j such that j=dr is 1/0+1+0 =1 and all other fnprhc(j)'s are 0. 
+                if ( j-dr == +1 ) then  
+                    fnprhc(j)= 0.0_dp    !ahu jan19 011719 changing to logit
+                else if (j==dr) then 
+                    fnprhc(j)=exp(0.0_dp)      !exp(0.0_dp)   !ahu jan19 011719 changing to logit
+                else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
+                    fnprhc(j)= 0.0_dp
+                else 
+                    fnprhc(j) = 0.0_dp
+                end if 
+            end if 
+        end do 	
+        fnprhc(:)=fnprhc(:)/sum(fnprhc)
+        !print*, dr,fnprhc(:)
+        
+        if (skriv) then 
+            if ( abs(sum(fnprhc(:))-1.0_dp) > eps ) then ; print*, " error in fnprhc: prhc does not add up " , dw , sum(fnprhc(:)) ; stop ; end if 
+        end if 
+        end function fnprhc
 
 	!function fnprkid(kid0)
 	!integer(i4b), intent(in) :: kid0
