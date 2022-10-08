@@ -147,7 +147,7 @@ contains
 	subroutine getppsq
 	! calculates transition probs between q0 and q. getgauss needs to be called before this as you need wgt
 	integer(i4b) :: g,n,i,j,e,r,w,l,w0,l0
-	real(dp):: prof(3),prloc(nl),dum(np2,nl),proftemp(3)
+	real(dp):: prof(3),prloc(nl),dum(np2,nl)
 	ppsq=0.0_dp 
 	sex: do g=1,2					! sex
 		x0: do n=1,nxs				! x0
@@ -174,7 +174,7 @@ contains
 
                         !ahu jan19 011219: no on the job seearch since not identified
                         !if (onthejobsearch ) then 
-                        proftemp=prof
+                        !proftemp=prof
                         !else
                         !    if (q2w(i)<=np ) then           !if working
                         !        if (q2l(j)==q2l(i) ) then   !and the offer is from curloc
@@ -189,11 +189,11 @@ contains
                         !ahu jan19 011219: no on the job seearch since not identified
                         
 						if	( w <= np ) then 
-							dum(w,l) = prloc(l) * proftemp(1) * wgt(w)  !ahu jan19 011219:
+							dum(w,l) = prloc(l) * prof1) * wgt(w)  !ahu jan19 011219:
 						else if ( w == np1 ) then 
-							dum(w,l) = prloc(l) * proftemp(2)           !ahu jan19 011219:
+							dum(w,l) = prloc(l) * prof(2)           !ahu jan19 011219:
 						else if ( w == np2 ) then 
-							dum(w,l) = prloc(l) * proftemp(3)           !ahu jan19 011219:
+							dum(w,l) = prloc(l) * prof(3)           !ahu jan19 011219:
 						end if 				
                         ppsq(j,i,n,g) = dum(w,l) !ahu040917 prob changes 
 					end do q 
@@ -234,7 +234,7 @@ contains
 	subroutine getppcq
 	integer(i4b) :: n,i,j,ns(2),is(2),js(2)
     integer(i4b) :: w0(2),l0(2),w(2),l(2),e0(2)
-    real(dp) :: profm(3),proff(3),prloc(nl),profmtemp(3),profftemp(3)
+    real(dp) :: profm(3),proff(3),prloc(nl)
     
     !ahu 040917 prob changes: 
 	ppcq=0.0_dp 	
@@ -273,8 +273,8 @@ contains
 
                     !ahu jan19 011219: no on the job seearch since not identified
                     !if (onthejobsearch ) then
-                    profmtemp=profm
-                    profftemp=proff
+                    !profmtemp=profm
+                    !profftemp=proff
                     !else
                     !    if ( w0(1) <=np ) then           !if working
                     !        if (l(1)==l0(1) ) then       !and the offer is from curloc
@@ -299,26 +299,26 @@ contains
 
                     if (l(1).ne.l(2)) then ; print*, 'l not equal' ; stop ; end if 
                     
-                    if	( w(1) <= np .and. w(2)<=np ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(1) * wgt(w(1)) * profftemp(1) * wgt(w(2))
-                    else if	( w(1) <= np .and. w(2)==np1 ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(1) * wgt(w(1)) * profftemp(2)
-                    else if	( w(1) <= np .and. w(2)==np2 ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(1) * wgt(w(1)) * profftemp(3)
+                    if	( w(1) <= np .and. w(2)<=np ) then !both get offer
+					    ppcq(j,i,n) = prloc(l(1)) * profm(1) * wgt(w(1)) * proff(1) * wgt(w(2))
+                    else if	( w(1) <= np .and. w(2)==np1 ) then !he gets offer, she gets laid off
+					    ppcq(j,i,n) = prloc(l(1)) * profm(1) * wgt(w(1)) * proff(2)
+                    else if	( w(1) <= np .and. w(2)==np2 ) then !he gets offer, nothing happens for her
+					    ppcq(j,i,n) = prloc(l(1)) * profm(1) * wgt(w(1)) * proff(3)
                         
                     else if	( w(1) == np1 .and. w(2)<=np ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(2) * profftemp(1) * wgt(w(2))
+					    ppcq(j,i,n) = prloc(l(1)) * profm(2) * proff(1) * wgt(w(2))
                     else if ( w(1) == np1 .and. w(2)==np1 ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(2) * profftemp(2) 
+					    ppcq(j,i,n) = prloc(l(1)) * profm(2) * proff(2) 
                     else if ( w(1) == np1 .and. w(2)==np2 ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(2) * profftemp(3) 
+					    ppcq(j,i,n) = prloc(l(1)) * profm(2) * proff(3) 
                     
                     else if	( w(1) == np2 .and. w(2)<=np ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(3) * profftemp(1) * wgt(w(2))
+					    ppcq(j,i,n) = prloc(l(1)) * profm(3) * proff(1) * wgt(w(2))
                     else if ( w(1) == np2 .and. w(2)==np1 ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(3) * profftemp(2) 
+					    ppcq(j,i,n) = prloc(l(1)) * profm(3) * proff(2) 
                     else if ( w(1) == np2 .and. w(2)==np2 ) then 
-					    ppcq(j,i,n) = prloc(l(1)) * profmtemp(3) * profftemp(3) 
+					    ppcq(j,i,n) = prloc(l(1)) * profm(3) * proff(3) 
                     end if 		
                     
                 end do q          
@@ -367,51 +367,6 @@ contains
 		end do 
 	end do 	
 	!if (skriv) print*, "done with getppcq "
-
-     !IF YOU WANT TO WRITE ALL THE BELOW, YOU HAVE TO COMMENT OUT THE OBJF PART WHERE IT SAYS IF ITER>1 SKRIV=.FALSE.
-    if (skriv.and.iter==1) then 
-        open(unit=99991, file='chkfnprof1.txt',status='replace')
-    else if (skriv.and.iter==2) then
-        open(unit=99991, file='chkfnprof2.txt',status='replace')
-    else if (skriv.and.iter==3) then
-        open(unit=99991, file='chkfnprof3.txt',status='replace')
-    else if (skriv.and.iter==4) then
-        open(unit=99991, file='chkfnprof4.txt',status='replace')
-    else if (skriv.and.iter==5) then
-        open(unit=99991, file='chkfnprof5.txt',status='replace')
-    end if 
-    if (skriv) then
-        write(99991,'("Offer Employed:")') 
-        write(99991,'("Males:")') 
-        write(99991,'(15x,5x,"Get offer",5x,"Get ldoff",8x,"Nthing")') 
-        write(99991,'("Not Educ",7x,3F14.6)') psio(1:2),zero  !fnprof(dw0,de,dsex) 
-        write(99991,'("Not Educ",7x,3F14.6)') fnprof(1,1,1)  !fnprof(dw0,de,dsex) 
-        write(99991,'("    Educ",7x,3F14.6)') psio(3:4),zero  !fnprof(dw0,de,dsex) 
-        write(99991,'("    Educ",7x,3F14.6)') fnprof(1,2,1)  !fnprof(dw0,de,dsex) 
-        write(99991,'("Females:")') 
-        write(99991,'(15x,5x,"Get offer",5x,"Get ldoff",8x,"Nthing")') 
-        write(99991,'("Not Educ",7x,3F14.6)') psio(5:6),zero  !fnprof(dw0,de,dsex) 
-        write(99991,'("Not Educ",7x,3F14.6)') fnprof(1,1,2)  !fnprof(dw0,de,dsex) 
-        write(99991,'("    Educ",7x,3F14.6)') psio(7:8),zero  !fnprof(dw0,de,dsex) 
-        write(99991,'("    Educ",7x,3F14.6)') fnprof(1,2,2)  !fnprof(dw0,de,dsex) 
-        write(99991,*) 
-        write(99991,*) 
-        write(99991,'("Offer Unemployed:")') 
-        write(99991,'("Males:")') 
-        write(99991,'(15x,5x,"Get offer",8x,"Nthing",8x,"Nthing")') 
-        write(99991,'("Not Educ",7x,3F14.6)') psio(9),zero,zero  !fnprof(dw0,de,dsex) 
-        write(99991,'("Not Educ",7x,3F14.6)') fnprof(np1,1,1)  !fnprof(dw0,de,dsex) 
-        write(99991,'("    Educ",7x,3F14.6)') psio(10),zero,zero  !fnprof(dw0,de,dsex) 
-        write(99991,'("    Educ",7x,3F14.6)') fnprof(np1,2,1)  !fnprof(dw0,de,dsex) 
-        write(99991,'("Females:")') 
-        write(99991,'(15x,5x,"Get offer",8x,"Nthing",8x,"Nthing")') 
-        write(99991,'("Not Educ",7x,3F14.6)') psio(11),zero,zero  !fnprof(dw0,de,dsex) 
-        write(99991,'("Not Educ",7x,3F14.6)') fnprof(np1,1,2)  !fnprof(dw0,de,dsex) 
-        write(99991,'("    Educ",7x,3F14.6)') psio(12),zero,zero  !fnprof(dw0,de,dsex) 
-        write(99991,'("    Educ",7x,3F14.6)') fnprof(np1,2,2)  !fnprof(dw0,de,dsex) 
-        close(99991) 
-    end if 
-
 	end subroutine getppcq
 
 	subroutine getppsx
@@ -793,14 +748,7 @@ contains
     !moveshock_f=0.0_dp
 	!if (iwritegen==1) print*, "moveshock_m ", moveshock_m(:)
 	!if (iwritegen==1) print*, "moveshock_f ", moveshock_f(:)
-	
-
-    
-
-    
-    
-     if (skriv) print*, 'here is wgt3',ppso,sum(ppso)
-    
+     if (skriv) print*, 'here is wgt3',ppso,sum(ppso)    
     end subroutine getgauss
 	
 	subroutine getppmeet
@@ -896,149 +844,6 @@ contains
 	!write(*,'(/1x,a,f12.6,a,f12.6)') 'check value:',expval,'  should be:', dum
 	end subroutine checkgauss
 
-	function fnwge(dg,dtyp,dl,dw,de,dr)						
-	integer(i4b), intent(in) :: dg,dtyp,dl,de,dr						! gender,typ,location,education,experience
-	real(dp), intent(in) :: dw								! wage draw
-	real(dp) :: fnwge
-	if (dg==1) then 
-		fnwge=exp(alf1t(dtyp)+alf10(dl)+alf11*one(de==2) + alf12*(dr-1) + alf13*((dr-1)**2) + dw ) 
-	else if (dg==2) then 
-		fnwge=exp(alf2t(dtyp)+alf20(dl)+alf21*one(de==2) + alf22*(dr-1) + alf23*((dr-1)**2) + dw ) 
-	end if 
-	end function fnwge
-
-	function fnprof(dw0,de,dsex)
-	integer(i4b), intent(in) :: dw0,de,dsex
-	real(dp), dimension(3) :: fnprof
-	fnprof=0.0_dp
-	if ( dw0 <= np ) then 
-		if ( de==5 .and. dsex==1 ) then 
-			fnprof(1:2)=exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
-		else if ( de==10 .and. dsex==1 ) then 
-			fnprof(1:2)=exp(psio(3:4)) 
-		else if ( de==5 .and. dsex==2 ) then 
-			fnprof(1:2)=exp(psio(5:6)) 
-		else if ( de==10 .and. dsex==2 ) then 
-			fnprof(1:2)=exp(psio(7:8)) 
-		end if 
-		fnprof(3)=exp( 0.0_dp )		! nothing happens												
-	else if (dw0 == np1) then 
-		if ( de==5 .and. dsex==1 ) then 
-			fnprof(1)=exp(psio(9)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
-		else if ( de==10 .and. dsex==1 ) then 
-			fnprof(1)=exp(psio(10) )
-		else if ( de==5 .and. dsex==2 ) then 
-			fnprof(1)=exp(psio(11)) 
-		else if ( de==10 .and. dsex==2 ) then 
-			fnprof(1)=exp(psio(12)) 
-		end if 
-		fnprof(2)=0.0_dp		! 0 since you can't get laid off if you don't have a job! 
-		fnprof(3)=exp(0.0_dp)		! nothing happens												
-	else  
-		print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " , dw0,de,dsex
-		stop
-	end if 
-	fnprof(1:3)=fnprof/sum(fnprof)
-	!fnprof=0.0_dp
-	!fnprof(1)=1.0_dp						
-	if (skriv) then 
-		if ( abs(  sum(fnprof) - 1.0_dp  ) > eps) then ; print*, "error in getfnprof : offer does not add up " , sum(fnprof) ; stop ; end if 
-	end if 
-	end function fnprof
-
-
-    
-    
-	function fnprloc(orig)
-	integer(i4b), intent(in) :: orig		! origin location
-	real(dp), dimension(nl) :: fnprloc
-	integer(i4b) :: j
-	real(dp), dimension(nl) :: temp
-    fnprloc=0.0_dp
-    temp=0.0_dp
-	!ahu 030717 fnprloc(orig)=logit(psil(1)) !ahu 030717: putting psil(1) inside the exp instead because otherwise very high prloc from origin and low from others and 
-                                             !            we get very low moving rates especially for married people. 
-	do j=1,nl	
-		!ahu 030717 if (j /= orig) then 
-		!ahu 030717 	fnprloc(j)= exp( psil(2) * distance(j,orig) + psil(3) * popsize(j) ) 
-		!ahu 030717 	sum_sans_orig = sum_sans_orig + fnprloc(j) 
-		!ahu 030717 end if 
-		temp(j)= exp( psil(1) * one(j==orig) )   ! + psil(2) * distance(j,orig) )    !+ psil(3) * popsize(j) ) 
-    end do 
-	do j=1,nl	
-		!ahu 030717 if (j /= orig) then 
-		!ahu 030717 	fnprloc(j)=(1.0_dp-fnprloc(orig) ) * fnprloc(j)/sum_sans_orig
-		!ahu 030717 end if 
-        fnprloc(j)=temp(j)/sum(temp(:))
-	end do 
-	if ( abs(  sum(fnprloc) - 1.0_dp  ) > eps) then ; print*, "error in getfnprloc : offer does not add up " , sum(fnprloc) ; stop ; end if 
-	end function fnprloc
-	
-	function fnprhc(dr,dw)
-        integer(i4b), intent(in) :: dr,dw		! experience and employment: w<=np work, w==np1 not work,  w=np2 nothing/can't be a state variable here so if you get this, there's something wrong
-        real(dp), dimension(nexp) :: fnprhc
-        integer(i4b) :: j
-        if (skriv) then 
-            if ( dw > np1 ) then ; print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " ; stop ; end if 
-        end if 
-        !ahu october2022: note that when j=nexp, there will be no j such that j-dr=+1, so fnprhc(nexp) will be 1/0+1+1 = 1 and all other fnprhc(j)'s are 0. 
-        fnprhc=0.0_dp
-        do j=1,nexp	
-            if ( dw <= np ) then 
-                if ( j-dr == +1 ) then  
-                    fnprhc(j)=exp(psih(1))   !ahu jan19 011719 changing to logit
-                else if (j==dr) then 
-                    fnprhc(j)=exp(0.0_dp)   !ahu jan19 011719 changing to logit
-                else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
-                    fnprhc(j)=0.0_dp
-                else 
-                    fnprhc(j)=0.0_dp
-                end if 
-            else if ( dw == np1 ) then !ahu october2022 no exp increase or decrease if unemp. so j such that j=dr is 1/0+1+0 =1 and all other fnprhc(j)'s are 0. 
-                if ( j-dr == +1 ) then  
-                    fnprhc(j)= 0.0_dp    !ahu jan19 011719 changing to logit
-                else if (j==dr) then 
-                    fnprhc(j)=exp(0.0_dp)      !exp(0.0_dp)   !ahu jan19 011719 changing to logit
-                else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
-                    fnprhc(j)= 0.0_dp
-                else 
-                    fnprhc(j) = 0.0_dp
-                end if 
-            end if 
-        end do 	
-        fnprhc(:)=fnprhc(:)/sum(fnprhc)
-        !print*, dr,fnprhc(:)
-        
-        if (skriv) then 
-            if ( abs(sum(fnprhc(:))-1.0_dp) > eps ) then ; print*, " error in fnprhc: prhc does not add up " , dw , sum(fnprhc(:)) ; stop ; end if 
-        end if 
-        end function fnprhc
-
-	!function fnprkid(kid0)
-	!integer(i4b), intent(in) :: kid0
-	!real(dp), dimension(0:maxkid) :: fnprkid
-	!integer(i4b) :: j
-	!fnprkid=0.0_dp
-	!do j=kid0,maxkid
-	!	fnprkid(j)=exp(  pkid * (j-kid0) )
-	!	if ( abs(j-kid0) > 1 ) then 
-	!		fnprkid(j)=0.0_dp	!can only move one step up or down
-	!	end if 
-	!end do 						
-	!fnprkid(0:maxkid)=fnprkid(0:maxkid)/sum(fnprkid(0:maxkid))
-	!if (skriv) then 
-	!	if ( abs(sum(fnprkid(0:maxkid))-1.0_dp)>eps ) then ; print*, "error in fnprkid: prkid does not add up " , kid0 , sum(fnprkid(0:maxkid)) ; stop ; end if 
-	!end if 
-	!end function fnprkid
-
-	function fnmove(empo,kid,trueindex) 
-	integer(i4b), intent(in) :: empo,kid,trueindex
-	real(dp) :: fnmove
-    integer(i4b) :: c,t,h
-    call index2cotyphome(trueindex,c,t,h)			
-	fnmove = cst(t)  + ecst * one(empo<=np) + kcst * one(empo==np1) !+ kcst * one(kid>1) !kid 1 is no kid, kid 2 is yes kid
-	!fnmove = fnmove / div
-	end function fnmove
 
 	subroutine q2wloc(dq,dw,dl)
 	! extract indeces w,l from q 

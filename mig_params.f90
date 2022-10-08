@@ -358,14 +358,13 @@ contains
         realpar(indust2(i))=ptypecol(i)
     end do 
  
-    psih(2)=0.0_dp
+    !psih(2)=0.0_dp
     !alphaed(:,2)=alphaed(:,1)
     mu_o=0.0_dp
     scst=0.0_dp
     sig_mar=0.0_dp
     alphakid(:,1)=0.0_dp
-    
-    
+
     !***********************
     !ahu 041118 del and remove later:
     !alphaed(2,:)=alphaed(1,:)
@@ -407,13 +406,13 @@ contains
     !kcst=0.0_dp
     
     !ro=0.0_dp !0.98_dp
-!alpha=0.0_dp
-!kcst=0.0_dp
-!pkid=0.0_dp
-!alf1t(2)=alf1t(1)
-!alf2t(2)=alf2t(1)
-!cst(1)=cst(2)
-!uhome=0.0_dp
+    !alpha=0.0_dp
+    !kcst=0.0_dp
+    !pkid=0.0_dp
+    !alf1t(2)=alf1t(1)
+    !alf2t(2)=alf2t(1)
+    !cst(1)=cst(2)
+    !uhome=0.0_dp
 
     !uhome=0.0_dp
     !cst=-150000.0_dp
@@ -423,7 +422,6 @@ contains
     !kcst=0.0_dp
     !alpha(:,2)=alpha(:,1)
     
-    
     !sig_o=sig_mar    
     !alpha(1,:)=alpha(2,:) 
     	!if ((.not.optimize).and.(.not.chkstep) ) print*, "sig_mar,mu_mar,npars;,; ", sig_mar,mu_mar,j
@@ -431,70 +429,9 @@ contains
 	!print*, logitinv(alf11),logitinv(alf12),logitinv(alf13)
 	!print*, logitinv(alf21),logitinv(alf22),logitinv(alf23)
 
-	!realpar(j)=exp(par(j))
-	!sig_uloc=realpar(j) !; j=j+1		
-	!realpar(j)=logit(par(j))
-	!omega(1)=realpar(j) ; j=j+1
-	!realpar(j)=logit(par(j))
-	!omega(2)=realpar(j) 
-	!realpar(j)=par(j)
-	!alf14(ntyp)=realpar(j)  ; j=j+1
-	!alf14(1)=0.0_sp
-	!realpar(j)=par(j)
-	!alf24(ntyp)=realpar(j) ; j=j+1  
-	!alf24(1)=0.0_sp
-	!realpar(j)=logit(par(j))
-	!ptype=realpar(j)	!low type prob 
 	!if (j/=npars) then ; print*, "something wrong in getpar! ",j,npars ; stop ; end if
     
 
-    oftemp=0.0_dp
-    do dsex=1,2
-        do de=1,2            
-            do dw0=1,np1
-                if ( dw0 <= np ) then 
-		            if ( de==1 .and. dsex==1 ) then 
-			            oftemp(1:2,dw0,de,dsex)=exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 
-		            else if ( de==2 .and. dsex==1 ) then 
-			            oftemp(1:2,dw0,de,dsex)=exp(psio(3:4)) 
-                    else if ( de==1 .and. dsex==2 ) then 
-			            oftemp(1:2,dw0,de,dsex)=exp(psio(5:6)) 
-                    else if ( de==2 .and. dsex==2 ) then 
-			            oftemp(1:2,dw0,de,dsex)=exp(psio(7:8)) 
-                    end if 
-		            oftemp(3,dw0,de,dsex)=exp( 0.0_dp )		! nothing happens												
-	            else if (dw0 == np1) then 
-		            if ( de==1 .and. dsex==1 ) then 
-			            oftemp(1,dw0,de,dsex)=exp(psio(9)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
-                        realpar(9)=oftemp(1,np1,1,1)
-                    else if ( de==2 .and. dsex==1 ) then 
-			            oftemp(1,dw0,de,dsex)=exp(psio(10) )
-                        realpar(10)=oftemp(1,np1,2,1)
-                    else if ( de==1 .and. dsex==2 ) then 
-			            oftemp(1,dw0,de,dsex)=exp(psio(11)) 
-                        realpar(11)=oftemp(1,np1,1,2)
-		            else if ( de==2 .and. dsex==2 ) then 
-			            oftemp(1,dw0,de,dsex)=exp(psio(12)) 
-                        realpar(12)=oftemp(1,np1,2,2)
-                    end if 
-		            oftemp(2,dw0,de,dsex)=0.0_dp		! 0 since you can't get laid off if you don't have a job! 
-		            oftemp(3,dw0,de,dsex)=exp(0.0_dp)		! nothing happens												
-	            else  
-		            print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " 
-		            stop
-	            end if 
-	            oftemp(1:3,dw0,de,dsex)=oftemp(:,dw0,de,dsex)/sum( oftemp(:,dw0,de,dsex)     )
-            end do 
-        end do 
-    end do 
-                       realpar(1:2)=oftemp(1:2,1,1,1)  !emp,noed,male
-                        realpar(3:4)=oftemp(1:2,1,2,1)  !emp,ed,male
-                        realpar(5:6)=oftemp(1:2,1,1,2)  !emp,noed,fem
-                        realpar(7:8)=oftemp(1:2,1,2,2)  !emp,ed,fem
-                        realpar(9)=oftemp(1,np1,1,1)  !unemp,noed,male
-                        realpar(10)=oftemp(1,np1,2,1)  !unemp,ed,male
-                        realpar(11)=oftemp(1,np1,1,2)  !unemp,noed,fem
-                        realpar(12)=oftemp(1,np1,2,2)  !unemp,ed,fem
     
         realpartemp=realpar
 	end subroutine getpars
@@ -665,6 +602,149 @@ contains
         ones_init%endage=-99
         ones_init%edr=-99
         end subroutine getones	
+
+        function fnwge(dg,dtyp,dl,dw,de,dr)		!de is educ here but in fnprof it's no longer educ				
+            integer(i4b), intent(in) :: dg,dtyp,dl,de,dr						! gender,typ,location,education,experience
+            real(dp), intent(in) :: dw								! wage draw
+            real(dp) :: fnwge
+            if (dg==1) then 
+                fnwge=exp(alf1t(dtyp)+alf10(dl)+alf11*one(de==2) + alf12*(dr-1) + alf13*((dr-1)**2) + dw ) 
+            else if (dg==2) then 
+                fnwge=exp(alf2t(dtyp)+alf20(dl)+alf21*one(de==2) + alf22*(dr-1) + alf23*((dr-1)**2) + dw ) 
+            end if 
+            end function fnwge
         
+            function fnprof(dw0,de,dsex) !ahu october2022: note that de was ed before but now it's wtr it's curloc or ofloc (takes on values 5 or 10)
+            integer(i4b), intent(in) :: dw0,de,dsex
+            real(dp), dimension(3) :: fnprof
+            fnprof=0.0_dp
+            if ( dw0 <= np ) then  
+                if ( de==5 .and. dsex==1 ) then 
+                    fnprof(1:2)=exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
+                else if ( de==10 .and. dsex==1 ) then 
+                    fnprof(1:2)=exp(psio(3:4)) 
+                else if ( de==5 .and. dsex==2 ) then 
+                    fnprof(1:2)=exp(psio(5:6)) 
+                else if ( de==10 .and. dsex==2 ) then 
+                    fnprof(1:2)=exp(psio(7:8)) 
+                end if 
+                fnprof(3)=exp( 0.0_dp )		! nothing happens												
+            else if (dw0 == np1) then 
+                if ( de==5 .and. dsex==1 ) then 
+                    fnprof(1)=exp(psio(9)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
+                else if ( de==10 .and. dsex==1 ) then 
+                    fnprof(1)=exp(psio(10) )
+                else if ( de==5 .and. dsex==2 ) then 
+                    fnprof(1)=exp(psio(11)) 
+                else if ( de==10 .and. dsex==2 ) then 
+                    fnprof(1)=exp(psio(12)) 
+                end if 
+                fnprof(2)=0.0_dp		! 0 since you can't get laid off if you don't have a job! 
+                fnprof(3)=exp(0.0_dp)		! nothing happens												
+            else  
+                print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " , dw0,de,dsex
+                stop
+            end if 
+            fnprof(1:3)=fnprof/sum(fnprof)
+            !fnprof=0.0_dp
+            !fnprof(1)=1.0_dp						
+            if (skriv) then 
+                if ( abs(  sum(fnprof) - 1.0_dp  ) > eps) then ; print*, "error in getfnprof : offer does not add up " , sum(fnprof) ; stop ; end if 
+            end if 
+            end function fnprof
+        
+        
+            
+            
+            function fnprloc(orig)
+            integer(i4b), intent(in) :: orig		! origin location
+            real(dp), dimension(nl) :: fnprloc
+            integer(i4b) :: j
+            real(dp), dimension(nl) :: temp
+            fnprloc=0.0_dp
+            temp=0.0_dp
+            !ahu 030717 fnprloc(orig)=logit(psil(1)) !ahu 030717: putting psil(1) inside the exp instead because otherwise very high prloc from origin and low from others and 
+                                                     !            we get very low moving rates especially for married people. 
+            do j=1,nl	
+                !ahu 030717 if (j /= orig) then 
+                !ahu 030717 	fnprloc(j)= exp( psil(2) * distance(j,orig) + psil(3) * popsize(j) ) 
+                !ahu 030717 	sum_sans_orig = sum_sans_orig + fnprloc(j) 
+                !ahu 030717 end if 
+                temp(j)= exp( psil(1) * one(j==orig) )   ! + psil(2) * distance(j,orig) )    !+ psil(3) * popsize(j) ) 
+            end do 
+            do j=1,nl	
+                !ahu 030717 if (j /= orig) then 
+                !ahu 030717 	fnprloc(j)=(1.0_dp-fnprloc(orig) ) * fnprloc(j)/sum_sans_orig
+                !ahu 030717 end if 
+                fnprloc(j)=temp(j)/sum(temp(:))
+            end do 
+            if ( abs(  sum(fnprloc) - 1.0_dp  ) > eps) then ; print*, "error in getfnprloc : offer does not add up " , sum(fnprloc) ; stop ; end if 
+            end function fnprloc
+            
+            function fnprhc(dr,dw)
+                integer(i4b), intent(in) :: dr,dw		! experience and employment: w<=np work, w==np1 not work,  w=np2 nothing/can't be a state variable here so if you get this, there's something wrong
+                real(dp), dimension(nexp) :: fnprhc
+                integer(i4b) :: j
+                if (skriv) then 
+                    if ( dw > np1 ) then ; print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " ; stop ; end if 
+                end if 
+                !ahu october2022: note that when j=nexp, there will be no j such that j-dr=+1, so fnprhc(nexp) will be 1/0+1+1 = 1 and all other fnprhc(j)'s are 0. 
+                fnprhc=0.0_dp
+                do j=1,nexp	
+                    if ( dw <= np ) then 
+                        if ( j-dr == +1 ) then  
+                            fnprhc(j)=exp(psih(1))   !ahu jan19 011719 changing to logit
+                        else if (j==dr) then 
+                            fnprhc(j)=exp(0.0_dp)   !ahu jan19 011719 changing to logit
+                        else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
+                            fnprhc(j)=0.0_dp
+                        else 
+                            fnprhc(j)=0.0_dp
+                        end if 
+                    else if ( dw == np1 ) then !ahu october2022 no exp increase or decrease if unemp. so j such that j=dr is 1/0+1+0 =1 and all other fnprhc(j)'s are 0. 
+                        if ( j-dr == +1 ) then  
+                            fnprhc(j)= 0.0_dp    !ahu jan19 011719 changing to logit
+                        else if (j==dr) then 
+                            fnprhc(j)=exp(0.0_dp)      !exp(0.0_dp)   !ahu jan19 011719 changing to logit
+                        else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
+                            fnprhc(j)= 0.0_dp
+                        else 
+                            fnprhc(j) = 0.0_dp
+                        end if 
+                    end if 
+                end do 	
+                fnprhc(:)=fnprhc(:)/sum(fnprhc)
+                !print*, dr,fnprhc(:)
+                
+                if (skriv) then 
+                    if ( abs(sum(fnprhc(:))-1.0_dp) > eps ) then ; print*, " error in fnprhc: prhc does not add up " , dw , sum(fnprhc(:)) ; stop ; end if 
+                end if 
+                end function fnprhc
+        
+            !function fnprkid(kid0)
+            !integer(i4b), intent(in) :: kid0
+            !real(dp), dimension(0:maxkid) :: fnprkid
+            !integer(i4b) :: j
+            !fnprkid=0.0_dp
+            !do j=kid0,maxkid
+            !	fnprkid(j)=exp(  pkid * (j-kid0) )
+            !	if ( abs(j-kid0) > 1 ) then 
+            !		fnprkid(j)=0.0_dp	!can only move one step up or down
+            !	end if 
+            !end do 						
+            !fnprkid(0:maxkid)=fnprkid(0:maxkid)/sum(fnprkid(0:maxkid))
+            !if (skriv) then 
+            !	if ( abs(sum(fnprkid(0:maxkid))-1.0_dp)>eps ) then ; print*, "error in fnprkid: prkid does not add up " , kid0 , sum(fnprkid(0:maxkid)) ; stop ; end if 
+            !end if 
+            !end function fnprkid
+        
+            function fnmove(empo,kid,trueindex) 
+            integer(i4b), intent(in) :: empo,kid,trueindex
+            real(dp) :: fnmove
+            integer(i4b) :: c,t,h
+            call index2cotyphome(trueindex,c,t,h)			
+            fnmove = cst(t)  + ecst * one(empo<=np) + kcst * one(empo==np1) !+ kcst * one(kid>1) !kid 1 is no kid, kid 2 is yes kid
+            !fnmove = fnmove / div
+            end function fnmove
         
 end module params

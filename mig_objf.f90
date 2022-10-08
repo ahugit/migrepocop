@@ -332,30 +332,24 @@ contains
     write(60,*)
     write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
 	write(60,'(4i4,3(2x,i4),4i8,i4)') np,np1,np2,nl,neduc,nexp,nkid,nqs,nq,nx,nxs,nepsmove
-	write(60,*) 
 	write(60,'(tr2,"nz",tr2,"nh",tr1,"ncs",tr2,"nc",tr5,"ndata",tr3,"nsimeach",tr6,"nsim",tr2,"ndataobs",tr6,"nmom")') 
 	write(60,'(4i4,5i10)') nz,nh,ncs,nc,ndata,nsimeach,nsim,ndataobs,nmom
-	write(60,*) 
-	write(60,'("wage grid w:")')    !     tr6,"m(1)",tr6,"m(2)",tr6,"m(3)",tr6,"m(4)",tr6,"m(5)",tr4,"h(1)",tr4,"h(2)")') 
+	write(60,'("wage grid wg() first row men, second row fem, third row wgt:")')    !     tr6,"m(1)",tr6,"m(2)",tr6,"m(3)",tr6,"m(4)",tr6,"m(5)",tr4,"h(1)",tr4,"h(2)")') 
 	write(60,*) wg(:,1)   !       ,mg(:),hgrid(:)
-	write(60,*) 
     write(60,*) wg(:,2)
-	write(60,*) 
-	write(60,'("wage grid weights wgt:")')    
 	write(60,*) wgt(:)    
-    write(60,*)
-    write(60,'("moveshock grid:")')    
+    write(60,'("moveshock grid and its wgts (ppso):")')    
 	write(60,*) moveshock_m(:)          
 	write(60,*) moveshock_f(:)          
-    write(60,*)
-    write(60,'("bshock grid:")')  !ahumarch1122  
-	write(60,*) bshock_m(:)       !ahumarch1122   
-	write(60,*) bshock_f(:)       !ahumarch1122   
-    write(60,*)
-    write(60,'("ppso:")')    
 	write(60,*) ppso(:)    
-    write(60,*)
-    write(60,'("mar grid:")')    
+    !write(60,*)
+    !write(60,'("bshock grid:")')  !ahumarch1122  
+	!write(60,*) bshock_m(:)       !ahumarch1122   
+	!write(60,*) bshock_f(:)       !ahumarch1122   
+    !write(60,*)
+    !write(60,'("ppso:")')    
+    !write(60,*)
+    !write(60,'("mar grid:")')    !this writing doesn't really work because the second index of mg is trueindex not type
 	!write(60,*) mg(:,1)          
 	!write(60,*) mg(:,2)          
 	!write(60,*) mg(:,3)          
@@ -365,7 +359,54 @@ contains
 	!    write(60,*) "trueindex,co,typ,home",trueindex,i,j,k
     !    write(60,*) mg(:,trueindex) 
     !end do 
-   ! write(60,*)
+    write(60,*)
+    !fnprof(dw0,de,dsex) !(empstat,cur/ofloc,sex)
+    !psio(1:2) fnprof(np,5,1)  emp cur m , if m and working and draw curloc: get offer, get laid off, nothing happen
+    !psio(3:4) fnprof(np,10,1) emp of m    if m and working and draw ofloc:  get offer, get laid off, nothing happen 
+    !psio(5:6) fnprof(np,5,2)   emp cur f if f and working and draw curloc: get offer, get laid off, nothing happen
+    !psio(7,8) fnprof(np,10,2) emp of f   if f and working and draw curloc: get offer, get laid off, nothing happen
+    !psio(9) fnprof(np1,5,1)  u cur m if m and unemp and draw curloc: get offer,  0 , nothing happen
+    !psio(10) fnprof(np1,10,1)  u of m if m and unemp and draw ofloc: get offer,  0 , nothing happen
+    !psio(11) fnprof(np1,5,2)  u cur f if f and unemp and draw curloc: get offer,  0 , nothing happen
+    !psio(12) fnprof(np1,10,2)  u of f if f and unemp and draw ofloc: get offer,  0 , nothing happen
+    write(60,'("offer probabilities (fnprof, governed by psio):")') 
+	write(60,'("employed men:")') 
+    write(60,'(10x,2x,"offer",4x,"ldoff",3x,"nthing")') 
+    write(60,'("curloc    ",2x,3F9.2)') fnprof(np,5,1)  !prob(nthing) is the residual so only psio(1:2) governs this
+    write(60,'("psio(1:2) ",2x,2F9.2)') psio(1:2)
+    write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,10,1)  !prob(nthing) is the residual so only psio(3:4) governs this
+    write(60,'("psio(3:4) ",2x,2F9.2)') psio(3:4)
+	write(60,'("employed fem:")') 
+    write(60,'(10x,2x,"offer",4x,"ldoff",3x,"nthing")') 
+    write(60,'("curloc    ",2x,3F9.2)') fnprof(np,5,2)  !prob(nthing) is the residual so only psio(5:6) governs this
+    write(60,'("psio(5:6) ",2x,2F9.2)') psio(5:6)
+    write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,19,2)  !prob(nthing) is the residual so only psio(7:8) governs this
+    write(60,'("psio(7:8) ",2x,2F9.2)') psio(7:8)
+    write(60,*) 
+    write(60,*) 
+	write(60,'("unemp men:")') 
+    write(60,'(10x,2x,"offer",4x,"ldoff",3x,"nthing")') 
+    write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,1)  !prob(nthing) is the residual so only psio(9) governs this
+    write(60,'("psio(9) ",2x,F9.2)') psio(9)
+    write(60,'("ofloc     ",2x,3F9.2)') fnprof(np1,10,1)  !prob(nthing) is the residual so only psio(11) governs this
+    write(60,'("psio(10) ",2x,F9.2)') psio(10)
+    write(60,'("unemp fem:")') 
+    write(60,'(10x,2x,"offer",4x,"ldoff",3x,"nthing")') 
+    write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,2)  !prob(nthing) is the residual so only psio(12) governs this
+    write(60,'("psio(11) ",2x,F9.2)') psio(11)
+    write(60,'("ofloc     ",2x,3F9.2)') fnprof(np1,10,2)  !prob(nthing) is the residual so only psio(13) governs this
+    write(60,'("psio(12) ",2x,F9.2)') psio(12)
+    close(60) 
+    write(60,'("experience transitions (fnprhc, governed only by psih(1):")') 
+    !fnprhc(dr,dw) !(curexp,empstat) !fnprhc only depends on psih(1)   
+    do i=1,nexp
+    write(*,'("curexp: ",i4,"empstat: np "," fnprhc(curexp,empstat=np) is: ")') i
+    write(*,*) fnprhc(i,np)
+    write(*,'("curexp: ",i4,"empstat: np1 "," fnprhc(curexp,empstat=np1) is: ")') i
+    write(*,*) fnprhc(i,np1)
+    end do
+
+
     write(60,*)
     write(60,'("mar grid weights wgt:")')    
 	write(60,*) mgt(:)    
@@ -384,6 +425,7 @@ contains
     write(60,'("objective function:")') 
 	write(60,*) q_save(:)
 	write(60,*) 
+
     write(60, '(35x,tr7,"sim",tr7,"dat",tr7,"obj",tr7,"dif",5x,tr2,"countsim",tr2,"countdat",tr4,"vardat" )' ) 
     ihead=1   
     do i=1,nmom
