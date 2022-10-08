@@ -26,7 +26,7 @@ contains
 	integer(i4b) :: ia,q0,q,x0,x,z,iepsmove,index,trueindex,dd(11),ed(2),qm,xm,qf,xf,callfrom
     !print*, 'Here is iter',iter
 	begintime=secnds(0.0)
-    
+    yaz=.false.
     if (groups) then 
         call cotyphome2index(myindex,myco,mytyp,myhome)
     else 
@@ -122,7 +122,7 @@ end do
                                         dd = (/ia,trueindex,q,x,z,q0,callfrom,-1,-1,-1,iepsmove /) 	! (/ ia,index,q,x,z,q0,gender/callfrom,jmax,qmax,relmax,iepsmove /)  	                                        
                                         !when whereamI=1 then within getdec, I call yaz_getdec to write in 200 the altspecific value functions and bargaining stuff
                                         whereamI=1 ; call getdec(dd,vmax,valso)	! dd is inout and dd(8:10) tells you jmax,qmax,relmax 
-                                        !!!!!!whereamI=1 ; if (yaz) then ; call yaz_decision(dd,vmax) ; end if	! write down decision !ahu 032718 del and remove later. I uncommented this write										
+                                        whereamI=1 ; if (yaz) then ; call yaz_decision(dd,vmax) ; end if	! write down decision !ahu 032718 del and remove later. I uncommented this write										
 		                                val=val+ppso(iepsmove)*mgt(z)*vmax
                                     end do moveshocks
                                 end do umar
@@ -189,7 +189,7 @@ end do
                                     whereamI=5 ; call getdec(dd,vmax,valso) 
                                     dec_mar(z,x,q,ia,index)=dd(10)
                                     val=vmax(1:2)         
-                                    !!!!!!whereamI=5 ; if (yaz) then ; call yaz_decision(dd,vmax) ; end if	! write down decision !ahu 032718 del and remove later. I uncommented this write										
+                                    whereamI=5 ; if (yaz) then ; call yaz_decision(dd,vmax) ; end if	! write down decision !ahu 032718 del and remove later. I uncommented this write										
 
                                     !if (  icheck_eqvmvf.and.qr==qp.and.xr==xp.and.  (abs(vec(1)-vec(2)) > eps .or. abs(vsum(1)-vsum(2)) > eps) ) then 
                                     !	print*, "vm not eq to vf!", ia,qr,xr,vec(1:4),vsum
@@ -336,7 +336,7 @@ end do
                     pc(1:2)	= ( vecj(1:2,j) + eps >= 0.0_dp )
                     asum = sum(  one(.not. pc)  *   abs( vecj(1:2,j) )   ) 
                     haveenough(j)=(  vecj(5,j) + eps - asum  >= 0.0_dp  )
-                    !!!!!!if (yaz) call yaz_getdec(dd,yazvec(1:5),surplusj(j),pc(1:2),asum,haveenough(j))
+                    if (yaz) call yaz_getdec(dd,yazvec(1:5),surplusj(j),pc(1:2),asum,haveenough(j))
                 end if      
             end do choice    
             de=maxloc(surplusj,MASK=haveenough) 
@@ -377,7 +377,7 @@ end do
             asum = sum(  one(.not. pc)  *   abs( vdif )   ) 
             haveenoughtomakeindiff=(  vec(5) + eps - asum  >= 0.0_dp  )
             de(1)=one( surplus+eps > 0.0_dp .and. haveenoughtomakeindiff ) 
-            !!!!!!if (yaz) call yaz_getdec(dd,vec(1:5),surplus,pc(1:2),asum,haveenoughtomakeindiff) !when called from sol/getdec/marmkt whereamI=5
+            if (yaz) call yaz_getdec(dd,vec(1:5),surplus,pc(1:2),asum,haveenoughtomakeindiff) !when called from sol/getdec/marmkt whereamI=5
             if (de(1)>0) then 
                 jmax=-1 ; qmax=-1 ; relmax=1
                 if (yaz.and.whereamI==5) write(200,*) "in sol/getdec marmkt de(1)>0: jmax,qmax,relmax,surplus,vec(1:5) NOW GO TO 2013"
@@ -414,6 +414,16 @@ end do
             print*, "why here"
             stop
         end if 
+        2017 dd(8)=jmax
+        dd(9)=qmax
+        dd(10)=relmax 
+        if (yaz.and.whereamI==1) write(200,*) "in sol/getdec couples end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
+        if (yaz.and.whereamI==1) write(200,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
+        if (yaz.and.whereamI==5) write(200,*) "in sol/getdec mar mkt end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
+        if (yaz.and.whereamI==5) write(200,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
+        if (yaz.and.whereamI==4) write(400,*) "in sim/getdec couples end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
+        if (yaz.and.whereamI==4) write(400,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers  
+    end subroutine getdec
 
         !!!!!if (relmax==1) then
             !ahu032122 ahumarch2122 commenting out to save time haveenoughtomakeindiff_alt=(  vec(5) - asum  >= 0.0_dp  )
@@ -479,30 +489,6 @@ end do
         !!!!!    print*, "I should not end up here because we already established that we haveenoughtomakeindiff"
         !!!!!    stop   
         !!!!!end if 
-
-        !ag090122 agsept2022    Moved the below yaz call from the sol routine to here since for mar market 
-        !                       the decisions are determined in getdec now
-        !if (yaz) then ; whereamI=5 ; dd(10)=one(welldef) ; call yaz_checknb(dd,vec,transfers,welldef) ; end if 
-        !!!if (skriv.and.surplus+eps>0.0_dp.and.welldef==.FALSE.) then  ; whereamI=5 ; dd(10)=one(welldef) ; call yaz_checknb(dd,vec,transfers,welldef) ; end if 
-        !if (skriv.and.ia==40.and.q==107.and.x==39) then  ; whereamI=5 ; dd(10)=one(welldef) ; call yaz_checknb(dd,vec,transfers,welldef) ; end if 
-
-        !if (yaz) then ; whereamI=5 ; dd(10)=one(welldef) ; vmax=vsum ; call yaz_decision(dd,vmax) ; end if 
-
-        2017 dd(8)=jmax
-        dd(9)=qmax
-        dd(10)=relmax 
-        !if (yaz) call yaz_getdec2(jmax,qmax,relmax,transfers,vmax)
-        !subroutine yaz_getdec2(jmaxo,qmaxo,relmaxo,transferso,vmaxo) 
-        !    intent(in), integer(i4b) :: jmaxo,qaxo,relmaxo
-        !    intent(in), real(dp), dimension(2) :: transerso,vmaxo
-        if (yaz.and.whereamI==1) write(200,*) "in sol/getdec couples end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
-        if (yaz.and.whereamI==1) write(200,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
-        if (yaz.and.whereamI==5) write(200,*) "in sol/getdec mar mkt end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
-        if (yaz.and.whereamI==5) write(200,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
-        if (yaz.and.whereamI==4) write(400,*) "in sim/getdec couples end: jmax,qmax,relmax,surplus),vec(1:5),transfers"
-        if (yaz.and.whereamI==4) write(400,'(I4,I8,I4,8F9.2)') jmax,qmax,relmax,surplus,vec(1:5),transfers 
-        !end subroutine 
-        end subroutine getdec
     
 
 
@@ -807,9 +793,6 @@ end do
             end if 
         end if
 	end if
-	!if (yaz) then    !.and.(dd(1)==30.and.def) ) then    !.and.minval(vsum)<0.0_dp) then 
-	!	call yaz_checknb(dd,vec,transfers,def)
-	!end if 
 	end subroutine checknb
 
 	!if ( pc(1) .and. pc(2) ) then	
@@ -825,9 +808,6 @@ end do
 	!		print*, "vdif(2),wf_s,wf_s+vdif(2),wf_s+vdif(2) ", vdif(2)  !,wagetemp(2),wagetemp(2) + vdif(2),wagetemp(2) + vec(4) - vec(2) 
 	!		stop 
 	!	end if
-	!end if 
-	!if (yaz) then    !.and.(dd(1)==30.and.def) ) then    !.and.minval(vsum)<0.0_dp) then 
-	!	call yaz_checknb(dd,vec,vdif,pc,asum,vsum,def)
 	!end if 
 	!end subroutine checknb
 
