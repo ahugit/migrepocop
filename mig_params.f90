@@ -720,7 +720,17 @@ contains
                     if ( abs(sum(fnprhc(:))-1.0_dp) > eps ) then ; print*, " error in fnprhc: prhc does not add up " , dw , sum(fnprhc(:)) ; stop ; end if 
                 end if 
                 end function fnprhc
-        
+
+ 
+                function fnmove(empo,kid,trueindex) 
+                    integer(i4b), intent(in) :: empo,kid,trueindex
+                    real(dp) :: fnmove
+                    integer(i4b) :: c,t,h
+                    call index2cotyphome(trueindex,c,t,h)			
+                    fnmove = cst(t)  + ecst * one(empo<=np) + kcst * one(empo==np1) !+ kcst * one(kid>1) !kid 1 is no kid, kid 2 is yes kid
+                    !fnmove = fnmove / div
+                end function fnmove
+               
             !function fnprkid(kid0)
             !integer(i4b), intent(in) :: kid0
             !real(dp), dimension(0:maxkid) :: fnprkid
@@ -737,14 +747,79 @@ contains
             !	if ( abs(sum(fnprkid(0:maxkid))-1.0_dp)>eps ) then ; print*, "error in fnprkid: prkid does not add up " , kid0 , sum(fnprkid(0:maxkid)) ; stop ; end if 
             !end if 
             !end function fnprkid
-        
-            function fnmove(empo,kid,trueindex) 
-            integer(i4b), intent(in) :: empo,kid,trueindex
-            real(dp) :: fnmove
-            integer(i4b) :: c,t,h
-            call index2cotyphome(trueindex,c,t,h)			
-            fnmove = cst(t)  + ecst * one(empo<=np) + kcst * one(empo==np1) !+ kcst * one(kid>1) !kid 1 is no kid, kid 2 is yes kid
-            !fnmove = fnmove / div
-            end function fnmove
-        
+
+
+                subroutine q2wloc(dq,dw,dl)
+                    ! extract indeces w,l from q 
+                    integer(i4b), intent(in) :: dq		
+                    integer(i4b), intent(out) :: dw,dl
+                    integer(i4b), dimension(2) :: indeces	
+                        indeces=lin2ndim( (/ np2 , nl /) , dq )
+                        dw=indeces(1)
+                        dl=indeces(2)
+                        if (skriv) then  
+                            if ( dq > nqs ) then ; print*, "q2wl: q > nqs", dq, nqs,indeces ; stop ; end if  
+                            if ( dw > np2 ) then ; print*, "q2wl: w > np2" ; stop ; end if  
+                            if ( dl > nl  ) then ; print*, "q2wl: l > nl" ; stop ; end if  
+                        end if 
+                    end subroutine
+                    subroutine wloc2q(dq,dw,dl)
+                    ! construct combined q from w,l
+                    integer(i4b), intent(out) :: dq		
+                    integer(i4b), intent(in) :: dw,dl		
+                        dq = ndim2lin( (/ np2 , nl /),(/ dw,dl /) )
+                        if (skriv) then 		
+                            if ( dq > nqs ) then ; print*, "wl2q: q > nqs" ; stop ; end if  
+                            if ( dw > np2 ) then ; print*, "wl2q: w > np2" ; stop ; end if  
+                            if ( dl > nl  ) then ; print*, "wl2q: l > nl" ; stop ; end if  
+                        end if 
+                    end subroutine
+                
+                    subroutine x2edexpkid(dx,de,dr, dkid)
+                    ! extract indeces educ,experience from x
+                    integer(i4b), intent(in) :: dx		
+                    integer(i4b), intent(out) :: de,dr,dkid
+                    integer(i4b), dimension(3) :: indeces	
+                        indeces=lin2ndim( (/ neduc, nexp, nkid /) , dx )
+                        de=indeces(1)
+                        dr=indeces(2)
+                        dkid=indeces(3)
+                    end subroutine
+                    subroutine edexpkid2x(dx,de,dr,dkid)
+                    !construct combined x from educ,experience
+                    integer(i4b), intent(out) :: dx		
+                    integer(i4b), intent(in) :: de,dr,dkid
+                        dx=ndim2lin( (/ neduc, nexp, nkid /),(/ de,dr,dkid /) )
+                    end subroutine
+                
+                    subroutine index2cotyphome(index,co,typ,home)
+                    ! extract indeces cohort,type,educ,homeloc from combined index
+                    integer(i4b), intent(in) :: index		
+                    integer(i4b), intent(out) :: co,typ,home	
+                    integer(i4b), dimension(3) :: indeces	
+                    !if (groups) then 
+                        !indeces=lin2ndim((/nco,ntyp,nl/),index)
+                        !print*, 'this should not be called if groups!'
+                        !stop
+                        !co=myco !indeces(1)
+                        !typ=mytyp !indeces(2)
+                        !home=myhome !indeces(3)
+                    !else 
+                        indeces=lin2ndim((/ncop,ntypp,nhomep/),index)
+                        co=indeces(1)
+                        typ=indeces(2)
+                        home=indeces(3)
+                    !end if 
+                    end subroutine index2cotyphome
+                    subroutine cotyphome2index(index,co,typ,home)
+                    !construct combined index from co,typ,home
+                    integer(i4b), intent(out) :: index		! combined index
+                    integer(i4b), intent(in) :: co,typ,home 
+                    !if (groups) then 
+                    !	index=1 !ndim2lin((/nco,ntyp,nl/),(/co,typ,home/))
+                    !else 
+                        index=ndim2lin((/ncop,ntypp,nhomep/),(/co,typ,home/))
+                    !end if 
+                    end subroutine cotyphome2index
+                 
 end module params
