@@ -273,7 +273,8 @@ nonlabinc=0.0_dp !ahu030622
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(16)=100.0_dp
+    pars(16)=10.0_dp
+    if (iam==0) print*, "Here is fnprhc", exp(pars(16)) /( exp(pars(16)) + exp(0.0_dp) ),exp(0.0_dp) /( exp(pars(16)) + exp(0.0_dp) )
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
