@@ -189,7 +189,7 @@ contains
                         !ahu jan19 011219: no on the job seearch since not identified
                         
 						if	( w <= np ) then 
-							dum(w,l) = prloc(l) * prof1) * wgt(w)  !ahu jan19 011219:
+							dum(w,l) = prloc(l) * prof(1) * wgt(w)  !ahu jan19 011219:
 						else if ( w == np1 ) then 
 							dum(w,l) = prloc(l) * prof(2)           !ahu jan19 011219:
 						else if ( w == np2 ) then 
