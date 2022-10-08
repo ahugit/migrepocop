@@ -1007,7 +1007,7 @@ contains
 				fnprhc(j)= 0.0_dp    !ahu jan19 011719 changing to logit
             else if (j==dr) then 
 				fnprhc(j)=exp(0.0_dp)      !exp(0.0_dp)   !ahu jan19 011719 changing to logit
-			else if ( j-dr == -1 ) then  ahu jan19 011519 getting rid of probdown
+			else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
 		    	fnprhc(j)= 0.0_dp
 			else 
 				fnprhc(j) = 0.0_dp
