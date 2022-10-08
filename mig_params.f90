@@ -18,7 +18,7 @@
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.false.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
     logical :: nonneg
-    logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
+    !logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
 	real(dp), parameter :: eps = 1.0d-6,zero=0.0_dp,epstest=2.0_dp					! could do tiny(.) but that gives a number that is way too small and therefore not appropriate for those places where we check the inequalities or equalities	
 	real(dp), parameter :: eps2= 1.0d-6
@@ -619,11 +619,11 @@ contains
             fnprof=0.0_dp
             if ( dw0 <= np ) then  
                 if ( de==5 .and. dsex==1 ) then 
-                    fnprof(1:2)=exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
+                    fnprof(1:2)=0.0_dp !exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
                 else if ( de==10 .and. dsex==1 ) then 
                     fnprof(1:2)=exp(psio(3:4)) 
                 else if ( de==5 .and. dsex==2 ) then 
-                    fnprof(1:2)=exp(psio(5:6)) 
+                    fnprof(1:2)=0.0_dp !exp(psio(5:6)) 
                 else if ( de==10 .and. dsex==2 ) then 
                     fnprof(1:2)=exp(psio(7:8)) 
                 end if 
