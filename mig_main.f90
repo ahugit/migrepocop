@@ -247,6 +247,10 @@ nonlabinc=0.0_dp !ahu030622
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
 
+    !set all junk parameters to zero so that I get zeros for these parameters the next pars file after opt
+    pars(17:19)=0.0_dp !psih2-4
+    pars(53)=0.0_dp !alf13 
+    pars(65)=0.0_dp !alf23
  
 !************************
     !pars(66)=pars1(66)+1.0_dp
@@ -263,6 +267,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(93)=0.01_dp    !mumar4
     pars(29)=pars(27)
     pars(30)=pars(28) !setting alphaed parameters so they are consistent with the runs right before I got rid of alphaed(g,ed)=alphaed(g,noed)
+
 onthejobsearch=.TRUE.
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
