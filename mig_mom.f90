@@ -810,10 +810,83 @@ end FUNCTION random
 		!cohogen(:)=  maxval(dat(mna:mxai,:)%co)  		            
 
     
+        headloc(ihead)=im
+        headstr(ihead)='everyone mar and getmar and getdiv rates'
+        ihead=ihead+1
+
+
         call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
         write(name(im),'("mar ",tr10)')	
         weights(im)=wrel !; if (onlysingles) weights(im)=0.0_dp   !forget about that if statement usually. just putting there to get im to go up by 1 for the next loop
         im=im+1
+
+        do ia=mna,mxad,10 !ahu030622  changed from maxai-1 to mxad
+            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%edr==1 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
+            write(name(im),'("getmarbyia,ned ",i4)') ia
+            weights(im)=wrel
+            im=im+1
+        end do      
+        !do ia=mna,mxad,10 !ahu030622  changed from maxai-1 to mxad
+        !    call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%edr==2 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
+        !    write(name(im),'("getmarbyia, ed ",i4)') ia
+        !    weights(im)=wrel
+        !    im=im+1
+        !end do      
+        do ia=mna,mxad,10 !ahu030622 changed from maxai-1 to mxad
+            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 ), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
+            write(name(im),'("get div by ia ",i4)') ia
+            weights(im)=wrel
+            im=im+1
+        end do            
+
+        do ia=mna,mxad,10 !ahu030622 changed from maxai-1 to mxad    
+            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 .AND. move(ia,:)==1), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
+            write(name(im),'("getdiv move by ia ",i4)') ia
+            weights(im)=0.0_dp
+            im=im+1
+        end do 
+        do ia=mna,mxad,10 !ahu030622 changed from maxai-1 to mxad    
+            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 .AND. move(ia,:)==0), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
+            write(name(im),'("getdiv stay by ia ",i4)') ia
+            weights(im)=0.0_dp
+            im=im+1
+        end do 
+
+
+        headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
+        call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+        write(name(im),'("ee|ee stay")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+        write(name(im),'("eu|ee stay")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+        write(name(im),'("ue|ee stay")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+        write(name(im),'("uu|ee stay")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+        write(name(im),'("ee|ee move")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+        write(name(im),'("eu|ee move")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+        write(name(im),'("ue|ee move")')  
+        weights(im)=wtrans 
+        im=im+1 
+        call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+        write(name(im),'("uu|ee move")')  
+        weights(im)=wtrans 
+        im=im+1 
+
 
 
         !if (j==1) then !only do kid by age for married. for singles, it looks weird in the data (.30, .8, .16,.19) 
@@ -1002,13 +1075,13 @@ end FUNCTION random
             !weights(im)=100.0_dp 
             !im=im+1 
 
-            do ia=mna,mxad
+            do ia=mna,mxad,10
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | stay ia ",tr2,i6)')  ia
                 weights(im)=0.0_dp
                 im=im+1 
             end do   
-            do ia=mna,mxad
+            do ia=mna,mxad,10
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==1 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | move ia ",tr2,i6)')  ia
                 weights(im)=0.0_dp
@@ -1046,41 +1119,6 @@ end FUNCTION random
                 weights(im)=0.0_dp
                 im=im+1 
             end do 
-
-            headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ee|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("eu|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ue|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("uu|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ee|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("eu|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ue|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("uu|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-
             
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | u stay",tr3)')  
@@ -1389,28 +1427,6 @@ end FUNCTION random
 
 
         headloc(ihead)=im
-        headstr(ihead)='everyone getmar and getdiv rates'
-        ihead=ihead+1
-        do ia=mna,mxad !ahu030622  changed from maxai-1 to mxad
-            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%edr==1 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
-            write(name(im),'("getmarbyia,ned ",i4)') ia
-            weights(im)=wrel
-            im=im+1
-        end do      
-        do ia=mna,mxad !ahu030622  changed from maxai-1 to mxad
-            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0   .AND. dat(ia,:)%edr==2 ), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
-            write(name(im),'("getmarbyia, ed ",i4)') ia
-            weights(im)=wrel
-            im=im+1
-        end do      
-        do ia=mna,mxad !ahu030622 changed from maxai-1 to mxad
-            call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 ), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
-            write(name(im),'("get div by ia ",i4)') ia
-            weights(im)=wrel
-            im=im+1
-        end do            
-
-        headloc(ihead)=im
         headstr(ihead)='everyone moves to and from'
         ihead=ihead+1
         do i=1,nl,8            
@@ -1521,59 +1537,56 @@ end FUNCTION random
             headloc(ihead)=im
             headstr(ihead)='getmar (ned) by typ and getdiv by typ'
             ihead=ihead+1
-            do ia=mna,mxad !ahu030622  changed from maxai-1 to mxad
+            do ia=mna,mxad,10 !ahu030622  changed from maxai-1 to mxad
                 call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0 .AND. dat(ia,:)%edr==1), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
                 write(name(im),'("getmar (ned) by ia ",i4)') ia
                 weights(im)=0.0_dp
                 im=im+1
             end do 
-            do i=1,ntypp
-                do ia=mna,mxad
+            do ia=mna,mxad,10
+                do i=1,ntypp
                     call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==0 .AND. dat(ia+1,:)%rel>=0  .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%typ==i), d1*one(dat(ia+1,:)%rel==1),mom,cnt,var)
-                    write(name(im),'("getmar (ned) by typ,ia ",2i4)') i,ia
+                    write(name(im),'("getmar (ned) by ia,typ ",2i4)') ia,i
                     weights(im)=0.0_dp
                     im=im+1
                 end do      
             end do 
-            do ia=mna,mxad,30 !ahu030622 changed from maxai-1 to mxad    
-                call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 ), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
-                write(name(im),'("getdiv by ia ",i4)') ia
-                weights(im)=0.0_dp
-                im=im+1
-                do i=1,ntypp
-                    call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0  .AND. dat(ia,:)%typ==i), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
-                    write(name(im),'("getdiv by ia,typ ",2i4)') ia,i
-                    weights(im)=0.0_dp
-                    im=im+1
-                end do            
-            end do 
-            do ia=mna,mxad,1 !ahu030622 changed from maxai-1 to mxad    
+            !do ia=mna,mxad,10 !ahu030622 changed from maxai-1 to mxad    
+            !    call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 ), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
+            !    write(name(im),'("getdiv by ia ",i4)') ia
+            !    weights(im)=0.0_dp
+            !    im=im+1
+            !    do i=1,ntypp
+            !        call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0  .AND. dat(ia,:)%typ==i), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
+            !        write(name(im),'("getdiv by ia,typ ",2i4)') ia,i
+            !        weights(im)=0.0_dp
+            !        im=im+1
+            !    end do            
+            !end do 
+
+            do ia=mna,mxad,10
                 call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 .AND. move(ia,:)==1), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
                 write(name(im),'("getdiv move by ia ",i4)') ia
                 weights(im)=0.0_dp
                 im=im+1
-            end do 
-
-            do i=1,ntypp
-                do ia=mna,mxad,1
-                call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0  .AND. dat(ia,:)%typ==i .AND. move(ia,:)==1), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
-                write(name(im),'("getdiv move by typ,ia ",2i4)') i,ia
-                weights(im)=0.0_dp
-                im=im+1
+                do i=1,ntypp            
+                    call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0  .AND. dat(ia,:)%typ==i .AND. move(ia,:)==1), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
+                    write(name(im),'("getdiv move by ia,typ ",2i4)') ia,i
+                    weights(im)=0.0_dp
+                    im=im+1
                 end do            
             end do 
-            do ia=mna,mxad,30 !ahu030622 changed from maxai-1 to mxad    
+
+            do ia=mna,mxad,10
                 call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 .AND. move(ia,:)==0), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
                 write(name(im),'("getdiv stay by ia ",i4)') ia
                 weights(im)=0.0_dp
                 im=im+1
-            end do 
-            do i=1,ntypp
-                do ia=mna,mxad,1
-                call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0  .AND. dat(ia,:)%typ==i .AND. move(ia,:)==1), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
-                write(name(im),'("getdiv stay by typ,ia ",2i4)') i,ia
-                weights(im)=0.0_dp
-                im=im+1
+                do i=1,ntypp            
+                    call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0  .AND. dat(ia,:)%typ==i .AND. move(ia,:)==0), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
+                    write(name(im),'("getdiv stay by ia,typ ",2i4)') ia,i
+                    weights(im)=0.0_dp
+                    im=im+1
                 end do            
             end do 
 
