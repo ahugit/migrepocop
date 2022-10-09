@@ -679,8 +679,8 @@ end FUNCTION random
     ENDWHERE
 
     !kidtrans=-1.
-    WHERE (  (dat(MNA:MXAD,:)%rel>0) .AND. (dat(MNA:MXAD,:)%kidr==0) .AND. (dat(MNA+1:MXA,:)%kidr>=0)  )
-    kidtrans(MNA:MXAD,:)=one(dat(MNA+1:MXA,:)%kidr>0)
+    WHERE (  (dat(MNA:MXAD,:)%rel>0) .AND. (dat(MNA:MXAD,:)%kidr==1) .AND. (dat(MNA+1:MXA,:)%kidr>=1)  )
+    kidtrans(MNA:MXAD,:)=one(dat(MNA+1:MXA,:)%kidr==2) !kid=1 is nokid and kid=2 is yeskid
     ENDWHERE
     WHERE (move(MNA:MXAD,:)==1)
     homemove(MNA:MXAD,:)=one(dat(MNA+1:MXA,:)%hme==dat(MNA+1:MXA,:)%l)
@@ -1469,7 +1469,7 @@ end FUNCTION random
         WRITE(name(im),'("kidtrans-married ")') 
         weights(im)=0.0_dp !wkid
         im=im+1
-        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%kidr>=0)),d1*dat(MNA:MXAD,:)%kidr,mom,cnt,var)
+        CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%kidr>=1)),d1*dat(MNA:MXAD,:)%kidr,mom,cnt,var)
         WRITE(name(im),'("kids-married     ")') 
         weights(im)= 0.0_dp !wkid 
         im=im+1
