@@ -276,6 +276,11 @@ nonlabinc=0.0_dp !ahu030622
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
+
+pars(86)=-50000.0_dp 
+pars(87)=0.001_dp !mumar3
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
