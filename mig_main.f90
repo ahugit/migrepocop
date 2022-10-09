@@ -253,8 +253,11 @@ nonlabinc=0.0_dp !ahu030622
     pars(65)=0.0_dp !alf23
  
 !************************increase type 3 cst to decrease getdiv (w/0 messing getmar) AND sing mv
-   !pars(66)=pars1(66)+1.0_dp
-    !pars(67)=pars1(67)+0.5_dp
+
+!************************increase type 3 cst to decrease getdiv (w/0 messing getmar) AND sing mv
+    onthejobsearch=.TRUE.
+    pars(66)=pars1(66)+1.5_dp
+    pars(67)=pars1(67)+1.0_dp
     pars(68)=50000.0_dp   
     pars(69)=20000.0_dp   
     pars(74)=-10000.0_dp !cst1 no longer norm 
@@ -271,18 +274,67 @@ nonlabinc=0.0_dp !ahu030622
     pars(30)=-4.0_dp !alphaed(f,ed)
     pars(86)=-50000.0_dp 
     pars(87)=0.001_dp !mumar3
-    pars(21)=-1.5_dp !pmeet
-    onthejobsearch=.TRUE.
+    !pars(21)=-1.5_dp !pmeet
+    pars(72:73)=8.8
+    pars(78:79)=8.8
+    pars(84:85)=8.8
+    pars(90:91)=8.8
+    pars(87)=0.01
+    pars(93)=0.01
+    pars(74)=-80000.0_dp
+    pars(80)=-80000.0_dp
+    pars(86)=-30000.0_dp
+    pars(92)=-30000.0_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
+
+pars(87)=0.01
+pars(93)=0.01
+pars(74)=-80000.0_dp
+pars(80)=-80000.0_dp
+pars(86)=-60000.0_dp
+pars(92)=-60000.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
+pars(87)=0.01
+pars(93)=0.01
+pars(74)=-80000.0_dp
+pars(80)=-80000.0_dp
+pars(86)=-10000.0_dp
+pars(92)=-10000.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+pars(87)=0.001
+pars(93)=0.001
+pars(74)=-80000.0_dp
+pars(80)=-80000.0_dp
+pars(86)=-60000.0_dp
+pars(92)=-60000.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
 
 pars(87)=0.1
 pars(93)=0.1
+pars(74)=-80000.0_dp
+pars(80)=-80000.0_dp
+pars(86)=-10000.0_dp
+pars(92)=-10000.0_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-
+pars(87)=0.1
+pars(93)=0.1
+pars(74)=-80000.0_dp
+pars(80)=-80000.0_dp
+pars(86)=-60000.0_dp
+pars(92)=-60000.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
