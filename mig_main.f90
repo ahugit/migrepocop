@@ -253,7 +253,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(65)=0.0_dp !alf23
  
 !************************increase type 3 cst to decrease getdiv (w/0 messing getmar) AND sing mv
-    !pars(66)=pars1(66)+1.0_dp
+   !pars(66)=pars1(66)+1.0_dp
     !pars(67)=pars1(67)+0.5_dp
     pars(68)=50000.0_dp   
     pars(69)=20000.0_dp   
@@ -269,20 +269,18 @@ nonlabinc=0.0_dp !ahu030622
     pars(28)=-2.0_dp !alphaed(f,noed)
     pars(29)=-5.3_dp !alphaed(m,ed)
     pars(30)=-4.0_dp !alphaed(f,ed)
+    pars(86)=-50000.0_dp 
+    pars(87)=0.001_dp !mumar3
+    pars(21)=-1.5_dp !pmeet
     onthejobsearch=.TRUE.
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
-
-pars(86)=-50000.0_dp 
-pars(87)=0.001_dp !mumar3
+pars(87)=0.1
+pars(93)=0.1
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
-
-pars(21)=-1.5_dp !pmeet
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
 
 
 
