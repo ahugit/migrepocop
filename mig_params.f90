@@ -13,7 +13,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=8
+    integer(i4b), parameter :: numit=1
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.false.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
@@ -202,13 +202,13 @@ contains
 
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
-	realpar(j)=par(j)               ; parname(j)='p+ ex<nexp=2,e' ; stepos(j)=1.0_dp !this is psih, the only one that governs fnprhc.  
-	psih=realpar(j)	        ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='p0 ex<nexp=2,e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	realpar(j)=par(j)               ; parname(j)='p(ex=1|ex=1),e' ; stepos(j)=1.0_dp !this is psih, the only one that governs fnprhc.  
+	psih=realpar(j)	            ; j=j+1
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=2|ex=1),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
 	junk=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='p+ ex=nexp=2,e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=1|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
 	junk=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='p0 ex=nexp=2,e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=2|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
 	junk=realpar(j)	            ; j=j+1
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
@@ -390,10 +390,14 @@ contains
     temprob(1:3)=fnprof(np,10,2) !unemp ofloc f
     realpar(12)=temprob(1) 
     if (nexp>2) then ; print*, "it is only ok to write this way if nexp is 2! so beware" ; stop ; end if
-    temprob(1:nexp)=fnprhc(1,np) !when experience is 1 and when working, what si the prob of up,0,down (the other movements are all prob 0)
-    realpar(16)=temprob(1)
-    temprob(1:nexp)=fnprhc(nexp,np) !when experience is nexp and when working, what si the prob of up,0,down (the other movements are all prob 0)
-    realpar(17)=temprob(1)
+    temprob(1:nexp)=fnprhc(1,np) !when experience is 1 and when working
+    realpar(16)=temprob(1) !this is prob of moving to experience=1 when your experience is 1. 
+    temprob(1:nexp)=fnprhc(1,np) !when experience is 1 and when working
+    realpar(17)=temprob(2) !this is prob of moving to experience=2 when your experience is 1. 
+    temprob(1:nexp)=fnprhc(nexp,np) !when experience is 1 and when working
+    realpar(18)=temprob(1) !this is prob of moving to experience=1 when your experience is 2. 
+    temprob(1:nexp)=fnprhc(nexp,np) !when experience is 1 and when working
+    realpar(19)=temprob(2) !this is prob of moving to experience=2 when your experience is 2. 
     !note that we are not writing the fnprhc(.,np1) because that is just prob of staying where you are is 1. Check this in the writing of fnprhc in writemoments. 
     !******************** ahu october2022 **********************************************
 
@@ -807,7 +811,8 @@ contains
                     real(dp) :: fnmove
                     integer(i4b) :: c,t,h
                     call index2cotyphome(trueindex,c,t,h)			
-                    fnmove = cst(t)  + ecst * one(empo<=np) + kcst * one(empo==np1) !+ kcst * one(kid>1) !kid 1 is no kid, kid 2 is yes kid
+                    fnmove = cst(t)  + ecst * one(empo<=np) + kcst * one(kid>1) !+ kcst * one(empo==np1)  !kid 1 is no kid, kid 2 is yes kid
+                    !ahu october2022: no idea why this was kcst * one(empo==np1) 
                     !fnmove = fnmove / div
                 end function fnmove
                
