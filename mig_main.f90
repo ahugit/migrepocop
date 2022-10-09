@@ -249,8 +249,8 @@ nonlabinc=0.0_dp !ahu030622
 
  
 !************************
-    pars(66)=pars1(66)+1.0_dp
-    pars(67)=pars1(67)+0.5_dp
+    !pars(66)=pars1(66)+1.0_dp
+    !pars(67)=pars1(67)+0.5_dp
     pars(68)=50000.0_dp   
     pars(69)=20000.0_dp   
     pars(74)=-10000.0_dp !cst1 no longer norm 
@@ -258,7 +258,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(80)=-10000.0_dp
     pars(81)=0.0002_dp !mumar2
     pars(86)=-10000.0_dp
-    pars(87)=0.0002_dp !mumar3
+    pars(87)=0.001_dp !mumar3
     pars(92)=-50000.0_dp 
     pars(93)=0.01_dp    !mumar4
     pars(29)=pars(27)
