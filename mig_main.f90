@@ -252,7 +252,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(53)=0.0_dp !alf13 
     pars(65)=0.0_dp !alf23
  
-!************************
+!************************increase type 3 cst to decrease getdiv (w/0 messing getmar) AND sing mv
     !pars(66)=pars1(66)+1.0_dp
     !pars(67)=pars1(67)+0.5_dp
     pars(68)=50000.0_dp   
@@ -267,11 +267,12 @@ nonlabinc=0.0_dp !ahu030622
     pars(93)=0.01_dp    !mumar4
     pars(29)=pars(27)
     pars(30)=pars(28) !setting alphaed parameters so they are consistent with the runs right before I got rid of alphaed(g,ed)=alphaed(g,noed)
+    pars(27)=-2.0_dp !alphaed(m,noed)
+    pars(28)=1.0_dp !alphaed(f,noed)
+    pars(27)=-3.0_dp !alphaed(m,ed)
+    pars(28)=0.2_dp !alphaed(f,ed)
+    onthejobsearch=.TRUE.
 
-onthejobsearch=.TRUE.
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
-onthejobsearch=.FALSE.
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
