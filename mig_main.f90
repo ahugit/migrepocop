@@ -261,58 +261,14 @@ nonlabinc=0.0_dp !ahu030622
     pars(87)=0.0002_dp !mumar3
     pars(92)=-50000.0_dp 
     pars(93)=0.01_dp    !mumar4
-    pars(16)=-20.0_dp
-
-
+    pars(29)=pars(27)
+    pars(30)=pars(28) !setting alphaed parameters so they are consistent with the runs right before I got rid of alphaed(g,ed)=alphaed(g,noed)
 onthejobsearch=.TRUE.
-    pars(16)=20.0_dp
-    pars(66)=20.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
 onthejobsearch=.FALSE.
-    pars(16)=20.0_dp
-    pars(66)=20.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-onthejobsearch=.TRUE.
-    pars(16)=-20.0_dp
-    pars(66)=20.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-onthejobsearch=.FALSE.
-    pars(16)=-20.0_dp
-    pars(66)=20.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-onthejobsearch=.TRUE.
-    pars(16)=20.0_dp
-    pars(66)=-20.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-onthejobsearch=.FALSE.
-    pars(16)=20.0_dp
-    pars(66)=-20.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-onthejobsearch=.TRUE.
-    pars(16)=-20.0_dp
-    pars(66)=-20.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-onthejobsearch=.FALSE.
-    pars(16)=-20.0_dp
-    pars(66)=-20.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    !pars(66)=pars1(16)-3.0_dp
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
-
-    !pars(16)=20.0_dp
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
-
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)

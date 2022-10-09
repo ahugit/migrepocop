@@ -13,7 +13,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=8
+    integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.false.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
@@ -38,6 +38,7 @@
 	logical, parameter :: icheck_eqvmvf=.false.,icheck_eqvcvs=.false.,icheck_probs=.false.
 	integer(i4b), parameter :: npars    = 93
     character(len=15), dimension(npars) :: parname ! names of each parameter   !ahu 121118 now declkare as global it here instead of getsteps
+    character(len=25), dimension(nl) :: locname
     real(dp), dimension(npars) :: stepmin,realpartemp,parsforcheck,stepos !ahu 121118
 	!character(len=15), dimension(npars) :: parname 
 	integer(i4b), parameter :: mna=18,mxa=50   !,mxai=50		!ahu 070713 40	!if you ever change mina from 16 that might be problematic, because of psiddata%home and simdata%home definitions. look in read_data and read simdata for this
@@ -94,12 +95,12 @@
 	real(dp), parameter :: delta=0.96_dp,alf=0.5_dp   !ahumarch1022 delta=0.96_dp changing to 0 to figure out the mumardecrease problem
 	real(dp), parameter :: mu_wge(2)=0.0_dp
 	real(dp) :: sig_wge(2),mu_mar(ntypp),sig_mar,ro,mu_o , sigo_m,sigo_f
-	real(dp) :: uhome(2),alphaed(2,neduc),alphakid(2,nkid),alfhme
+	real(dp) :: uhome(2),alphaed(2,neduc),alphakid(nkid),alfhme !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
 	real(dp) :: gam_e,gam_u,cst(ntypp),kcst,ecst,scst,divpenalty,uloc(nl),sig_uloc
 	real(dp) :: alf10(nl),alf11,alf12,alf13,alf1t(ntypp)            ! types
 	real(dp) :: alf20(nl),alf21,alf22,alf23,alf2t(ntypp)            ! types
 	real(dp) :: ptype,pmeet,omega(2),ptypehs(ntypp),ptypecol(ntypp) ! types
-	real(dp) :: pkid,psio(12),psil(2),psih(4)
+	real(dp) :: pkid,psio(12),psil(2),psih !getting rid of psih2,3,4 so that now psih is just a scalar
 	real(dp) :: popsize(nl)
 	integer(i4b) :: distance(nl,nl)
 	real(dp) :: wg(np,2),wgt(np),mg(nz,ninp),mgt(nz),best
@@ -152,7 +153,7 @@ contains
 	real(dp), dimension(npars), intent(out) :: realpar ! vector of parameters
 	integer(i4b) :: g,i,j,ed,indust1(ntypp),indust2(ntypp)
     integer(i4b) :: dw0,de,dsex
-    real(dp) :: oftemp(3,np1,2,2)
+    real(dp) :: temprob(3),junk
 
     stepos=0.0_dp
     indust1=0
@@ -162,6 +163,8 @@ contains
     parname=''
     j=1
     !ahu jan19 012819: not iterating on ed offers anymore. replacing them with curloc and ofloc offers instead 
+    !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
+    !but the actual values that are used are assigned to psio right here and those are the ones that are used in fnprof.
 	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=2.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(1)=realpar(j)	            ; j=j+1
 	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=2.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
@@ -187,6 +190,8 @@ contains
 	realpar(j)=par(j)               ; parname(j)='u,of,f' ; stepos(j)=2.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(12)=realpar(j)	            ; j=j+1
     !print*, 'Here is psio12',j-1
+    !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
+    !but the actual values that are used are assigned to psio right here and those are the ones that are used in fnprof.
 
 	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp 
 	psil(1)=realpar(j)	            ; j=j+1
@@ -195,14 +200,18 @@ contains
 	realpar(j)=min2pls(par(j))      ; parname(j)='ro'	; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	ro=realpar(j)                   ; j=j+1
 
-	realpar(j)=par(j)               ; parname(j)='psih(1)' ; stepos(j)=1.0_dp !ahu jan19 011719 changing to logit
-	psih(1)=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='psih(2)' ; stepos(j)=0.0_dp !ahu jan19 011719 changing to logit
-	psih(2)=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='psih(3)' ; stepos(j)=0.0_dp !ahu jan19 011519 getting rid of probdown
-	psih(3)=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='psih(4)' ; stepos(j)=0.0_dp  !ahu jan19 011519 getting rid of probdown
-	psih(4)=realpar(j)	            ; j=j+1
+    !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
+    !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
+	realpar(j)=par(j)               ; parname(j)='p(ex=1|ex=1),e' ; stepos(j)=1.0_dp !this is psih, the only one that governs fnprhc.  
+	psih=realpar(j)	            ; j=j+1
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=2|ex=1),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	junk=realpar(j)	            ; j=j+1
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=1|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	junk=realpar(j)	            ; j=j+1
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=2|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	junk=realpar(j)	            ; j=j+1
+    !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
+    !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
 
     
     realpar(j)=logit(par(j))        ; parname(j)='pkid' ; stepos(j)=1.0_dp  ; if (onlysingles) stepos(j)=0.0_dp !20
@@ -231,15 +240,16 @@ contains
     realpar(j:j+1) = mult1 * logit(par(j:j+1))          ; parname(j)='alphaed(m,ned)' ; parname(j+1)='alphaed(f,ned)'    !27:28   !ahu jan19 012719 changing it yet again back to logit because there is not that much of different in objval between alpha=0 and alpha=-49000    !ahu jan19 012019 changing it back to min2pls  ! noed !ahu 112718 changing to only plus from: mult1*min2pls(par(7:8))   !mult1 * logit(par(7))	
 	stepos(j)=1.0_dp*par(j)         ; if (onlyfem) stepos(j)=0.0_dp 
     stepos(j+1)=1.0_dp*par(j+1)     ; if (onlymales) stepos(j+1)=0.0_dp 
-    alphaed(:,1)=realpar(j:j+1)                         ; j=j+2
-    !realpar(j:j+1)= mult1 * min2pls(par(j:j+1))           ; parname(j)='alphaed(m,ed)' ; parname(j+1)='alphaed(f,ed)'         !ahu jan19 012019 changing it back to min2pls       ! ed !ahu 112718 changing to only plus from: mult1 * min2pls(par(9:10))	 !mult1 * logit(par(9:10))	
-	!stepos(j)=5.0_dp ; 	stepos(j+1)=5.0_dp   ; if (onlymales) stepos(j+1)=0.0_dp 
-    realpar(j:j+1)=alphaed(:,1)            ; parname(j)='alphaed(m,ed)' ; parname(j+1)='alphaed(f,ed)'     !ahu jan19 012419 changing this so that there is no alpha by ed no more    !ahu jan19 012019 changing it back to min2pls       ! ed !ahu 112718 changing to only plus from: mult1 * min2pls(par(9:10))	 !mult1 * logit(par(9:10))	
-	stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp ; 	stepos(j+1)=0.0_dp   ; if (onlymales) stepos(j+1)=0.0_dp 
-    alphaed(:,2)=realpar(j:j+1)                         ; j=j+2 
+    alphaed(:,1)=realpar(j:j+1)                         ; j=j+2 !alphaed(m:f,noed)  [educ=1 noed, educ=2 ed]  mult1 * min2pls(par(j:j+1))
+    
+    realpar(j:j+1) = mult1 * logit(par(j:j+1))          ; parname(j)='alphaed(m,ed)' ; parname(j+1)='alphaed(f,ed)'    !27:28   !ahu jan19 012719 changing it yet again back to logit because there is not that much of different in objval between alpha=0 and alpha=-49000    !ahu jan19 012019 changing it back to min2pls  ! noed !ahu 112718 changing to only plus from: mult1*min2pls(par(7:8))   !mult1 * logit(par(7))	
+	stepos(j)=1.0_dp*par(j)         ; if (onlyfem) stepos(j)=0.0_dp 
+    stepos(j+1)=1.0_dp*par(j+1)     ; if (onlymales) stepos(j+1)=0.0_dp 
+    alphaed(:,2)=realpar(j:j+1)                         ; j=j+2 !alphaed(m:f,ed)  [educ=1 noed, educ=2 ed]  mult1 * min2pls(par(j:j+1))
+    
     realpar(j:j+1)=mult1 * logit(par(j:j+1))            ; parname(j)='alphakid(m)' ; parname(j+1)='alphakid(f)'          !31:32           !ahu 112718 changing to only plus from: mult1 * min2pls(par(j:j+1))	 !mult1 * logit(par(9:10))	
     stepos(j)=5.0_dp  ; if (onlyfem) stepos(j)=0.0_dp ; 	stepos(j+1)=0.5_dp  ; if (onlymales) stepos(j:j+1)=0.0_dp 
-    alphakid(:,2)=realpar(j:j+1)                        ; j=j+2         
+    alphakid(:)=realpar(j:j+1)                        ; j=j+2         
     !print*, 'Here is uloc',j
 	
     !uloc: 33-41
@@ -356,13 +366,58 @@ contains
         realpar(indust1(i))=ptypehs(i)
         realpar(indust2(i))=ptypecol(i)
     end do 
- 
-    !psih(2)=0.0_dp
+
+    !******************** ahu october2022 **********************************************
+    ! writing of realpar for psio parameters in getpars by calling fnprof 
+    ! writing of realpar for psih parameters in getpars by calling fnprof 
+    ! note that the below is just for visual purposes. realpar is not used in the solution or simulation. the actual parameters psio are used. 
+    ! and here I am not reassigning values of psio. just reassignign values of realpar so I can write it in writemoments. 
+    ! see writemoments file for more detailed writing of the fnprof parameters. 
+    temprob(1:3)=fnprof(np,5,1) !emp curloc m
+    realpar(1:2)=temprob(1:2) 
+    temprob(1:3)=fnprof(np,10,1) !emp ofloc m
+    realpar(3:4)=temprob(1:2) 
+    temprob(1:3)=fnprof(np,5,2) !emp curloc f 
+    realpar(5:6)=temprob(1:2) 
+    temprob(1:3)=fnprof(np,10,2) !emp ofloc f
+    realpar(7:8)=temprob(1:2) 
+    temprob(1:3)=fnprof(np,5,1) !unemp curloc m
+    realpar(9)=temprob(1) 
+    temprob(1:3)=fnprof(np,10,1) !unemp ofloc m
+    realpar(10)=temprob(1) 
+    temprob(1:3)=fnprof(np,5,2) !unemp curloc f 
+    realpar(11)=temprob(1) 
+    temprob(1:3)=fnprof(np,10,2) !unemp ofloc f
+    realpar(12)=temprob(1) 
+    if (nexp>2) then ; print*, "it is only ok to write this way if nexp is 2! so beware" ; stop ; end if
+    temprob(1:nexp)=fnprhc(1,np) !when experience is 1 and when working
+    realpar(16)=temprob(1) !this is prob of moving to experience=1 when your experience is 1. 
+    temprob(1:nexp)=fnprhc(1,np) !when experience is 1 and when working
+    realpar(17)=temprob(2) !this is prob of moving to experience=2 when your experience is 1. 
+    temprob(1:nexp)=fnprhc(nexp,np) !when experience is 1 and when working
+    realpar(18)=temprob(1) !this is prob of moving to experience=1 when your experience is 2. 
+    temprob(1:nexp)=fnprhc(nexp,np) !when experience is 1 and when working
+    realpar(19)=temprob(2) !this is prob of moving to experience=2 when your experience is 2. 
+    !note that we are not writing the fnprhc(.,np1) because that is just prob of staying where you are is 1. Check this in the writing of fnprhc in writemoments. 
+    !******************** ahu october2022 **********************************************
+
+    !Assign Cendiv names 
+    locname(1)='New England        '
+    locname(2)='Mid Atlantic       '
+    locname(3)='East North Central '
+    locname(4)='West North Central '
+    locname(5)='South Atlantic     '
+    locname(6)='East South Central '
+    locname(7)='West South Central '
+    locname(8)='Mountain           '
+    locname(9)='Pacific            '
+    !******************** ahu october2022 **********************************************
+
     !alphaed(:,2)=alphaed(:,1)
     mu_o=0.0_dp
     scst=0.0_dp
     sig_mar=0.0_dp
-    alphakid(:,1)=0.0_dp
+
 
     !***********************
     !ahu 041118 del and remove later:
@@ -722,9 +777,9 @@ contains
                 do j=1,nexp	
                     if ( dw <= np ) then 
                         if ( j-dr == +1 ) then  
-                            fnprhc(j)=exp(psih(1))   !ahu jan19 011719 changing to logit
+                            fnprhc(j)=exp(psih)      !ahu jan19 011719 changing to logit
                         else if (j==dr) then 
-                            fnprhc(j)=exp(0.0_dp)   !ahu jan19 011719 changing to logit
+                            fnprhc(j)=exp(0.0_dp)  
                         else if ( j-dr == -1 ) then  !ahu jan19 011519 getting rid of probdown
                             fnprhc(j)=0.0_dp
                         else 
@@ -756,7 +811,8 @@ contains
                     real(dp) :: fnmove
                     integer(i4b) :: c,t,h
                     call index2cotyphome(trueindex,c,t,h)			
-                    fnmove = cst(t)  + ecst * one(empo<=np) + kcst * one(empo==np1) !+ kcst * one(kid>1) !kid 1 is no kid, kid 2 is yes kid
+                    fnmove = cst(t)  + ecst * one(empo<=np) + kcst * one(kid>1) !+ kcst * one(empo==np1)  !kid 1 is no kid, kid 2 is yes kid
+                    !ahu october2022: no idea why this was kcst * one(empo==np1) 
                     !fnmove = fnmove / div
                 end function fnmove
                

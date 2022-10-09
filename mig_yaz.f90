@@ -31,8 +31,8 @@ contains
 	if (g==2)  	write(100,'("female: age: ",i4)' ) ia
     write(100,*)
 	write(100,'(" ************************************************************************************************************************** ")' ) 	
-	write(100,'(tr1,"alphakid nokid",tr2,"alphakid kid", tr2,"alphaed noed",tr4,"alphaed ed",tr9,"uhome",tr5,"move cost")')
-	write(100,'(6f14.2)') alphakid(g,1),alphakid(g,2),alphaed(g,1),alphaed(g,2),uhome(g),movecost(q0,x,trueindex)
+	write(100,'(tr3,"alphaed(m,ned)",tr3,"alphaed(f,ned)",tr4,"alphaed(m,ed)",tr4,"alphaed(f,ed)",tr6,"alphakid(m)",tr6,"alphakid(f)",tr9,"uhome(m)",tr9,"uhome(f)",tr8,"move cost")')
+	write(100,'(9(8x,f9.2))') alphaed(1:2,1),alphaed(1:2,2),alphakid(1:2),uhome(1:2),movecost(q0,x,trueindex)
 	write(100,'(9(tr10,"uloc"))')
 	write(100,'(9f14.2)') uloc(:)
 	write(100,'(1x,"moveshock(ieps)")')
@@ -437,8 +437,8 @@ contains
 					
 	
 	subroutine yaz0 !called from objf just for checks
-	integer(i4b) :: n,i,j,g,q0,x0,q,x
-	real(dp) :: lb,ub,cdf(2),expv,ppcqx_sum_overqx
+	integer(i4b) :: n,i,j,g,q0,x0,q,x,expe,typ,edu,loca
+	real(dp) :: lb,ub,cdf(2),expv,ppcqx_sum_overqx,temp
 	if (skriv) then 
 		print*, "here i am in skriv!" 
 		write(50,*) 
@@ -519,28 +519,6 @@ contains
 				write(50,*) 
 			end do 
 		!end do 
-		write(50,'(/," ---------------- fnprloc parameters ---------------- ")') 
-		!write(50,'(/,"iter psil(1) psil(2) psil(3) ",i6,f14.3)') iter,psil(:)
-		write(50, '(/,6x,tr12,"ne",tr12,"ma",tr11,"enc",tr11,"wnc",tr12,"sa",tr11,"esc",tr11,"wsc",tr9,"mount",tr11,"pac" )' ) 
-		write(50,'(6x,9f14.3)') popsize(1:nl)
-		write(50,'(2/,4x,"ne",9(f14.3))') fnprloc(1)		
-		write(50,'(6x,9(2x,i8,4x))') distance(:,1)
-		write(50,'(/,4x,"ma",9(f14.3) )') fnprloc(2)
-		write(50,'(6x,9(3x,i8,3x))') distance(:,2)
-		write(50,'(3/,3x,"enc",9(f14.3) )') fnprloc(3)
-		write(50,'(6x,9(3x,i8,3x))') distance(:,3)
-		write(50,'(/,3x,"wnc",9(f14.3) )') fnprloc(4)
-		write(50,'(6x,9(3x,i8,3x))') distance(:,4)
-		write(50,'(/,4x,"sa",9(f14.3) )') fnprloc(5)
-		write(50,'(6x,9(3x,i8,3x))') distance(:,5)
-		write(50,'(/,3x,"esc",9(f14.3) )') fnprloc(6)
-		write(50,'(6x,9(3x,i8,3x))') distance(:,6)
-		write(50,'(/,3x,"wsc",9(f14.3) )') fnprloc(7)
-		write(50,'(6x,9(3x,i8,3x))') distance(:,7)
-		write(50,'(/,1x,"mount",9(f14.3) )') fnprloc(8)
-		write(50,'(6x,9(3x,i8,3x))') distance(:,8)
-		write(50,'(/,3x,"pac",9(f14.3) )') fnprloc(9)
-		write(50,'(6x,9(3x,i8,3x))') distance(:,9)
 		write(50,'(3/," ---------------- fnprhc(exp,w) ---------------- ")') 
 		write(50, '(1x,tr7,"w",tr4,"exp",4(tr8,"fnprhc") )' ) 
         do n=1,np1
@@ -553,15 +531,62 @@ contains
 		end do 
 		i=-1 ; n=-1 ; j=-1
 
-		write(50,'(2/," ---------------- wage profiles given typ=1,loc=nloc ---------------- ")') 
-		write(50, '(1x,tr3,"ed",tr3,"exp",2(tr11,"eps",tr10,"wage") )')
-		do j=1,neduc
-			do i=1,nexp
-				do n=1,np
-					write(50,'(2i6,4f14.3)') j,i,wg(n,1),fnwge(1,1,nl,wg(n,1),j,i),wg(n,2),fnwge(2,1,nl,wg(n,2),j,i)				!fnwge(dg,dtyp,dl,dw,de,dr)						
+		!fnwge(dg,dtyp,dl,dw,de,dr)		!de is educ here but in fnprof it's no longer educ				
+		!integer(i4b), intent(in) :: dg,dtyp,dl,de,dr	! gender,typ,location,education,experience
+		!real(dp), intent(in) :: dw								! wage draw
+		do loca=1,nl
+			write(50,'(3/," LOCATION:  ",I4,a25)') loca,locname(loca) 
+		do g=1,2
+			do edu=1,neduc
+			if (g==1.and.edu==1) then 
+				write(50,'(2/," ---------------- wage: males, no educ ---------------- ")') 
+			else if (g==1.and.edu==2) then 
+				write(50,'(2/," ---------------- wage: males, educ     ---------------- ")') 
+			else if (g==2.and.edu==1) then 
+				write(50,'(2/," ---------------- wage: females, no educ    ---------------- ")') 
+			else if (g==2.and.edu==2) then 
+				write(50,'(2/," ---------------- wage: females, educ    ---------------- ")') 
+			end if
+			do typ=1,ntypp
+				write(50,*)
+				write(50, '(1x,tr3,"typ",tr3,"exp",tr5,"n",tr11,"eps",tr10,"wage",tr7,"logwage" )')
+				do expe=1,nexp
+					write(50,*)
+					write(50, '(1x,tr3,"typ",tr3,"exp",tr5,"n",tr11,"eps",tr10,"wage",tr7,"logwage" )')
+					do n=1,np
+						temp=fnwge(g,typ,loca,wg(n,g),edu,expe)      							!fnwge(dg,dtyp,dl,dw,de,dr)		
+						write(50,'(3i6,3f14.3)') typ,expe,n,wg(n,g),temp,log(temp)				!fnwge(dg,dtyp,dl,dw,de,dr)		
+					end do 				
 				end do 
 			end do 
+			end do 
 		end do 
+	end do 
+
+
+	write(50,'(/," ---------------- fnprloc parameters ---------------- ")') 
+	!write(50,'(/,"iter psil(1) psil(2) psil(3) ",i6,f14.3)') iter,psil(:)
+	write(50, '(/,6x,tr12,"ne",tr12,"ma",tr11,"enc",tr11,"wnc",tr12,"sa",tr11,"esc",tr11,"wsc",tr9,"mount",tr11,"pac" )' ) 
+	write(50,'(6x,9f14.3)') popsize(1:nl)
+	write(50,'(2/,4x,"ne",9(f14.3))') fnprloc(1)		
+	write(50,'(6x,9(2x,i8,4x))') distance(:,1)
+	write(50,'(/,4x,"ma",9(f14.3) )') fnprloc(2)
+	write(50,'(6x,9(3x,i8,3x))') distance(:,2)
+	write(50,'(3/,3x,"enc",9(f14.3) )') fnprloc(3)
+	write(50,'(6x,9(3x,i8,3x))') distance(:,3)
+	write(50,'(/,3x,"wnc",9(f14.3) )') fnprloc(4)
+	write(50,'(6x,9(3x,i8,3x))') distance(:,4)
+	write(50,'(/,4x,"sa",9(f14.3) )') fnprloc(5)
+	write(50,'(6x,9(3x,i8,3x))') distance(:,5)
+	write(50,'(/,3x,"esc",9(f14.3) )') fnprloc(6)
+	write(50,'(6x,9(3x,i8,3x))') distance(:,6)
+	write(50,'(/,3x,"wsc",9(f14.3) )') fnprloc(7)
+	write(50,'(6x,9(3x,i8,3x))') distance(:,7)
+	write(50,'(/,1x,"mount",9(f14.3) )') fnprloc(8)
+	write(50,'(6x,9(3x,i8,3x))') distance(:,8)
+	write(50,'(/,3x,"pac",9(f14.3) )') fnprloc(9)
+	write(50,'(6x,9(3x,i8,3x))') distance(:,9)
+
 		!write(50,'(" ---------------- ppsq(q,q0,x0,g) - males and females ---------------- ")') 
 		!ppmq_check=0.0_dp
 		!ppfq_check=0.0_dp
