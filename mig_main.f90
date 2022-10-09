@@ -262,14 +262,50 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=-50000.0_dp 
     pars(93)=0.01_dp    !mumar4
     pars(16)=-20.0_dp
+
+
+onthejobsearch=.TRUE.
+    pars(16)=20.0_dp
+    pars(66)=20.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+onthejobsearch=.FALSE.
+    pars(16)=20.0_dp
+    pars(66)=20.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+onthejobsearch=.TRUE.
+    pars(16)=-20.0_dp
+    pars(66)=20.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+onthejobsearch=.FALSE.
+    pars(16)=-20.0_dp
+    pars(66)=20.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+onthejobsearch=.TRUE.
+    pars(16)=20.0_dp
+    pars(66)=-20.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+onthejobsearch=.FALSE.
+    pars(16)=20.0_dp
+    pars(66)=-20.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+onthejobsearch=.TRUE.
+    pars(16)=-20.0_dp
+    pars(66)=-20.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+onthejobsearch=.FALSE.
+    pars(16)=-20.0_dp
+    pars(66)=-20.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(66)=pars1(16)-3.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    !pars(16)=pars1(16)
+    !pars(66)=pars1(16)-3.0_dp
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp   
 

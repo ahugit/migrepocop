@@ -327,7 +327,7 @@ contains
     !open(unit=61 change this 61 to another number since bestval is also 61 maybe among other things, file=momentonlyfile,status='replace')
 	do i=1,npars
 		!write(60,'(1a15,4f12.4)') parname(i),realpar_save(i,1:4)
-        write(60,'(1a15,2f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
+        write(60,'(1a15,8f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
 	end do 
     write(60,*)
     write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
@@ -401,9 +401,9 @@ contains
     write(60,'("experience transitions (fnprhc, governed only by psih(1):")') 
     do i=1,nexp
     write(60,'("curexp: ",i4,"empstat: np "," fnprhc(curexp,empstat=np) is: ")') i
-    write(60,*) fnprhc(i,np)
+    write(60,'(2F9.2)') fnprhc(i,np)
     write(60,'("curexp: ",i4,"empstat: np1 "," fnprhc(curexp,empstat=np1) is: ")') i
-    write(60,*) fnprhc(i,np1)
+    write(60,'(2F9.2)') fnprhc(i,np1)
     end do
 
 

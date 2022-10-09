@@ -13,12 +13,12 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=2
+    integer(i4b), parameter :: numit=8
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.false.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
     logical :: nonneg
-    !logical, parameter :: onthejobsearch=.TRUE. !set in m\ain
+    logical :: onthejobsearch=.TRUE. !set in main
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
 	real(dp), parameter :: eps = 1.0d-6,zero=0.0_dp,epstest=2.0_dp					! could do tiny(.) but that gives a number that is way too small and therefore not appropriate for those places where we check the inequalities or equalities	
 	real(dp), parameter :: eps2= 1.0d-6
@@ -616,37 +616,67 @@ contains
             function fnprof(dw0,de,dsex) !ahu october2022: note that de was ed before but now it's wtr it's curloc or ofloc (takes on values 5 or 10)
             integer(i4b), intent(in) :: dw0,de,dsex
             real(dp), dimension(3) :: fnprof
-            fnprof=0.0_dp
-            if ( dw0 <= np ) then  
-                if ( de==5 .and. dsex==1 ) then 
-                    fnprof(1:2)=0.0_dp !exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
-                else if ( de==10 .and. dsex==1 ) then 
-                    fnprof(1:2)=exp(psio(3:4)) 
-                else if ( de==5 .and. dsex==2 ) then 
-                    fnprof(1:2)=0.0_dp !exp(psio(5:6)) 
-                else if ( de==10 .and. dsex==2 ) then 
-                    fnprof(1:2)=exp(psio(7:8)) 
+            if (onthejobsearch) then 
+                fnprof=0.0_dp
+                if ( dw0 <= np ) then  
+                    if ( de==5 .and. dsex==1 ) then 
+                        fnprof(1:2)=exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
+                    else if ( de==10 .and. dsex==1 ) then 
+                        fnprof(1:2)=exp(psio(3:4)) 
+                    else if ( de==5 .and. dsex==2 ) then 
+                        fnprof(1:2)=exp(psio(5:6)) 
+                    else if ( de==10 .and. dsex==2 ) then 
+                        fnprof(1:2)=exp(psio(7:8)) 
+                    end if 
+                    fnprof(3)=exp( 0.0_dp )		! nothing happens												
+                else if (dw0 == np1) then 
+                    if ( de==5 .and. dsex==1 ) then 
+                        fnprof(1)=exp(psio(9)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
+                    else if ( de==10 .and. dsex==1 ) then 
+                        fnprof(1)=exp(psio(10) )
+                    else if ( de==5 .and. dsex==2 ) then 
+                        fnprof(1)=exp(psio(11)) 
+                    else if ( de==10 .and. dsex==2 ) then 
+                        fnprof(1)=exp(psio(12)) 
+                    end if 
+                    fnprof(2)=0.0_dp		! 0 since you can't get laid off if you don't have a job! 
+                    fnprof(3)=exp(0.0_dp)		! nothing happens												
+                else  
+                    print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " , dw0,de,dsex
+                    stop
                 end if 
-                fnprof(3)=exp( 0.0_dp )		! nothing happens												
-            else if (dw0 == np1) then 
-                if ( de==5 .and. dsex==1 ) then 
-                    fnprof(1)=exp(psio(9)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
-                else if ( de==10 .and. dsex==1 ) then 
-                    fnprof(1)=exp(psio(10) )
-                else if ( de==5 .and. dsex==2 ) then 
-                    fnprof(1)=exp(psio(11)) 
-                else if ( de==10 .and. dsex==2 ) then 
-                    fnprof(1)=exp(psio(12)) 
+                fnprof(1:3)=fnprof/sum(fnprof)
+            else 
+                fnprof=0.0_dp
+                if ( dw0 <= np ) then  
+                    if ( de==5 .and. dsex==1 ) then 
+                        fnprof(1:2)=0.0_dp !exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
+                    else if ( de==10 .and. dsex==1 ) then 
+                        fnprof(1:2)=exp(psio(3:4)) 
+                    else if ( de==5 .and. dsex==2 ) then 
+                        fnprof(1:2)=0.0_dp !exp(psio(5:6)) 
+                    else if ( de==10 .and. dsex==2 ) then 
+                        fnprof(1:2)=exp(psio(7:8)) 
+                    end if 
+                    fnprof(3)=exp( 0.0_dp )		! nothing happens												
+                else if (dw0 == np1) then 
+                    if ( de==5 .and. dsex==1 ) then 
+                        fnprof(1)=exp(psio(9)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
+                    else if ( de==10 .and. dsex==1 ) then 
+                        fnprof(1)=exp(psio(10) )
+                    else if ( de==5 .and. dsex==2 ) then 
+                        fnprof(1)=exp(psio(11)) 
+                    else if ( de==10 .and. dsex==2 ) then 
+                        fnprof(1)=exp(psio(12)) 
+                    end if 
+                    fnprof(2)=0.0_dp		! 0 since you can't get laid off if you don't have a job! 
+                    fnprof(3)=exp(0.0_dp)		! nothing happens												
+                else  
+                    print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " , dw0,de,dsex
+                    stop
                 end if 
-                fnprof(2)=0.0_dp		! 0 since you can't get laid off if you don't have a job! 
-                fnprof(3)=exp(0.0_dp)		! nothing happens												
-            else  
-                print*, "in fnprof: dw0 > np1 which doesnt' make sense as that's a state variable " , dw0,de,dsex
-                stop
+                fnprof(1:3)=fnprof/sum(fnprof)
             end if 
-            fnprof(1:3)=fnprof/sum(fnprof)
-            !fnprof=0.0_dp
-            !fnprof(1)=1.0_dp						
             if (skriv) then 
                 if ( abs(  sum(fnprof) - 1.0_dp  ) > eps) then ; print*, "error in getfnprof : offer does not add up " , sum(fnprof) ; stop ; end if 
             end if 
