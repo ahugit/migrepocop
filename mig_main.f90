@@ -265,14 +265,11 @@ nonlabinc=0.0_dp !ahu030622
     pars(87)=0.001_dp !mumar3
     pars(92)=-50000.0_dp 
     pars(93)=0.01_dp    !mumar4
-    pars(29)=pars(27)
-    pars(30)=pars(28) !setting alphaed parameters so they are consistent with the runs right before I got rid of alphaed(g,ed)=alphaed(g,noed)
-    pars(27)=-2.0_dp !alphaed(m,noed)
-    pars(28)=1.0_dp !alphaed(f,noed)
-    pars(27)=-3.0_dp !alphaed(m,ed)
-    pars(28)=0.2_dp !alphaed(f,ed)
+    pars(27)=-3.0_dp !alphaed(m,noed)
+    pars(28)=-2.0_dp !alphaed(f,noed)
+    pars(29)=-5.3_dp !alphaed(m,ed)
+    pars(30)=-4.0_dp !alphaed(f,ed)
     onthejobsearch=.TRUE.
-
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -281,6 +278,14 @@ pars(86)=-50000.0_dp
 pars(87)=0.001_dp !mumar3
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+pars(21)=-1.5_dp !pmeet
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
