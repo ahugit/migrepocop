@@ -923,7 +923,7 @@ end FUNCTION random
             ia=MNAD
             CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
             WRITE(name(im),'("move by age ",I4)') ia
-            weights(im)=wmovebyrel
+            weights(im)=wmovebyrel ; if (ia==18) then ; weights(im)=0.0_dp ; end if !cell sample size too small for married at age 18
             im=im+1
             do ia=MNA,MXAD,5
                 CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
@@ -1062,12 +1062,12 @@ end FUNCTION random
 
             call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1   .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l/=dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l>0 ),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
             write(name(im),'("wdif | eue,m ",tr2)')  
-            weights(im)=wdifww 
+            weights(im)=0.0_dp  
             calcvar(im)=1
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1   .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l/=dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l>0 ),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr )**2,mom,cnt,var)		
             write(name(im),'("wdif2 | eue,m ",tr2)')  
-            weights(im)=wdifww
+            weights(im)=0.0_dp
             calcvar(im)=5
             im=im+1 
             !call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1   .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l/=dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l>0 ),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr -mom(im-2))**2,mom,cnt,var)		
@@ -1096,29 +1096,30 @@ end FUNCTION random
             if (g==2.and.j==1) headstr(ihead)='married fem emp transitions'
             ihead=ihead+1
 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1  .and.  dat(MNA:MXAD,:)%edr==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-            write(name(im),'("e | u move ned",tr3)')  
-            weights(im)=wtrans 
-            im=im+1 
-
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1  .and.  dat(MNA:MXAD,:)%edr==2 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
-            write(name(im),'("e | u move ed",tr3)')  
-            weights(im)=wtrans 
-            im=im+1 
-
-            do ia=mna, 38,10
-                call condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 .AND. move(ia,:)==1 .and.  dat(ia,:)%edr==1),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
-                write(name(im),'("e | u move by ia (ned)",i4)') ia  
-                weights(im)=0.0_dp
-                im=im+1 
-            end do 
-
-            do ia=mna, 38,10
-                call condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 .AND. move(ia,:)==1 .and.  dat(ia,:)%edr==2),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
-                write(name(im),'("e | u move by ia (ed)",i4)') ia
-                weights(im)=0.0_dp
-                im=im+1 
-            end do 
+            !cell sample size too small 
+           !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1  .and.  dat(MNA:MXAD,:)%edr==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
+           ! write(name(im),'("e | u move ned",tr3)')  
+            !weights(im)=wtrans 
+            !im=im+1 
+            !cell sample size too small 
+            !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1  .and.  dat(MNA:MXAD,:)%edr==2 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
+            !write(name(im),'("e | u move ed",tr3)')  
+            !weights(im)=wtrans 
+            !im=im+1 
+            !cell sample size too small 
+            !do ia=mna, 38,10
+            !    call condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 .AND. move(ia,:)==1 .and.  dat(ia,:)%edr==1),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
+            !    write(name(im),'("e | u move by ia (ned)",i4)') ia  
+            !    weights(im)=0.0_dp
+            !    im=im+1 
+            !end do 
+            !cell sample size too small 
+            !do ia=mna, 38,10
+            !    call condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%hhr==0 .AND. dat(ia+1,:)%hhr>=0 .AND. move(ia,:)==1 .and.  dat(ia,:)%edr==2),   d1*one( dat(ia+1,:)%hhr==1 ),mom,cnt,var)		
+            !    write(name(im),'("e | u move by ia (ed)",i4)') ia
+            !    weights(im)=0.0_dp
+            !    im=im+1 
+            !end do 
             
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | u stay",tr3)')  
