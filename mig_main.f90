@@ -353,6 +353,16 @@ pars(92)=-10000.0_dp
 pars(26)=pars1(26)+1.0_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
+
+pars(28)=-4.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
+pars(28)=-4.0_dp
+pars(27)=-5.3
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
