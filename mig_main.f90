@@ -285,57 +285,74 @@ nonlabinc=0.0_dp !ahu030622
     pars(80)=-80000.0_dp
     pars(86)=-30000.0_dp
     pars(92)=-30000.0_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
+!call getpars(pars,realpars)
+!call objfunc(pars,qval) ; realpars=realpartemp   
 
-pars(87)=0.01
-pars(93)=0.01
-pars(74)=-80000.0_dp
-pars(80)=-80000.0_dp
-pars(86)=-60000.0_dp
-pars(92)=-60000.0_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
+!pars(87)=0.01
+!pars(93)=0.01
+!pars(74)=-80000.0_dp
+!pars(80)=-80000.0_dp
+!pars(86)=-60000.0_dp
+!pars(92)=-60000.0_dp
+!call getpars(pars,realpars)
+!call objfunc(pars,qval) ; realpars=realpartemp   
 
-pars(87)=0.01
-pars(93)=0.01
-pars(74)=-80000.0_dp
-pars(80)=-80000.0_dp
-pars(86)=-10000.0_dp
-pars(92)=-10000.0_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-pars(87)=0.001
-pars(93)=0.001
-pars(74)=-80000.0_dp
-pars(80)=-80000.0_dp
-pars(86)=-60000.0_dp
-pars(92)=-60000.0_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
+!pars(87)=0.01
+!pars(93)=0.01
+!pars(74)=-80000.0_dp
+!pars(80)=-80000.0_dp
+!pars(86)=-10000.0_dp
+!pars(92)=-10000.0_dp
+!call getpars(pars,realpars)
+!call objfunc(pars,qval) ; realpars=realpartemp   
 
 
+!pars(87)=0.001
+!pars(93)=0.001
+!pars(74)=-80000.0_dp
+!pars(80)=-80000.0_dp
+!pars(86)=-60000.0_dp
+!pars(92)=-60000.0_dp
+!call getpars(pars,realpars)
+!call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+!pars(87)=0.1
+!pars(93)=0.1
+!pars(74)=-80000.0_dp
+!pars(80)=-80000.0_dp
+!pars(86)=-10000.0_dp
+!pars(92)=-10000.0_dp
+!call getpars(pars,realpars)
+!call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+!pars(87)=0.1
+!pars(93)=0.1
+!pars(74)=-80000.0_dp
+!pars(80)=-80000.0_dp
+!pars(86)=-60000.0_dp
+!pars(92)=-60000.0_dp
+!call getpars(pars,realpars)
+!call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+pars(16)=pars1(16)-0.5_dp
+pars(52)=pars1(52)-1.0_dp
+pars(64)=pars1(64)-1.0_dp
+pars(72:73)=8.8+0.2_dp
+pars(78:79)=8.8+0.2_dp
+pars(84:85)=8.8+0.2_dp
+pars(90:91)=8.8+0.2_dp
 pars(87)=0.1
 pars(93)=0.1
 pars(74)=-80000.0_dp
 pars(80)=-80000.0_dp
 pars(86)=-10000.0_dp
 pars(92)=-10000.0_dp
+pars(26)=pars1(26)+1.0_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-pars(87)=0.1
-pars(93)=0.1
-pars(74)=-80000.0_dp
-pars(80)=-80000.0_dp
-pars(86)=-60000.0_dp
-pars(92)=-60000.0_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
-
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
