@@ -12,6 +12,8 @@ module objf
 	character(len=namelen), dimension(nmom) :: name
 	character(len=500), dimension(nmom) :: header
 	integer(i4b), dimension(nmom) :: headerloc
+	real(dp), dimension(nepsmove,numit) :: moveshocksave,totcostsave
+	real(dp), dimension(2,numit) :: parcostsave
 contains
 	subroutine objfunc(parvec,objval)
 	! puts everything together: takes the parameter vector, computes msm objective function at that value
@@ -95,6 +97,9 @@ contains
 		q_save=0.0_dp
 		par_save=0.0_dp
 		realpar_save=0.0_dp
+		parcostsave=0.0_dp
+		moveshocksave=0.0_dp
+		totcostsave=0.0_dp
 	end if 		
 	if (iter<=numit) then
         !initiate
@@ -323,13 +328,30 @@ contains
 	subroutine writemoments(objval)
 	real(8), intent(in) :: objval
 	integer(i4b) :: i,t,ihead,j,k,trueindex
+	character(len=15) :: parcostname(2),moveshockname,totcostname
 	open(unit=60, file=momentfile,status='replace')
     !open(unit=61 change this 61 to another number since bestval is also 61 maybe among other things, file=momentonlyfile,status='replace')
+	parcostsave(1,iter)=sigo_m
+	parcostsave(2,iter)=cst(4)
+	parcostname(1)='sigo_m'
+	parcostname(2)='cst(4)'
+	moveshocksave(1:nepsmove,iter)=moveshock_m(1:nepsmove)
+	moveshockname='moveshock_m'
+	totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
+	totcostname='total cost'
 	do i=1,npars
 		!write(60,'(1a15,4f12.4)') parname(i),realpar_save(i,1:4)
-        write(60,'(1a15,30f10.2)') parname(i),realpar_save(i,1:numit) !ahu030622
+        write(60,'(1a15,15f10.2)') parname(i),realpar_save(i,1:numit) 
 	end do 
-    write(60,*)
+	write(60,'(1a15,15f10.2)') parcostname(1),parcostsave(1,1:numit) 
+	write(60,'(1a15,15f10.2)') parcostname(2),parcostsave(2,1:numit) 
+	do i=1,nepsmove
+		write(60,'(1a15,15f10.2)') moveshockname,moveshocksave(i,1:numit) 
+    end do
+	do i=1,nepsmove
+		write(60,'(1a15,15f10.2)') totcostname,totcostsave(i,1:numit) 
+    end do
+	write(60,*)
     write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
 	write(60,'(4i4,3(2x,i4),4i8,2i4)') np,np1,np2,nl,neduc,nexp,nkid,nqs,nq,nx,nxs,nepsmove
 	write(60,'(tr2,"nz",tr2,"nh",tr1,"ncs",tr2,"nc",tr5,"ndata",tr3,"nsimeach",tr6,"nsim",tr2,"ndataobs",tr6,"nmom")') 
