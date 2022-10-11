@@ -381,31 +381,33 @@ if (iwritegen==1) then
 end if
 
 
-pars(16)=-2.0_dp
-pars(52)=-2.5_dp
-pars(64)=-2.5_dp
+pars(16)=-5.0_dp
+pars(52)=-5.5_dp
+pars(64)=-5.5_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
 
 pars(16)=1.0_dp
-pars(52)=-2.5_dp
-pars(64)=-2.5_dp
+pars(52)=-5.5_dp
+pars(64)=-5.5_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-pars(16)=-2.0_dp
-pars(52)=-1.0_dp
-pars(64)=-1.0_dp
+pars(16)=-5.0_dp
+pars(52)=0.0_dp
+pars(64)=0.0_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
+
 
 pars(16)=1.0_dp
-pars(52)=-1.0_dp
-pars(64)=-1.0_dp
+pars(52)=0.0_dp
+pars(64)=0.0_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
+
 
 
 !*************************    
