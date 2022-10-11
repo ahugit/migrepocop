@@ -365,16 +365,48 @@ pars(36)=4763.7679_dp !higher uloc4 because of chkobj101022
 pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
 pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
 pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
+
+if (iwritegen==1) then
+    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
+    pars(52)=-2.0_dp
+    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
+    pars(52)=-1.5_dp
+    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
+    pars(52)=-1.0_dp
+    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
+    pars(52)=-0.5_dp
+    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
+    pars(52)=0.0_dp
+    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
+end if
+
+
+pars(16)=-2.0_dp
+pars(52)=-2.5_dp
+pars(64)=-2.5_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-
-pars(16)=pars1(16)-0.5_dp
-pars(52)=pars1(64)-1.0_dp
-pars(64)=pars1(64)-1.0_dp
+pars(16)=1.0_dp
+pars(52)=-2.5_dp
+pars(64)=-2.5_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+pars(16)=-2.0_dp
+pars(52)=-1.0_dp
+pars(64)=-1.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
+pars(16)=1.0_dp
+pars(52)=-1.0_dp
+pars(64)=-1.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
