@@ -357,11 +357,6 @@ pars(16)=pars1(16)-1.2_dp
 pars(52)=pars1(52)-2.5_dp
 pars(68)=30000.0_dp   !decrease sigom
 pars(69)=10000.0_dp   !decrease sigof
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-
 pars(1)=3.8417_dp     !higher empcurm because of chkobj101022
 pars(7)=2.4740_dp     !higher emp of f because of chkobj101022
 pars(33)=1358.7599_dp !higher uloc1 because of chkobj101022
@@ -373,6 +368,13 @@ pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
+
+
+pars(16)=pars1(16)-0.5_dp
+pars(52)=pars1(64)-1.0_dp
+pars(64)=pars1(64)-1.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
