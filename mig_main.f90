@@ -366,6 +366,7 @@ pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
 pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
 pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
 
+
 if (iwritegen==1) then
     print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
     pars(52)=-2.0_dp
@@ -380,35 +381,29 @@ if (iwritegen==1) then
     print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
 end if
 
-
-pars(16)=-8.0_dp
-pars(52)=-5.5_dp
-pars(64)=-5.5_dp
+onthejobsearch=.TRUE.
+pars(16)=-1.2_dp
+pars(52)=-1.0_dp
+pars(64)=-1.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+pars(16)=1.4_dp
+pars(52)=-2.5_dp
+pars(64)=-2.5_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
-
-pars(16)=8.0_dp
-pars(52)=-5.5_dp
-pars(64)=-5.5_dp
+onthejobsearch=.FALSE.
+pars(16)=-1.2_dp
+pars(52)=-1.0_dp
+pars(64)=-1.0_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-pars(16)=-8.0_dp
-pars(52)=0.0_dp
-pars(64)=0.0_dp
+pars(16)=1.4_dp
+pars(52)=-2.5_dp
+pars(64)=-2.5_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-pars(16)=8.0_dp
-pars(52)=0.0_dp
-pars(64)=0.0_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
-
-
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
