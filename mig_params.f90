@@ -381,22 +381,20 @@ contains
     realpar(5:6)=temprob(1:2) 
     temprob(1:3)=fnprof(np,10,2) !emp ofloc f
     realpar(7:8)=temprob(1:2) 
-    temprob(1:3)=fnprof(np,5,1) !unemp curloc m
+    temprob(1:3)=fnprof(np1,5,1) !unemp curloc m
     realpar(9)=temprob(1) 
-    temprob(1:3)=fnprof(np,10,1) !unemp ofloc m
+    temprob(1:3)=fnprof(np1,10,1) !unemp ofloc m
     realpar(10)=temprob(1) 
-    temprob(1:3)=fnprof(np,5,2) !unemp curloc f 
+    temprob(1:3)=fnprof(np1,5,2) !unemp curloc f 
     realpar(11)=temprob(1) 
-    temprob(1:3)=fnprof(np,10,2) !unemp ofloc f
+    temprob(1:3)=fnprof(np1,10,2) !unemp ofloc f
     realpar(12)=temprob(1) 
     if (nexp>2) then ; print*, "it is only ok to write this way if nexp is 2! so beware" ; stop ; end if
     temprob(1:nexp)=fnprhc(1,np) !when experience is 1 and when working
     realpar(16)=temprob(1) !this is prob of moving to experience=1 when your experience is 1. 
-    temprob(1:nexp)=fnprhc(1,np) !when experience is 1 and when working
     realpar(17)=temprob(2) !this is prob of moving to experience=2 when your experience is 1. 
-    temprob(1:nexp)=fnprhc(nexp,np) !when experience is 1 and when working
+    temprob(1:nexp)=fnprhc(nexp,np) !when experience is 2 and when working
     realpar(18)=temprob(1) !this is prob of moving to experience=1 when your experience is 2. 
-    temprob(1:nexp)=fnprhc(nexp,np) !when experience is 1 and when working
     realpar(19)=temprob(2) !this is prob of moving to experience=2 when your experience is 2. 
     !note that we are not writing the fnprhc(.,np1) because that is just prob of staying where you are is 1. Check this in the writing of fnprhc in writemoments. 
     !******************** ahu october2022 **********************************************
