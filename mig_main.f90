@@ -382,28 +382,27 @@ if (iwritegen==1) then
 end if
 
 onthejobsearch=.TRUE.
-pars(16)=-1.2_dp
-pars(52)=-1.0_dp
-pars(64)=-1.0_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
-pars(16)=1.4_dp
-pars(52)=-2.5_dp
-pars(64)=-2.5_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
+pars(88:89)=10.0_dp !make everyone type4
+pars(92)=0.0_dp
+do j=1,10
+    pars(68)=500.0_dp*j
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+end do 
 
-onthejobsearch=.FALSE.
-pars(16)=-1.2_dp
-pars(52)=-1.0_dp
-pars(64)=-1.0_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
-pars(16)=1.4_dp
-pars(52)=-2.5_dp
-pars(64)=-2.5_dp
-call getpars(pars,realpars)
-call objfunc(pars,qval) ; realpars=realpartemp   
+pars(92)=1000.0_dp
+do j=1,10
+    pars(68)=500.0_dp*j
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+end do 
+
+pars(92)=5000.0_dp
+do j=1,10
+    pars(68)=500.0_dp*j
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+end do
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
