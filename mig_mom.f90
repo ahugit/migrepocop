@@ -1439,13 +1439,13 @@ end FUNCTION random
         do j=1,NL
             CALL condmom(im,( coho(MNA:MXAD,:) .AND.(move(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%l>=0).AND.(norelchg(MNA:MXAD,:)==1) ),d1*one(dat(MNA:MXAD,:)%l==j),mom,cnt,var)
             WRITE(name(im),'("prop-of-moves-from ",I4)') j
-            weights(im)=0.0_dp !wmove0
+            weights(im)=wmove
             im=im+1 
         end do  
         do j=1,NL
             CALL condmom(im,( coho(MNA:MXAD,:).AND.(move(MNA:MXAD,:)==1).AND.(dat(MNA+1:MXA,:)%l>=0).AND.(norelchg(MNA:MXAD,:)==1) ),d1*one(dat(MNA+1:MXA,:)%l==j),mom,cnt,var)
             WRITE(name(im),'("prop-of-moves-to  ",I4)') j
-            weights(im)=0.0_dp !wmove0
+            weights(im)=wmove
             im=im+1 
         end do  
 
@@ -1455,11 +1455,11 @@ end FUNCTION random
         ihead=ihead+1     
         CALL condmom(im,( coho(MNA:MXAD,:).AND.  (moverank(MNA:MXAD,:)>1).AND.(move(MNA:MXAD,:)==1)  ),d1*one(homemove(MNA:MXAD,:)==0),mom,cnt,var)
         WRITE(name(im),'("non-home ")') 
-        weights(im)=0.0_dp !wmove0
+        weights(im)=wmove
         im=im+1 
         CALL condmom(im,(coho(MNA:MXAD,:).AND.  (moverank(MNA:MXAD,:)>1).AND.(move(MNA:MXAD,:)==1)  ),d1*one(homemove(MNA:MXAD,:)==1),mom,cnt,var)
         WRITE(name(im),'("home     ")') 
-        weights(im)=0.0_dp !wmove0
+        weights(im)=wmove
         im=im+1 
         
 
@@ -1468,11 +1468,11 @@ end FUNCTION random
         ihead=ihead+1
         CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(kidtrans(MNA:MXAD,:)>=0)),d1*kidtrans(MNA:MXAD,:),mom,cnt,var)
         WRITE(name(im),'("kidtrans-married ")') 
-        weights(im)=0.0_dp !wkid
+        weights(im)=wkid
         im=im+1
         CALL condmom(im,((dat(MNA:MXAD,:)%co==co).AND.(dat(MNA:MXAD,:)%rel==1).and.(norelchg(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%kidr>=1)),d1*dat(MNA:MXAD,:)%kidr,mom,cnt,var)
         WRITE(name(im),'("kids-married     ")') 
-        weights(im)= 0.0_dp !wkid 
+        weights(im)= wkid 
         im=im+1
 
         
