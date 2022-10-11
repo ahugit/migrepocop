@@ -361,6 +361,19 @@ call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp   
 
 
+
+pars(1)=3.8417_dp     !higher empcurm because of chkobj101022
+pars(7)=2.4740_dp     !higher emp of f because of chkobj101022
+pars(33)=1358.7599_dp !higher uloc1 because of chkobj101022
+pars(35)=3354.4870_dp !higher uloc3 because of chkobj101022
+pars(36)=4763.7679_dp !higher uloc4 because of chkobj101022
+pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
+pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
+pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+
+
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
