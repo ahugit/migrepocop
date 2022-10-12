@@ -341,15 +341,15 @@ contains
 	totcostname='total cost'
 	do i=1,npars
 		!write(60,'(1a15,4f12.4)') parname(i),realpar_save(i,1:4)
-        write(60,'(1a15,30f10.2)') parname(i),realpar_save(i,1:numit) 
+        write(60,'(1a15,16f10.2)') parname(i),realpar_save(i,1:numit) 
 	end do 
-	write(60,'(1a15,30f10.2)') parcostname(1),parcostsave(1,1:numit) 
-	write(60,'(1a15,30f10.2)') parcostname(2),parcostsave(2,1:numit) 
+	write(60,'(1a15,16f10.2)') parcostname(1),parcostsave(1,1:numit) 
+	write(60,'(1a15,16f10.2)') parcostname(2),parcostsave(2,1:numit) 
 	do i=1,nepsmove
-		write(60,'(1a15,30f10.2)') moveshockname,moveshocksave(i,1:numit) 
+		write(60,'(1a15,16f10.2)') moveshockname,moveshocksave(i,1:numit) 
     end do
 	do i=1,nepsmove
-		write(60,'(1a15,30f10.2)') totcostname,totcostsave(i,1:numit) 
+		write(60,'(1a15,16f10.2)') totcostname,totcostsave(i,1:numit) 
     end do
 	write(60,*)
     write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
