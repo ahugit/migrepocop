@@ -398,7 +398,14 @@ onthejobsearch=.TRUE.
 !end do 
 
 onthejobsearch=.TRUE.
-pars(88:89)=10.0_dp !make everyone type4
+pars(70:71)=-100.0_dp !make everyone type2 and type4
+pars(76:77)=0.0_dp !make everyone type2 and type4
+pars(82:83)=-100.0_dp !make everyone type2 and type4
+pars(88:89)=0.0_dp !make everyone type2 and type4
+
+pars(74)=-10000.0_dp
+pars(80)=-10000.0_dp
+pars(86)=-10000.0_dp
 pars(92)=-10000.0_dp
 do j=1,6
     pars(68)=5000.0_dp*j
@@ -406,13 +413,16 @@ do j=1,6
     call objfunc(pars,qval) ; realpars=realpartemp   
 end do 
 
-pars(92)=-50000.0_dp
-do j=1,6
-    pars(68)=5000.0_dp*j
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-end do 
+!pars(92)=-50000.0_dp
+!do j=1,6
+!    pars(68)=5000.0_dp*j
+!    call getpars(pars,realpars)
+!    call objfunc(pars,qval) ; realpars=realpartemp   
+!end do 
 
+pars(74)=-80000.0_dp
+pars(80)=-80000.0_dp
+pars(86)=-80000.0_dp
 pars(92)=-80000.0_dp
 do j=1,6
     pars(68)=5000.0_dp*j
