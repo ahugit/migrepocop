@@ -404,6 +404,7 @@ pars(82:83)=-10.0_dp !make everyone type1 and type4
 pars(88:89)=0.0_dp !make everyone type1 and type4
 pars(15)=0.0_dp !ro
 pars1(67)=pars(67)
+pars(23)=pars(22)
 
 pars(74)=-10000.0_dp
 pars(80)=-10000.0_dp
