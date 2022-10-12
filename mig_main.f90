@@ -398,24 +398,27 @@ onthejobsearch=.TRUE.
 !end do 
 
 onthejobsearch=.TRUE.
-pars(70:71)=-10.0_dp !make everyone type2 and type4 (note that this doesn't really work as intended since ptype1 is fixed in getpars but it's ok)
-pars(76:77)=0.0_dp !make everyone type2 and type4
-pars(82:83)=-10.0_dp !make everyone type2 and type4
-pars(88:89)=0.0_dp !make everyone type2 and type4
+pars(70:71)=0.0_dp !make everyone type1 and type4 (note that ptype1 is fixed in getpars already)
+pars(76:77)=-10.0_dp !make everyone type1 and type4
+pars(82:83)=-10.0_dp !make everyone type1 and type4
+pars(88:89)=0.0_dp !make everyone type1 and type4
+pars(15)=0.0_dp !ro
+pars1(67)=pars(67)
 
 pars(74)=-10000.0_dp
 pars(80)=-10000.0_dp
 pars(86)=-10000.0_dp
 pars(92)=-10000.0_dp
-do j=1,3
-    pars(68)=10000.0_dp*j
-    pars(69)=10000.0_dp*j
+!do j=1,3
+    pars(68)=30000.0_dp !*j
+    pars(69)=10000.0_dp
+    pars(67)=pars1(67)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(69)=0.2_dp
+    pars(67)=-5.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-end do 
+!end do 
 
 !pars(92)=-50000.0_dp
 !do j=1,6
@@ -428,15 +431,16 @@ pars(74)=-80000.0_dp
 pars(80)=-80000.0_dp
 pars(86)=-80000.0_dp
 pars(92)=-80000.0_dp
-do j=1,3
-    pars(68)=10000.0_dp*j
-    pars(69)=10000.0_dp*j
+!do j=1,3
+    pars(68)=30000.0_dp !*j
+    pars(69)=10000.0_dp
+    pars(67)=pars1(67)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(69)=0.2_dp
+    pars(67)=-5.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-end do 
+!end do 
 
 
 
@@ -459,7 +463,6 @@ end do
 !    call getpars(pars,realpars)
 !    call objfunc(pars,qval) ; realpars=realpartemp   
 !end do
-
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
