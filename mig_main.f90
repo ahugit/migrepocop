@@ -382,65 +382,15 @@ if (iwritegen==1) then
 end if
 
 onthejobsearch=.TRUE.
-!pars(88:89)=10.0_dp !make everyone type4
-!pars(92)=0.0_dp
-!pars(68)=1000.0_dp
-!do i=1,3
-!do j=1,3
-!    do k=1,2
-!    pars(16)=-2.0_dp+i*1.0_dp
-!    pars(52)=-2.0_dp+(j-1)*1.0_dp
-!    pars(66)=-2.0_dp+(k-1)*4.0_dp
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-!end do 
-!end do 
-
-onthejobsearch=.TRUE.
 pars(88:89)=10.0_dp !make everyone type4
-pars(92)=-10000.0_dp
-do j=1,6
-    pars(68)=5000.0_dp*j
+do k=1,4
+    pars(92)=-5000.0_dp*(k-1)
+do j=1,4
+    pars(68)=50000.0_dp*(j-1)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 end do 
-
-pars(92)=-50000.0_dp
-do j=1,6
-    pars(68)=5000.0_dp*j
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
 end do 
-
-pars(92)=-80000.0_dp
-do j=1,6
-    pars(68)=5000.0_dp*j
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-end do 
-
-
-
-!do j=1,15,2
-!    pars(68)=1000.0_dp*j
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-
-!pars(92)=-5000.0_dp
-!do j=1,15,2
-!    pars(68)=1000.0_dp*j
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-
-!pars(92)=-3000.0_dp
-!do j=1,5
-!!    pars(68)=1000.0_dp*j
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
