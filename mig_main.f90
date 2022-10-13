@@ -384,11 +384,12 @@ end if
 onthejobsearch=.TRUE.
 pars(88:89)=10.0_dp !make everyone type4
 !do k=1,4
-pars(92)=0.0_dp !*(k-1)
+pars(66)=-1.0_dp
+
 do k=1,4
-    pars(66)=-2.0_dp+0.5*(k-1) 
+    pars(92)=-5000.0_dp *(k-1)
 do j=1,4
-    pars(68)=5000.0_dp*(j-1)
+    pars(68)=20000.0_dp*(j-1)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 end do 
