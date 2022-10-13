@@ -237,13 +237,10 @@ nonlabinc=0.0_dp !ahu030622
     pars(21)=-2.5_dp !pmeet to bring down getmar rates
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
-    pars(52)=-1.8_dp !increasing alf12 because of nexp
-    pars(64)=-2.2_dp !increasing alf22 because of nexp
     pars(27)=-5.0_dp !alphaed(m,noed)
     pars(28)=-4.0_dp !alphaed(f,noed)
     pars(29)=-5.3_dp !alphaed(m,ed)
     pars(30)=-4.0_dp !alphaed(f,ed)
-    pars(26)=pars1(26) !+1.0_dp
     pars(1)=3.8417_dp     !higher empcurm because of chkobj101022
     pars(7)=2.4740_dp     !higher emp of f because of chkobj101022
     pars(33)=1358.7599_dp !higher uloc1 because of chkobj101022
@@ -252,11 +249,6 @@ nonlabinc=0.0_dp !ahu030622
     pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
     pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
     pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
-    pars(66)=-0.5_dp    !sigwgef
-    pars(67)=-2.0_dp    !sigwgem
-    pars(68)=2.0_dp     !sigom
-    pars(69)=-2.0_dp    !sigof
-    pars(16)=-1.5       !psih
     pars(70:71)=0.0_dp !make everyone type1 and type4 (note that ptype1 is fixed in getpars already)
     pars(76:77)=-10.0_dp !make everyone type1 and type4
     pars(82:83)=-10.0_dp !make everyone type1 and type4
@@ -275,25 +267,29 @@ nonlabinc=0.0_dp !ahu030622
     pars(86)=0.0_dp
     pars(92)=0.0_dp 
     pars(17:19)=0.0_dp !psih2-4
+    pars(26)=-3.0_dp !divpenalty 
     pars(53)=0.0_dp !alf13 
     pars(65)=0.0_dp !alf23 
+    pars(52)=-1.0_dp !increasing alf12 because of nexp
+    pars(64)=-1.0_dp !increasing alf22 because of nexp
+    pars(16)=-1.5       !psih
+    pars(66)=-0.5_dp    !sigwgef
+    pars(67)=-2.0_dp    !sigwgem
+    pars(68)=2.0_dp     !sigom
+    pars(69)=-2.0_dp    !sigof
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
 if (iwritegen==1) then
-    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
-    pars(52)=-2.0_dp
-    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
-    pars(52)=-1.5_dp
-    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
-    pars(52)=-1.0_dp
-    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
-    pars(52)=-0.5_dp
-    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
-    pars(52)=0.0_dp
-    print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
+    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
+    print*, "alf12", pars(52),logit(pars(52))
+    print*, "sigom", pars(68),logit(pars(68)),multsigo*logit(pars(68))
+    print*, "mumar1", pars(75),logit(pars(75)),multmar*logit(pars(75))
+    print*, "mumar4", pars(93),logit(pars(93)),multmar*logit(pars(93))
 end if
+
+
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
