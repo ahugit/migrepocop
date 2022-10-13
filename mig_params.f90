@@ -64,7 +64,7 @@
     INTEGER(I4B), PARAMETER :: NOCOLLEGE=1,COLLEGE=2
 	integer(i4b), parameter, dimension(2) :: agestart=(/ mna,22 /)		!changed this from 18,22 !chanage this back ahu 070312 (/18,22/) !starting age for simulations for each education level
 	real(dp), parameter :: mult1=50000.0_dp !ahu jan19 012519
-    real(dp), parameter :: multmar=500000.0_dp,mult1c=50000.0_dp  !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
+    real(dp), parameter :: multmar=50000.0_dp,multsigo=50000.0_dp,multdiv=5000.0_dp  !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
 	real(dp), parameter :: maxhgrid=8.0_dp 
 	real(dp), parameter :: tottime=16.0_dp
 	real(dp), parameter :: hhours_conv=250.0_dp					! multuiply hours per day by this to get hours per year for hours worked
@@ -197,7 +197,7 @@ contains
 	psil(1)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='alfhme' ; stepos(j)=0.0_dp 
 	alfhme=realpar(j)	            ; j=j+1
-	realpar(j)=min2pls(par(j))      ; parname(j)='ro'	; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
+	realpar(j)=0.0_dp ; parname(j)='ro'	; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	ro=realpar(j)                   ; j=j+1
     if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
@@ -225,15 +225,15 @@ contains
     !realpar(j) = mult1c * logit(par(j))              ; parname(j)='uhome(2)' ; stepos(j)=0.2_dp	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	!uhome(2)=realpar(j)                             ; j=j+1
 
-    realpar(j) = par(j)             ; parname(j)='uhome(1)' ; stepos(j)=1.5_dp*PAR(J)	 ; if (onlyfem) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
+    realpar(j) = par(j)             ; parname(j)='uhome(1)' ; stepos(j)=0.5_dp*PAR(J)	 ; if (onlyfem) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	uhome(1)=realpar(j)                             ; j=j+1
-    realpar(j) = par(j)              ; parname(j)='uhome(2)' ; stepos(j)=1.5_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
+    realpar(j) = par(j)              ; parname(j)='uhome(2)' ; stepos(j)=0.5_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	uhome(2)=realpar(j)                             ; j=j+1
-    realpar(j)=par(j)            ; parname(j)='ecst'	; stepos(j)=5.0_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
+    realpar(j)=par(j)            ; parname(j)='ecst'	; stepos(j)=2.5_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
     ecst=realpar(j)                                     ; j=j+1               ! types
-	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=5.0_dp*par(j) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
+	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=2.5_dp*par(j) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
 	kcst=realpar(j)                                     ; j=j+1
-	realpar(j) = -1.0_dp*mult1 * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=1.5_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
+	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=1.5_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
 	divpenalty=realpar(j)                               ; j=j+1
     !print*, 'Here is divpenalty',j-1,divpenalty 
 
@@ -283,7 +283,7 @@ contains
     realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=0.2_dp  ; if (onlyfem) stepos(j)=0.0_dp
 	alf11=realpar(j)                                ; j=j+1
     !print*, 'Here is alf12',j	
-    realpar(j)=3.0_dp*logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.2_dp  ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
     alf12=realpar(j)                                ; j=j+1
     !print*, 'Here is alf13',j	
     realpar(j)=0.0_dp                               ; parname(j)='alf13' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
@@ -304,19 +304,19 @@ contains
 	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=0.2_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf21=realpar(j)                                ; j=j+1
     !print*, 'Here is alf22',j	    
-    realpar(j)=3.0_dp*logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.2_dp  ; if (onlymales) stepos(j)=0.0_dp 
+    realpar(j)=logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf22=realpar(j)                                ; j=j+1
     !print*, 'Here is alf23',j	
     realpar(j)=0.0_dp                               ; parname(j)='alf23' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
 	alf23=realpar(j)	                            ; j=j+1
 	
-    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j:j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
+    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j:j+1)=0.2_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
-    realpar(j)=par(j)                               ; parname(j)='sigo_m'	; stepos(j)=1.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=1.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
     !print*, "Here it is sigom", j,par(j),realpar(j)
     sigo_m=realpar(j)                                ; j=j+1
-    realpar(j)=par(j)                               ; parname(j)='sigo_f'	; stepos(j)=1.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=1.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
     !print*, "Here it is sigof", j,par(j),realpar(j)
     sigo_f=realpar(j)                                ; j=j+1
 
@@ -333,7 +333,7 @@ contains
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
-            realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=1.5_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
+            realpar(j)= 0.0_dp                          ; parname(j)='cst'       ; stepos(j)=0.0_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
             realpar(j)=multmar * min2pls(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    
@@ -348,10 +348,10 @@ contains
             realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
             if (i<4) then
-                realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=1.5_dp*par(j)
+                realpar(j)= 0.0_dp                          ; parname(j)='cst'       ; stepos(j)=0.0_dp*par(j)
                 cst(i)=realpar(j)                           ; j=j+1 
             else if (i==4) then
-                realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=1.5_dp*par(j)
+                realpar(j)= 0.0_dp                          ; parname(j)='cst'       ; stepos(j)=0.0_dp*par(j)
                 cst(i)=realpar(j)                           ; j=j+1 
             end if
             realpar(j)=multmar * min2pls(par(j))                         ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    

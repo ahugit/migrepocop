@@ -226,145 +226,59 @@ nonlabinc=0.0_dp !ahu030622
 
 
     open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    onthejobsearch=.TRUE.
     nonlabinc=0.0_dp
     pars=pars1
-    pars(75)=0.0005_dp !mumar1
-    pars(81)=0.0005_dp !mumar2
-    pars(87)=0.0005_dp !mumar3
-    pars(93)=0.01_dp    !mumar4
-    pars(68:69)=10000.0_dp   
-    !pars(74)= cst1 norm to 0 in getpars
-    pars(80)=-30000.0_dp
-    pars(86)=-30000.0_dp
-    pars(92)=-30000.0_dp 
+    !set all junk parameters to zero so that I get zeros for these parameters the next pars file after opt
+    !pars(9)=0.5_dp !u cur m (to bring up eu move and ee move so that they don't say I'll find a job after I movey)
+    !pars(23)=pars(22)
+    !pars(7:8)=-10.0_dp
+    !pars(12)=-10.0_dp  
     pars(21)=-2.5_dp !pmeet to bring down getmar rates
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
     pars(52)=-1.8_dp !increasing alf12 because of nexp
     pars(64)=-2.2_dp !increasing alf22 because of nexp
-    !pars(9)=0.5_dp !u cur m (to bring up eu move and ee move so that they don't say I'll find a job after I movey)
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-    !set all junk parameters to zero so that I get zeros for these parameters the next pars file after opt
-    pars(17:19)=0.0_dp !psih2-4
-    pars(53)=0.0_dp !alf13 
-    pars(65)=0.0_dp !alf23
- 
-!************************increase type 3 cst to decrease getdiv (w/0 messing getmar) AND sing mv
-
-!************************increase type 3 cst to decrease getdiv (w/0 messing getmar) AND sing mv
-    onthejobsearch=.TRUE.
-    pars(66)=pars1(66)+1.5_dp
-    pars(67)=pars1(67)+1.0_dp
-    pars(68)=50000.0_dp   
-    pars(69)=20000.0_dp   
-    pars(74)=-10000.0_dp !cst1 no longer norm 
-    pars(75)=0.0002_dp !mumar1
-    pars(80)=-10000.0_dp
-    pars(81)=0.0002_dp !mumar2
-    pars(86)=-10000.0_dp
-    pars(87)=0.001_dp !mumar3
-    pars(92)=-50000.0_dp 
-    pars(93)=0.01_dp    !mumar4
-    pars(27)=-3.0_dp !alphaed(m,noed)
-    pars(28)=-2.0_dp !alphaed(f,noed)
+    pars(27)=-5.0_dp !alphaed(m,noed)
+    pars(28)=-4.0_dp !alphaed(f,noed)
     pars(29)=-5.3_dp !alphaed(m,ed)
     pars(30)=-4.0_dp !alphaed(f,ed)
-    pars(86)=-50000.0_dp 
-    pars(87)=0.001_dp !mumar3
-    !pars(21)=-1.5_dp !pmeet
-    pars(72:73)=8.8
-    pars(78:79)=8.8
-    pars(84:85)=8.8
-    pars(90:91)=8.8
-    pars(87)=0.01
-    pars(93)=0.01
-    pars(74)=-80000.0_dp
-    pars(80)=-80000.0_dp
-    pars(86)=-30000.0_dp
-    pars(92)=-30000.0_dp
-!call getpars(pars,realpars)
-!call objfunc(pars,qval) ; realpars=realpartemp   
-
-!pars(87)=0.01
-!pars(93)=0.01
-!pars(74)=-80000.0_dp
-!pars(80)=-80000.0_dp
-!pars(86)=-60000.0_dp
-!pars(92)=-60000.0_dp
-!call getpars(pars,realpars)
-!call objfunc(pars,qval) ; realpars=realpartemp   
-
-!pars(87)=0.01
-!pars(93)=0.01
-!pars(74)=-80000.0_dp
-!pars(80)=-80000.0_dp
-!pars(86)=-10000.0_dp
-!pars(92)=-10000.0_dp
-!call getpars(pars,realpars)
-!call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-!pars(87)=0.001
-!pars(93)=0.001
-!pars(74)=-80000.0_dp
-!pars(80)=-80000.0_dp
-!pars(86)=-60000.0_dp
-!pars(92)=-60000.0_dp
-!call getpars(pars,realpars)
-!call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-!pars(87)=0.1
-!pars(93)=0.1
-!pars(74)=-80000.0_dp
-!pars(80)=-80000.0_dp
-!pars(86)=-10000.0_dp
-!pars(92)=-10000.0_dp
-!call getpars(pars,realpars)
-!call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-!pars(87)=0.1
-!pars(93)=0.1
-!pars(74)=-80000.0_dp
-!pars(80)=-80000.0_dp
-!pars(86)=-60000.0_dp
-!pars(92)=-60000.0_dp
-!call getpars(pars,realpars)
-!call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-pars(16)=pars1(16)-0.5_dp
-pars(52)=pars1(52)-1.0_dp
-pars(64)=pars1(64)-1.0_dp
-pars(72:73)=8.8+0.4_dp
-pars(78:79)=8.8+0.4_dp
-pars(84:85)=8.8+0.4_dp
-pars(90:91)=8.8+0.4_dp
-pars(87)=0.1
-pars(93)=0.1
-pars(74)=-80000.0_dp
-pars(80)=-80000.0_dp
-pars(86)=-10000.0_dp
-pars(92)=-10000.0_dp
-pars(26)=pars1(26)+1.0_dp
-pars(28)=-4.0_dp
-pars(27)=-5.3
-pars(16)=pars1(16)-1.2_dp
-pars(52)=pars1(52)-2.5_dp
-pars(68)=30000.0_dp   !decrease sigom
-pars(69)=10000.0_dp   !decrease sigof
-pars(1)=3.8417_dp     !higher empcurm because of chkobj101022
-pars(7)=2.4740_dp     !higher emp of f because of chkobj101022
-pars(33)=1358.7599_dp !higher uloc1 because of chkobj101022
-pars(35)=3354.4870_dp !higher uloc3 because of chkobj101022
-pars(36)=4763.7679_dp !higher uloc4 because of chkobj101022
-pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
-pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
-pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
+    pars(26)=pars1(26) !+1.0_dp
+    pars(1)=3.8417_dp     !higher empcurm because of chkobj101022
+    pars(7)=2.4740_dp     !higher emp of f because of chkobj101022
+    pars(33)=1358.7599_dp !higher uloc1 because of chkobj101022
+    pars(35)=3354.4870_dp !higher uloc3 because of chkobj101022
+    pars(36)=4763.7679_dp !higher uloc4 because of chkobj101022
+    pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
+    pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
+    pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
+    pars(66)=-0.5_dp    !sigwgef
+    pars(67)=-2.0_dp    !sigwgem
+    pars(68)=2.0_dp     !sigom
+    pars(69)=-2.0_dp    !sigof
+    pars(16)=-1.5       !psih
+    pars(70:71)=0.0_dp !make everyone type1 and type4 (note that ptype1 is fixed in getpars already)
+    pars(76:77)=-10.0_dp !make everyone type1 and type4
+    pars(82:83)=-10.0_dp !make everyone type1 and type4
+    pars(88:89)=0.0_dp  !make everyone type1 and type4
+    pars(72:73)=8.8+0.4_dp
+    pars(78:79)=8.8+0.4_dp
+    pars(84:85)=8.8+0.4_dp
+    pars(90:91)=8.8+0.4_dp
+    pars(75)=-4.0_dp !mumar1
+    pars(81)=-4.0_dp !mumar2
+    pars(87)=-4.0_dp !mumar3
+    pars(93)=-1.0_dp !mumar4
+    pars(15)=0.0_dp !ro
+    pars(74)=0.0_dp
+    pars(80)=0.0_dp
+    pars(86)=0.0_dp
+    pars(92)=0.0_dp 
+    pars(17:19)=0.0_dp !psih2-4
+    pars(53)=0.0_dp !alf13 
+    pars(65)=0.0_dp !alf23 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
 
 if (iwritegen==1) then
@@ -380,91 +294,6 @@ if (iwritegen==1) then
     pars(52)=0.0_dp
     print*, pars(52),logit(pars(52)),3.0_dp*logit(pars(52))
 end if
-
-onthejobsearch=.TRUE.
-!pars(88:89)=10.0_dp !make everyone type4
-!pars(92)=0.0_dp
-!pars(68)=1000.0_dp
-!do i=1,3
-!do j=1,3
-!    do k=1,2
-!    pars(16)=-2.0_dp+i*1.0_dp
-!    pars(52)=-2.0_dp+(j-1)*1.0_dp
-!    pars(66)=-2.0_dp+(k-1)*4.0_dp
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-!end do 
-!end do 
-
-onthejobsearch=.TRUE.
-pars(70:71)=0.0_dp !make everyone type1 and type4 (note that ptype1 is fixed in getpars already)
-pars(76:77)=-10.0_dp !make everyone type1 and type4
-pars(82:83)=-10.0_dp !make everyone type1 and type4
-pars(88:89)=0.0_dp !make everyone type1 and type4
-pars(15)=0.0_dp !ro
-pars1(67)=pars(67)
-pars(23)=pars(22)
-pars(74)=-10000.0_dp
-pars(80)=-10000.0_dp
-pars(86)=-10000.0_dp
-pars(92)=-10000.0_dp
-pars(7:8)=-10.0_dp
-pars(12)=-10.0_dp
-!do j=1,3
-    pars(68)=30000.0_dp !*j
-    pars(69)=10000.0_dp
-    pars(67)=pars1(67)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(67)=-5.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-
-!pars(92)=-50000.0_dp
-!do j=1,6
-!    pars(68)=5000.0_dp*j
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-
-pars(74)=-80000.0_dp
-pars(80)=-80000.0_dp
-pars(86)=-80000.0_dp
-pars(92)=-80000.0_dp
-!do j=1,3
-    pars(68)=30000.0_dp !*j
-    pars(69)=10000.0_dp
-    pars(67)=pars1(67)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(67)=-5.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-
-
-
-!do j=1,15,2
-!    pars(68)=1000.0_dp*j
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-
-!pars(92)=-5000.0_dp
-!do j=1,15,2
-!    pars(68)=1000.0_dp*j
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do 
-
-!pars(92)=-3000.0_dp
-!do j=1,5
-!!    pars(68)=1000.0_dp*j
-!    call getpars(pars,realpars)
-!    call objfunc(pars,qval) ; realpars=realpartemp   
-!end do
 
 !*************************    
     !mytime(iam+1,1)=secnds(0.0)
