@@ -282,34 +282,31 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68)=2.0_dp     !sigom
+    pars(92)=-20000.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68)=1.0_dp     !sigom
+    pars(92)=-30000.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     
-    pars(68)=-1.0_dp     !sigom
+    pars(92)=-40000.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-!*******************************
-    pars(13)=4.0_dp !psil
-
-    pars(68)=3.0_dp     !sigom
+    pars(92)=-50000.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68)=2.0_dp     !sigom
+    pars(92)=-60000.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68)=1.0_dp     !sigom
+    pars(92)=-70000.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     
-    pars(68)=-1.0_dp     !sigom
+    pars(92)=-80000.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     
