@@ -63,7 +63,7 @@
 	integer(i4b), parameter :: ma=1,fe=2
     INTEGER(I4B), PARAMETER :: NOCOLLEGE=1,COLLEGE=2
 	integer(i4b), parameter, dimension(2) :: agestart=(/ mna,22 /)		!changed this from 18,22 !chanage this back ahu 070312 (/18,22/) !starting age for simulations for each education level
-	real(dp), parameter :: mult1=50000.0_dp !ahu jan19 012519
+	real(dp), parameter :: mult1=10000.0_dp !ahu jan19 012519
     real(dp), parameter :: multmar=50000.0_dp,multsigo=50000.0_dp,multdiv=5000.0_dp  !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
 	real(dp), parameter :: maxhgrid=8.0_dp 
 	real(dp), parameter :: tottime=16.0_dp
@@ -239,17 +239,17 @@ contains
     !print*, 'Here is divpenalty',j-1,divpenalty 
 
     realpar(j:j+1) = mult1 * logit(par(j:j+1))          ; parname(j)='alphaed(m,ned)' ; parname(j+1)='alphaed(f,ned)'    !27:28   !ahu jan19 012719 changing it yet again back to logit because there is not that much of different in objval between alpha=0 and alpha=-49000    !ahu jan19 012019 changing it back to min2pls  ! noed !ahu 112718 changing to only plus from: mult1*min2pls(par(7:8))   !mult1 * logit(par(7))	
-	stepos(j)=-2.0_dp*par(j)         ; if (onlyfem) stepos(j)=0.0_dp 
-    stepos(j+1)=-2.0_dp*par(j+1)     ; if (onlymales) stepos(j+1)=0.0_dp 
+	stepos(j)=1.0_dp            ; if (onlyfem) stepos(j)=0.0_dp 
+    stepos(j+1)=1.0_dp          ; if (onlymales) stepos(j+1)=0.0_dp 
     alphaed(:,1)=realpar(j:j+1)                         ; j=j+2 !alphaed(m:f,noed)  [educ=1 noed, educ=2 ed]  mult1 * min2pls(par(j:j+1))
     
     realpar(j:j+1) = mult1 * logit(par(j:j+1))          ; parname(j)='alphaed(m,ed)' ; parname(j+1)='alphaed(f,ed)'    !27:28   !ahu jan19 012719 changing it yet again back to logit because there is not that much of different in objval between alpha=0 and alpha=-49000    !ahu jan19 012019 changing it back to min2pls  ! noed !ahu 112718 changing to only plus from: mult1*min2pls(par(7:8))   !mult1 * logit(par(7))	
-	stepos(j)=-2.0_dp*par(j)         ; if (onlyfem) stepos(j)=0.0_dp 
-    stepos(j+1)=-2.0_dp*par(j+1)     ; if (onlymales) stepos(j+1)=0.0_dp 
+	stepos(j)=1.0_dp            ; if (onlyfem) stepos(j)=0.0_dp 
+    stepos(j+1)=1.0_dp          ; if (onlymales) stepos(j+1)=0.0_dp 
     alphaed(:,2)=realpar(j:j+1)                         ; j=j+2 !alphaed(m:f,ed)  [educ=1 noed, educ=2 ed]  mult1 * min2pls(par(j:j+1))
     
     realpar(j:j+1)=mult1 * logit(par(j:j+1))            ; parname(j)='alphakid(m)' ; parname(j+1)='alphakid(f)'          !31:32           !ahu 112718 changing to only plus from: mult1 * min2pls(par(j:j+1))	 !mult1 * logit(par(9:10))	
-    stepos(j)=-2.0_dp*par(j)        ; if (onlyfem) stepos(j)=0.0_dp ; 	stepos(j+1)=-2.0_dp*par(j+1)   ; if (onlymales) stepos(j:j+1)=0.0_dp 
+    stepos(j)=1.0_dp            ; if (onlyfem) stepos(j)=0.0_dp ; 	stepos(j+1)=1.0_dp   ; if (onlymales) stepos(j:j+1)=0.0_dp 
     alphakid(:)=realpar(j:j+1)                        ; j=j+2         
     !print*, 'Here is uloc',j
 	
@@ -260,7 +260,7 @@ contains
 			    realpar(j) = 0.0_dp  ; stepos(j)=0.0_dp
 			    uloc(i)=0.0_dp
 		    else 
-			    realpar(j) = par(j) ; stepos(j)=5000.0_dp  !*PAR(J)    !mult1 * min2pls( par(j) )
+			    realpar(j) = par(j) ; stepos(j)=0.0_dp  !*PAR(J)    !mult1 * min2pls( par(j) )
 			    uloc(i)=realpar(j)
 		    end if 
             parname(j)='uloc' 
@@ -277,14 +277,14 @@ contains
             realpar(j)=par(j) !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         end if     
-        parname(j)='alf10' ; stepos(j)=0.3_dp ; if (i==3) stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !dont iterate on alpha10(1) for a second
+        parname(j)='alf10' ; stepos(j)=0.5_dp ; if (i==3) stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !dont iterate on alpha10(1) for a second
         j=j+1
     end do 
     !print*, 'Here is alf11 etc',j
-    realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=0.2_dp  ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp
 	alf11=realpar(j)                                ; j=j+1
     !print*, 'Here is alf12',j	
-    realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp
     alf12=realpar(j)                                ; j=j+1
     !print*, 'Here is alf13',j	
     realpar(j)=0.0_dp                               ; parname(j)='alf13' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
@@ -298,20 +298,20 @@ contains
             realpar(j)=par(j) !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         end if     
-        parname(j)='alf20' ; stepos(j)=0.3_dp  ; if (i==3) stepos(j)=0.0_dp ;  if (onlymales) stepos(j)=0.0_dp 
+        parname(j)='alf20' ; stepos(j)=0.5_dp  ; if (i==3) stepos(j)=0.0_dp ;  if (onlymales) stepos(j)=0.0_dp 
 		j=j+1
 	end do 
     !print*, 'Here is alf21 etc',j
-	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=0.2_dp  ; if (onlymales) stepos(j)=0.0_dp 
+	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=1.0_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf21=realpar(j)                                ; j=j+1
     !print*, 'Here is alf22',j	    
-    realpar(j)=logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp 
+    realpar(j)=logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=1.0_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf22=realpar(j)                                ; j=j+1
     !print*, 'Here is alf23',j	
     realpar(j)=0.0_dp                               ; parname(j)='alf23' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
 	alf23=realpar(j)	                            ; j=j+1
 	
-    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j:j+1)=0.2_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
+    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j:j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
     realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=0.5_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
@@ -328,31 +328,31 @@ contains
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
             realpar(j)=0.0_dp                           ; parname(j)='ptypecol'  ; stepos(j)=0.0_dp
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
-            realpar(j)=par(j)                          ; parname(j)='alf2t'     ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp
+            realpar(j)=par(j)                          ; parname(j)='alf2t'     ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
-            realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
+            realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=0.5_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
             realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         else
-            realpar(j)=par(j)                            ; parname(j)='ptypehs' ; stepos(j)=0.7_dp
+            realpar(j)=par(j)                            ; parname(j)='ptypehs' ; stepos(j)=1.5_dp
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
-            realpar(j)=par(j)                            ; parname(j)='ptypecol'  ; stepos(j)=0.7_dp
+            realpar(j)=par(j)                            ; parname(j)='ptypecol'  ; stepos(j)=1.5_dp
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
             if (i<4) then
-                realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j)
+                realpar(j)= cst(1)                          ; parname(j)='cst'       ; stepos(j)=0.0_dp*par(j)
                 cst(i)=realpar(j)                           ; j=j+1 
             else if (i==4) then
-                realpar(j)= par(j)                         ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j)
+                realpar(j)= cst(1)                         ; parname(j)='cst'       ; stepos(j)=0.0_dp*par(j)
                 cst(i)=realpar(j)                           ; j=j+1 
             end if
             realpar(j)=multmar * logit(par(j))                         ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    
