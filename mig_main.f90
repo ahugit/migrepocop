@@ -277,6 +277,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(67)=-2.0_dp    !sigwgem
     pars(68)=3.0_dp     !sigom
     pars(69)=-2.0_dp    !sigof
+    pars(22)=3000.0_dp !uhome1
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
