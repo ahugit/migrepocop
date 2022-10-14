@@ -252,7 +252,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(70:71)=0.0_dp !make everyone type4  (note that ptype1 is fixed in getpars already)
     pars(76:77)=0.0_dp !make everyone type4 
     pars(82:83)=0.0_dp !make everyone type4
-    pars(88:89)=10.0_dp  !make everyone type4
+    pars(88:89)=0.0_dp  !make everyone type4
     pars(72:73)=8.8+0.4_dp
     pars(78:79)=8.8+0.4_dp
     pars(84:85)=8.8+0.4_dp
@@ -298,7 +298,30 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=-50000.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp 
+
+
+
+    pars(13)=4.0_dp    !psil
     
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(92)=-20000.0_dp    
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(92)=-30000.0_dp    
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    
+    pars(92)=-40000.0_dp    
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(92)=-50000.0_dp    
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp 
+
 
 
 if (iwritegen==1) then

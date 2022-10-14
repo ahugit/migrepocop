@@ -13,8 +13,8 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=8
-    logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
+    integer(i4b), parameter :: numit=10
+    logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
     logical :: nonneg
@@ -50,13 +50,13 @@
 	integer(i4b), parameter :: np1=np+1, np2=np+2   !w=np1 is getting laid off in the shock space q and w=np2 is nothing happening. In the state space q, np1 is unemployment and np2 is not in the state space q (I try to check that it is not there, at various points in code)
 	integer(i4b), parameter :: nxs = neduc * nexp * nkid
 	integer(i4b), parameter :: nx  = nxs * nxs
-	integer(i4b), parameter :: ncs = nl+2
-	integer(i4b), parameter :: nc  = nl+8
+	integer(i4b), parameter :: ncs = 3 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE nl+2
+	integer(i4b), parameter :: nc  = 9   !nl+8 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE
     integer(i4b), parameter :: nepsmove=3, nepskid=2 !ag090122 agsept2022 changed nepsmove frmo 2 to 5 !ahumarch1022 changed nepsmove to 2 from 13
 	integer(i4b), parameter :: ndata    = 5233 !5390 !2386   
 	integer(i4b), parameter :: ndataobs = 84507 !86873 !41494  
 	integer(i4b), parameter :: nsim     = ndata*nsimeach  
-	integer(i4b), parameter :: nmom     = 1500 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 700 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	

@@ -522,6 +522,7 @@ contains
 	if (skriv) then 		
 		if ( c /= nl ) then ; print*, "c is not equal to nl! ",c,nl ; stop ; end if 		
 	end if 
+	c=1 !HUGE MAJOR CHANGE AHU OCTOBER2022 ahu october2022
 	q0: do i=1,nqs
 		w0 = q2w(i)
 		l0 = q2l(i)
