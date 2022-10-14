@@ -511,17 +511,17 @@ contains
 	! w=np+2 --> this is just the "nothing happens" case and choosing that doesn't make sense 
 	integer(i4b) :: i,j,w0,w,c,l0,l,dum(2,nl)
 	chs=0 ; c=0
-	do i=1,nl							! choice index
-		c=c+1
-		w=np1							! w=np+1 denotes unemployment 
-		j=wl2q(w,i)						! get what choosing unemployment (w=np+1) at location l corresponds to in terms of the composite index q
-		chs(c,:,:)=0 !=J THIS IS A HUGE CHANGE ahu october2022					! moving anywhere unemployed is always an option					
-		dum(1,c)=w
-		dum(2,c)=i
-	end do 	
-	if (skriv) then 		
-		if ( c /= nl ) then ; print*, "c is not equal to nl! ",c,nl ; stop ; end if 		
-	end if 
+	!do i=1,nl							! choice index
+	!	c=c+1
+	!	w=np1							! w=np+1 denotes unemployment 
+	!	j=wl2q(w,i)						! get what choosing unemployment (w=np+1) at location l corresponds to in terms of the composite index q
+	!	chs(c,:,:)=0 !=J THIS IS A HUGE CHANGE ahu october2022					! moving anywhere unemployed is always an option					
+	!	dum(1,c)=w
+	!	dum(2,c)=i
+	!end do 	
+	!if (skriv) then 		
+	!	if ( c /= nl ) then ; print*, "c is not equal to nl! ",c,nl ; stop ; end if 		
+	!end if 
 	c=1 !HUGE MAJOR CHANGE AHU OCTOBER2022 ahu october2022
 	q0: do i=1,nqs
 		w0 = q2w(i)
