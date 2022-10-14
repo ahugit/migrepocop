@@ -262,12 +262,12 @@ nonlabinc=0.0_dp !ahu030622
     pars(87)=-4.0_dp !mumar3
     pars(93)=-2.0_dp !mumar4
     pars(15)=0.0_dp !ro
-    pars(74)=-20000.0_dp  
-    pars(80)=-20000.0_dp  
-    pars(86)=-20000.0_dp  
+    pars(74)=-1000.0_dp  
+    pars(80)=-1000.0_dp  
+    pars(86)=-1000.0_dp  
     pars(92)=-20000.0_dp  
     pars(17:19)=0.0_dp !psih2-4
-    pars(26)=-1.0_dp !divpenalty 
+    pars(26)=-2.0_dp !divpenalty 
     pars(53)=0.0_dp !alf13 
     pars(65)=0.0_dp !alf23 
     pars(52)=-1.0_dp !increasing alf12 because of nexp
@@ -285,21 +285,21 @@ nonlabinc=0.0_dp !ahu030622
     pars(6)=-1.0_dp !emp curf
     pars(7)=-1.0_dp  !emp off
     pars(8)=0.0_dp !emp off set to 0 in getpars
-    pars(22:23)=6000.0_dp !uhome
-    pars(13)=2.0_dp    !psil
+    !pars(22:23)=6000.0_dp !uhome
+    !pars(13)=2.0_dp    !psil
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
 
 
-if (iwritegen==1) then
-    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
-    print*, "alf12", pars(52),logit(pars(52))
-    print*, "sigom", pars(68),logit(pars(68)),multsigo*logit(pars(68))
-    print*, "mumar1", pars(75),logit(pars(75)),multmar*logit(pars(75))
-    print*, "mumar4", pars(93),logit(pars(93)),multmar*logit(pars(93))
-end if
+!if (iwritegen==1) then
+!    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
+!    print*, "alf12", pars(52),logit(pars(52))
+!    print*, "sigom", pars(68),logit(pars(68)),multsigo*logit(pars(68))
+!    print*, "mumar1", pars(75),logit(pars(75)),multmar*logit(pars(75))
+!    print*, "mumar4", pars(93),logit(pars(93)),multmar*logit(pars(93))
+!end if
 
 
 
