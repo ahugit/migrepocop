@@ -280,6 +280,10 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars(13)=3.0_dp    !psil
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
 
 if (iwritegen==1) then
     print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))

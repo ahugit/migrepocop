@@ -13,7 +13,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=1
+    integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.true.
@@ -153,12 +153,13 @@ contains
 	real(dp), dimension(npars), intent(out) :: realpar ! vector of parameters
 	integer(i4b) :: g,i,j,ed,indust1(ntypp),indust2(ntypp)
     integer(i4b) :: dw0,de,dsex
-    real(dp) :: temprob(3),junk
+    real(dp) :: temprob(nl),junk
 
     stepos=0.0_dp
     indust1=0
     indust2=0
-    
+    temprob=0.0_dp 
+
 	realpar=pen 
     parname=''
     j=1
@@ -197,7 +198,7 @@ contains
 	psil(1)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='alfhme' ; stepos(j)=0.0_dp 
 	alfhme=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp ; parname(j)='ro'	; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
+	realpar(j)=0.0_dp ; parname(j)='ro'	; stepos(j)=0.0_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	ro=realpar(j)                   ; j=j+1
     if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
@@ -398,7 +399,9 @@ contains
     realpar(19)=temprob(2) !this is prob of moving to experience=2 when your experience is 2. 
     !note that we are not writing the fnprhc(.,np1) because that is just prob of staying where you are is 1. Check this in the writing of fnprhc in writemoments. 
     !******************** ahu october2022 **********************************************
-
+    temprob(1:nl)=fnprloc(1) !if origin location is loc1, what is the probability of drawing location 1
+    realpar(13)=temprob(1)
+    !******************** ahu october2022 **********************************************
     !Assign Cendiv names 
     locname(1)='New England        '
     locname(2)='Mid Atlantic       '

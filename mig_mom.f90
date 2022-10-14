@@ -974,7 +974,7 @@ end FUNCTION random
             ihead=ihead+1
             do ia=mna,21
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("wnned|ia ",i4)') ia
+                WRITE(name(im),'("wnned|ia   ",i4)') ia
                 weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
                 calcvar(im)=1
                 im=im+1
@@ -994,12 +994,12 @@ end FUNCTION random
 
             i=3 !because location 3 has the most people at age18
             CALL condmom(im,(   cosexrel(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0 .AND. dat(18,:)%l==i) ,d1*dat(18,:)%logwr,mom,cnt,var)
-            WRITE(name(im),'("wned18 at loc 3",i4)') i
+            WRITE(name(im),'("wned18 at loc 3    ",i4)') i
             weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
             calcvar(im)=1
             im=im+1
             CALL condmom(im,(   cosexrel(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0  .AND. dat(18,:)%l==i) ,d1*  (dat(18,:)%logwr**2),mom,cnt,var)
-            WRITE(name(im),'("wvarned18 at loc 3",i4)') i
+            WRITE(name(im),'("wvarned18 at loc 3 ",i4)') i
             weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
             calcvar(im)=5
             im=im+1
