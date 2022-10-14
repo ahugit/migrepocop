@@ -408,7 +408,7 @@ contains
     write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,19,2)  !prob(nthing) is the residual so only psio(7:8) governs this
     write(60,'("psio(7:8) ",2x,2F9.2)') psio(7:8)
     write(60,*) 
-    write(60,*) 
+    !write(60,*) 
 	write(60,'("unemp men:")') 
     write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
     write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,1)  !prob(nthing) is the residual so only psio(9) governs this
@@ -435,13 +435,13 @@ contains
     write(60,*)
     write(60,'("mar grid weights wgt:")')    
 	write(60,*) mgt(:)    
-    write(60,*)
-    write(60,'("hgrid:")')    
-	write(60,*) hgrid(:)          
-    write(60,*)
-    write(60,'("wgts:  ",1("move",tr4,"hour",tr4,"wage",tr4),tr1,"rel",tr5,"kid")') 
-	write(60,'(3x,f8.2,5f8.2)') wmove,whour,wwage,wrel,wkid
-	write(60,*) 
+   ! write(60,*)
+    !write(60,'("hgrid:")')    
+	!write(60,*) hgrid(:)          
+    !write(60,*)
+    !write(60,'("wgts:  ",1("move",tr4,"hour",tr4,"wage",tr4),tr1,"rel",tr5,"kid")') 
+	!write(60,'(3x,f8.2,5f8.2)') wmove,whour,wwage,wrel,wkid
+	!write(60,*) 
 	write(60,'(tr2,"groups",tr3,"nhome",tr2,"nhomep",tr2,"onlysingles",tr2,"optimize",tr3,"chkstep",tr5,"skriv",tr1,"numit")') 
 	write(60,'(2x,L6,2(3x,I4),7x,L6,3(4x,L6),I6)') groups,nhome,nhomep,onlysingles,optimize,chkstep,skriv,numit
 	write(60,'(tr2,"nonneg",tr2,tr10,"eps2",tr11,"eps",tr5,"nonlabinc")') 
