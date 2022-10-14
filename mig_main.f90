@@ -266,10 +266,10 @@ nonlabinc=0.0_dp !ahu030622
     pars(87)=-4.0_dp !mumar3
     pars(93)=-2.0_dp !mumar4
     pars(15)=0.0_dp !ro
-    pars(74)=-20000.0_dp  
-    pars(80)=-20000.0_dp  
-    pars(86)=-20000.0_dp  
-    pars(92)=-20000.0_dp  
+    pars(74)=-2.0_dp  
+    pars(80)=-2.0_dp  
+    pars(86)=-2.0_dp  
+    pars(92)=-2.0_dp  
     pars(17:19)=0.0_dp !psih2-4
     pars(26)=-2.0_dp !divpenalty 
     pars(53)=0.0_dp !alf13 
@@ -303,6 +303,20 @@ nonlabinc=0.0_dp !ahu030622
 
 
 
+    pars(74)=-3.0_dp  
+    pars(80)=-3.0_dp  
+    pars(86)=-3.0_dp  
+    pars(92)=-3.0_dp  
+    pars(27)=-5.0_dp !alphaed(m,noed)
+    pars(28)=-4.0_dp !alphaed(f,noed)
+    pars(29)=-5.3_dp !alphaed(m,ed)
+    pars(30)=-4.0_dp !alphaed(f,ed)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    !pars(1)=2.0_dp 
+    !pars(3)=0.0_dp
 
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))

@@ -64,7 +64,7 @@
     INTEGER(I4B), PARAMETER :: NOCOLLEGE=1,COLLEGE=2
 	integer(i4b), parameter, dimension(2) :: agestart=(/ mna,22 /)		!changed this from 18,22 !chanage this back ahu 070312 (/18,22/) !starting age for simulations for each education level
 	real(dp), parameter :: mult1=10000.0_dp !ahu jan19 012519
-    real(dp), parameter :: multmar=50000.0_dp,multsigo=50000.0_dp,multdiv=5000.0_dp  !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
+    real(dp), parameter :: multmar=50000.0_dp,multsigo=50000.0_dp,multdiv=5000.0_dp,multcst=50000.0_dp !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
 	real(dp), parameter :: maxhgrid=8.0_dp 
 	real(dp), parameter :: tottime=16.0_dp
 	real(dp), parameter :: hhours_conv=250.0_dp					! multuiply hours per day by this to get hours per year for hours worked
@@ -334,7 +334,7 @@ contains
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
-            realpar(j)= par(j)                          ; parname(j)='cst'       ; stepos(j)=0.5_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
+            realpar(j)=multcst* min2pls(par(j))                          ; parname(j)='cst'       ; stepos(j)=0.5_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
             realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=1.5_dp*par(j)    ; if (onlysingles) stepos(j)=0.0_dp 	    
