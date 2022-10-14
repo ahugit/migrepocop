@@ -249,10 +249,10 @@ nonlabinc=0.0_dp !ahu030622
     pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
     pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
     pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
-    pars(70:71)=0.0_dp !make everyone type1 and type4 (note that ptype1 is fixed in getpars already)
-    pars(76:77)=-10.0_dp !make everyone type1 and type4
-    pars(82:83)=-10.0_dp !make everyone type1 and type4
-    pars(88:89)=0.0_dp  !make everyone type1 and type4
+    pars(70:71)=0.0_dp !make everyone type4  (note that ptype1 is fixed in getpars already)
+    pars(76:77)=0.0_dp !make everyone type4 
+    pars(82:83)=0.0_dp !make everyone type4
+    pars(88:89)=10.0_dp  !make everyone type4
     pars(72:73)=8.8+0.4_dp
     pars(78:79)=8.8+0.4_dp
     pars(84:85)=8.8+0.4_dp
@@ -275,8 +275,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(16)=-1.5       !psih
     pars(66)=-0.5_dp    !sigwgef
     pars(67)=-2.0_dp    !sigwgem
-    pars(68)=2.0_dp     !sigom
-    pars(69)=-2.0_dp    !sigof
+    pars(68)=100000 !3.0_dp     !sigom
+    pars(69)=10000   !-2.0_dp    !sigof
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -284,6 +284,11 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars(13)=4.0_dp    !psil
+    pars(92)=-50000.0_dp 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    
 
 if (iwritegen==1) then
     print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
