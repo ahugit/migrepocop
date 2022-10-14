@@ -1202,8 +1202,7 @@ end FUNCTION random
             write(name(im),'("e | e move",tr3)')  
             weights(im)=wtrans 
             im=im+1 
-
-            ihead=ihead+1
+            
             do jj=1,2
                 call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0  .AND. dur(MNA:MXAD,:)==jj),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
                 write(name(im),'("e|u by dur ",2i4)') g,jj
