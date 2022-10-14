@@ -260,67 +260,36 @@ nonlabinc=0.0_dp !ahu030622
     pars(75)=-4.0_dp !mumar1
     pars(81)=-4.0_dp !mumar2
     pars(87)=-4.0_dp !mumar3
-    pars(93)=-1.0_dp !mumar4
+    pars(93)=-2.0_dp !mumar4
     pars(15)=0.0_dp !ro
-    pars(74)=0.0_dp
-    pars(80)=0.0_dp
-    pars(86)=0.0_dp
-    pars(92)=0.0_dp 
+    pars(74)=-20000.0_dp  
+    pars(80)=-20000.0_dp  
+    pars(86)=-20000.0_dp  
+    pars(92)=-20000.0_dp  
     pars(17:19)=0.0_dp !psih2-4
-    pars(26)=-3.0_dp !divpenalty 
+    pars(26)=-1.0_dp !divpenalty 
     pars(53)=0.0_dp !alf13 
     pars(65)=0.0_dp !alf23 
     pars(52)=-1.0_dp !increasing alf12 because of nexp
     pars(64)=-1.0_dp !increasing alf22 because of nexp
     pars(16)=-1.5       !psih
-    pars(66)=-0.5_dp    !sigwgef
-    pars(67)=-2.0_dp    !sigwgem
+    pars(66)=-0.5_dp    !sigwgem
+    pars(67)=-2.0_dp    !sigwgef
     pars(68)=3.0_dp     !sigom
-    pars(69)=-2.0_dp    !sigof
-    !pars(1)=1.0_dp
-    !pars(22)=3000.0_dp !uhome1
-    !pars(13)=4.0_dp    !psil
+    pars(69)=-1.0_dp    !sigof
+    pars(1)=1.0_dp  !emp curm
+    pars(2)=-1.0_dp !emp curm
+    pars(3)=1.0_dp  !emp ofm
+    pars(4)=0.0_dp !emp ofm set to 0 in getpars
+    pars(5)=1.0_dp  !emp curf
+    pars(6)=-1.0_dp !emp curf
+    pars(7)=-1.0_dp  !emp off
+    pars(8)=0.0_dp !emp off set to 0 in getpars
+    pars(22:23)=6000.0_dp !uhome
+    pars(13)=2.0_dp    !psil
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(92)=-20000.0_dp    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(92)=-30000.0_dp    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    
-    pars(92)=-40000.0_dp    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(92)=-50000.0_dp    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp 
-
-
-
-    pars(13)=4.0_dp    !psil
-    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(92)=-20000.0_dp    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(92)=-30000.0_dp    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    
-    pars(92)=-40000.0_dp    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(92)=-50000.0_dp    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp 
 
 
 
