@@ -13,9 +13,9 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=1
+    integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
     logical :: nonneg
     logical :: onthejobsearch=.TRUE. !set in main
@@ -56,7 +56,7 @@
 	integer(i4b), parameter :: ndata    = 5233 !5390 !2386   
 	integer(i4b), parameter :: ndataobs = 84507 !86873 !41494  
 	integer(i4b), parameter :: nsim     = ndata*nsimeach  
-	integer(i4b), parameter :: nmom     = 700 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 300 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	
@@ -166,29 +166,29 @@ contains
     !ahu jan19 012819: not iterating on ed offers anymore. replacing them with curloc and ofloc offers instead 
     !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psio right here and those are the ones that are used in fnprof.
-	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(1)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(2)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,of,m' ; stepos(j)=1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp!psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,of,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp!psio is for the offer function
 	psio(3)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='emp,of,m' ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function !NO MORE OFLOC LAYOFF NONSENSE
 	psio(4)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=1.0_dp ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=-1.0_dp ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(5)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=1.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=-1.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
 	psio(6)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,of,f' ; stepos(j)=1.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,of,f' ; stepos(j)=-1.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
 	psio(7)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='emp,of,f' ; stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function !NO MORE OFLOC LAYOFF NONSENSE
 	psio(8)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,cur,m' ; stepos(j)=1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,cur,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(9)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,of,m' ; stepos(j)=1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,of,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(10)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,cur,f' ; stepos(j)=1.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,cur,f' ; stepos(j)=-1.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(11)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,of,f' ; stepos(j)=1.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,of,f' ; stepos(j)=-1.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(12)=realpar(j)	            ; j=j+1
     !print*, 'Here is psio12',j-1
     !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
