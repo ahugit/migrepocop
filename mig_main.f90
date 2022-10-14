@@ -280,7 +280,7 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(13)=3.0_dp    !psil
+    pars(13)=4.0_dp    !psil
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
