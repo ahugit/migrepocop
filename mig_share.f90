@@ -515,7 +515,7 @@ contains
 		c=c+1
 		w=np1							! w=np+1 denotes unemployment 
 		j=wl2q(w,i)						! get what choosing unemployment (w=np+1) at location l corresponds to in terms of the composite index q
-		chs(c,:,:)=j						! moving anywhere unemployed is always an option					
+		chs(c,:,:)=0 !=J THIS IS A HUGE CHANGE ahu october2022					! moving anywhere unemployed is always an option					
 		dum(1,c)=w
 		dum(2,c)=i
 	end do 	
@@ -528,25 +528,30 @@ contains
 		if (w0<=np1) then 
 			q: do j=1,nqs					
 				!call q2wloc(j,w,l) 
+				chs(c,j,i) = wl2q(np1,l0)	     !unemployment at l0 always an option
 				w = q2w(j)
 				l = q2l(j)
                 
                 if (w0<=np) then        !currently employed 
                     if (l==l0) then         !curloc draw
+						chs(c,j,i) = wl2q(np1,l0)	     !unemployment at l0 always an option
                         if (w<=np) then         !gets wage offer
                             chs(c+1,j,i) = i    !status quo
                             chs(c+2,j,i) = j    !accept offer
                         else if (w==np1) then   !gets laid off
-                            chs(:,j,i) = 0      !when gets laid off, nothing is feasible other than unemployment at l0
-                            chs(l0,j,i) = wl2q(np1,l0)	     !when gets laid off, nothing is feasible other than unemployment at l0
+                            !chs(:,j,i) = 0      !when gets laid off, nothing is feasible other than unemployment at l0
+                            !chs(l0,j,i) = wl2q(np1,l0)	     !when gets laid off, nothing is feasible other than unemployment at l0
                             chs(c+1,j,i) = 0    !when gets laid off, status quo not feasible
                             chs(c+2,j,i) = 0    !when gets laid off, no offer to accept
                         else if (w==np2) then   !nothing happens
+                            !chs(l0,j,i) = wl2q(np1,l0)	     !unemployment at l0 always an option !setting this with chs(c,j,i)=wl2q(np1,l0) instead
                             chs(c+1,j,i) = i    !status quo
                             chs(c+2,j,i) = 0    !when nothing happens, no offer to accept
                         end if
                     else if (l/=l0) then         !ofloc draw
+						chs(c,j,i) = wl2q(np1,l)	     !moving to ofloc unemp is an option 
                         if (w<=np) then         !gets wage offer
+                            !chs(l0,j,i) = wl2q(np1,l0)	     !unemployment at l0 always an option !setting this with chs(c,j,i)=wl2q(np1,l0) instead
                             chs(c+1,j,i) = i    !status quo
                             chs(c+2,j,i) = j    !accept offer
                         else if (w==np1) then   !gets laid off !BUT NOTE THT THIS DOES NOT HAPPEN WHEN THE DRAW IS OFLOC
@@ -559,6 +564,7 @@ contains
                     end if 
                 else if (w0==np1) then      !currently unemployed 
                     if (l==l0) then         !curloc draw
+						chs(c,j,i) = wl2q(np1,l0)	     !unemployment at l0 always an option
                         if (w<=np) then         !gets wage offer
                             chs(c+1,j,i) = i    !status quo
                             chs(c+2,j,i) = j    !accept offer
@@ -570,6 +576,7 @@ contains
                             chs(c+2,j,i) = 0    !when nothing happens, no offer to accept
                         end if
                     else if (l/=l0) then         !ofloc draw
+						chs(c,j,i) = wl2q(np1,l)	     !moving to ofloc unemp is an option 
                         if (w<=np) then         !gets wage offer
                             chs(c+1,j,i) = i    !status quo
                             chs(c+2,j,i) = j    !accept offer
