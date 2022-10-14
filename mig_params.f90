@@ -44,7 +44,7 @@
 	integer(i4b), parameter :: mna=18,mxa=50   !,mxai=50		!ahu 070713 40	!if you ever change mina from 16 that might be problematic, because of psiddata%home and simdata%home definitions. look in read_data and read simdata for this
     integer(i4b), parameter :: MNAD=MNA-1,MXAD=MXA-1            !ahu jan19 010219
     integer(i4b), parameter :: nh=2,nexp=2,nsimeach=50,neduc=2,nkid=2 !kid is 1 if no kid,2 if yes kid !ahu 0327 changed nsimeach from 10 to 5
-	integer(i4b), parameter :: np=5,nz=1 !ag090122 agsept2022 changed nz frmo 1 to 5 !ahu 121818 changed from 3 to 6 !ahu 0327 changed np from 5 to 2
+	integer(i4b), parameter :: np=3,nz=1 !ag090122 agsept2022 changed nz frmo 1 to 5 !ahu 121818 changed from 3 to 6 !ahu 0327 changed np from 5 to 2
 	integer(i4b), parameter :: nqs = (np+2) *  nl
 	integer(i4b), parameter :: nq  = (np+2) * (np+2) * nl
 	integer(i4b), parameter :: np1=np+1, np2=np+2   !w=np1 is getting laid off in the shock space q and w=np2 is nothing happening. In the state space q, np1 is unemployment and np2 is not in the state space q (I try to check that it is not there, at various points in code)
