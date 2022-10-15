@@ -83,7 +83,7 @@
 	real(dp), parameter :: pen=-99999999.0_dp
 	integer(i4b), parameter :: ipen=-99999	
 	real(dp), parameter :: init=pen,initi=ipen
-    real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=10.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwvar=10.0_dp
+    real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=10.0_dp,wrel=1.0_dp,wmove=100.0_dp,whour=1.0_dp,wwvar=100.0_dp
     real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     character(len=23), parameter :: datafilename= 'familymigpsid.txt' ! data filename
 	!character(len=23), parameter :: initcondfile= 'familymiginit111113.txt' ! filename of initial conditions
