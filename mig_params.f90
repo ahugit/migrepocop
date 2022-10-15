@@ -194,7 +194,7 @@ contains
     !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psio right here and those are the ones that are used in fnprof.
 
-	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.5_dp 
+	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp 
 	psil(1)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='alfhme' ; stepos(j)=0.0_dp 
 	alfhme=realpar(j)	            ; j=j+1

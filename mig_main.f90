@@ -306,6 +306,9 @@ nonlabinc=0.0_dp !ahu030622
     pars(28)=-3.0_dp !alphaed(f,noed)
     pars(29)=-5.3_dp !alphaed(m,ed)
     pars(30)=-4.0_dp !alphaed(f,ed)
+
+    pars(10)=1.0_dp !u cur m
+
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
