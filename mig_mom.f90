@@ -975,12 +975,12 @@ end FUNCTION random
             do ia=mna,21
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
                 WRITE(name(im),'("wnned|ia   ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
                 calcvar(im)=1
                 im=im+1
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*  (dat(ia,:)%logwr**2),mom,cnt,var)
                 WRITE(name(im),'("wvarned|ia ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
                 calcvar(im)=5
                 im=im+1
             end do 
@@ -1053,7 +1053,7 @@ end FUNCTION random
             im=im+1
             CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*  (dat(mna:mxa,:)%logwr**2),mom,cnt,var)
             WRITE(name(im),'("wvar|noed",tr1)') 
-            weights(im)=wwage           
+            weights(im)=wwvar           
             calcvar(im)=5
             im=im+1
             !CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*  (dat(mna:mxa,:)%logwr-mom(im-2))**2,mom,cnt,var)
@@ -1067,7 +1067,7 @@ end FUNCTION random
             im=im+1
             CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==2 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*  (dat(mna:mxa,:)%logwr**2),mom,cnt,var)
             WRITE(name(im),'("wvar|ed",tr1)') 
-            weights(im)=wwage 
+            weights(im)=wwvar 
             calcvar(im)=5
             im=im+1
             do ia=agestart(NOCOLLEGE),mxad,10
