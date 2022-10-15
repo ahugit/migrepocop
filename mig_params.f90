@@ -311,7 +311,7 @@ contains
     realpar(j)=0.0_dp                               ; parname(j)='alf23' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
 	alf23=realpar(j)	                            ; j=j+1
 	
-    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=0.0_dp ; stepos(j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
+    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=1.0_dp ; stepos(j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
     realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=-1.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
