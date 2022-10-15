@@ -298,21 +298,16 @@ nonlabinc=0.0_dp !ahu030622
     !pars(8)=0.0_dp !emp off set to 0 in getpars
     !pars(22:23)=6000.0_dp !uhome
     !pars(13)=2.0_dp    !psil
+    pars(74)=-5000  
+    pars(80)=-5000  
+    pars(86)=-5000  
+    pars(92)=-5000  
+    pars(27)=-4.0_dp !alphaed(m,noed)
+    pars(28)=-3.0_dp !alphaed(f,noed)
+    pars(29)=-5.3_dp !alphaed(m,ed)
+    pars(30)=-4.0_dp !alphaed(f,ed)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-
-    !pars(74)=-5000  
-    !pars(80)=-5000  
-    !pars(86)=-5000  
-    !pars(92)=-5000  
-    !pars(27)=-4.0_dp !alphaed(m,noed)
-    !pars(28)=-3.0_dp !alphaed(f,noed)
-    !pars(29)=-5.3_dp !alphaed(m,ed)
-    !pars(30)=-4.0_dp !alphaed(f,ed)
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
 
 
     !pars(1)=2.0_dp 
