@@ -306,12 +306,22 @@ nonlabinc=0.0_dp !ahu030622
     pars(28)=-3.0_dp !alphaed(f,noed)
     pars(29)=-5.3_dp !alphaed(m,ed)
     pars(30)=-4.0_dp !alphaed(f,ed)
-
     pars(10)=1.0_dp !u cur m
-
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+
+    open(unit=2,file='o101522_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    onthejobsearch=.TRUE.
+    nonlabinc=0.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='o101522_2bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    onthejobsearch=.TRUE.
+    nonlabinc=0.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !pars(1)=2.0_dp 
     !pars(3)=0.0_dp
