@@ -815,6 +815,10 @@ end FUNCTION random
             headloc(ihead)=im
             headstr(ihead)='everyone mar and getmar and getdiv rates'
             ihead=ihead+1
+            call condmom(im,( coho(MNA:MXA,:) ), d1*one(dat(MNA:MXA,:)%rel==-1),mom,cnt,var)
+            write(name(im),'("margen=-1!!! ",tr10)')	
+            weights(im)=wrel !; if (onlysingles) weights(im)=0.0_dp   !forget about that if statement usually. just putting there to get im to go up by 1 for the next loop
+            im=im+1
             call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
             write(name(im),'("mar ",tr10)')	
             weights(im)=wrel !; if (onlysingles) weights(im)=0.0_dp   !forget about that if statement usually. just putting there to get im to go up by 1 for the next loop
