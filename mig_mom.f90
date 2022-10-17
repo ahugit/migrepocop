@@ -121,7 +121,9 @@ end FUNCTION random
 		!some checks:
 		if (edr.ne.1.and.edr.ne.2) then
 			print*, 'There is something wrong with edr in read_actual data'
-			stop 
+			!edr=1
+            !dat(age,id)%edr=1
+            !stop 
 		end if 
 		if (dat(age,id)%co<0.or.dat(age,id)%sexr<0) then ; print*, "cohort and sex are negative!", age,dat(age,id)%co,cohort,dat(age,id)%sexr,sexr ; stop ; end if 
 
