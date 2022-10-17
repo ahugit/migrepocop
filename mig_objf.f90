@@ -20,7 +20,7 @@ contains
 	real(8), dimension(npars), intent(in) :: parvec	
 	real(8), intent(out) :: objval					
 	real(8), dimension(npars) :: realparvec
-	type(initcond), dimension(ndata) :: init
+	type(initcond), dimension(:), allocatable :: init !array for initial conditions (size just num of persons in actual data)
 	type(statevar), dimension(:,:), allocatable :: dat
 	real(dp), dimension(nmom), save :: momdat,vardat    !deljan03
 	integer(i4b), dimension(nmom), save :: cntdat       !deljan03
@@ -57,6 +57,7 @@ contains
     allocate(dec_mar(nz,nx,nq,mna:mxa,nindex))
 	allocate(vm0_c(nx,nq,mna:mxa,nindex),vf0_c(nx,nq,mna:mxa,nindex))
     allocate(vm0ctemp(nq,nx),vf0ctemp(nq,nx))
+	allocate(init(numperdat)) !numperdat is the number of persons in actual data)
 
 	call getpars(parvec,realparvec) 
     parsforcheck=parvec !jusr for checking where it says emax is negative. can get rid of later.
@@ -110,12 +111,13 @@ contains
 		call getx2x					! trans btw couple and single state space
 		call getch_single			! choice set cond on state variable and shock for singles
 		call getch_couple			! choice set cond on state variable and shock for singles
-		allocate(dat(mnad:mxa,ndata))
-		call read_actualdata(init,dat)
+		allocate(dat(mnad:mxa,numperdat)) !numperdat is the number of persons in actual data) 
+		 !init is allocated above !numperdat: num of persons in actual data, numperobsdat: num of person-periods in actual data
+		call read_actualdata(init,dat,numperdat,numperobsdat)
 		!  calculate moments from data, store in datamoments
 		!  momentname,momentheaders,headerlocs,weights will be filled in when calculate moments from simulations
 		!  so that they're not all floating around as globals. loaded into temporary variables here
-		call get_mom(dat,ndata,momdat,cntdat,vardat,name,header,headerloc,momwgt)
+		call get_mom(dat,numperdat,momdat,cntdat,vardat,name,header,headerloc,momwgt)
         !print*, name(70),momdat(70),cntdat(70)
         do i=1,nmom
             if (calcvar(i)==1) then 
@@ -150,12 +152,12 @@ contains
     call solve		
     timing(2)=secnds(timing(1))
     timing(3)=secnds(0.0)
-    allocate(dat(mnad:mxa,nsim)) !ag 110416: this is allocated mna-1 rather than mna because simulation is changed to have sim(ia-1,r) at the beginning of the sim loop rather than sim(ia,r) in order to not have 0 emp at age 18
-	call simulate(init,dat)
+    allocate(dat(mnad:mxa,numpersim)) !numpersim=numperdat*nsimeach here and its num of persons in simulation !ag 110416: this is allocated mna-1 rather than mna because simulation is changed to have sim(ia-1,r) at the beginning of the sim loop rather than sim(ia,r) in order to not have 0 emp at age 18
+	call simulate(init,dat,numperdat,numpersim)
     timing(4)=secnds(timing(3))
     timing(5)=secnds(0.0)    
     if (groups) then 
-		call get_mom(dat,nsim,mymom,mycnt,myvar,name,header,headerloc,momwgt)
+		call get_mom(dat,numpersim,mymom,mycnt,myvar,name,header,headerloc,momwgt)
         !deljan03
         !if ( mysay==0.and.iter==3) then 
         !    do i=1,nmom
@@ -164,7 +166,7 @@ contains
         !end if        
         !deljan03
 	else
-		call get_mom(dat,nsim,momsim,cntsim,varsim,name,header,headerloc,momwgt)
+		call get_mom(dat,numpersim,momsim,cntsim,varsim,name,header,headerloc,momwgt)
 	end if 
 	deallocate(dat)
     timing(6)=secnds(timing(5))
@@ -295,7 +297,7 @@ contains
     deallocate(dec_mar)
     deallocate(vm0_c,vf0_c)
 	deallocate(vm0ctemp,vf0ctemp)
-
+	deallocate(init)
 	timing(10)=secnds(timing(9))
 	timing(11)=secnds(timing(1))
 	!if (iwritegen==1) then ; write(*,'(7f14.2)') timing(2),timing(4),timing(6),timing(8),timing(10),timing(2)+timing(4)+timing(6)+timing(8)+timing(10),timing(11) ; end if  
@@ -355,10 +357,10 @@ contains
 	!write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,1:numit) 
 	!write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,1:numit) 
 	write(60,*)
-    write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
-	write(60,'(4i4,3(2x,i4),4i8,2i4)') np,np1,np2,nl,neduc,nexp,nkid,nqs,nq,nx,nxs,nepsmove
-	write(60,'(tr2,"nz",tr2,"nh",tr1,"ncs",tr2,"nc",tr5,"ndata",tr3,"nsimeach",tr6,"nsim",tr2,"ndataobs",tr6,"nmom")') 
-	write(60,'(4i4,5i10)') nz,nh,ncs,nc,ndata,nsimeach,nsim,ndataobs,nmom
+    !write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
+	!write(60,'(4i4,3(2x,i4),4i8,2i4)') np,np1,np2,nl,neduc,nexp,nkid,nqs,nq,nx,nxs,nepsmove
+	!write(60,'(tr2,"nz",tr2,"nh",tr1,"ncs",tr2,"nc",tr5,"ndata",tr3,"nsimeach",tr6,"nsim",tr2,"ndataobs",tr6,"nmom")') 
+	!write(60,'(4i4,5i10)') nz,nh,ncs,nc,ndata,nsimeach,nsim,ndataobs,nmom
 	write(60,'("wage grid wg() first row men, second row fem, third row wgt:")')    !     tr6,"m(1)",tr6,"m(2)",tr6,"m(3)",tr6,"m(4)",tr6,"m(5)",tr4,"h(1)",tr4,"h(2)")') 
 	write(60,*) wg(:,1)   !       ,mg(:),hgrid(:)
     write(60,*) wg(:,2)

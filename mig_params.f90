@@ -53,9 +53,9 @@
 	integer(i4b), parameter :: ncs = 3 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE nl+2
 	integer(i4b), parameter :: nc  = 9   !nl+8 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE
     integer(i4b), parameter :: nepsmove=3, nepskid=2 !ag090122 agsept2022 changed nepsmove frmo 2 to 5 !ahumarch1022 changed nepsmove to 2 from 13
-	integer(i4b), parameter :: ndata    = 5233 !5390 !2386   
-	integer(i4b), parameter :: ndataobs = 84507 !86873 !41494  
-	integer(i4b), parameter :: nsim     = ndata*nsimeach  
+	integer(i4b) :: numperdat,numperobsdat,numpersim !previously ndata,ndataobs,nsim ALL set in main now 
+	!integer(i4b), parameter :: ndataobs = 84507  set in main now 
+	!integer(i4b), parameter :: nsim     = ndata*nsimeach  set in main now
 	integer(i4b), parameter :: nmom     = 900 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
@@ -85,7 +85,7 @@
 	real(dp), parameter :: init=pen,initi=ipen
     real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=10.0_dp,wrel=1.0_dp,wmove=100.0_dp,whour=1.0_dp,wwvar=100000.0_dp
     real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
-    character(len=23), parameter :: datafilename= 'familymigpsid.txt' ! data filename
+    character(len=23) :: datafilename  != 'familymigpsid.txt' ! data filename set in main now
 	!character(len=23), parameter :: initcondfile= 'familymiginit111113.txt' ! filename of initial conditions
 	character(len=23) :: momentfile='mom.txt'
     character(len=23) :: momentonlyfile='momonly.txt'

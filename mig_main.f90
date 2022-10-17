@@ -307,21 +307,49 @@ nonlabinc=0.0_dp !ahu030622
     pars(29)=-5.3_dp !alphaed(m,ed)
     pars(30)=-4.0_dp !alphaed(f,ed)
     pars(10)=1.0_dp !u cur m
+
+    numperdat=
+    numperobsdat=
+    numpersim=numperdat*nsimeach
+    datafilename='familymigpsid.txt'
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    numperdat=8388
+    numperobsdat=118871
+    numpersim=numperdat*nsimeach
+    datafilename='familymigpsid.txt'
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-    open(unit=2,file='o101522_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    onthejobsearch=.TRUE.
-    nonlabinc=0.0_dp
+    numperdat=
+    numperobsdat=
+    numpersim=numperdat*nsimeach
+    datafilename='familymigpsid.txt'
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    open(unit=2,file='o101522_2bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    onthejobsearch=.TRUE.
-    nonlabinc=0.0_dp
+
+    numperdat=
+    numperobsdat=
+    numpersim=numperdat*nsimeach
+    datafilename='familymigpsid.txt'
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    !open(unit=2,file='o101522_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !onthejobsearch=.TRUE.
+    !nonlabinc=0.0_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
+
+    !open(unit=2,file='o101522_2bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !onthejobsearch=.TRUE.
+    !nonlabinc=0.0_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     !pars(1)=2.0_dp 
     !pars(3)=0.0_dp

@@ -28,9 +28,9 @@ end FUNCTION random
 
 	! read psid data, save into global structure psiddata, calculate moments
 	! notes on data
-	!   record total number of observations in ndataobs
+	!   record total number of observations in nrealdatobs
 	!	need ages of observations to be strictly increasing
-	!	ids should go from 1 to ndata
+	!	ids should go from 1 to nrealdat
 	!	data entry should look like: idnum, age sex rel kids edm edf incm incf hhm hhf ddm ddf rellen with <0 being blank
 	!	what can be missing? anything.either entire observation is missing (rel<0)
 	!		or observation is there but no record of housework (if year \=81) (housework hours <0)
@@ -40,16 +40,17 @@ end FUNCTION random
 	! keep this in mind, if this ever changes 
 	! only want their information after they have completed school (whether high school or college)	!ahu 071712 
 	! in the simulation this is automatically taken care of by the fact that the simulation starts at age age0sim(edsim(r))
-	subroutine read_actualdata(init,dat)
-	type(initcond), dimension(ndata), intent(out) :: init
-	type(statevar), dimension(mnad:mxa,ndata), intent(out) :: dat	!data set. first entry is ia index, second observation number
-	integer(i4b) :: kk,id,age,cohort,sexr,rel,kid,edr,edsp,hhr,hhsp,rellen,loc,homeloc,minage,endage,nomiss,ierr,checkminage(ndata)
+	subroutine read_actualdata(init,dat,nper,nperobs) !nper is for num of persons /      nperobs is for num of person-periods
+    integer(i4b), intent(in) :: nper,nperobs !in calling program, nper should be set to the sample size of actual data and ndatobs is the total size of all person-periods in actual data
+	type(initcond), dimension(nper), intent(out) :: init
+	type(statevar), dimension(mnad:mxa,nper), intent(out) :: dat	!data set. first entry is ia index, second observation number
+	integer(i4b) :: kk,id,age,cohort,sexr,rel,kid,edr,edsp,hhr,hhsp,rellen,loc,homeloc,minage,endage,nomiss,ierr,checkminage(ndat)
 	real(dp) :: wr_perhour,wsp_perhour
 	dat=ones 	            ! initialize
     init=ones_init      ! initialize
     checkminage=1
 	open(unit=77,file=datafilename)
-	do kk=1,ndataobs
+	do kk=1,nperobs
 		read(77,*) id, age, cohort, sexr, rel, kid, edr, edsp, wr_perhour, wsp_perhour, hhr, hhsp, rellen,loc,minage,endage,homeloc
 		if (rel/=0.and.rel/=1.and.rel/=-1) then ; print*, "data has other relationship states! ",rel ; stop ; end if !ahu 102112: count cohabiting people as married
 		!if (age==mna) hme=loc      !ahu 022517: changing home back to state grew up. 
@@ -152,9 +153,10 @@ end FUNCTION random
 	close(77)
 	end subroutine read_actualdata
 	
-	subroutine simulate(init,sim)
-	type(initcond), dimension(ndata), intent(in) :: init
-	type(statevar), dimension(mnad:mxa,nsim), intent(out) :: sim
+	subroutine simulate(init,sim,nper1,nper2) !nperdat is for num of persons in actual data, npersim is for num of persons in sim data (which should be nperdat*nsimeach)
+    integer(i4b), intent(in) :: nper1,nper2 !in the calling program, ndat should be set to the # of people for actual data and is read here to get the dimensions of initial conditions
+	type(initcond), dimension(nper1), intent(in) :: init
+	type(statevar), dimension(mnad:mxa,nper2), intent(out) :: sim
 	type(shock), allocatable, dimension(:,:) :: epsim
 	integer(i4b) :: q0,x0,q,x,dec(3),draw(2)
 	integer(i4b) :: relnext,qnext,xnext
@@ -175,7 +177,7 @@ end FUNCTION random
 
      !seedo=98765
 	!seedo=seed_init    
-	allocate(epsim(mna:mxa,nsim))
+	allocate(epsim(mna:mxa,nper2))
 	
 	!if (iter==1) then
 	    call random_seed (size=p)
@@ -218,7 +220,7 @@ end FUNCTION random
 		
 	sim=ones 	! initialize to smallest valid value
 	r=0
-	do nn=1,ndata			! person being simulated !ahu 031911 big change	
+	do nn=1,nper1			! person being simulated this is the same number of people (ndat) as actual data !ahu 031911 big change	
 		do mm=1,nsimeach	! number of simulations for this person
 			r=r+1
 			do ia=mna,mxa
@@ -242,6 +244,10 @@ end FUNCTION random
 			end do 
 		end do 
 	end do 
+    if (nper2~=nper1*nsimeach) then 
+    print*, "problem with npersim"
+    stop 
+    end if 
 	!print*, 'epsim',epsim(18,5)%q,epsim(18,5)%x
 	!call random_number(rand) 
     !print*, 'rand',rand
@@ -257,7 +263,7 @@ end FUNCTION random
     checkgroups=.true.
 	r=0								! overall count of total number of simulations
     typsim=-1
-	iddat: do nn=1,ndata			! person being simulated !ahu 031911 big change	
+	iddat: do nn=1,nper1    			! person being simulated. this is the same # of people as in actual data !ahu 031911 big change	
 		idsim: do mm=1,nsimeach		! number of simulations for this person
 			r=r+1
 					!sim(mna,r)%initcond=init(nn)   !co, sex, hme, endage   !ahu0115del
@@ -569,9 +575,9 @@ end FUNCTION random
     
     end subroutine get_dathrwge	
 	
-	subroutine get_mom(dat,ndat,mom,cnt,var,name,headstr,headloc,weights)
-	integer(i4b), intent(in) :: ndat ! number of observations in dat array    
-	type(statevar), dimension(MNAD:MXA,ndat), intent(in) :: dat ! data set. first entry is ia index, second observation number
+	subroutine get_mom(dat,nper,mom,cnt,var,name,headstr,headloc,weights)
+	integer(i4b), intent(in) :: nper ! number of observations in dat array. nper is just the sample size for actual data and is (sample size)*nsimeach for sim data. 
+	type(statevar), dimension(MNAD:MXA,nper), intent(in) :: dat ! data set. first entry is ia index, second is the observation number
 	real(dp), dimension(nmom), intent(out) :: mom	 ! conditional mom
 	integer(i4b), dimension(nmom), intent(out) :: cnt	 ! number of observations contributing to each moment
 	real(dp), dimension(nmom), intent(out) :: var		 ! unconditional variance of each conditional moemnt
@@ -581,17 +587,17 @@ end FUNCTION random
 	real(dp), dimension(nmom), intent(out) :: weights		 ! some real assoicated to each moment, maybe used as weights
 	integer(i4b) :: ia,co,im,ihead,g,i,j,jj,ii,ddd
     integer(i4b) :: minsex,maxsex,maxrelo
-	logical,dimension(MNAD:MXA,ndat) :: coho,cosex,cosexrel,corel
-	integer(i4b), dimension(MNAD:MXA,ndat) :: norelchg,move,emph,empw,edh,edw,dur,dee,deue
-	real(dp), dimension(MNAD:MXA,ndat) :: logwh,logww
-    integer(i4b), dimension(ndat) :: nummove,cohogen,sexgen    !nummove_ma,nummove_si !integer(i4b), dimension(MNAD:MXA,ndat) :: nummov,nummove_mar,nummove_sin
+	logical,dimension(MNAD:MXA,nper) :: coho,cosex,cosexrel,corel
+	integer(i4b), dimension(MNAD:MXA,nper) :: norelchg,move,emph,empw,edh,edw,dur,dee,deue
+	real(dp), dimension(MNAD:MXA,nper) :: logwh,logww
+    integer(i4b), dimension(nper) :: nummove,cohogen,sexgen    !nummove_ma,nummove_si !integer(i4b), dimension(MNAD:MXA,ndat) :: nummov,nummove_mar,nummove_sin
     real(dp) :: wmovebyrel,decilegrid(ndecile)
-    INTEGER(I4B),DIMENSION(MNAD:MXA,ndat) :: kidtrans,homemove,moverank
-    INTEGER(I4B),DIMENSION(ndat) :: movesum
-    REAL(dp),DIMENSION(MNAD:MXA,ndat) :: mean4h,deltawage4,deltawage
-    INTEGER(I4B), dimension(MNAD:MXA,ndat) :: iacat,empr
-    INTEGER(I4B), dimension(5,MNAD:MXA,ndat) :: etr
-    LOGICAL,DIMENSION(MNAD:MXA,ndat) :: obs4h
+    INTEGER(I4B),DIMENSION(MNAD:MXA,nper) :: kidtrans,homemove,moverank
+    INTEGER(I4B),DIMENSION(nper) :: movesum
+    REAL(dp),DIMENSION(MNAD:MXA,nper) :: mean4h,deltawage4,deltawage
+    INTEGER(I4B), dimension(MNAD:MXA,nper) :: iacat,empr
+    INTEGER(I4B), dimension(5,MNAD:MXA,nper) :: etr
+    LOGICAL,DIMENSION(MNAD:MXA,nper) :: obs4h
 
 
 
@@ -633,7 +639,7 @@ end FUNCTION random
     homemove=-99 
 
     headloc(ihead)=im
-	if (skriv) call yaz_getmom(dat,ndat) 
+	if (skriv) call yaz_getmom(dat,nper) 
 	
     do ddd=1,ndecile
         decilegrid(ddd)=8.6_dp+0.25_dp*(ddd-1)
@@ -717,9 +723,9 @@ end FUNCTION random
 
 
     ddd=1
-	if (skriv.and.ndat==nsim .and. iter==1) then
+	if (skriv.and.nper==numpersim.and. iter==1) then
 	open(unit=94632, file='dursim1.txt',status='replace')
-    do j=1,ndat
+    do j=1,nper
         do ia=mnad,mxa
             if (dat(ia,j)%hme==1) then 
                 write(94632,'(6i6,F10.2,3I6)' ) j,dat(ia,j)%nn,dat(ia,j)%mm,ia,dat(ia,j)%L,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%EXPR,dat(ia,j)%HME,dat(ia,j)%sexr   !, d1*one( (dat(ia,j)%logwr>decilegrid(ddd) .and. dat(ia,j)%logwr<decilegrid(ddd+1) ) ), decilegrid(ddd),decilegrid(ddd+1)   !,dat(ia,j)%nn,dat(ia,j)%mm,dat(ia,j)%r
@@ -730,9 +736,9 @@ end FUNCTION random
     end if 
 
     ddd=1
-	if (skriv.and.ndat==nsim .and. iter==2) then
+	if (skriv.and.nper==numperdat .and. iter==2) then
 	open(unit=94632, file='dursim2.txt',status='replace')
-    do j=1,ndat
+    do j=1,nper
         do ia=mnad,mxa
             if (dat(ia,j)%hme==1) then 
                 write(94632,'(6i6,F10.2,3I6)' ) j,dat(ia,j)%nn,dat(ia,j)%mm,ia,dat(ia,j)%L,dat(ia,j)%hhr,dat(ia,j)%logwr,dat(ia,j)%EXPR,dat(ia,j)%HME,dat(ia,j)%sexr   !, d1*one( (dat(ia,j)%logwr>decilegrid(ddd) .and. dat(ia,j)%logwr<decilegrid(ddd+1) ) ), decilegrid(ddd),decilegrid(ddd+1)   !,dat(ia,j)%nn,dat(ia,j)%mm,dat(ia,j)%r
@@ -817,7 +823,7 @@ end FUNCTION random
             ihead=ihead+1
             call condmom(im,( coho(MNA:MXA,:) ), d1*one(dat(MNA:MXA,:)%rel==-1),mom,cnt,var)
             write(name(im),'("margen=-1!!! ",tr10)')	
-            weights(im)=wrel !; if (onlysingles) weights(im)=0.0_dp   !forget about that if statement usually. just putting there to get im to go up by 1 for the next loop
+            weights(im)=0.0_dp !; if (onlysingles) weights(im)=0.0_dp   !forget about that if statement usually. just putting there to get im to go up by 1 for the next loop
             im=im+1
             call condmom(im,( coho(MNA:MXA,:) .AND. dat(MNA:MXA,:)%rel>=0 ), d1*one(dat(MNA:MXA,:)%rel==1),mom,cnt,var)
             write(name(im),'("mar ",tr10)')	

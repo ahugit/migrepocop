@@ -340,15 +340,15 @@ contains
 	write(fnum,*)
     end subroutine yaz_decision
 
-	subroutine yaz_getmom(dat,ndat)
-	integer(i4b), intent(in) :: ndat						! number of observations in dat array    
-	type(statevar), dimension(mnad:mxa,ndat), intent(in) :: dat ! data set. first entry is ia index, second observation number
+	subroutine yaz_getmom(dat,nper)
+	integer(i4b), intent(in) :: nper						! number of observations in dat array    
+	type(statevar), dimension(mnad:mxa,nper), intent(in) :: dat ! data set. first entry is ia index, second observation number
 	integer :: ia,j
 	write(12,*)
-	if (ndat==ndata) then 		
+	if (nper==numperdat) then 		
 		write(12,'("actual data")')	
 		write(12,*)
-		do j=1,ndat
+		do j=1,nper
 			if (mod(j,500)==0.0_dp) then !in order to avoid a huge file
 			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
 			& tr3,"rel",&
@@ -367,10 +367,10 @@ contains
 			end if 
 		end do
 	end if 
-	if (ndat==nsim) then 		
+	if (nper==numpersim) then 		
 		write(12,'("simulated data")')	
 		write(12,*)
-		do j=1,ndat
+		do j=1,nper
 			if (dat(24,j)%sexr>-99.and.mod(j,1000)==0.0_dp) then !to avoid writing a huge output file 
 			write(12,'(tr6,"id",tr3,"age",tr3,"sexr",tr3,"exp",tr3,"hhr",tr4,"logwr",tr3,"kid",tr3,"edr",&
 			& tr3,"rel",&
