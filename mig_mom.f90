@@ -44,7 +44,7 @@ end FUNCTION random
     integer(i4b), intent(in) :: nper,nperobs !in calling program, nper should be set to the sample size of actual data and ndatobs is the total size of all person-periods in actual data
 	type(initcond), dimension(nper), intent(out) :: init
 	type(statevar), dimension(mnad:mxa,nper), intent(out) :: dat	!data set. first entry is ia index, second observation number
-	integer(i4b) :: kk,id,age,cohort,sexr,rel,kid,edr,edsp,hhr,hhsp,rellen,loc,homeloc,minage,endage,nomiss,ierr,checkminage(ndat)
+	integer(i4b) :: kk,id,age,cohort,sexr,rel,kid,edr,edsp,hhr,hhsp,rellen,loc,homeloc,minage,endage,nomiss,ierr,checkminage(nper)
 	real(dp) :: wr_perhour,wsp_perhour
 	dat=ones 	            ! initialize
     init=ones_init      ! initialize
@@ -244,7 +244,7 @@ end FUNCTION random
 			end do 
 		end do 
 	end do 
-    if (nper2~=nper1*nsimeach) then 
+    if (nper2/=nper1*nsimeach) then 
     print*, "problem with npersim"
     stop 
     end if 
@@ -703,7 +703,7 @@ end FUNCTION random
     !    print*, 'Here it is ', d1*one( (dat(25,i)%logwr>decilegrid(ddd) .and. dat(25,i)%logwr<decilegrid(ddd+1) ) )
     !end do     
     
-    do i=1,ndat
+    do i=1,nper
         do ia=MNAD,MXAD
 	        if (        (dat(ia,i)%hhr==0)    .AND. (dat(ia+1,i)%hhr==0)   ) then
 		        dur(ia+1,i)=dur(ia,i)+1
@@ -711,7 +711,7 @@ end FUNCTION random
         end do 
     end do 
     
-    do i=1,ndat
+    do i=1,nper
         !Just generating cohort and sex of someone because don't have initcond in this routine
         cohogen(i)=   maxval(dat(MNAD:MXA,i)%co)
         sexgen(i)=   maxval(dat(MNAD:MXA,i)%sexr)	                
