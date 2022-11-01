@@ -316,8 +316,8 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    numperdat=7538
-    numperobsdat=114537
+    numperdat=7209 !7538
+    numperobsdat=105863 !114537
     numpersim=numperdat*nsimeach
     datafilename='familymig2022.txt'
     call getpars(pars,realpars)

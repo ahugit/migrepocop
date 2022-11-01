@@ -3,7 +3,7 @@
 
 echo "Cat to combo and then compile to create executable called combo"
 
-DIR1=/home/ec2-user/awsruns
+DIR1=/home/ec2-user/work
 DIR2=/vol/migit
 
 #cp $DIR1/*     $DIR2/.
