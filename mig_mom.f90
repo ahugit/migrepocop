@@ -78,6 +78,11 @@ end FUNCTION random
         end if 
         !kid  !min(kid,maxkid)      !initcond (it should be just 0 in the beginning but might not be in the actual data so just read it from the data here as initcond)
 		!ahu 030217 if (age==mna) init(id)=dat(age,id)%initcond 
+        if (id==6740) then 
+            print*, "I am 6740"
+            print*, nper,nperobs
+            print*, id, age, cohort, sexr, rel, kid, edr, edsp, wr_perhour, wsp_perhour, hhr, hhsp, rellen,loc,minage,endage,homeloc
+        end if
         if (age==minage) then
             checkminage(id)=0
             init(id)=dat(age,id)%initcond

@@ -8,9 +8,9 @@ data2=/users/ahu/Dropbox/data2022/familymig2022.txt
 echo "instance info:"
 read instanceid
 echo "SEND FILES TO $instanceid"
-#scp -i $keydir/"key030322.pem" $sourcefiles/*.f90 ec2-user@$instanceid:/home/ec2-user/work/  
-#scp -i $keydir/"key030322.pem" $sourcefiles/bp093022.txt ec2-user@$instanceid:/home/ec2-user/work/  
-#scp -i $keydir/"key030322.pem" $sourcefiles/compaws ec2-user@$instanceid:/home/ec2-user/work/  
+scp -i $keydir/"key030322.pem" $sourcefiles/*.f90 ec2-user@$instanceid:/home/ec2-user/work/  
+scp -i $keydir/"key030322.pem" $sourcefiles/bp093022.txt ec2-user@$instanceid:/home/ec2-user/work/  
+scp -i $keydir/"key030322.pem" $sourcefiles/compaws ec2-user@$instanceid:/home/ec2-user/work/  
 scp -i $keydir/"key030322.pem" $data1 ec2-user@$instanceid:/home/ec2-user/work/  
 scp -i $keydir/"key030322.pem" $data2 ec2-user@$instanceid:/home/ec2-user/work/  
 #read remark
