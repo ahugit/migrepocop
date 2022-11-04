@@ -1018,10 +1018,10 @@ end do
     ws=pen
     wc=pen   
     
-    if (mysay==1) then 
-        open(unit=68857,file='checktax1.txt')
-        open(unit=68858,file='checktax2.txt')
-    end if 
+    !if (mysay==1) then 
+    !    open(unit=68857,file='checktax1.txt')
+    !    open(unit=68858,file='checktax2.txt')
+    !end if 
 
     do trueindex=1,ninp    
     call index2cotyphome(trueindex,trueco,truetyp,truehome)
@@ -1047,16 +1047,16 @@ end do
                     staterate=tax(bracket,numbin,l(g))%statesin
                     fedrate=tax(bracket,numbin,l(g))%fedsin
                     wsnet(g,x,q,trueindex)=(1.0_dp - (staterate+fedrate))*wsgross
-                    if (mysay==1) then 
-                        if (bracket<numbin) then ; bracketnext=bracket+1 ; else ; bracketnext=numbin ; end if 
-                        if (bracket>1) then ; bracketprev=bracket-1 ; else ; bracketprev=1 ; end if 
-                        write(68857,'(tr3,"wsgross",tr1,"bracket",tr4,"prev",tr4,"here",tr4,"next")')
-                        write(68857,'(f10.1,i4,3f10.1)') wsgross,bracket,pwages(bracketprev),pwages(bracket),pwages(bracketnext)
-                        write(68857,*) 
-                        write(68858,'(tr2,"truind",tr7,"q",tr7,"x",tr1,"sex",tr1,"typ",tr3,"l",tr2,"ed",tr1,"exp",tr3,"wsgross",tr5,"wsnet",tr2,"statetax",tr4,"fedtax")')
-                        write(68858,'(3i8,5i4,4f10.2)') trueindex,q,x,g,truetyp,l(g),x2e(x),x2r(x),wsgross,wsnet(g,x,q,trueindex),staterate,fedrate
-                        write(68858,*) 
-                    end if 
+                    !if (mysay==1) then 
+                        !if (bracket<numbin) then ; bracketnext=bracket+1 ; else ; bracketnext=numbin ; end if 
+                        !if (bracket>1) then ; bracketprev=bracket-1 ; else ; bracketprev=1 ; end if 
+                        !write(68857,'(tr3,"wsgross",tr1,"bracket",tr4,"prev",tr4,"here",tr4,"next")')
+                        !write(68857,'(f10.1,i4,3f10.1)') wsgross,bracket,pwages(bracketprev),pwages(bracket),pwages(bracketnext)
+                        !write(68857,*) 
+                        !write(68858,'(tr2,"truind",tr7,"q",tr7,"x",tr1,"sex",tr1,"typ",tr3,"l",tr2,"ed",tr1,"exp",tr3,"wsgross",tr5,"wsnet",tr2,"statetax",tr4,"fedtax")')
+                        !write(68858,'(3i8,5i4,4f10.2)') trueindex,q,x,g,truetyp,l(g),x2e(x),x2r(x),wsgross,wsnet(g,x,q,trueindex),staterate,fedrate
+                        !write(68858,*) 
+                    !end if 
                 else if ( w(g) == np1 ) then 
                     ws(g,x,q,trueindex)	 = 0.0_dp
                     wsnet(g,x,q,trueindex)=0.0_dp
@@ -1080,8 +1080,8 @@ end do
             end do !gender
 		end do xs
 	end do qs
-    close(68857)
-    close(68858)
+    !close(68857)
+    !close(68858)
 
     qc: do q=1,nq
 	xc: do x=1,nx

@@ -308,22 +308,18 @@ nonlabinc=0.0_dp !ahu030622
     pars(30)=-4.0_dp !alphaed(f,ed)
     pars(10)=1.0_dp !u cur m
 
-    taxset=0
-    numperdat=5233
-    numperobsdat=84507
-    numpersim=numperdat*nsimeach
-    datafilename='familymigpsid.txt'
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !taxset=0
+    !numperdat=5233
+    !numperobsdat=84507
+    !numpersim=numperdat*nsimeach
+    !datafilename='familymigpsid.txt'
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     numperdat=7209 !7538
     numperobsdat=113072 !114537
     numpersim=numperdat*nsimeach
     datafilename='familymig2022.txt'
-    taxset=0
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     taxset=1
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
