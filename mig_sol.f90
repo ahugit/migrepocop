@@ -64,14 +64,14 @@ end do
 			vmr  = pen ; vfr = pen	
 			time(1)=secnds(0.0)
 			if (ia==mxa) then 
-				vm0_s = utils(1,:,:,trueindex) + ws(1,:,:,trueindex)		! v0: value function without movecost 
-				vf0_s = utils(2,:,:,trueindex) + ws(2,:,:,trueindex)		! v0: value function without movecost
+				vm0_s = utils(1,:,:,trueindex) + wsnet(1,:,:,trueindex)		! v0: value function without movecost 
+				vf0_s = utils(2,:,:,trueindex) + wsnet(2,:,:,trueindex)		! v0: value function without movecost
 				vm0_c(:,:,ia,index) = utilc(1,:,:,trueindex)	! v0: value function without movecost, umar, consumption
 				vf0_c(:,:,ia,index) = utilc(2,:,:,trueindex)	! v0: value function without movecost, umar, consumption
                 
 			else 
-				vm0_s = utils(1,:,:,trueindex) + ws(1,:,:,trueindex)		+ delta * emaxm_s(:,:,ia+1)	! v0: value function without movecost 
-				vf0_s = utils(2,:,:,trueindex) + ws(2,:,:,trueindex)		+ delta * emaxf_s(:,:,ia+1)	! v0: value function without movecost 
+				vm0_s = utils(1,:,:,trueindex) + wsnet(1,:,:,trueindex)		+ delta * emaxm_s(:,:,ia+1)	! v0: value function without movecost 
+				vf0_s = utils(2,:,:,trueindex) + wsnet(2,:,:,trueindex)		+ delta * emaxf_s(:,:,ia+1)	! v0: value function without movecost 
 				vm0_c(:,:,ia,index) = utilc(1,:,:,trueindex)	+ delta * emaxm_c(:,:,ia+1)	! v0: value function without movecost, umar, consumption
 				vf0_c(:,:,ia,index) = utilc(2,:,:,trueindex)	+ delta * emaxf_c(:,:,ia+1)	! v0: value function without movecost, umar, consumption
 			end if 		
@@ -94,8 +94,8 @@ end do
                     do x=1,nx
                         vm0ctemp(q,x)=vm0_c(x,q,ia,index) 
                         vf0ctemp(q,x)=vf0_c(x,q,ia,index) 
-                        wmctemp(q,x,trueindex)=wc(1,x,q,trueindex)
-                        wfctemp(q,x,trueindex)=wc(2,x,q,trueindex)
+                        wmctemp(q,x,trueindex)=wcnet(1,x,q,trueindex)
+                        wfctemp(q,x,trueindex)=wcnet(2,x,q,trueindex)
                     end do 
                 end do 
 
@@ -1010,14 +1010,18 @@ end do
 	subroutine get_util_w
 	integer(i4b) :: q,x,w(2),l(2),kid(2),ed(2),expe(2),trueindex,trueco,truetyp,truehome,g,j,k
     real(dp) :: epsw(2) !RHO(2,2),CD(2,2),
-    
+    real(sp) :: pwages(1:numbin),swages(1:numbin),staterate,fedrate,wsgross,wcgross(2)
+    integer(i4b) :: bracket,bracketprev,bracketnext,sbrack,pbrack
+
     utils=pen
     utilc=pen
     ws=pen
     wc=pen   
     
-
-
+    if (mysay==1) then 
+        open(unit=68857,file='checktax1.txt')
+        open(unit=68858,file='checktax2.txt')
+    end if 
 
     do trueindex=1,ninp    
     call index2cotyphome(trueindex,trueco,truetyp,truehome)
@@ -1028,17 +1032,42 @@ end do
             do g=1,2
                 w(g) = q2w(q)						! wage 
 			    l(g) = q2l(q)						! location
+                pwages(1:numbin)=tax(1:numbin,numbin,l(g))%pwages
 			    if ( w(g) <= np ) then	
                     epsw(g)=wg(w(g),g) !sig_wge(g)*wg(w(g),g)
 				    ws(g,x,q,trueindex)	= fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x)) 
-			    !    ubs(g,x,q,trueindex)	= 0.0_dp                                                            !ahu summer18 050318
+                    wsgross=ws(g,x,q,trueindex)
+                    bracket=locate(  pwages(1:numbin)  ,  wsgross ) 
+                    if (bracket<1.or.bracket>numbin) then               
+                        print*, "There is something wrong with locate bracket",bracket
+                        print*, "pwages(1:numbin)",pwages(1:numbin)
+                        print*, "wsgross         ",wsgross
+                        stop
+                    end if 
+                    staterate=tax(bracket,numbin,l(g))%statesin
+                    fedrate=tax(bracket,numbin,l(g))%fedsin
+                    wsnet(g,x,q,trueindex)=(1.0_dp - (staterate+fedrate))*wsgross
+                    if (mysay==1) then 
+                        if (bracket<numbin) then ; bracketnext=bracket+1 ; else ; bracketnext=numbin ; end if 
+                        if (bracket>1) then ; bracketprev=bracket-1 ; else ; bracketprev=1 ; end if 
+                        write(68857,'(tr3,"wsgross",tr1,"bracket",tr4,"prev",tr4,"here",tr4,"next")')
+                        write(68857,'(f10.1,i4,3f10.1)') wsgross,bracket,pwages(bracketprev),pwages(bracket),pwages(bracketnext)
+                        write(68857,*) 
+                        write(68858,'(tr2,"truind",tr7,"q",tr7,"x",tr1,"sex",tr1,"typ",tr3,"l",tr2,"ed",tr1,"exp",tr3,"wsgross",tr5,"wsnet",tr2,"statetax",tr4,"fedtax")')
+                        write(68858,'(3i8,5i4,4f10.2)') trueindex,q,x,g,truetyp,l(g),x2e(x),x2r(x),wsgross,wsnet(g,x,q,trueindex),staterate,fedrate
+                        write(68858,*) 
+                    end if 
                 else if ( w(g) == np1 ) then 
-			    !    epsw(g)=0.0_dp                                                                              !ahu summer18 050318
                     ws(g,x,q,trueindex)	 = 0.0_dp
-                !    ubs(g,x,q,trueindex)	= replacement_rate*fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x))   !ahu summer18 050318
+                    wsnet(g,x,q,trueindex)=0.0_dp
                 end if 
                 
-			    if ( w(g) <= np ) then						
+                if (taxset==0) then
+                    wsnet(g,x,q,trueindex)=ws(g,x,q,trueindex)
+                end if 
+
+            
+                if ( w(g) <= np ) then						
 				    utils(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome) + uloc(l(g)) + nonlabinc(x2e(x))
 			    else if ( w(g) == np1 ) then 
 				    utils(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome)  + uloc(l(g)) + alphaed(g,x2e(x))  + alphakid(g) * one(x2kid(x)>1)  + nonlabinc(x2e(x))
@@ -1047,11 +1076,13 @@ end do
                 !ahu october2022: 
                 !alphakid(g): kid(g)=1 is no kid, and kid(g)=2 and above is yes kid.   this alphakid used to have two dimensions for no reason. 
                 !nkid is never above 2 though (i set it that way in data too for numkids above 2 is just always 2 in data). 
-                !alphaed(g,ed(g)):   ed(g)=1 is noed and ed(g)=2 is yes ed (where  neduc is 2)
-        
+                !alphaed(g,ed(g)):   ed(g)=1 is noed and ed(g)=2 is yes ed (where  neduc is 2)    
             end do !gender
 		end do xs
 	end do qs
+    close(68857)
+    close(68858)
+
     qc: do q=1,nq
 	xc: do x=1,nx
         ed(:)=xx2e(:,x)    
@@ -1077,25 +1108,50 @@ end do
         !end if 
         !ahu summer18 050318 
         !******************************
-        
+
+        pwages(1:numbin)=tax(1:numbin,numbin,l(1))%pwages
+        swages(1:numbin)=tax(numbin,1:numbin,l(2))%swages
         if ( w(1) <= np .and. w(2) <= np ) then		
             epsw(1)=wg(w(1),1) !CD(1,1)*wg(w(1),1)
             epsw(2)=wg(w(2),2) !CD(2,1)*wg(w(1),1) + CD(2,2)*wg(w(2),2)
             wc(1,x,q,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
             wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )  
+            wcgross(1:2)= wc(1:2,x,q,trueindex)
+            pbrack=locate(  pwages(1:numbin)  ,  wcgross(1) ) 
+            sbrack=locate(  swages(1:numbin)  ,  wcgross(2) ) 
+            staterate=tax(pbrack,sbrack,l(1))%statemar
+            fedrate=tax(pbrack,sbrack,l(2))%fedmar
+            wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) <= np .and. w(2) == np1 ) then		
             epsw(1)=wg(w(1),1) !sig_wge(1)*wg(w(1),1)
             wc(1,x,q,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
             wc(2,x,q,trueindex)	= 0.0_dp
+            wcgross(1:2)= wc(1:2,x,q,trueindex)
+            pbrack=locate(  pwages(1:numbin)  ,  wcgross(1) ) 
+            sbrack=0
+            staterate=tax(pbrack,sbrack,l(1))%statemar
+            fedrate=tax(pbrack,sbrack,l(2))%fedmar
+            wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) == np1 .and. w(2) <= np ) then		
             epsw(2)=wg(w(2),2) !sig_wge(2)*wg(w(2),2)
             wc(1,x,q,trueindex)	= 0.0_dp
-            wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )                      
+            wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )   
+            wcgross(1:2)= wc(1:2,x,q,trueindex)
+            pbrack=0
+            sbrack=locate(  swages(1:numbin)  ,  wcgross(2) ) 
+            staterate=tax(pbrack,sbrack,l(1))%statemar
+            fedrate=tax(pbrack,sbrack,l(2))%fedmar
+            wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) == np1 .and. w(2) == np1 ) then		
             wc(1,x,q,trueindex)	= 0.0_dp
-            wc(2,x,q,trueindex)	= 0.0_dp                 
+            wc(2,x,q,trueindex)	= 0.0_dp           
+            wcnet(1:2,x,q,trueindex)	= 0.0_dp   
         end if 
-            
+
+        if (taxset==0) then
+            wcnet(1:2,x,q,trueindex)	= wc(1:2,x,q,trueindex)
+        end if 
+
             
         do g=1,2
             if ( w(g) <= np ) then						

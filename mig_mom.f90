@@ -26,6 +26,31 @@ random = real(iseed)/134456. ! 0 < random < 1
 !
 end FUNCTION random
 
+subroutine read_taxes
+    integer(i4b) :: pp,ss,myreg,kk
+    real(dp) :: pwages,swages,meanstatesin,meanfedsin,meanstatemar,meanfedmar 
+    tax%pwages=-999
+    tax%swages=-999
+    tax%statesin=-999
+    tax%fedsin=-999
+    tax%statemar=-999
+    tax%fedmar=-999       ! initialize
+	open(unit=68856,file='taxes1983.txt')
+    do kk=1,numtaxes !for singles, this is 9 regions times 31 brackets = 279 and for mar it is 9 regions times 31 times 31 brackets which is 
+		read(68856,*) myreg,pp,pwages,ss,swages,meanstatesin,meanfedsin,meanstatemar,meanfedmar 
+		tax(pp,ss,myreg)%pwages=pwages
+		tax(pp,ss,myreg)%swages=swages
+		tax(pp,ss,myreg)%statesin=meanstatesin
+		tax(pp,ss,myreg)%fedsin=meanfedsin
+		tax(pp,ss,myreg)%statemar=meanstatemar
+		tax(pp,ss,myreg)%fedmar=meanfedmar
+    end do
+    pbracket(0:numbin)=tax(0:numbin,numbin,9)%pwages
+    sbracket(0:numbin)=tax(numbin,0:numbin,9)%swages
+    close(68856)
+end subroutine read_taxes
+
+
 	! read psid data, save into global structure psiddata, calculate moments
 	! notes on data
 	!   record total number of observations in nrealdatobs

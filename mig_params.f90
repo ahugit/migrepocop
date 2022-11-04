@@ -13,7 +13,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=2
+    integer(i4b), parameter :: numit=3
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
@@ -141,10 +141,20 @@
 	end type	
 	type(statevar) :: ones
     type(initcond) :: ones_init
+    type :: taxo
+        real(dp) :: pwages
+        real(dp) :: swages 
+        real(dp) :: statesin
+        real(dp) :: fedsin
+        real(dp) :: statemar
+        real(dp) :: fedmar
+    end type 
+    integer(i4b), parameter :: numbin=30
+    integer(i4b), parameter :: numtaxes=nl*(numbin+1)*(numbin+1) 
+    integer(i4b) :: taxset !set in main
+    type(taxo) :: tax(0:numbin,0:numbin,nl) !pwages,swages.myreg
+    real(dp) :: pbracket(0:numbin),sbracket(0:numbin)
 contains
-
-
-
 
 	! get parameters from transformed values. input is free
 	! to be any real(sp) resulting parameters are appropriately constrained

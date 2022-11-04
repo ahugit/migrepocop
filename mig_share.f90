@@ -13,6 +13,8 @@ module share
 	real(dp) :: ppmeetq(nqs,nqs),ppmeetx(nxs,nxs),empdec(mna:mxa,2)
 	real(dp), dimension(2,nxs,nqs,ninp) :: ws,ubs     !ahu summer18 050318: added ubs
 	real(dp), dimension(2,nx,nq,ninp) :: wc,ubc       !ahu summer18 050318: added ubc
+	real(dp), dimension(2,nxs,nqs,ninp) :: wsnet	!after-tax income 
+	real(dp), dimension(2,nx,nq,ninp) :: wcnet 	    !after-tax income 
 	real(dp), dimension(2,nxs,nqs,ninp) :: utils
 	real(dp), dimension(2,nx,nq,ninp) :: utilc
     real(dp), dimension(nxs,nqs,ninp) :: movecost

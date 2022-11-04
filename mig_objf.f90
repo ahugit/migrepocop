@@ -112,6 +112,8 @@ contains
 		call getch_single			! choice set cond on state variable and shock for singles
 		call getch_couple			! choice set cond on state variable and shock for singles
 		allocate(dat(mnad:mxa,numperdat)) !numperdat is the number of persons in actual data) 
+		! read taxes
+		call read_taxes
 		 !init is allocated above !numperdat: num of persons in actual data, numperobsdat: num of person-periods in actual data
 		call read_actualdata(init,dat,numperdat,numperobsdat)
 		!  calculate moments from data, store in datamoments
@@ -343,7 +345,7 @@ contains
 	!totcostname='total cost'
 	do i=1,npars
 		!write(60,'(1a15,4f12.4)') parname(i),realpar_save(i,1:4)
-        write(60,'(1a15,2f10.2)') parname(i),realpar_save(i,1:numit) 
+        write(60,'(1a15,3f10.2)') parname(i),realpar_save(i,1:numit) 
 	end do 
 	!write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,1:numit) 
 	!write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,1:numit) 
