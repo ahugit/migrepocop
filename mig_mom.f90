@@ -103,11 +103,11 @@ end subroutine read_taxes
         end if 
         !kid  !min(kid,maxkid)      !initcond (it should be just 0 in the beginning but might not be in the actual data so just read it from the data here as initcond)
 		!ahu 030217 if (age==mna) init(id)=dat(age,id)%initcond 
-        if (id==6740) then 
-            print*, "I am 6740"
-            print*, nper,nperobs
-            print*, id, age, cohort, sexr, rel, kid, edr, edsp, wr_perhour, wsp_perhour, hhr, hhsp, rellen,loc,minage,endage,homeloc
-        end if
+        !if (id==6740) then 
+        !    print*, "I am 6740"
+        !    print*, nper,nperobs
+        !    print*, id, age, cohort, sexr, rel, kid, edr, edsp, wr_perhour, wsp_perhour, hhr, hhsp, rellen,loc,minage,endage,homeloc
+        !end if
         if (age==minage) then
             checkminage(id)=0
             init(id)=dat(age,id)%initcond
@@ -894,40 +894,6 @@ end subroutine read_taxes
                 im=im+1
             end do 
 
-
-            headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
-            call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ee|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("eu|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ue|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("uu|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ee|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("eu|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ue|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( corel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("uu|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
             !if (j==1) then !only do kid by age for married. for singles, it looks weird in the data (.30, .8, .16,.19) 
             !    do ia=MNA,MXAD,8
             !        CALL condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%kidr>=1 ),d1*one( dat(ia,:)%kidr==2 ),mom,cnt,var)
@@ -1006,6 +972,41 @@ end subroutine read_taxes
             write(name(im),'("move | kid ",tr3)')  
             weights(im)=wmovebyrel
             im=im+1
+
+            !Moved these here conditioning on sex because note that the respondents can be both male as well as female! 
+            headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+            write(name(im),'("ee|ee stay")')  
+            weights(im)=wtrans 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+            write(name(im),'("eu|ee stay")')  
+            weights(im)=wtrans 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+            write(name(im),'("ue|ee stay")')  
+            weights(im)=wtrans 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+            write(name(im),'("uu|ee stay")')  
+            weights(im)=wtrans 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+            write(name(im),'("ee|ee move")')  
+            weights(im)=wtrans 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+            write(name(im),'("eu|ee move")')  
+            weights(im)=wtrans 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+            write(name(im),'("ue|ee move")')  
+            weights(im)=wtrans 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+            write(name(im),'("uu|ee move")')  
+            weights(im)=wtrans 
+            im=im+1 
 
 
             headloc(ihead)=im
