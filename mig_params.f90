@@ -148,11 +148,11 @@
         real(dp) :: statemar
         real(dp) :: fedmar
     end type 
-    integer(i4b), parameter :: numbin=30
-    integer(i4b), parameter :: numtaxes=nl*(numbin+1)*(numbin+1) 
+    integer(i4b), parameter :: numbin=31
+    integer(i4b), parameter :: numtaxes=nl*numbin*numbin 
     integer(i4b) :: taxset !set in main
-    type(taxo) :: tax(0:numbin,0:numbin,nl) !pwages,swages.myreg
-    real(dp) :: pbracket(0:numbin),sbracket(0:numbin)
+    type(taxo) :: tax(numbin,numbin,nl) !pwages,swages.myreg
+    real(dp) :: pbracket(numbin),sbracket(numbin)
 	type(initcond), dimension(:), allocatable :: init !array for initial conditions (size just num of persons in actual data)
 contains
 

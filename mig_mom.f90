@@ -38,15 +38,17 @@ subroutine read_taxes
 	open(unit=68856,file='taxes1983.txt')
     do kk=1,numtaxes !for singles, this is 9 regions times 31 brackets = 279 and for mar it is 9 regions times 31 times 31 brackets which is 
 		read(68856,*) myreg,pp,pwages,ss,swages,meanstatesin,meanfedsin,meanstatemar,meanfedmar 
-		tax(pp,ss,myreg)%pwages=pwages
+		pp=pp+1 !changing the first index to 1 instead of 0 because otherwise the values between 0 and 1000 do not get assigned anything
+        ss=ss+1 
+        tax(pp,ss,myreg)%pwages=pwages
 		tax(pp,ss,myreg)%swages=swages
 		tax(pp,ss,myreg)%statesin=meanstatesin
 		tax(pp,ss,myreg)%fedsin=meanfedsin
 		tax(pp,ss,myreg)%statemar=meanstatemar
 		tax(pp,ss,myreg)%fedmar=meanfedmar
     end do
-    pbracket(0:numbin)=tax(0:numbin,numbin,9)%pwages
-    sbracket(0:numbin)=tax(numbin,0:numbin,9)%swages
+    pbracket(1:numbin)=tax(1:numbin,numbin,9)%pwages
+    sbracket(1:numbin)=tax(numbin,1:numbin,9)%swages
     close(68856)
 end subroutine read_taxes
 
