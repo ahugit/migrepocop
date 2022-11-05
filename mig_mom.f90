@@ -974,7 +974,7 @@ end subroutine read_taxes
             im=im+1
 
             !Moved these here conditioning on sex because note that the respondents can be both male as well as female! 
-            headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
+            !headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
             write(name(im),'("ee|ee stay")')  
             weights(im)=wtrans 
