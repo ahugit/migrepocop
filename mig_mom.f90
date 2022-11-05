@@ -65,9 +65,9 @@ end subroutine read_taxes
 	! keep this in mind, if this ever changes 
 	! only want their information after they have completed school (whether high school or college)	!ahu 071712 
 	! in the simulation this is automatically taken care of by the fact that the simulation starts at age age0sim(edsim(r))
-	subroutine read_actualdata(init,dat,nper,nperobs) !nper is for num of persons /      nperobs is for num of person-periods
+	subroutine read_actualdata(dat,nper,nperobs) !nper is for num of persons /      nperobs is for num of person-periods
     integer(i4b), intent(in) :: nper,nperobs !in calling program, nper should be set to the sample size of actual data and ndatobs is the total size of all person-periods in actual data
-	type(initcond), dimension(nper), intent(out) :: init
+	!type(initcond), dimension(nper), intent(out) :: init !now declared in params, allocated in main and assigned values by calling this from objf
 	type(statevar), dimension(mnad:mxa,nper), intent(out) :: dat	!data set. first entry is ia index, second observation number
 	integer(i4b) :: kk,id,age,cohort,sexr,rel,kid,edr,edsp,hhr,hhsp,rellen,loc,homeloc,minage,endage,nomiss,ierr,checkminage(nper)
 	real(dp) :: wr_perhour,wsp_perhour
@@ -185,9 +185,9 @@ end subroutine read_taxes
 	close(77)
 	end subroutine read_actualdata
 	
-	subroutine simulate(init,sim,nper1,nper2) !nperdat is for num of persons in actual data, npersim is for num of persons in sim data (which should be nperdat*nsimeach)
+	subroutine simulate(sim,nper1,nper2) !nperdat is for num of persons in actual data, npersim is for num of persons in sim data (which should be nperdat*nsimeach)
     integer(i4b), intent(in) :: nper1,nper2 !in the calling program, ndat should be set to the # of people for actual data and is read here to get the dimensions of initial conditions
-	type(initcond), dimension(nper1), intent(in) :: init
+	!type(initcond), dimension(nper1), intent(in) :: init
 	type(statevar), dimension(mnad:mxa,nper2), intent(out) :: sim
 	type(shock), allocatable, dimension(:,:) :: epsim
 	integer(i4b) :: q0,x0,q,x,dec(3),draw(2)

@@ -82,7 +82,6 @@
 	real(dp), parameter :: maxw=150.0_dp                ! upper truncation point of male log wage
 	real(dp), parameter :: pen=-99999999.0_dp
 	integer(i4b), parameter :: ipen=-99999	
-	real(dp), parameter :: init=pen,initi=ipen
     real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=10.0_dp,wrel=1.0_dp,wmove=100.0_dp,whour=1.0_dp,wwvar=100.0_dp
     real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     character(len=23) :: datafilename  != 'familymigpsid.txt' ! data filename set in main now
@@ -154,6 +153,7 @@
     integer(i4b) :: taxset !set in main
     type(taxo) :: tax(0:numbin,0:numbin,nl) !pwages,swages.myreg
     real(dp) :: pbracket(0:numbin),sbracket(0:numbin)
+	type(initcond), dimension(:), allocatable :: init !array for initial conditions (size just num of persons in actual data)
 contains
 
 	! get parameters from transformed values. input is free

@@ -317,6 +317,7 @@ nonlabinc=0.0_dp !ahu030622
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
     numperdat=7209 !7538
+    allocate(init(numperdat)) !dat is deallocated at the end of the numit if statement but init is not, because I need it for the simulations in all calls! 
     numperobsdat=113072 !114537
     numpersim=numperdat*nsimeach
     datafilename='familymig2022.txt'
@@ -556,5 +557,6 @@ nonlabinc=0.0_dp !ahu030622
     !ag090122 agsept2022 commenting out the aove groups if statment because 
     !I get mpi error when I run with groups FALSE saying some process couldnt finish because mpi finalze wasn't called etc.
     !since I invoke mpi regardless of groups, I have to call mpi finalize regardless of groups
+    deallocate(init)
     call mpi_finalize(ierror)   
 end program main 

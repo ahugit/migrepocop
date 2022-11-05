@@ -20,7 +20,6 @@ contains
 	real(8), dimension(npars), intent(in) :: parvec	
 	real(8), intent(out) :: objval					
 	real(8), dimension(npars) :: realparvec
-	type(initcond), dimension(:), allocatable :: init !array for initial conditions (size just num of persons in actual data)
 	type(statevar), dimension(:,:), allocatable :: dat
 	real(dp), dimension(nmom), save :: momdat,vardat    !deljan03
 	integer(i4b), dimension(nmom), save :: cntdat       !deljan03
@@ -101,9 +100,6 @@ contains
 		moveshocksave=0.0_dp
 		totcostsave=0.0_dp
 	end if 	
-	if (iter==1) then 
-		allocate(init(numperdat)) !dat is deallocated at the end of the numit if statement but init is not, because I need it for the simulations in all calls! 
-	end if 	
 	if (iter<=numit) then
         !initiate
         momdat=-99.0_dp ; vardat=-99.0_dp ; cntdat=9999
@@ -117,7 +113,7 @@ contains
 		! read taxes
 		call read_taxes
 		 !init is allocated above !numperdat: num of persons in actual data, numperobsdat: num of person-periods in actual data
-		call read_actualdata(init,dat,numperdat,numperobsdat)
+		call read_actualdata(dat,numperdat,numperobsdat)
 		!  calculate moments from data, store in datamoments
 		!  momentname,momentheaders,headerlocs,weights will be filled in when calculate moments from simulations
 		!  so that they're not all floating around as globals. loaded into temporary variables here
@@ -157,7 +153,7 @@ contains
     timing(2)=secnds(timing(1))
     timing(3)=secnds(0.0)
     allocate(dat(mnad:mxa,numpersim)) !numpersim=numperdat*nsimeach here and its num of persons in simulation !ag 110416: this is allocated mna-1 rather than mna because simulation is changed to have sim(ia-1,r) at the beginning of the sim loop rather than sim(ia,r) in order to not have 0 emp at age 18
-	call simulate(init,dat,numperdat,numpersim)
+	call simulate(dat,numperdat,numpersim)
     timing(4)=secnds(timing(3))
     timing(5)=secnds(0.0)    
     if (groups) then 
