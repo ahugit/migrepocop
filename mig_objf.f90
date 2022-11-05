@@ -57,7 +57,6 @@ contains
     allocate(dec_mar(nz,nx,nq,mna:mxa,nindex))
 	allocate(vm0_c(nx,nq,mna:mxa,nindex),vf0_c(nx,nq,mna:mxa,nindex))
     allocate(vm0ctemp(nq,nx),vf0ctemp(nq,nx))
-	allocate(init(numperdat)) !numperdat is the number of persons in actual data)
 
 	call getpars(parvec,realparvec) 
     parsforcheck=parvec !jusr for checking where it says emax is negative. can get rid of later.
@@ -101,7 +100,10 @@ contains
 		parcostsave=0.0_dp
 		moveshocksave=0.0_dp
 		totcostsave=0.0_dp
-	end if 		
+	end if 	
+	if (iter==1) then 
+		allocate(init(numperdat)) !dat is deallocated at the end of the numit if statement but init is not, because I need it for the simulations in all calls! 
+	end if 	
 	if (iter<=numit) then
         !initiate
         momdat=-99.0_dp ; vardat=-99.0_dp ; cntdat=9999
@@ -299,7 +301,6 @@ contains
     deallocate(dec_mar)
     deallocate(vm0_c,vf0_c)
 	deallocate(vm0ctemp,vf0ctemp)
-	deallocate(init)
 	timing(10)=secnds(timing(9))
 	timing(11)=secnds(timing(1))
 	!if (iwritegen==1) then ; write(*,'(7f14.2)') timing(2),timing(4),timing(6),timing(8),timing(10),timing(2)+timing(4)+timing(6)+timing(8)+timing(10),timing(11) ; end if  
