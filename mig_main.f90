@@ -324,20 +324,6 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !open(unit=2,file='o101522_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !onthejobsearch=.TRUE.
@@ -397,7 +383,7 @@ nonlabinc=0.0_dp !ahu030622
         tstep=0.5_dp        !fraction temp reduced at each tfreq
         tfreq=COUNT(stepmin /= zero) !number of function calls between temp reductions
         saseed=1            !seed for random numbers
-
+        stepmin=0.00001_dp
         !call minim(p,    step,    nop, func,  maxfn,  iprint, stopcr, nloop, iquad,  simp, var, functn, ifault)
         !call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)    
     
