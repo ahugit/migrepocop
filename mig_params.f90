@@ -14,7 +14,7 @@
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
     integer(i4b), parameter :: numit=2
-    logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
+    logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
     logical :: nonneg
@@ -82,7 +82,7 @@
 	real(dp), parameter :: maxw=150.0_dp                ! upper truncation point of male log wage
 	real(dp), parameter :: pen=-99999999.0_dp
 	integer(i4b), parameter :: ipen=-99999	
-    real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=10.0_dp,wrel=1.0_dp,wmove=10000.0_dp,whour=1.0_dp,wwvar=100.0_dp
+    real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=10.0_dp,wrel=1.0_dp,wmove=1000.0_dp,whour=1.0_dp,wwvar=1000.0_dp
     real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     character(len=23) :: datafilename  != 'familymigpsid.txt' ! data filename set in main now
 	!character(len=23), parameter :: initcondfile= 'familymiginit111113.txt' ! filename of initial conditions
@@ -204,7 +204,7 @@ contains
     !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psio right here and those are the ones that are used in fnprof.
 
-	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp 
+	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=1.0_dp 
 	psil(1)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='alfhme' ; stepos(j)=0.0_dp 
 	alfhme=realpar(j)	            ; j=j+1
@@ -270,7 +270,7 @@ contains
 			    realpar(j) = 0.0_dp  ; stepos(j)=0.0_dp
 			    uloc(i)=0.0_dp
 		    else 
-			    realpar(j) = par(j) ; stepos(j)=0.0_dp  !*PAR(J)    !mult1 * min2pls( par(j) )
+			    realpar(j) = par(j) ; stepos(j)=1.0_dp*PAR(J)    !mult1 * min2pls( par(j) )
 			    uloc(i)=realpar(j)
 		    end if 
             parname(j)='uloc' 
@@ -321,13 +321,13 @@ contains
     realpar(j)=0.0_dp                               ; parname(j)='alf23' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
 	alf23=realpar(j)	                            ; j=j+1
 	
-    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=1.0_dp ; stepos(j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
+    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=0.0_dp ; stepos(j+1)=0.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
-    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=-1.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=-1.5_dp*par(j) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
     !print*, "Here it is sigom", j,par(j),realpar(j)
     sigo_m=realpar(j)                                ; j=j+1
-    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=-1.0_dp*PAR(J) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=-1.5_dp*par(j) ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
     !print*, "Here it is sigof", j,par(j),realpar(j)
     sigo_f=realpar(j)                                ; j=j+1
 

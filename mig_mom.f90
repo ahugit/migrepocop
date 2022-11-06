@@ -933,12 +933,12 @@ end subroutine read_taxes
             do ia=MNAD,21,1
                 CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
                 WRITE(name(im),'("move by age",tr3,I4)') ia
-                weights(im)=wmovebyrel 
+                weights(im)=wmove
                 im=im+1
             end do     
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("move home ",tr3)')  !added this ahu 121718
-            weights(im)=wmovebyrel
+            weights(im)=wmove
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | u stay",tr3)')  
@@ -958,21 +958,21 @@ end subroutine read_taxes
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
             write(name(im),'("move | u ",tr5)')  
-            weights(im)=wmovebyrel 
+            weights(im)=wmove
             im=im+1
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
             write(name(im),'("move | e ",tr5)')  
-            weights(im)=wmovebyrel
+            weights(im)=wmove
             im=im+1  
 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%kidr==1  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
             write(name(im),'("move | nokid ",tr1)')  
-            weights(im)=wmovebyrel 
+            weights(im)=wmove
             im=im+1
             
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%kidr==2  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
             write(name(im),'("move | kid ",tr3)')  
-            weights(im)=wmovebyrel
+            weights(im)=wmove
             im=im+1
 
             !Moved these here conditioning on sex because note that the respondents can be both male as well as female! 
@@ -1443,22 +1443,22 @@ end subroutine read_taxes
         headloc(ihead)=im
         headstr(ihead)='everyone moves to and from'
         ihead=ihead+1
-        do i=1,nl,8            
+        do i=1,nl         
             call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA+1:MXA,:)%l==i .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("%hme-mvs to",tr3,i4)') i
-            weights(im)=wmove 
+            weights(im)=wmovebyrel 
             im=im+1 
         end do          
         do j=1,NL
             CALL condmom(im,( coho(MNA:MXAD,:) .AND.(move(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%l>=0).AND.(norelchg(MNA:MXAD,:)==1) ),d1*one(dat(MNA:MXAD,:)%l==j),mom,cnt,var)
             WRITE(name(im),'("prop-of-moves-from ",I4)') j
-            weights(im)=wmove
+            weights(im)=wmovebyrel
             im=im+1 
         end do  
         do j=1,NL
             CALL condmom(im,( coho(MNA:MXAD,:).AND.(move(MNA:MXAD,:)==1).AND.(dat(MNA+1:MXA,:)%l>=0).AND.(norelchg(MNA:MXAD,:)==1) ),d1*one(dat(MNA+1:MXA,:)%l==j),mom,cnt,var)
             WRITE(name(im),'("prop-of-moves-to  ",I4)') j
-            weights(im)=wmove
+            weights(im)=wmovebyrel
             im=im+1 
         end do  
 
