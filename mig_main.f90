@@ -336,34 +336,19 @@ nonlabinc=0.0_dp !ahu030622
 
 
     !checkign fem's
-    !offer probs
+    !all
     pars1=pars 
-    pars1(5:8)=pars1(1:4)
-    pars1(11:12)=pars1(9:10)
-    call getpars(pars1,realpars)
-    call objfunc(pars1,qval) ; realpars=realpartemp   
-
-    !uhome
-    pars1=pars 
+    !pars1(5:8)=pars1(1:4)
+    !pars1(11:12)=pars1(9:10)
     pars1(23)=pars1(22)
-    call getpars(pars1,realpars)
-    call objfunc(pars1,qval) ; realpars=realpartemp   
-
-    !alphaed's and alphakid
-    pars1=pars 
     pars1(28)=pars1(27)
     pars1(30)=pars1(29)
     pars1(32)=pars1(31)
-    call getpars(pars1,realpars)
-    call objfunc(pars1,qval) ; realpars=realpartemp   
-
-    !sigo
-    pars1=pars 
     pars1(69)=pars1(68)
     call getpars(pars1,realpars)
     call objfunc(pars1,qval) ; realpars=realpartemp   
 
-   !all
+    !all
     pars1=pars 
     pars1(5:8)=pars1(1:4)
     pars1(11:12)=pars1(9:10)
