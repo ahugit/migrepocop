@@ -333,18 +333,13 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-
-    open(unit=2,file='o110622_2bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     !pars(26)=1.0_dp !divpenalty 
     pars(75)=1.0_dp !mumar1
     pars(81)=1.0_dp !mumar2
     pars(87)=1.0_dp !mumar3
     pars(93)=1.0_dp !mumar4
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !checkign fem's
     !uhome and sigo
@@ -356,8 +351,8 @@ nonlabinc=0.0_dp !ahu030622
     !pars1(30)=pars1(29) !alphaed 
     !pars1(32)=pars1(31) !alphakid 
     pars1(69)=pars1(68)  !sigo
-    !call getpars(pars1,realpars)
-    !call objfunc(pars1,qval) ; realpars=realpartemp   
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
 
 
 !if (iwritegen==1) then
