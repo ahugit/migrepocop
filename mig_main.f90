@@ -327,22 +327,6 @@ nonlabinc=0.0_dp !ahu030622
     nonlabinc=0.0_dp
 
     !pars(26)=1.0_dp !divpenalty 
-
-    pars(75)=-1.0_dp !mumar1
-    pars(81)=-1.0_dp !mumar2
-    pars(87)=-1.0_dp !mumar3
-    pars(93)=-1.0_dp !mumar4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-    pars(75)=0.0_dp !mumar1
-    pars(81)=0.0_dp !mumar2
-    pars(87)=0.0_dp !mumar3
-    pars(93)=0.0_dp !mumar4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     pars(75)=1.0_dp !mumar1
     pars(81)=1.0_dp !mumar2
     pars(87)=1.0_dp !mumar3
@@ -350,14 +334,46 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    !open(unit=2,file='o101522_2bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !onthejobsearch=.TRUE.
-    !nonlabinc=0.0_dp
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
 
-    !pars(1)=2.0_dp 
-    !pars(3)=0.0_dp
+    !checkign fem's
+    !offer probs
+    pars1=pars 
+    pars1(5:8)=pars1(1:4)
+    pars1(11:12)=pars1(9:10)
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
+
+    !uhome
+    pars1=pars 
+    pars1(23)=pars1(22)
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
+
+    !alphaed's and alphakid
+    pars1=pars 
+    pars1(28)=pars1(27)
+    pars1(30)=pars1(29)
+    pars1(32)=pars1(31)
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
+
+    !sigo
+    pars1=pars 
+    pars1(69)=pars1(68)
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
+
+   !all
+    pars1=pars 
+    pars1(5:8)=pars1(1:4)
+    pars1(11:12)=pars1(9:10)
+    pars1(23)=pars1(22)
+    pars1(28)=pars1(27)
+    pars1(30)=pars1(29)
+    pars1(32)=pars1(31)
+    pars1(69)=pars1(68)
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
 
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
