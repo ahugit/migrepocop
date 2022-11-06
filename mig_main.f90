@@ -316,6 +316,8 @@ nonlabinc=0.0_dp !ahu030622
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
+    onthejobsearch=.TRUE.
+    nonlabinc=0.0_dp
     numperdat=7209 !7538
     allocate(init(numperdat)) !dat is deallocated at the end of the numit if statement but init is not, because I need it for the simulations in all calls! 
     numperobsdat=113072 !114537
@@ -323,55 +325,39 @@ nonlabinc=0.0_dp !ahu030622
     datafilename='familymig2022.txt'
     taxset=1
     open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    onthejobsearch=.TRUE.
-    nonlabinc=0.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    open(unit=2,file='o110622_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    open(unit=2,file='o110622_2bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !pars(26)=1.0_dp !divpenalty 
     pars(75)=1.0_dp !mumar1
     pars(81)=1.0_dp !mumar2
     pars(87)=1.0_dp !mumar3
     pars(93)=1.0_dp !mumar4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     !checkign fem's
     !uhome and sigo
     pars1=pars 
-    !pars1(5:8)=pars1(1:4)
-    !pars1(11:12)=pars1(9:10)
-    pars1(23)=pars1(22)
-    !pars1(28)=pars1(27)
-    !pars1(30)=pars1(29)
-    !pars1(32)=pars1(31)
-    pars1(69)=pars1(68)
-    call getpars(pars1,realpars)
-    call objfunc(pars1,qval) ; realpars=realpartemp   
-
-
-    !alphaed/kid and sigo
-    pars1=pars 
-    !pars1(5:8)=pars1(1:4)
-    !pars1(11:12)=pars1(9:10)
-    !pars1(23)=pars1(22)
-    pars1(28)=pars1(27)
-    pars1(30)=pars1(29)
-    pars1(32)=pars1(31)
-    pars1(69)=pars1(68)
-    call getpars(pars1,realpars)
-    call objfunc(pars1,qval) ; realpars=realpartemp   
-
-
-    !uhome, alphaed/kid and sigo
-    pars1=pars 
-    !pars1(5:8)=pars1(1:4)
-    !pars1(11:12)=pars1(9:10)
-    pars1(23)=pars1(22)
-    pars1(28)=pars1(27)
-    pars1(30)=pars1(29)
-    pars1(32)=pars1(31)
-    pars1(69)=pars1(68)
-    call getpars(pars1,realpars)
-    call objfunc(pars1,qval) ; realpars=realpartemp   
+    !pars1(5:8)=pars1(1:4) !offer probs
+    !pars1(11:12)=pars1(9:10) !offer probs
+    pars1(23)=pars1(22) !uhome 
+    !pars1(28)=pars1(27) !alphaed 
+    !pars1(30)=pars1(29) !alphaed 
+    !pars1(32)=pars1(31) !alphakid 
+    pars1(69)=pars1(68)  !sigo
+    !call getpars(pars1,realpars)
+    !call objfunc(pars1,qval) ; realpars=realpartemp   
 
 
 !if (iwritegen==1) then
