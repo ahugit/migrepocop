@@ -334,9 +334,34 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-
     !checkign fem's
-    !all
+    !uhome and sigo
+    pars1=pars 
+    !pars1(5:8)=pars1(1:4)
+    !pars1(11:12)=pars1(9:10)
+    pars1(23)=pars1(22)
+    !pars1(28)=pars1(27)
+    !pars1(30)=pars1(29)
+    !pars1(32)=pars1(31)
+    pars1(69)=pars1(68)
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
+
+
+    !alphaed/kid and sigo
+    pars1=pars 
+    !pars1(5:8)=pars1(1:4)
+    !pars1(11:12)=pars1(9:10)
+    !pars1(23)=pars1(22)
+    pars1(28)=pars1(27)
+    pars1(30)=pars1(29)
+    pars1(32)=pars1(31)
+    pars1(69)=pars1(68)
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
+
+
+    !uhome, alphaed/kid and sigo
     pars1=pars 
     !pars1(5:8)=pars1(1:4)
     !pars1(11:12)=pars1(9:10)
@@ -348,17 +373,6 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars1,realpars)
     call objfunc(pars1,qval) ; realpars=realpartemp   
 
-    !all
-    pars1=pars 
-    pars1(5:8)=pars1(1:4)
-    pars1(11:12)=pars1(9:10)
-    pars1(23)=pars1(22)
-    pars1(28)=pars1(27)
-    pars1(30)=pars1(29)
-    pars1(32)=pars1(31)
-    pars1(69)=pars1(68)
-    call getpars(pars1,realpars)
-    call objfunc(pars1,qval) ; realpars=realpartemp   
 
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
