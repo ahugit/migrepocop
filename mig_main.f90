@@ -324,35 +324,17 @@ nonlabinc=0.0_dp !ahu030622
     numpersim=numperdat*nsimeach
     datafilename='familymig2022.txt'
     taxset=1
-    open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-
+    !open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     open(unit=2,file='o110622_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     !pars(26)=1.0_dp !divpenalty 
     pars(75)=1.0_dp !mumar1
     pars(81)=1.0_dp !mumar2
     pars(87)=1.0_dp !mumar3
     pars(93)=1.0_dp !mumar4
+    pars(23)=pars(22) !uhome 
+    pars(69)=pars(68)  !sigo
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
-    !checkign fem's
-    !uhome and sigo
-    pars1=pars 
-    !pars1(5:8)=pars1(1:4) !offer probs
-    !pars1(11:12)=pars1(9:10) !offer probs
-    pars1(23)=pars1(22) !uhome 
-    !pars1(28)=pars1(27) !alphaed 
-    !pars1(30)=pars1(29) !alphaed 
-    !pars1(32)=pars1(31) !alphakid 
-    pars1(69)=pars1(68)  !sigo
-    call getpars(pars1,realpars)
-    call objfunc(pars1,qval) ; realpars=realpartemp   
 
 
 !if (iwritegen==1) then

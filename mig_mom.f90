@@ -1446,7 +1446,7 @@ end subroutine read_taxes
         do i=1,nl         
             call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA+1:MXA,:)%l==i .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("%hme-mvs to",tr3,i4)') i
-            weights(im)=wmovebyrel 
+            weights(im)=wmovebyrel
             im=im+1 
         end do          
         do j=1,NL
