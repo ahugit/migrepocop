@@ -322,15 +322,17 @@ nonlabinc=0.0_dp !ahu030622
     numpersim=numperdat*nsimeach
     datafilename='familymig2022.txt'
     taxset=1
+
+
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-    !open(unit=2,file='o101522_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !onthejobsearch=.TRUE.
-    !nonlabinc=0.0_dp
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+    open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    onthejobsearch=.TRUE.
+    nonlabinc=0.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !open(unit=2,file='o101522_2bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !onthejobsearch=.TRUE.
