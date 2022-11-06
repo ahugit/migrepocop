@@ -325,37 +325,18 @@ nonlabinc=0.0_dp !ahu030622
     open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     onthejobsearch=.TRUE.
     nonlabinc=0.0_dp
+
+    pars(26)=-1.0_dp !divpenalty 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(75)=-1.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-4.0_dp !mumar3
-    pars(93)=-4.0_dp !mumar4
+    pars(26)=0.0_dp !divpenalty 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-1.0_dp !mumar2
-    pars(87)=-4.0_dp !mumar3
-    pars(93)=-4.0_dp !mumar4
+    pars(26)=1.0_dp !divpenalty 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-1.0_dp !mumar3
-    pars(93)=-4.0_dp !mumar4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-4.0_dp !mumar3
-    pars(93)=-1.0_dp !mumar4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
 
     !open(unit=2,file='o101522_2bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !onthejobsearch=.TRUE.
