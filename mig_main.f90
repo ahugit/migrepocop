@@ -333,10 +333,34 @@ nonlabinc=0.0_dp !ahu030622
     pars(93)=1.0_dp !mumar4
     pars(23)=pars(22) !uhome 
     pars(69)=pars(68)  !sigo
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    !open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    open(unit=2,file='o110622_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !pars(26)=1.0_dp !divpenalty 
+    pars(75)=1.0_dp !mumar1
+    pars(81)=1.0_dp !mumar2
+    pars(87)=1.0_dp !mumar3
+    pars(93)=1.0_dp !mumar4
+    pars(23)=pars(22) !uhome 
+    pars(69)=pars(68)  !sigo
+
+    do i=1,2
+    do j=1,2
+        do k=1,3
+            do k1=1,3
+    pars(66)=-1.5_dp+0.5_dp*i
+    pars(67)=-1.5_dp+0.5_dp*j           
+    pars(68)=-1.5_dp+1.5_dp*k
+    pars(69)=-1.5_dp+1.5_dp*k1
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
-
+    end do 
+    end do 
+    end do 
+    end do 
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
 !    print*, "alf12", pars(52),logit(pars(52))

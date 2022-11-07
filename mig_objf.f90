@@ -14,6 +14,7 @@ module objf
 	integer(i4b), dimension(nmom) :: headerloc
 	real(dp), dimension(nepsmove,numit) :: moveshocksave,totcostsave
 	real(dp), dimension(2,numit) :: parcostsave
+	real(dp), dimension(np,numit) :: wmgridsave,wfgridsave
 contains
 	subroutine objfunc(parvec,objval)
 	! puts everything together: takes the parameter vector, computes msm objective function at that value
@@ -328,46 +329,126 @@ contains
 
 	subroutine writemoments(objval)
 	real(8), intent(in) :: objval
-	integer(i4b) :: i,t,ihead,j,k,trueindex
-	character(len=15) :: parcostname(2),moveshockname,totcostname
+	integer(i4b) :: i,t,ihead,j,k,trueindex,bunch
+	character(len=15) :: parcostname(2),moveshockname,totcostname,wmgridname,wfgridname
 	open(unit=60, file=momentfile,status='replace')
     !open(unit=61 change this 61 to another number since bestval is also 61 maybe among other things, file=momentonlyfile,status='replace')
-	!parcostsave(1,iter)=sigo_m
-	!parcostsave(2,iter)=cst(4)
-	!parcostname(1)='sigo_m'
-	!parcostname(2)='cst(4)'
-	!moveshocksave(1:nepsmove,iter)=moveshock_m(1:nepsmove)
-	!moveshockname='moveshock_m'
-	!totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
-	!totcostname='total cost'
-	do i=1,npars
-		!write(60,'(1a15,4f12.4)') parname(i),realpar_save(i,1:4)
-        write(60,'(1a15,2f10.2)') parname(i),realpar_save(i,1:numit) 
-	end do 
-	!write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,1:numit) 
-	!write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,1:numit) 
-	!do i=1,nepsmove
-	!	write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,1:numit) 
-    !end do
-	!do i=1,nepsmove
-	!	write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,1:numit) 
-    !end do
-	!write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,1:numit) 
-	!write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,1:numit) 
-	!write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,1:numit) 
+	parcostsave(1,iter)=sigo_m
+	parcostsave(2,iter)=cst(4)
+	parcostname(1)='sigo_m'
+	parcostname(2)='cst(4)'
+	moveshocksave(1:nepsmove,iter)=moveshock_m(1:nepsmove)
+	moveshockname='moveshock_m'
+	totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
+	totcostname='total cost'
+	wmgridsave(1:np,iter)=wg(:,1)
+	wfgridsave(1:np,iter)=wg(:,2)
+	wmgridname='wage grid men'
+	wfgridname='wage grid fem'
+	bunch=9
 	write(60,*)
-    !write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
+	write(60,*) "bunch 1"
+	!do i=1,npars
+    !    write(60,'(1a15,10f10.2)') parname(i),realpar_save(i,1:bunch) 
+	!end do 
+	write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,1:bunch) 
+	write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,1:bunch) 
+	do i=1,nepsmove
+		write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,1:bunch) 
+    end do
+	do i=1,nepsmove
+		write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,1:bunch) 
+    end do
+	write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,1:bunch) 
+	write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,1:bunch) 
+	write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,1:bunch) 
+	do i=1,np
+		write(60,'(1a15,2f9.1)') wmgridname,wmgridsave(i,1:bunch) 
+    end do
+	do i=1,np
+		write(60,'(1a15,2f9.1)') wfgridname,wfgridsave(i,1:bunch) 
+    end do
+	write(60,*)
+	write(60,*) "bunch 2"
+	!do i=1,npars
+    !    write(60,'(1a15,10f10.2)') parname(i),realpar_save(i,bunch+1:2*bunch) 
+	!end do 
+	write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,bunch+1:2*bunch) 
+	write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,bunch+1:2*bunch) 
+	do i=1,nepsmove
+		write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,bunch+1:2*bunch) 
+    end do
+	do i=1,nepsmove
+		write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,bunch+1:2*bunch) 
+    end do
+	write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,bunch+1:2*bunch)  
+	write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,bunch+1:2*bunch) 
+	write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,bunch+1:2*bunch) 
+	do i=1,np
+		write(60,'(1a15,2f9.1)') wmgridname,wmgridsave(i,bunch+1:2*bunch) 
+    end do
+	do i=1,np
+		write(60,'(1a15,2f9.1)') wfgridname,wfgridsave(i,bunch+1:2*bunch) 
+    end do
+	write(60,*)
+	write(60,*) "bunch 3"
+	!do i=1,npars
+    !    write(60,'(1a15,10f10.2)') parname(i),realpar_save(i,(2*bunch+1):3*bunch) 
+	!end do 
+	write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,(2*bunch+1):3*bunch) 
+	do i=1,nepsmove
+		write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,(2*bunch+1):3*bunch) 
+    end do
+	do i=1,nepsmove
+		write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,(2*bunch+1):3*bunch) 
+    end do
+	write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,(2*bunch+1):3*bunch) 
+	do i=1,np
+		write(60,'(1a15,2f9.1)') wmgridname,wmgridsave(i,(2*bunch+1):3*bunch) 
+    end do
+	do i=1,np
+		write(60,'(1a15,2f9.1)') wfgridname,wfgridsave(i,(2*bunch+1):3*bunch) 
+    end do
+	write(60,*)
+	write(60,*) "bunch 4"
+	!do i=1,npars
+    !    write(60,'(1a15,10f10.2)') parname(i),realpar_save(i,(3*bunch+1):numit) 
+	!end do 
+	write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,(3*bunch+1):numit) 
+	write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,(3*bunch+1):numit) 
+	do i=1,nepsmove
+		write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,(3*bunch+1):numit) 
+    end do
+	do i=1,nepsmove
+		write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,(3*bunch+1):numit) 
+    end do
+	write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,(3*bunch+1):numit) 
+	write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,(3*bunch+1):numit) 
+	write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,(3*bunch+1):numit) 
+	do i=1,np
+		write(60,'(1a15,2f9.1)') wmgridname,wmgridsave(i,(3*bunch+1):numit) 
+    end do
+	do i=1,np
+		write(60,'(1a15,2f9.1)') wfgridname,wfgridsave(i,(3*bunch+1):numit) 
+    end do
+	write(60,*)
+	write(60,*)
+
+	!write(60,'(tr2,"np",tr1,"np1",tr1,"np2",tr2,"nl",tr1,"neduc",tr2,"nexp ",tr2,"nkid",tr5,"nqs",tr6,"nq",tr6,"nx",tr5,"nxs",tr2,"nepsmv")') !ahumarch1122
 	!write(60,'(4i4,3(2x,i4),4i8,2i4)') np,np1,np2,nl,neduc,nexp,nkid,nqs,nq,nx,nxs,nepsmove
 	!write(60,'(tr2,"nz",tr2,"nh",tr1,"ncs",tr2,"nc",tr5,"ndata",tr3,"nsimeach",tr6,"nsim",tr2,"ndataobs",tr6,"nmom")') 
 	!write(60,'(4i4,5i10)') nz,nh,ncs,nc,ndata,nsimeach,nsim,ndataobs,nmom
-	write(60,'("wage grid wg() first row men, second row fem, third row wgt:")')    !     tr6,"m(1)",tr6,"m(2)",tr6,"m(3)",tr6,"m(4)",tr6,"m(5)",tr4,"h(1)",tr4,"h(2)")') 
-	write(60,*) wg(:,1)   !       ,mg(:),hgrid(:)
-    write(60,*) wg(:,2)
-	write(60,*) wgt(:)    
-    write(60,'("moveshock grid and its wgts (ppso):")')    
-	write(60,*) moveshock_m(:)          
-	write(60,*) moveshock_f(:)          
-	write(60,*) ppso(:)    
+	!write(60,'("wage grid wg() first row men, second row fem, third row wgt:")')    !     tr6,"m(1)",tr6,"m(2)",tr6,"m(3)",tr6,"m(4)",tr6,"m(5)",tr4,"h(1)",tr4,"h(2)")') 
+	!write(60,*) wg(:,1)   !       ,mg(:),hgrid(:)
+    !write(60,*) wg(:,2)
+	!write(60,*) wgt(:)    
+    !write(60,'("moveshock grid and its wgts (ppso):")')    
+	!write(60,*) moveshock_m(:)          
+	!write(60,*) moveshock_f(:)          
+	!write(60,*) ppso(:)    
     !write(60,*)
     !write(60,'("bshock grid:")')  !ahumarch1122  
 	!write(60,*) bshock_m(:)       !ahumarch1122   
@@ -385,7 +466,7 @@ contains
 	!    write(60,*) "trueindex,co,typ,home",trueindex,i,j,k
     !    write(60,*) mg(:,trueindex) 
     !end do 
-    write(60,*)
+    !write(60,*)
     !fnprof(dw0,de,dsex) !(empstat,cur/ofloc,sex)
     !psio(1:2) fnprof(np,5,1)  emp cur m , if m and working and draw curloc: get offer, get laid off, nothing happen
     !psio(3:4) fnprof(np,10,1) emp of m    if m and working and draw ofloc:  get offer, get laid off, nothing happen 
@@ -395,47 +476,47 @@ contains
     !psio(10) fnprof(np1,10,1)  u of m if m and unemp and draw ofloc: get offer,  0 , nothing happen
     !psio(11) fnprof(np1,5,2)  u cur f if f and unemp and draw curloc: get offer,  0 , nothing happen
     !psio(12) fnprof(np1,10,2)  u of f if f and unemp and draw ofloc: get offer,  0 , nothing happen
-    write(60,'("offer probabilities (fnprof, governed by psio):")') 
-	write(60,'("employed men:")') 
-    write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
-    write(60,'("curloc    ",2x,3F9.2)') fnprof(np,5,1)  !prob(nthing) is the residual so only psio(1:2) governs this
-    write(60,'("psio(1:2) ",2x,2F9.2)') psio(1:2)
-    write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,10,1)  !prob(nthing) is the residual so only psio(3:4) governs this
-    write(60,'("psio(3:4) ",2x,2F9.2)') psio(3:4)
-	write(60,'("employed fem:")') 
-    write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
-    write(60,'("curloc    ",2x,3F9.2)') fnprof(np,5,2)  !prob(nthing) is the residual so only psio(5:6) governs this
-    write(60,'("psio(5:6) ",2x,2F9.2)') psio(5:6)
-    write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,19,2)  !prob(nthing) is the residual so only psio(7:8) governs this
-    write(60,'("psio(7:8) ",2x,2F9.2)') psio(7:8)
-    write(60,*) 
+    !write(60,'("offer probabilities (fnprof, governed by psio):")') 
+	!write(60,'("employed men:")') 
+    !write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
+    !write(60,'("curloc    ",2x,3F9.2)') fnprof(np,5,1)  !prob(nthing) is the residual so only psio(1:2) governs this
+    !write(60,'("psio(1:2) ",2x,2F9.2)') psio(1:2)
+    !write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,10,1)  !prob(nthing) is the residual so only psio(3:4) governs this
+    !write(60,'("psio(3:4) ",2x,2F9.2)') psio(3:4)
+	!write(60,'("employed fem:")') 
+    !write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
+    !write(60,'("curloc    ",2x,3F9.2)') fnprof(np,5,2)  !prob(nthing) is the residual so only psio(5:6) governs this
+    !write(60,'("psio(5:6) ",2x,2F9.2)') psio(5:6)
+    !write(60,'("ofloc     ",2x,3F9.2)') fnprof(np,19,2)  !prob(nthing) is the residual so only psio(7:8) governs this
+    !write(60,'("psio(7:8) ",2x,2F9.2)') psio(7:8)
     !write(60,*) 
-	write(60,'("unemp men:")') 
-    write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
-    write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,1)  !prob(nthing) is the residual so only psio(9) governs this
-    write(60,'("psio(9) ",2x,F9.2)') psio(9)
-    write(60,'("ofloc     ",2x,3F9.2)') fnprof(np1,10,1)  !prob(nthing) is the residual so only psio(11) governs this
-    write(60,'("psio(10) ",2x,F9.2)') psio(10)
-    write(60,'("unemp fem:")') 
-    write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
-    write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,2)  !prob(nthing) is the residual so only psio(12) governs this
-    write(60,'("psio(11) ",2x,F9.2)') psio(11)
-    write(60,'("ofloc     ",2x,3F9.2)') fnprof(np1,10,2)  !prob(nthing) is the residual so only psio(13) governs this
-    write(60,'("psio(12) ",2x,F9.2)') psio(12)
-	write(60,*) 
+    !write(60,*) 
+	!write(60,'("unemp men:")') 
+    !write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
+    !write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,1)  !prob(nthing) is the residual so only psio(9) governs this
+    !write(60,'("psio(9) ",2x,F9.2)') psio(9)
+    !write(60,'("ofloc     ",2x,3F9.2)') fnprof(np1,10,1)  !prob(nthing) is the residual so only psio(11) governs this
+    !write(60,'("psio(10) ",2x,F9.2)') psio(10)
+    !write(60,'("unemp fem:")') 
+    !write(60,'(10x,2x,         4x,"offer",4x,"ldoff",3x,"nthing")') 
+    !write(60,'("curloc    ",2x,3F9.2)') fnprof(np1,5,2)  !prob(nthing) is the residual so only psio(12) governs this
+    !write(60,'("psio(11) ",2x,F9.2)') psio(11)
+    !write(60,'("ofloc     ",2x,3F9.2)') fnprof(np1,10,2)  !prob(nthing) is the residual so only psio(13) governs this
+    !write(60,'("psio(12) ",2x,F9.2)') psio(12)
+	!write(60,*) 
     !fnprhc(dr,dw) !(curexp,empstat) !fnprhc only depends on psih(1)   
-    write(60,'("experience transitions (fnprhc, governed only by psih(1):")') 
-    do i=1,nexp
-    write(60,'("curexp: ",i4,"empstat: np "," fnprhc(curexp,empstat=np) is: ")') i
-    write(60,'(2F9.2)') fnprhc(i,np)
-    write(60,'("curexp: ",i4,"empstat: np1 "," fnprhc(curexp,empstat=np1) is: ")') i
-    write(60,'(2F9.2)') fnprhc(i,np1)
-    end do
+    !write(60,'("experience transitions (fnprhc, governed only by psih(1):")') 
+    !do i=1,nexp
+    !write(60,'("curexp: ",i4,"empstat: np "," fnprhc(curexp,empstat=np) is: ")') i
+    !write(60,'(2F9.2)') fnprhc(i,np)
+    !write(60,'("curexp: ",i4,"empstat: np1 "," fnprhc(curexp,empstat=np1) is: ")') i
+    !write(60,'(2F9.2)') fnprhc(i,np1)
+    !end do
 
 
-    write(60,*)
-    write(60,'("mar grid weights wgt:")')    
-	write(60,*) mgt(:)    
+    !write(60,*)
+    !write(60,'("mar grid weights wgt:")')    
+	!write(60,*) mgt(:)    
    ! write(60,*)
     !write(60,'("hgrid:")')    
 	!write(60,*) hgrid(:)          
@@ -443,14 +524,14 @@ contains
     !write(60,'("wgts:  ",1("move",tr4,"hour",tr4,"wage",tr4),tr1,"rel",tr5,"kid")') 
 	!write(60,'(3x,f8.2,5f8.2)') wmove,whour,wwage,wrel,wkid
 	!write(60,*) 
-	write(60,'(tr2,"groups",tr3,"nhome",tr2,"nhomep",tr2,"onlysingles",tr2,"optimize",tr3,"chkstep",tr5,"skriv",tr1,"numit")') 
-	write(60,'(2x,L6,2(3x,I4),7x,L6,3(4x,L6),I6)') groups,nhome,nhomep,onlysingles,optimize,chkstep,skriv,numit
-	write(60,'(tr2,"nonneg",tr2,tr10,"eps2",tr11,"eps",tr5,"nonlabinc")') 
-	write(60,*) nonneg,eps2,eps,nonlabinc
-    write(60,*)
-    write(60,'("objective function:")') 
-	write(60,*) q_save(:)
-	write(60,*) 
+	!write(60,'(tr2,"groups",tr3,"nhome",tr2,"nhomep",tr2,"onlysingles",tr2,"optimize",tr3,"chkstep",tr5,"skriv",tr1,"numit")') 
+	!write(60,'(2x,L6,2(3x,I4),7x,L6,3(4x,L6),I6)') groups,nhome,nhomep,onlysingles,optimize,chkstep,skriv,numit
+	!write(60,'(tr2,"nonneg",tr2,tr10,"eps2",tr11,"eps",tr5,"nonlabinc")') 
+	!write(60,*) nonneg,eps2,eps,nonlabinc
+    !write(60,*)
+    !write(60,'("objective function:")') 
+	!write(60,*) q_save(:)
+	!write(60,*) 
 
     write(60, '(35x,tr7,"sim",tr7,"dat",tr7,"obj",tr7,"dif",5x,tr2,"countsim",tr2,"countdat",tr4,"vardat" )' ) 
     ihead=1   
