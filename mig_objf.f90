@@ -12,8 +12,9 @@ module objf
 	character(len=namelen), dimension(nmom) :: name
 	character(len=500), dimension(nmom) :: header
 	integer(i4b), dimension(nmom) :: headerloc
-	real(dp), dimension(nepsmove,numit) :: moveshocksave,totcostsave
-	real(dp), dimension(2,numit) :: parcostsave
+	real(dp), dimension(nepsmove,numit) :: moveshockmsave,moveshockfsave,totcostsave
+	real(dp), dimension(4,np,numit) :: wtotmsave,wtotfsave
+	real(dp), dimension(3,numit) :: parcostsave
 	real(dp), dimension(np,numit) :: wmgridsave,wfgridsave
 contains
 	subroutine objfunc(parvec,objval)
@@ -98,8 +99,9 @@ contains
 		par_save=0.0_dp
 		realpar_save=0.0_dp
 		parcostsave=0.0_dp
-		moveshocksave=0.0_dp
-		totcostsave=0.0_dp
+		moveshockmsave=0.0_dp
+		moveshockfsave=0.0_dp
+		!totcostsave=0.0_dp
 	end if 	
 	if (iter<=numit) then
         !initiate
@@ -330,110 +332,192 @@ contains
 	subroutine writemoments(objval)
 	real(8), intent(in) :: objval
 	integer(i4b) :: i,t,ihead,j,k,trueindex,bunch
-	character(len=15) :: parcostname(2),moveshockname,totcostname,wmgridname,wfgridname
+	character(len=15) :: parcostname(3),moveshockmname,moveshockfname,totcostname,wmgridname,wfgridname
 	open(unit=60, file=momentfile,status='replace')
     !open(unit=61 change this 61 to another number since bestval is also 61 maybe among other things, file=momentonlyfile,status='replace')
 	parcostsave(1,iter)=sigo_m
-	parcostsave(2,iter)=cst(4)
+	parcostsave(2,iter)=sigo_f
+	parcostsave(3,iter)=cst(4)
 	parcostname(1)='sigo_m'
-	parcostname(2)='cst(4)'
-	moveshocksave(1:nepsmove,iter)=moveshock_m(1:nepsmove)
-	moveshockname='moveshock_m'
-	totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
-	totcostname='total cost'
-	wmgridsave(1:np,iter)=wg(:,1)
+	parcostname(2)='sigo_f'
+	parcostname(3)='cst(4)'
+	moveshockmsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)
+	moveshockmname='moveshock_m'
+	moveshockfsave(1:nepsmove,iter)=moveshock_f(1:nepsmove)
+	moveshockfname='moveshock_f'
+	!totcostmsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
+	!totcostmname='total cost m'
+	!totcostfsave(1:nepsmove,iter)=moveshock_f(1:nepsmove)+cst(4)
+	!totcostfname='total cost m'
+	wmgridsave(1:np,iter)=wg(:,1)  
 	wfgridsave(1:np,iter)=wg(:,2)
+	
+	wtotmsave(1,1,iter)=fnwge(1,1,3,wg(1,1),1,1)	!fnwge(dg,dtyp,dl,dw,de,dr)	
+	wtotmsave(1,2,iter)=fnwge(1,1,3,wg(2,1),1,1)	
+	wtotmsave(1,3,iter)=fnwge(1,1,3,wg(3,1),1,1)	
+	wtotfsave(1,1,iter)=fnwge(2,1,3,wg(1,2),1,1)	
+	wtotfsave(1,2,iter)=fnwge(2,1,3,wg(2,2),1,1)	
+	wtotfsave(1,3,iter)=fnwge(2,1,3,wg(3,2),1,1)	
+
+	wtotmsave(2,1,iter)=fnwge(1,1,3,wg(1,1),1,2)	
+	wtotmsave(2,2,iter)=fnwge(1,1,3,wg(2,1),1,2)	
+	wtotmsave(2,3,iter)=fnwge(1,1,3,wg(3,1),1,2)	
+	wtotfsave(2,1,iter)=fnwge(2,1,3,wg(1,2),1,2)	
+	wtotfsave(2,2,iter)=fnwge(2,1,3,wg(2,2),1,2)	
+	wtotfsave(2,3,iter)=fnwge(2,1,3,wg(3,2),1,2)	
+
+	wtotmsave(3,1,iter)=fnwge(1,1,3,wg(1,1),2,1)	
+	wtotmsave(3,2,iter)=fnwge(1,1,3,wg(2,1),2,1)	
+	wtotmsave(3,3,iter)=fnwge(1,1,3,wg(3,1),2,1)	
+	wtotfsave(3,1,iter)=fnwge(2,1,3,wg(1,2),2,1)	
+	wtotfsave(3,2,iter)=fnwge(2,1,3,wg(2,2),2,1)	
+	wtotfsave(3,3,iter)=fnwge(2,1,3,wg(3,2),2,1)	
+
+	wtotmsave(4,1,iter)=fnwge(1,1,3,wg(1,1),2,2)	
+	wtotmsave(4,2,iter)=fnwge(1,1,3,wg(2,1),2,2)	
+	wtotmsave(4,3,iter)=fnwge(1,1,3,wg(3,1),2,2)	
+	wtotfsave(4,1,iter)=fnwge(2,1,3,wg(1,2),2,2)	
+	wtotfsave(4,2,iter)=fnwge(2,1,3,wg(2,2),2,2)	
+	wtotfsave(4,3,iter)=fnwge(2,1,3,wg(3,2),2,2)	
+
+	bunch=9
+	do i=1,npars
+        write(60,'(1a15,9f10.2)') parname(i),realpar_save(i,1:bunch) 
+	end do 
+
+
 	wmgridname='wage grid men'
 	wfgridname='wage grid fem'
-	bunch=9
+	write(60,*)
+	write(60,*)
 	write(60,*)
 	write(60,*) "bunch 1"
-	!do i=1,npars
-    !    write(60,'(1a15,10f10.2)') parname(i),realpar_save(i,1:bunch) 
-	!end do 
-	write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,1:bunch) 
-	write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,1:bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(1),parcostsave(1,1:bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(2),parcostsave(2,1:bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(3),parcostsave(3,1:bunch) 
+	write(60,'(1a15,9f9.1)') parname(16),realpar_save(16,1:bunch) 
+	write(60,'(1a15,9f9.1)') parname(52),realpar_save(52,1:bunch) 
+	write(60,'(1a15,9f9.1)') parname(66),realpar_save(66,1:bunch) 
 	do i=1,nepsmove
-		write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,1:bunch) 
+		write(60,'(1a15,9f9.1)') moveshockmname,moveshockmsave(i,1:bunch) 
     end do
 	do i=1,nepsmove
-		write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,1:bunch) 
-    end do
-	write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,1:bunch) 
-	write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,1:bunch) 
-	write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,1:bunch) 
-	do i=1,np
-		write(60,'(1a15,2f9.1)') wmgridname,wmgridsave(i,1:bunch) 
+		write(60,'(1a15,9f9.1)') moveshockfname,moveshockfsave(i,1:bunch) 
     end do
 	do i=1,np
-		write(60,'(1a15,2f9.1)') wfgridname,wfgridsave(i,1:bunch) 
+		write(60,'(1a15,9f9.1)') wmgridname,wmgridsave(i,1:bunch) 
     end do
+	do i=1,np
+		write(60,'(1a15,9f9.1)') wfgridname,wfgridsave(i,1:bunch) 
+    end do
+	do j=1,4
+		write(60,*) "ed and exp",j
+		do i=1,np
+			write(60,'(1a15,9f9.1)') wmgridname,wtotmsave(j,i,1:bunch)
+		end do
+		do i=1,np
+			write(60,'(1a15,9f9.1)') wfgridname,wtotfsave(j,i,1:bunch)
+		end do
+	end do !j
+	write(60,*)
+	write(60,*)
 	write(60,*)
 	write(60,*) "bunch 2"
-	!do i=1,npars
-    !    write(60,'(1a15,10f10.2)') parname(i),realpar_save(i,bunch+1:2*bunch) 
-	!end do 
-	write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,bunch+1:2*bunch) 
-	write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,bunch+1:2*bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(1),parcostsave(1,bunch+1:2*bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(2),parcostsave(2,bunch+1:2*bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(3),parcostsave(3,bunch+1:2*bunch) 
+	write(60,'(1a15,9f9.1)') parname(16),realpar_save(16,bunch+1:2*bunch)  
+	write(60,'(1a15,9f9.1)') parname(52),realpar_save(52,bunch+1:2*bunch) 
+	write(60,'(1a15,9f9.1)') parname(66),realpar_save(66,bunch+1:2*bunch) 
 	do i=1,nepsmove
-		write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,bunch+1:2*bunch) 
+		write(60,'(1a15,9f9.1)') moveshockmname,moveshockmsave(i,bunch+1:2*bunch) 
     end do
 	do i=1,nepsmove
-		write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,bunch+1:2*bunch) 
-    end do
-	write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,bunch+1:2*bunch)  
-	write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,bunch+1:2*bunch) 
-	write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,bunch+1:2*bunch) 
-	do i=1,np
-		write(60,'(1a15,2f9.1)') wmgridname,wmgridsave(i,bunch+1:2*bunch) 
+		write(60,'(1a15,9f9.1)') moveshockfname,moveshockfsave(i,bunch+1:2*bunch) 
     end do
 	do i=1,np
-		write(60,'(1a15,2f9.1)') wfgridname,wfgridsave(i,bunch+1:2*bunch) 
+		write(60,'(1a15,9f9.1)') wmgridname,wmgridsave(i,bunch+1:2*bunch) 
     end do
+	do i=1,np
+		write(60,'(1a15,9f9.1)') wfgridname,wfgridsave(i,bunch+1:2*bunch) 
+    end do
+	do j=1,4
+		write(60,*) "ed and exp",j
+		do i=1,np
+			write(60,'(1a15,9f9.1)') wmgridname,wtotmsave(j,i,bunch+1:2*bunch)
+		end do
+		do i=1,np
+			write(60,'(1a15,9f9.1)') wfgridname,wtotfsave(j,i,bunch+1:2*bunch)
+		end do
+	end do !j
+	write(60,*)
+	write(60,*)
 	write(60,*)
 	write(60,*) "bunch 3"
-	!do i=1,npars
-    !    write(60,'(1a15,10f10.2)') parname(i),realpar_save(i,(2*bunch+1):3*bunch) 
-	!end do 
-	write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,(2*bunch+1):3*bunch) 
-	write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(1),parcostsave(1,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(2),parcostsave(2,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,9f9.1)') parcostname(3),parcostsave(3,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,9f9.1)') parname(16),realpar_save(16,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,9f9.1)') parname(52),realpar_save(52,(2*bunch+1):3*bunch) 
+	write(60,'(1a15,9f9.1)') parname(66),realpar_save(66,(2*bunch+1):3*bunch) 
 	do i=1,nepsmove
-		write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,(2*bunch+1):3*bunch) 
+		write(60,'(1a15,9f9.1)') moveshockmname,moveshockmsave(i,(2*bunch+1):3*bunch) 
     end do
 	do i=1,nepsmove
-		write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,(2*bunch+1):3*bunch) 
-    end do
-	write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,(2*bunch+1):3*bunch) 
-	write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,(2*bunch+1):3*bunch) 
-	write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,(2*bunch+1):3*bunch) 
-	do i=1,np
-		write(60,'(1a15,2f9.1)') wmgridname,wmgridsave(i,(2*bunch+1):3*bunch) 
+		write(60,'(1a15,9f9.1)') moveshockfname,moveshockfsave(i,(2*bunch+1):3*bunch) 
     end do
 	do i=1,np
-		write(60,'(1a15,2f9.1)') wfgridname,wfgridsave(i,(2*bunch+1):3*bunch) 
+		write(60,'(1a15,9f9.1)') wmgridname,wmgridsave(i,(2*bunch+1):3*bunch) 
     end do
+	do i=1,np
+		write(60,'(1a15,9f9.1)') wfgridname,wfgridsave(i,(2*bunch+1):3*bunch) 
+    end do
+	do j=1,4
+		write(60,*) "ed and exp",j
+		do i=1,np
+			write(60,'(1a15,9f9.1)') wmgridname,wtotmsave(j,i,(2*bunch+1):3*bunch) 
+		end do
+		do i=1,np
+			write(60,'(1a15,9f9.1)') wfgridname,wtotfsave(j,i,(2*bunch+1):3*bunch) 
+		end do
+	end do !j
+	write(60,*)
+	write(60,*)
 	write(60,*)
 	write(60,*) "bunch 4"
 	!do i=1,npars
     !    write(60,'(1a15,10f10.2)') parname(i),realpar_save(i,(3*bunch+1):numit) 
 	!end do 
-	write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,(3*bunch+1):numit) 
-	write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,(3*bunch+1):numit) 
+	write(60,'(1a15,9f9.1)') parcostname(1),parcostsave(1,(3*bunch+1):numit) 
+	write(60,'(1a15,9f9.1)') parcostname(2),parcostsave(2,(3*bunch+1):numit) 
+	write(60,'(1a15,9f9.1)') parcostname(3),parcostsave(3,(3*bunch+1):numit) 
+	write(60,'(1a15,9f9.1)') parname(16),realpar_save(16,(3*bunch+1):numit) 
+	write(60,'(1a15,9f9.1)') parname(52),realpar_save(52,(3*bunch+1):numit) 
+	write(60,'(1a15,9f9.1)') parname(66),realpar_save(66,(3*bunch+1):numit) 
 	do i=1,nepsmove
-		write(60,'(1a15,2f9.1)') moveshockname,moveshocksave(i,(3*bunch+1):numit) 
+		write(60,'(1a15,9f9.1)') moveshockmname,moveshockmsave(i,(3*bunch+1):numit) 
     end do
 	do i=1,nepsmove
-		write(60,'(1a15,2f9.1)') totcostname,totcostsave(i,(3*bunch+1):numit) 
-    end do
-	write(60,'(1a15,2f9.1)') parname(16),realpar_save(16,(3*bunch+1):numit) 
-	write(60,'(1a15,2f9.1)') parname(52),realpar_save(52,(3*bunch+1):numit) 
-	write(60,'(1a15,2f9.1)') parname(66),realpar_save(66,(3*bunch+1):numit) 
-	do i=1,np
-		write(60,'(1a15,2f9.1)') wmgridname,wmgridsave(i,(3*bunch+1):numit) 
+		write(60,'(1a15,9f9.1)') moveshockfname,moveshockfsave(i,(3*bunch+1):numit) 
     end do
 	do i=1,np
-		write(60,'(1a15,2f9.1)') wfgridname,wfgridsave(i,(3*bunch+1):numit) 
+		write(60,'(1a15,9f9.1)') wmgridname,wmgridsave(i,(3*bunch+1):numit) 
     end do
+	do i=1,np
+		write(60,'(1a15,9f9.1)') wfgridname,wfgridsave(i,(3*bunch+1):numit) 
+    end do
+	do j=1,4
+		write(60,*) "ed and exp",j
+		do i=1,np
+			write(60,'(1a15,9f9.1)') wmgridname,wtotmsave(j,i,(3*bunch+1):numit)  
+		end do
+		do i=1,np
+			write(60,'(1a15,9f9.1)') wfgridname,wtotfsave(j,i,(3*bunch+1):numit) 
+		end do
+	end do !j
+	write(60,*)
+	write(60,*)
+	write(60,*)
 	write(60,*)
 	write(60,*)
 

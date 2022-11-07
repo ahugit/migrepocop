@@ -325,16 +325,7 @@ nonlabinc=0.0_dp !ahu030622
     datafilename='familymig2022.txt'
     taxset=1
     !open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    open(unit=2,file='o110622_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !pars(26)=1.0_dp !divpenalty 
-    pars(75)=1.0_dp !mumar1
-    pars(81)=1.0_dp !mumar2
-    pars(87)=1.0_dp !mumar3
-    pars(93)=1.0_dp !mumar4
-    pars(23)=pars(22) !uhome 
-    pars(69)=pars(68)  !sigo
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+
 
 
     !open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
@@ -346,6 +337,12 @@ nonlabinc=0.0_dp !ahu030622
     pars(93)=1.0_dp !mumar4
     pars(23)=pars(22) !uhome 
     pars(69)=pars(68)  !sigo
+    pars(74)=-5000  
+    pars(80)=-5000  
+    pars(86)=-5000  
+    pars(92)=-5000  
+    pars(24)=0.0_dp
+    pars(25)=0.0_dp
 
     do i=1,2
     do j=1,2
