@@ -343,21 +343,49 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=0.0_dp 
     pars(24)=0.0_dp
     pars(25)=0.0_dp
+    pars(66)=-1.5_dp
+    pars(67)=-1.5_dp         
 
-    do i=1,2
-    do j=1,2
-        do k=1,3
-            do k1=1,3
-    pars(66)=-1.5_dp+0.5_dp*i
-    pars(67)=-1.5_dp+0.5_dp*j           
-    pars(68)=-1.5_dp+1.5_dp*k
-    pars(69)=-1.5_dp+1.5_dp*k1
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !do i=1,2
+    !do j=1,2
+    do k=1,3
+        do k1=1,3
+            pars(68)=-3.5_dp+0.5_dp*k
+            pars(69)=-3.5_dp+0.5_dp*k1
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
     end do 
+
+    do k=1,3
+        do k1=1,3
+            pars(68)=-2.0_dp+0.5_dp*k
+            pars(69)=-2.0_dp+0.5_dp*k1
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
     end do 
+
+    do k=1,3
+        do k1=1,3
+            pars(68)=-0.5_dp+0.5_dp*k
+            pars(69)=-0.5_dp+0.5_dp*k1
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
     end do 
+
+    do k=1,3
+        do k1=1,3
+            pars(68)=1.0_dp+0.5_dp*k
+            pars(69)=1.0_dp+0.5_dp*k1
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
     end do 
+
+    !end do 
+    !end do 
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
 !    print*, "alf12", pars(52),logit(pars(52))
