@@ -343,8 +343,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=0.0_dp 
     pars(24)=0.0_dp
     pars(25)=0.0_dp
-    pars(66)=-1.5_dp
-    pars(67)=-1.5_dp         
+    pars(66)=0.0_dp
+    pars(67)=0.0_dp         
 
     !do i=1,2
     !do j=1,2
