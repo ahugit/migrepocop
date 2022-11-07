@@ -337,10 +337,10 @@ nonlabinc=0.0_dp !ahu030622
     pars(93)=1.0_dp !mumar4
     pars(23)=pars(22) !uhome 
     pars(69)=pars(68)  !sigo
-    pars(74)=-5000  
-    pars(80)=-5000  
-    pars(86)=-5000  
-    pars(92)=-5000  
+    pars(74)=0.0_dp  
+    pars(80)=0.0_dp 
+    pars(86)=0.0_dp 
+    pars(92)=0.0_dp 
     pars(24)=0.0_dp
     pars(25)=0.0_dp
 
