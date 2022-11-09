@@ -101,6 +101,10 @@ contains
 		parcostsave=0.0_dp
 		moveshockmsave=0.0_dp
 		moveshockfsave=0.0_dp
+		wtotmsave=0.0_dp
+		wtotfsave=0.0_dp
+		wmgridsave=0.0_dp
+		wfgridsave=0.0_dp
 		!totcostsave=0.0_dp
 	end if 	
 	if (iter<=numit) then
