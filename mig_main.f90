@@ -350,38 +350,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(69)=1.0_dp+0.5_dp*k
     moveshockdiv=1.0_dp
 
-    pars(69)=4.5_dp
-    do i=1,2
-        pars(74)=10000.0_dp + (-10000.0_dp)*i  
-        pars(80)=10000.0_dp + (-10000.0_dp)*i
-        pars(86)=10000.0_dp + (-10000.0_dp)*i
-        pars(92)=10000.0_dp + (-10000.0_dp)*i
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp   
-    end do 
-
-    pars(69)=2.5_dp         
-    do i=1,2
-        pars(74)=10000.0_dp + (-10000.0_dp)*i  
-        pars(80)=10000.0_dp + (-10000.0_dp)*i
-        pars(86)=10000.0_dp + (-10000.0_dp)*i
-        pars(92)=10000.0_dp + (-10000.0_dp)*i
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp   
-    end do 
-
-    pars(69)=0.5_dp         
-    do i=1,2
-        pars(74)=10000.0_dp + (-10000.0_dp)*i  
-        pars(80)=10000.0_dp + (-10000.0_dp)*i
-        pars(86)=10000.0_dp + (-10000.0_dp)*i
-        pars(92)=10000.0_dp + (-10000.0_dp)*i
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp   
-    end do 
-
-    pars(69)=-2.5_dp         
-    do i=1,2
+    do i=1,9
         pars(74)=10000.0_dp + (-10000.0_dp)*i  
         pars(80)=10000.0_dp + (-10000.0_dp)*i
         pars(86)=10000.0_dp + (-10000.0_dp)*i
