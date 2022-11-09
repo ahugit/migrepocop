@@ -95,8 +95,8 @@
 	real(dp), parameter :: delta=0.96_dp,alf=0.5_dp   !ahumarch1022 delta=0.96_dp changing to 0 to figure out the mumardecrease problem
 	real(dp), parameter :: mu_wge(2)=0.0_dp
 	real(dp) :: sig_wge(2),mu_mar(ntypp),sig_mar,ro,mu_o , sigo_m,sigo_f
-	real(dp) :: uhome(2),alphaed(2,neduc),alphakid(nkid),alfhme !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
-	real(dp) :: gam_e,gam_u,cst(ntypp),kcst,ecst,ucst,divpenalty,uloc(nl),sig_uloc
+	real(dp) :: uhome(2),alphaed(2,neduc),alphakid(nkid) !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
+	real(dp) :: cst(ntypp),kcst,ecst,ucst,divpenalty,uloc(nl),sig_uloc
 	real(dp) :: alf10(nl),alf11,alf12,alf13,alf1t(ntypp)            ! types
 	real(dp) :: alf20(nl),alf21,alf22,alf23,alf2t(ntypp)            ! types
 	real(dp) :: ptype,pmeet,omega(2),ptypehs(ntypp),ptypecol(ntypp) ! types
@@ -207,8 +207,8 @@ contains
 
 	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=1.0_dp 
 	psil(1)=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='alfhme' ; stepos(j)=0.0_dp 
-	alfhme=realpar(j)	            ; j=j+1
+	realpar(j)=par(j)               ; parname(j)='ucst' ; stepos(j)=0.0_dp 
+	ucst=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp ; parname(j)='ro'	; stepos(j)=0.0_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	ro=realpar(j)                   ; j=j+1
     !if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
@@ -220,8 +220,8 @@ contains
 	junk=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='p(ex=1|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
 	junk=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='ucst' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
-	ucst=realpar(j)	            ; j=j+1
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=2|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	junk=realpar(j)	            ; j=j+1
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
 

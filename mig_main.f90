@@ -375,8 +375,8 @@ nonlabinc=0.0_dp !ahu030622
 
     do k=1,3
         do k1=1,3
-            pars(68)=-2.0_dp+1.0_dp*k
-            pars(69)=-2.0_dp+1.0_dp*k1
+            pars(68)=0.0_dp+1.0_dp*k
+            pars(69)=0.0_dp+1.0_dp*k1
             call getpars(pars,realpars)
             call objfunc(pars,qval) ; realpars=realpartemp   
         end do 
