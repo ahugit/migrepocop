@@ -345,33 +345,50 @@ nonlabinc=0.0_dp !ahu030622
     pars(25)=0.0_dp
     pars(66)=-1.0_dp
     pars(67)=-1.0_dp         
-
-
     k=3 
-    k1=3
     pars(68)=1.0_dp+0.5_dp*k
-    pars(69)=1.0_dp+0.5_dp*k1
-
+    pars(69)=1.0_dp+0.5_dp*k
     moveshockdiv=1.0_dp
-    do i=1,4
-        pars(74)=10000.0_dp + (-5000.0_dp)*i  
-        pars(80)=10000.0_dp + (-5000.0_dp)*i
-        pars(86)=10000.0_dp + (-5000.0_dp)*i
-        pars(92)=10000.0_dp + (-5000.0_dp)*i
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp   
-    end do 
-    
-    moveshockdiv=2.0_dp
-    do i=1,4
-        pars(74)=10000.0_dp + (-5000.0_dp)*i  
-        pars(80)=10000.0_dp + (-5000.0_dp)*i
-        pars(86)=10000.0_dp + (-5000.0_dp)*i
-        pars(92)=10000.0_dp + (-5000.0_dp)*i
+
+    pars(67)=-1.0_dp         
+    do i=1,2
+        pars(74)=10000.0_dp + (-10000.0_dp)*i  
+        pars(80)=10000.0_dp + (-10000.0_dp)*i
+        pars(86)=10000.0_dp + (-10000.0_dp)*i
+        pars(92)=10000.0_dp + (-10000.0_dp)*i
         call getpars(pars,realpars)
         call objfunc(pars,qval) ; realpars=realpartemp   
     end do 
 
+    pars(67)=-2.0_dp         
+    do i=1,2
+        pars(74)=10000.0_dp + (-10000.0_dp)*i  
+        pars(80)=10000.0_dp + (-10000.0_dp)*i
+        pars(86)=10000.0_dp + (-10000.0_dp)*i
+        pars(92)=10000.0_dp + (-10000.0_dp)*i
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp   
+    end do 
+
+    pars(67)=-3.0_dp         
+    do i=1,2
+        pars(74)=10000.0_dp + (-10000.0_dp)*i  
+        pars(80)=10000.0_dp + (-10000.0_dp)*i
+        pars(86)=10000.0_dp + (-10000.0_dp)*i
+        pars(92)=10000.0_dp + (-10000.0_dp)*i
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp   
+    end do 
+
+    pars(67)=-4.0_dp         
+    do i=1,2
+        pars(74)=10000.0_dp + (-10000.0_dp)*i  
+        pars(80)=10000.0_dp + (-10000.0_dp)*i
+        pars(86)=10000.0_dp + (-10000.0_dp)*i
+        pars(92)=10000.0_dp + (-10000.0_dp)*i
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp   
+    end do 
 
     !end do 
     !end do 
