@@ -344,10 +344,10 @@ nonlabinc=0.0_dp !ahu030622
     pars(24)=0.0_dp
     pars(25)=0.0_dp
     pars(66)=-1.0_dp
-    pars(67)=-1.0_dp         
+    pars(67)=-5.0_dp         
     k=3 
     pars(68)=1.0_dp+0.5_dp*k
-    pars(69)=1.0_dp+0.5_dp*k
+    pars(69)=-5.0_dp !1.0_dp+0.5_dp*k
     moveshockdiv=1.0_dp
 
     do i=1,9
