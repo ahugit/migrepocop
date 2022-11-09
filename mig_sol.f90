@@ -1128,7 +1128,7 @@ end do
             wc(2,x,q,trueindex)	= 0.0_dp
             wcgross(1:2)= wc(1:2,x,q,trueindex)
             pbrack=locate(  pwages(1:numbin)  ,  wcgross(1) ) 
-            sbrack=0
+            sbrack=1
             staterate=tax(pbrack,sbrack,l(1))%statemar
             fedrate=tax(pbrack,sbrack,l(2))%fedmar
             wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
@@ -1137,7 +1137,7 @@ end do
             wc(1,x,q,trueindex)	= 0.0_dp
             wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )   
             wcgross(1:2)= wc(1:2,x,q,trueindex)
-            pbrack=0
+            pbrack=1
             sbrack=locate(  swages(1:numbin)  ,  wcgross(2) ) 
             staterate=tax(pbrack,sbrack,l(1))%statemar
             fedrate=tax(pbrack,sbrack,l(2))%fedmar

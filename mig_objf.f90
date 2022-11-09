@@ -384,7 +384,7 @@ contains
 	wtotfsave(4,2,iter)=fnwge(2,1,3,wg(2,2),2,2)	
 	wtotfsave(4,3,iter)=fnwge(2,1,3,wg(3,2),2,2)	
 
-	bunch=9
+	bunch=numit
 	do i=1,npars
         write(60,'(1a15,9f10.2)') parname(i),realpar_save(i,1:bunch) 
 	end do 
