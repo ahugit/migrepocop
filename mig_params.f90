@@ -14,7 +14,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=9
+    integer(i4b), parameter :: numit=3
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
@@ -65,7 +65,7 @@
     INTEGER(I4B), PARAMETER :: NOCOLLEGE=1,COLLEGE=2
 	integer(i4b), parameter, dimension(2) :: agestart=(/ mna,22 /)		!changed this from 18,22 !chanage this back ahu 070312 (/18,22/) !starting age for simulations for each education level
 	real(dp), parameter :: mult1=10000.0_dp !ahu jan19 012519
-    real(dp), parameter :: multmar=50000.0_dp,multsigo=500000.0_dp,multdiv=5000.0_dp,multcst=30000.0_dp !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
+    real(dp), parameter :: multmar=50000.0_dp,multsigo=50000.0_dp,multdiv=5000.0_dp,multcst=30000.0_dp !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
 	real(dp), parameter :: maxhgrid=8.0_dp 
 	real(dp), parameter :: tottime=16.0_dp
 	real(dp), parameter :: hhours_conv=250.0_dp					! multuiply hours per day by this to get hours per year for hours worked
