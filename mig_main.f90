@@ -367,6 +367,11 @@ nonlabinc=0.0_dp !ahu030622
     end do 
 
     open(unit=2,file='o110722_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars(19)=0.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(19)=-80000.0_dp 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 

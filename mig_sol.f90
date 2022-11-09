@@ -887,7 +887,7 @@ end do
                 
                 moveshocks: do iepsmove=1,nepsmove
 				    !Before drawing the rest of the shocks (ofloc and wagedraw), determine some max options conditional on unemployment and given status quo (no need to know the ofloc and wagedraw for this)
-                    totmovecost(:)=movecost(q0,x,trueindex) + scst ; totmovecost(q2l(q0))=moveshock(iepsmove) !0.0_dp
+                    totmovecost(:)=movecost(q0,x,trueindex) ; totmovecost(q2l(q0))=moveshock(iepsmove) !0.0_dp
                     do w=1,np1
 					    dumv(w,:) = dumv2(w,:) + totmovecost(:) !ahu summer18 050318 turned dumv0 into dumv2
 				    end do 
