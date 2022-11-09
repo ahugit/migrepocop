@@ -519,9 +519,9 @@ contains
 	!write(60,'(tr2,"nonneg",tr2,tr10,"eps2",tr11,"eps",tr5,"nonlabinc")') 
 	!write(60,*) nonneg,eps2,eps,nonlabinc
     !write(60,*)
-    !write(60,'("objective function:")') 
-	!write(60,*) q_save(:)
-	!write(60,*) 
+    write(60,'("objective function:")') 
+	write(60,*) q_save(:)
+	write(60,*) 
 
     write(60, '(35x,tr7,"sim",tr7,"dat",tr7,"obj",tr7,"dif",5x,tr2,"countsim",tr2,"countdat",tr4,"vardat" )' ) 
     ihead=1   

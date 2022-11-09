@@ -935,6 +935,12 @@ end subroutine read_taxes
                 WRITE(name(im),'("move by age",tr3,I4)') ia
                 weights(im)=wmove
                 im=im+1
+            end do
+            do ia=44,50,2
+                CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
+                WRITE(name(im),'("move by age",tr3,I4)') ia
+                weights(im)=wmove
+                im=im+1
             end do     
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("move home ",tr3)')  !added this ahu 121718
@@ -1017,6 +1023,23 @@ end subroutine read_taxes
             if (g==2.and.j==0) headstr(ihead)='single fem wages'
             if (g==2.and.j==1) headstr(ihead)='married fem wages'
             ihead=ihead+1
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l/=dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
+            write(name(im),'("wdif | hmemve=0 ",tr2)')  
+            weights(im)=wdifww
+            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
+            write(name(im),'("wdif | hmemve=1 ",tr2)')  
+            weights(im)=wdifww
+            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
+            im=im+1 
+            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
+            write(name(im),'("wdif | move ",tr2)')  
+            weights(im)=wdifww 
+            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
+            im=im+1             
+
+
             do ia=mna,21
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
                 WRITE(name(im),'("wnned|ia   ",i4)') ia
@@ -1048,37 +1071,6 @@ end subroutine read_taxes
             weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
             calcvar(im)=5
             im=im+1
-                
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l/=dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | hmemve=0 ",tr2)')  
-            weights(im)=wdifww
-            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | hmemve=1 ",tr2)')  
-            weights(im)=wdifww
-            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==0 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | stay ",tr2)')  
-            weights(im)=wdifww  
-            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | move ",tr2)')  
-            weights(im)=wdifww 
-            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
-            im=im+1             
-            call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1 .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | eue,s ",tr2)')  
-            weights(im)=wdifww
-            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1   .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l/=dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l>0 ),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr ),mom,cnt,var)		
-            write(name(im),'("wdif | eue,m ",tr2)')  
-            weights(im)=0.0_dp  
-            calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
-            im=im+1 
             do ia=mna,mna+3
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | stay ia ",tr2,i6)')  ia
