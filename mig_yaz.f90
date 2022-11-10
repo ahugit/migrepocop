@@ -140,10 +140,10 @@ contains
 		utility(4) = utilc(2,x,i,trueindex)
 		wage(2)=ws(2,b,a,trueindex)    !wf_s(a,b)
         wage(4)=wc(2,x,i,trueindex)
-        if (wage(3)+wage(4) - vec(5) > 0.0_dp ) then
-            print*, 'sum of wage3 and wage4 not equal to vec5!'
-            stop
-        end if
+        !if (wage(3)+wage(4) - vec(5) > 0.0_dp ) then
+        !    print*, 'sum of wage3 and wage4 not equal to vec5!'
+        !    stop
+        !end if
         !vdif = vec(3:4) + mg( dd(5) ) - vec(1:2) 	! dd(5) is z
 		vdif = vec(3:4) - vec(1:2) 	
 	    surplus=vec(3)-vec(1)+vec(4)-vec(2)+vec(5)
