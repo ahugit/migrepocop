@@ -14,7 +14,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=3
+    integer(i4b), parameter :: numit=9
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
@@ -51,8 +51,8 @@
 	integer(i4b), parameter :: np1=np+1, np2=np+2   !w=np1 is getting laid off in the shock space q and w=np2 is nothing happening. In the state space q, np1 is unemployment and np2 is not in the state space q (I try to check that it is not there, at various points in code)
 	integer(i4b), parameter :: nxs = neduc * nexp * nkid
 	integer(i4b), parameter :: nx  = nxs * nxs
-	integer(i4b), parameter :: ncs = nl+2 !3 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE nl+2
-	integer(i4b), parameter :: nc  = nl+8 !9   !nl+8 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE
+	integer(i4b), parameter :: ncs = 3 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE nl+2
+	integer(i4b), parameter :: nc  = 9   !nl+8 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE
     integer(i4b), parameter :: nepsmove=3, nepskid=2 !ag090122 agsept2022 changed nepsmove frmo 2 to 5 !ahumarch1022 changed nepsmove to 2 from 13
 	integer(i4b) :: numperdat,numperobsdat,numpersim !previously ndata,ndataobs,nsim ALL set in main now 
 	!integer(i4b), parameter :: ndataobs = 84507  set in main now 
@@ -65,7 +65,7 @@
     INTEGER(I4B), PARAMETER :: NOCOLLEGE=1,COLLEGE=2
 	integer(i4b), parameter, dimension(2) :: agestart=(/ mna,22 /)		!changed this from 18,22 !chanage this back ahu 070312 (/18,22/) !starting age for simulations for each education level
 	real(dp), parameter :: mult1=10000.0_dp !ahu jan19 012519
-    real(dp), parameter :: multmar=50000.0_dp,multsigo=50000.0_dp,multdiv=5000.0_dp,multcst=30000.0_dp !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
+    real(dp), parameter :: multmar=50000.0_dp,multsigo=300000.0_dp,multdiv=5000.0_dp,multcst=30000.0_dp !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
 	real(dp), parameter :: maxhgrid=8.0_dp 
 	real(dp), parameter :: tottime=16.0_dp
 	real(dp), parameter :: hhours_conv=250.0_dp					! multuiply hours per day by this to get hours per year for hours worked
