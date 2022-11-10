@@ -132,7 +132,7 @@ program main
 		open(unit=64, file='chkstep.txt',status='replace')
 	end if     
 	!ahu030622 skriv=.false. ; if (iam==24.and.iter==1) skriv=.false.  !ahu 0327 iam=9
-	skriv=.false. ; if (iam==0.and.iter==1) skriv=.false.  !ahu030622
+	skriv=.false. ; if (iam==0.and.iter==1) skriv=.true.  !ahu030622
     if (.not.groups) skriv=.false. !ahu 0327
     iwritemom=0 ; if (iam==0) iwritemom=1 
 	if (skriv) then 	
@@ -368,16 +368,22 @@ nonlabinc=0.0_dp !ahu030622
 
     open(unit=2,file='o110722_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(14)=-40000.0_dp 
-    do k=1,3
-        do k1=1,3
+    k=1 
+    k1=1
+    !do k=1,3
+    !    do k1=1,3
             pars(68)=-3.0_dp+1.5_dp*k
             pars(69)=-3.0_dp+1.5_dp*k1
             call getpars(pars,realpars)
             call objfunc(pars,qval) ; realpars=realpartemp   
-        end do 
-    end do 
+    !    end do 
+    !end do 
 
-
+    !        pars(75)=0.0002_dp !mumar1
+    !        pars(81)=0.0002_dp !mumar2
+    !        pars(87)=0.01
+    !        pars(93)=0.01
+        
     !end do 
     !end do 
 !if (iwritegen==1) then
