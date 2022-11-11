@@ -14,9 +14,9 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=3
+    integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
     logical :: nonneg
     logical :: onthejobsearch=.TRUE. !set in main
@@ -245,22 +245,22 @@ contains
     ecst=realpar(j)                                     ; j=j+1               ! types
 	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=1.0_dp*par(j) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
 	kcst=realpar(j)                                     ; j=j+1
-	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=1.0_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
+	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=2.0_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
 	divpenalty=realpar(j)                               ; j=j+1
     !print*, 'Here is divpenalty',j-1,divpenalty 
 
     realpar(j:j+1) = mult1 * logit(par(j:j+1))          ; parname(j)='alphaed(m,ned)' ; parname(j+1)='alphaed(f,ned)'    !27:28   !ahu jan19 012719 changing it yet again back to logit because there is not that much of different in objval between alpha=0 and alpha=-49000    !ahu jan19 012019 changing it back to min2pls  ! noed !ahu 112718 changing to only plus from: mult1*min2pls(par(7:8))   !mult1 * logit(par(7))	
-	stepos(j)=1.0_dp            ; if (onlyfem) stepos(j)=1.0_dp 
-    stepos(j+1)=1.0_dp          ; if (onlymales) stepos(j+1)=1.0_dp 
+	stepos(j)=2.0_dp            ; if (onlyfem) stepos(j)=1.0_dp 
+    stepos(j+1)=2.0_dp          ; if (onlymales) stepos(j+1)=1.0_dp 
     alphaed(:,1)=realpar(j:j+1)                         ; j=j+2 !alphaed(m:f,noed)  [educ=1 noed, educ=2 ed]  mult1 * min2pls(par(j:j+1))
     
     realpar(j:j+1) = mult1 * logit(par(j:j+1))          ; parname(j)='alphaed(m,ed)' ; parname(j+1)='alphaed(f,ed)'    !27:28   !ahu jan19 012719 changing it yet again back to logit because there is not that much of different in objval between alpha=0 and alpha=-49000    !ahu jan19 012019 changing it back to min2pls  ! noed !ahu 112718 changing to only plus from: mult1*min2pls(par(7:8))   !mult1 * logit(par(7))	
-	stepos(j)=1.0_dp            ; if (onlyfem) stepos(j)=1.0_dp 
-    stepos(j+1)=1.0_dp          ; if (onlymales) stepos(j+1)=1.0_dp 
+	stepos(j)=2.0_dp            ; if (onlyfem) stepos(j)=1.0_dp 
+    stepos(j+1)=2.0_dp          ; if (onlymales) stepos(j+1)=1.0_dp 
     alphaed(:,2)=realpar(j:j+1)                         ; j=j+2 !alphaed(m:f,ed)  [educ=1 noed, educ=2 ed]  mult1 * min2pls(par(j:j+1))
     
     realpar(j:j+1)=mult1 * logit(par(j:j+1))            ; parname(j)='alphakid(m)' ; parname(j+1)='alphakid(f)'          !31:32           !ahu 112718 changing to only plus from: mult1 * min2pls(par(j:j+1))	 !mult1 * logit(par(9:10))	
-    stepos(j)=1.0_dp            ; if (onlyfem) stepos(j)=0.0_dp ; 	stepos(j+1)=1.0_dp   ; if (onlymales) stepos(j:j+1)=0.0_dp 
+    stepos(j)=2.0_dp            ; if (onlyfem) stepos(j)=0.0_dp ; 	stepos(j+1)=1.0_dp   ; if (onlymales) stepos(j:j+1)=0.0_dp 
     alphakid(:)=realpar(j:j+1)                        ; j=j+2         
     !print*, 'Here is uloc',j
 	
@@ -363,10 +363,10 @@ contains
             !    realpar(j)= par(j)                         ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j)
             !    cst(i)=realpar(j)                           ; j=j+1 
             !else if (i==4) then
-            realpar(j)= par(j)                         ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j)
+            realpar(j)= cst(1)                         ; parname(j)='cst'       ; stepos(j)=0.0_dp
             cst(i)=realpar(j)                           ; j=j+1 
             !end if
-            realpar(j)=multmar * logit(par(j))                         ; parname(j)='mu_mar'     ; stepos(j)=-2.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=mu_mar(1)                        ; parname(j)='mu_mar'     ; stepos(j)=0.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         end if 
     	!print*, 'Here is cost',cst(i),par(j-1),realpar(j-1)
