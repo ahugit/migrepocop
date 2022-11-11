@@ -383,16 +383,16 @@ nonlabinc=0.0_dp !ahu030622
     pars(14)=-48000.0_dp     !ucst
     pars(24)=pars(24)-8000.0_dp !ecst
     pars(25)=pars(25)-8000.0_dp !kcst 
-    pars(74)=20000.0_dp 
-    pars(80)=20000.0_dp 
-    pars(86)=20000.0_dp
-    pars(92)=20000.0_dp
     pars(68)=-3.0_dp+1.5_dp*k
     pars(69)=-3.0_dp+1.5_dp*k1
     pars(75)=1.0_dp !mumar1
     pars(81)=1.0_dp !mumar2
     pars(87)=1.0_dp !mumar3
     pars(93)=1.0_dp !mumar4
+    pars(74)=20000.0_dp 
+    pars(80)=20000.0_dp 
+    pars(86)=20000.0_dp
+    pars(92)=20000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -402,33 +402,15 @@ nonlabinc=0.0_dp !ahu030622
     pars(81)=-4.0_dp !mumar2
     pars(87)=-4.0_dp !mumar3
     pars(93)=-4.0_dp !mumar4
+    pars(74)=0.0_dp 
+    pars(80)=0.0_dp 
+    pars(86)=0.0_dp
+    pars(92)=0.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-    pars(68)=-2.4_dp+1.5_dp*k
-    pars(69)=-2.4_dp+1.5_dp*k1
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-4.0_dp !mumar3
-    pars(93)=-4.0_dp !mumar4
-    pars(74)=10000.0_dp 
-    pars(80)=10000.0_dp 
-    pars(86)=10000.0_dp
-    pars(92)=10000.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(68)=-2.4_dp+1.5_dp*k
-    pars(69)=-2.4_dp+1.5_dp*k1
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-4.0_dp !mumar3
-    pars(93)=-4.0_dp !mumar4
-    pars(74)=5000.0_dp 
-    pars(80)=5000.0_dp 
-    pars(86)=5000.0_dp
-    pars(92)=5000.0_dp
+    pars(45)=-1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
