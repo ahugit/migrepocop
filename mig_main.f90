@@ -378,11 +378,12 @@ nonlabinc=0.0_dp !ahu030622
     pars(39)=7286
     pars(40)=2665
     pars(41)=2562
+    pars(45)=-1.0_dp
     k=1 
     k1=1
-    pars(14)=-48000.0_dp     !ucst
-    pars(24)=pars(24)-8000.0_dp !ecst
-    pars(25)=pars(25)-8000.0_dp !kcst 
+    pars(14)=-28000.0_dp     !ucst
+    !pars(24)=pars(24)-8000.0_dp !ecst
+    pars(25)=pars(25)-48000.0_dp !kcst 
     pars(68)=-3.0_dp+1.5_dp*k
     pars(69)=-3.0_dp+1.5_dp*k1
     pars(75)=1.0_dp !mumar1
@@ -402,18 +403,19 @@ nonlabinc=0.0_dp !ahu030622
     pars(81)=-4.0_dp !mumar2
     pars(87)=-4.0_dp !mumar3
     pars(93)=-4.0_dp !mumar4
-    pars(74)=-20000.0_dp 
-    pars(80)=-20000.0_dp 
-    pars(86)=-20000.0_dp
-    pars(92)=-20000.0_dp
+    pars(74)=-10000.0_dp 
+    pars(80)=-10000.0_dp 
+    pars(86)=-10000.0_dp
+    pars(92)=-10000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-    pars(45)=-1.0_dp
+    pars(14)=-18000.0_dp     !ucst
+    !pars(24)=pars(24)-8000.0_dp !ecst
+    pars(25)=pars(25)-28000.0_dp !kcst 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
 
 
 !if (iwritegen==1) then
