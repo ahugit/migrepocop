@@ -369,7 +369,15 @@ nonlabinc=0.0_dp !ahu030622
 
 
     open(unit=2,file='o110722_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(14)=-40000.0_dp 
+    pars(33)=1849
+    pars(34)=0.0
+    pars(35)=3231
+    pars(36)=3987
+    pars(37)=5278
+    pars(38)=3920
+    pars(39)=7286
+    pars(40)=2665
+    pars(41)=2562
     k=1 
     k1=1
     pars(14)=-48000.0_dp     !ucst
