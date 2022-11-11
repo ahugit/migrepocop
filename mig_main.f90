@@ -366,47 +366,33 @@ nonlabinc=0.0_dp !ahu030622
         !call objfunc(pars,qval) ; realpars=realpartemp   
     end do 
 
+
+
     open(unit=2,file='o110722_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(14)=-40000.0_dp 
     k=1 
     k1=1
     pars(68)=-3.0_dp+1.5_dp*k
     pars(69)=-3.0_dp+1.5_dp*k1
-    pars(75)=-3.0.0_dp !mumar1
-    pars(81)=-3.0_dp !mumar2
-    pars(87)=-3.0_dp !mumar3
-    pars(93)=-3.0_dp !mumar4
+    pars(75)=1.0_dp !mumar1
+    pars(81)=1.0_dp !mumar2
+    pars(87)=1.0_dp !mumar3
+    pars(93)=1.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-4.0_dp !mumar3
-    pars(93)=-4.0_dp !mumar4
+    pars(14)=-48000.0_dp     !ucst
+    pars(24)=pars(24)-8000.0_dp !ecst
+    pars(25)=pars(25)-8000.0_dp !kcst 
+    pars(74)=20000.0_dp 
+    pars(80)=20000.0_dp 
+    pars(86)=20000.0_dp
+    pars(92)=20000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+    
 
 
-    pars(75)=-5.0_dp !mumar1
-    pars(81)=-5.0_dp !mumar2
-    pars(87)=-5.0_dp !mumar3
-    pars(93)=-5.0_dp !mumar4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(75)=-6.0_dp !mumar1
-    pars(81)=-6.0_dp !mumar2
-    pars(87)=-6.0_dp !mumar2
-    pars(93)=-6.0_dp !mumar2
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    !pars(14)=-40000.0_dp     !ucst
-    !pars(24)= !ecst
-    !pars(25)= !kcst 
-    !end do 
-    !end do 
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
 !    print*, "alf12", pars(52),logit(pars(52))
