@@ -402,10 +402,10 @@ nonlabinc=0.0_dp !ahu030622
     pars(81)=-4.0_dp !mumar2
     pars(87)=-4.0_dp !mumar3
     pars(93)=-4.0_dp !mumar4
-    pars(74)=0.0_dp 
-    pars(80)=0.0_dp 
-    pars(86)=0.0_dp
-    pars(92)=0.0_dp
+    pars(74)=-20000.0_dp 
+    pars(80)=-20000.0_dp 
+    pars(86)=-20000.0_dp
+    pars(92)=-20000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
