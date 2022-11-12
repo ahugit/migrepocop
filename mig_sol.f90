@@ -298,10 +298,10 @@ end do
             vec=pen
             i = qq2q(1,q) ; n=xx2x(1,x) ; i0 = qq2q(1,q0) 
             vec(1) = vm(iepsmove,n,i,i0,ia,index) + divpenalty
-            mcost(1)=movecost(n,i0,trueindex)    
+            mcost(1)=movecost(n,i0,trueindex) + cstia(ia)   
             i = qq2q(2,q) ; n=xx2x(2,x) ; i0 = qq2q(2,q0) 	
             vec(2) = vf(iepsmove,n,i,i0,ia,index) + divpenalty	
-            mcost(2)=movecost(n,i0,trueindex)    
+            mcost(2)=movecost(n,i0,trueindex)  + cstia(ia)
             loc0=qq2l(1,q0)     !ahumarch2022 ahu032022
             !ahu030822 adding the below in order to check the mar rates decreasing with mumar situation to compare chk2's better
             !if (yazmax) then !ahu030822
@@ -938,11 +938,11 @@ end do
 	real(dp), dimension(nxs,nqs), intent(in) :: vs
 	integer(i4b), dimension(nepsmove,nxs,nqs,nqs), intent(out) :: qs
 	real(dp), dimension(nepsmove,nxs,nqs,nqs), intent(out) :: vs1
-	integer(i4b) :: q0,q,l,l0,w,x,i,j,iepsmove,sex,index,trueindex,jstar(1),age,ss(size(dd,1))
+	integer(i4b) :: q0,q,l,l0,w,x,i,j,iepsmove,sex,index,trueindex,jstar(1),age,ss(size(dd,1)),ia
     real(dp) :: mcost,vcho(ncs),moveshock(nepsmove),bshock(nepsmove)
 
     trueindex=dd(2)
-    sex=dd(7)
+    sex=dd(7) ; ia=dd(1)
 	qs = -1 ; vs1 = 0.0_dp
     if (groups) then 
         index=1
@@ -966,7 +966,7 @@ end do
             wagedraw: do w=1,np2
             q = wl2q(w,l)
             do x=1,nxs
-                mcost=movecost(x,q0,trueindex)                
+                mcost=movecost(x,q0,trueindex)   + cstia(ia)             
                 moveshocks: do iepsmove=1,nepsmove
 
                 vcho=pen

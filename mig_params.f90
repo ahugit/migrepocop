@@ -96,7 +96,7 @@
 	real(dp), parameter :: mu_wge(2)=0.0_dp
 	real(dp) :: sig_wge(2),mu_mar(ntypp),sig_mar,ro,mu_o , sigo_m,sigo_f
 	real(dp) :: uhome(2),alphaed(2,neduc),alphakid(nkid) !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
-	real(dp) :: cst(ntypp),kcst,ecst,ucst,divpenalty,uloc(nl),sig_uloc
+	real(dp) :: cst(ntypp),kcst,ecst,ucst,divpenalty,uloc(nl),sig_uloc,agecst
 	real(dp) :: alf10(nl),alf11,alf12,alf13,alf1t(ntypp)            ! types
 	real(dp) :: alf20(nl),alf21,alf22,alf23,alf2t(ntypp)            ! types
 	real(dp) :: ptype,pmeet,omega(2),ptypehs(ntypp),ptypecol(ntypp) ! types
@@ -209,8 +209,8 @@ contains
 	psil(1)=realpar(j)	            ; j=j+1
 	realpar(j)=par(j)               ; parname(j)='ucst' ; stepos(j)=0.5_dp*par(j) 
 	ucst=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp ; parname(j)='ro'	; stepos(j)=0.0_dp ; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
-	ro=realpar(j)                   ; j=j+1
+	realpar(j)= -1.0_dp*multcst * logit(par(j))  ; parname(j)='agecst'	; stepos(j)=1.0_dp !; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
+	agecst=realpar(j)                   ; j=j+1
     !if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
@@ -428,7 +428,7 @@ contains
     !alphaed(:,2)=alphaed(:,1)
     mu_o=0.0_dp
     sig_mar=0.0_dp
-
+    ro=0.0_dp !no longer a parameter (put agecst in its place)
 
     !***********************
     !ahu 041118 del and remove later:
@@ -827,6 +827,11 @@ contains
                     !fnmove = fnmove / div
                 end function fnmove
                
+                function cstia(age)
+                    integer(i4b), intent(in) :: age
+                    real(dp) :: cstia
+                        cstia= agecst*age
+                end FUNCTION
             !function fnprkid(kid0)
             !integer(i4b), intent(in) :: kid0
             !real(dp), dimension(0:maxkid) :: fnprkid
