@@ -14,9 +14,9 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=3
+    integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.
     logical :: nonneg
     logical :: onthejobsearch=.TRUE. !set in main
@@ -345,7 +345,7 @@ contains
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
-            realpar(j)=par(j)                          ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
+            realpar(j)=par(j)                          ; parname(j)='cst'       ; stepos(j)=0.5_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
             realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=-2.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
@@ -366,7 +366,7 @@ contains
             realpar(j)= cst(1)                         ; parname(j)='cst'       ; stepos(j)=0.0_dp
             cst(i)=realpar(j)                           ; j=j+1 
             !end if
-            realpar(j)=mu_mar(1)                        ; parname(j)='mu_mar'     ; stepos(j)=0.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=multmar * logit(par(j))                         ; parname(j)='mu_mar'     ; stepos(j)=-2.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         end if 
     	!print*, 'Here is cost',cst(i),par(j-1),realpar(j-1)
