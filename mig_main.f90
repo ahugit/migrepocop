@@ -417,11 +417,11 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(15)=-3.0_dp
+    pars(15)=-2.6_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(15)=-2.0_dp
+    pars(74)=-5000.0_dp 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 !if (iwritegen==1) then
