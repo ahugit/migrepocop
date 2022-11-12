@@ -414,6 +414,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(52)=pars(52)+1.0_dp
     pars(64)=pars(64)+0.5_dp
     pars(15)=-3.4_dp
+    pars(22:23)=pars(22:23)*2.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
