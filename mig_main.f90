@@ -419,11 +419,12 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(75)=-3.0_dp
+    pars(25)=pars(25)+48000.0_dp !kcst 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(75)=-2.0_dp
+    pars(25)=pars(25)-48000.0_dp !kcst 
+    pars(15)=-2.5_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp  
     
