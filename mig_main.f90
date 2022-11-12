@@ -406,29 +406,29 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=-10000.0_dp
     pars(14)=-18000.0_dp     !ucst
     !pars(24)=pars(24)-8000.0_dp !ecst
-    !pars(25)=pars(25)-28000.0_dp !kcst 
+    pars(25)=pars(25)-28000.0_dp !kcst 
     pars(74)=0.0_dp 
-    !pars(25)=pars(25)-48000.0_dp !kcst 
+    pars(25)=pars(25)-48000.0_dp !kcst 
     pars(74)=-10000.0_dp 
     pars(68:69)=0.0_dp
     pars(52)=pars(52)+1.0_dp
     pars(64)=pars(64)+0.5_dp
     pars(15)=-3.4_dp
-    pars(22:23)=pars(22:23)*5.0_dp
-    pars(68:69)=1.5_dp
-    pars(26)=pars(26)+4.0_dp
-    pars(25)=-5000.0_dp
-    pars(13)=pars(13)-1.0_dp
+    pars(22:23)=pars(22:23)*3.0_dp
+    pars(68:69)=1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68:69)=0.5_dp
+    pars(75)=-3.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68:69)=-0.5_dp
+    pars(75)=-2.0_dp
     call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    call objfunc(pars,qval) ; realpars=realpartemp  
+    
+    !pars(26) divpen
+
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
 !    print*, "alf12", pars(52),logit(pars(52))
