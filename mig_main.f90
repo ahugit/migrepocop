@@ -431,10 +431,19 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    open(unit=2,file='o111322_2bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
-    pars(25)=pars1(25)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    open(unit=2,file='o111322_1bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
+
+
+    pars1(75)=-4.0_dp !mumar1
+    pars1(81)=-4.0_dp !mumar2
+    pars1(87)=-7.0_dp !mumar3
+    pars1(93)=-7.0_dp !mumar4
+    pars1(25)=pars1(25)+50000.0_dp
+    pars1(26)=pars1(26)+1.5_dp
+    call getpars(pars1,realpars)
+    call objfunc(pars1,qval) ; realpars=realpartemp   
 
 
 
