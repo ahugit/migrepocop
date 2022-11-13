@@ -431,6 +431,10 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    open(unit=2,file='o111322_2bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    pars(25)=pars1(25)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
 
 

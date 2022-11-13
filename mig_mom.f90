@@ -936,7 +936,7 @@ end subroutine read_taxes
                 weights(im)=wmove
                 im=im+1
             end do
-            do ia=44,50,2
+            do ia=22,50,2
                 CALL condmom(im,( cosexrel(ia,:) .AND. move(ia,:)>=0 ),d1*move(ia,:),mom,cnt,var)
                 WRITE(name(im),'("move by age",tr3,I4)') ia
                 weights(im)=wmove
