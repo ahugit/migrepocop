@@ -420,7 +420,7 @@ nonlabinc=0.0_dp !ahu030622
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
-
+    open(unit=2,file='o111322_bpobj_sofar.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     policytax=0
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
