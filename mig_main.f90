@@ -324,110 +324,9 @@ nonlabinc=0.0_dp !ahu030622
     numpersim=numperdat*nsimeach
     datafilename='familymig2022.txt'
     taxset=1
-    !open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-
-
-
-    !open(unit=2,file='o110522_4bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    open(unit=2,file='o110622_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !pars(26)=1.0_dp !divpenalty 
-    pars(75)=1.0_dp !mumar1
-    pars(81)=1.0_dp !mumar2
-    pars(87)=1.0_dp !mumar3
-    pars(93)=1.0_dp !mumar4
-    pars(23)=pars(22) !uhome 
-    pars(69)=pars(68)  !sigo
-    pars(74)=0.0_dp  
-    pars(80)=0.0_dp 
-    pars(86)=0.0_dp 
-    pars(92)=0.0_dp 
-    pars(24)=0.0_dp
-    pars(25)=0.0_dp
-    pars(66)=-1.0_dp
-    pars(67)=-1.0_dp         
-    k=3 
-    pars(68)=1.0_dp+0.5_dp*k
-    pars(69)=-5.0_dp   !1.0_dp+0.5_dp*k
-    pars(7:8)=-10.0_dp
-    pars(12)=-10.0_dp
-    pars(75)=0.0002_dp !mumar1
-    pars(81)=0.0002_dp !mumar2
-    pars(87)=0.01
-    pars(93)=0.01
-
     moveshockdiv=1.0_dp
-
-    do i=1,1
-        pars(74)=10000.0_dp + (-10000.0_dp)*i  
-        pars(80)=10000.0_dp + (-10000.0_dp)*i
-        pars(86)=10000.0_dp + (-10000.0_dp)*i
-        pars(92)=10000.0_dp + (-10000.0_dp)*i
-        !call getpars(pars,realpars)
-        !call objfunc(pars,qval) ; realpars=realpartemp   
-    end do 
-
-
-
-    open(unit=2,file='o110722_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(33)=1849
-    pars(34)=0.0
-    pars(35)=3231
-    pars(36)=3987
-    pars(37)=5278
-    pars(38)=3920
-    pars(39)=7286
-    pars(40)=2665
-    pars(41)=2562
-    pars(45)=-0.5_dp
-    k=1 
-    k1=1
-    pars(14)=-28000.0_dp     !ucst
-    !pars(24)=pars(24)-8000.0_dp !ecst
-    !pars(25)=pars(25)-48000.0_dp !kcst 
-    pars(68)=-3.0_dp+1.5_dp*k
-    pars(69)=-3.0_dp+1.5_dp*k1
-    pars(75)=1.0_dp !mumar1
-    pars(81)=1.0_dp !mumar2
-    pars(87)=1.0_dp !mumar3
-    pars(93)=1.0_dp !mumar4
-    pars(74)=20000.0_dp 
-    pars(80)=20000.0_dp 
-    pars(86)=20000.0_dp
-    pars(92)=20000.0_dp
-    pars(68)=-2.0_dp+1.5_dp*k
-    pars(69)=-2.0_dp+1.5_dp*k1
-    pars(75)=-2.0_dp !mumar1
-    pars(81)=-2.0_dp !mumar2
-    pars(87)=-2.0_dp !mumar3
-    pars(93)=-2.0_dp !mumar4
-    pars(74)=-10000.0_dp 
-    pars(80)=-10000.0_dp 
-    pars(86)=-10000.0_dp
-    pars(92)=-10000.0_dp
-    pars(14)=-18000.0_dp     !ucst
-    !pars(24)=pars(24)-8000.0_dp !ecst
-    pars(25)=pars(25)-28000.0_dp !kcst 
-    pars(74)=0.0_dp 
-    !pars(25)=pars(25)-48000.0_dp !kcst 
-    pars(74)=-10000.0_dp 
-    pars(68:69)=0.0_dp
-    pars(52)=pars(52)+1.0_dp
-    pars(64)=pars(64)+0.5_dp
-    pars(15)=-3.4_dp
-    pars(22:23)=pars(22:23)*3.0_dp
-    pars(68:69)=1.0_dp
-    pars(15)=-2.5_dp 
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
-
-    open(unit=2,file='o111322_bpobj_sofar.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     policytax=0
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-7.0_dp !mumar3
-    pars(93)=-7.0_dp !mumar4
-    pars(25)=pars(25)+50000.0_dp
-    pars(26)=pars(26)+1.5_dp
+  
 
     open(unit=2,file='o111322_1bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     pars1(75)=-4.0_dp !mumar1
@@ -437,8 +336,8 @@ nonlabinc=0.0_dp !ahu030622
     pars1(25)=pars1(25)+50000.0_dp
     pars1(26)=pars1(26)+1.5_dp
     pars=pars1
-    pars(68)=-1.0_dp
-    pars(69)=-1.0_dp
+    pars(68)=-3.0_dp
+    pars(69)=-3.0_dp
     pars(14)=0.0_dp !ucst
     pars(15)=-10.0_dp !agecst
     pars(24)=0.0_dp !ecst
@@ -452,18 +351,15 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68)=-1.0_dp
-    pars(69)=-3.0_dp
+    pars(13)=pars(13)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68)=-2.0_dp
-    pars(69)=-3.0_dp
+    pars(13)=pars(13)+0.5_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68)=-3.0_dp
-    pars(69)=-3.0_dp
+    pars(13)=pars(13)+0.5_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
