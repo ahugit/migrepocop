@@ -10,6 +10,7 @@
 	integer :: iter,comm,iwritegen 
 	!real(dp) :: one=1.0_dp
 	!integer(i4b), parameter :: rp = kind(1.0d0)			! kind(1.0) !!!
+    integer(i4b) :: policytax !set in main to determine whether running policy experiment and which one
     real(dp) :: moveshockdiv !assigned in main 
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
