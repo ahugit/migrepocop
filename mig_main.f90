@@ -424,16 +424,23 @@ nonlabinc=0.0_dp !ahu030622
     policytax=0
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=1
+
+    pars(75)=-2.0_dp !mumar1
+    pars(81)=-2.0_dp !mumar2
+    pars(87)=-5.0_dp !mumar3
+    pars(93)=-5.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=2
+
+    pars(25)=pars(25)+50000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=3
+
+
+    pars(25)=pars(25)+50000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    
+
     !pars(26) divpen
 
 !if (iwritegen==1) then

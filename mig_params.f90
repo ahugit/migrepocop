@@ -831,7 +831,7 @@ contains
                 function cstia(age)
                     integer(i4b), intent(in) :: age
                     real(dp) :: cstia
-                        cstia= agecst*age + one(age>=44)*2.0_dp*agecst * age
+                        cstia= agecst*age + one(age>=44)*agecst * age
                 end FUNCTION
             !function fnprkid(kid0)
             !integer(i4b), intent(in) :: kid0
