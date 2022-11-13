@@ -417,9 +417,22 @@ nonlabinc=0.0_dp !ahu030622
     pars(22:23)=pars(22:23)*3.0_dp
     pars(68:69)=1.0_dp
     pars(15)=-2.5_dp 
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    policytax=0
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
+    policytax=1
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=2
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=3
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
     
     !pars(26) divpen
 

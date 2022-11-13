@@ -1121,6 +1121,16 @@ end do
             sbrack=locate(  swages(1:numbin)  ,  wcgross(2) ) 
             staterate=tax(pbrack,sbrack,l(1))%statemar
             fedrate=tax(pbrack,sbrack,l(2))%fedmar
+            if (policytax==1) then !sets state tax rate for mar equal to state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statesin
+                fedrate=tax(pbrack,sbrack,l(2))%fedmar                     
+            else if (policytax==2) then !sets fed tax rate for mar equal to fed tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statemar
+                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+            else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statesin
+                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+            end if
             wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) <= np .and. w(2) == np1 ) then		
             epsw(1)=wg(w(1),1) !sig_wge(1)*wg(w(1),1)
@@ -1131,6 +1141,16 @@ end do
             sbrack=1
             staterate=tax(pbrack,sbrack,l(1))%statemar
             fedrate=tax(pbrack,sbrack,l(2))%fedmar
+            if (policytax==1) then !sets state tax rate for mar equal to state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statesin
+                fedrate=tax(pbrack,sbrack,l(2))%fedmar                     
+            else if (policytax==2) then !sets fed tax rate for mar equal to fed tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statemar
+                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+            else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statesin
+                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+            end if
             wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) == np1 .and. w(2) <= np ) then		
             epsw(2)=wg(w(2),2) !sig_wge(2)*wg(w(2),2)
@@ -1141,6 +1161,16 @@ end do
             sbrack=locate(  swages(1:numbin)  ,  wcgross(2) ) 
             staterate=tax(pbrack,sbrack,l(1))%statemar
             fedrate=tax(pbrack,sbrack,l(2))%fedmar
+            if (policytax==1) then !sets state tax rate for mar equal to state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statesin
+                fedrate=tax(pbrack,sbrack,l(2))%fedmar                     
+            else if (policytax==2) then !sets fed tax rate for mar equal to fed tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statemar
+                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+            else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statesin
+                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+            end if
             wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) == np1 .and. w(2) == np1 ) then		
             wc(1,x,q,trueindex)	= 0.0_dp
