@@ -422,22 +422,33 @@ nonlabinc=0.0_dp !ahu030622
 
     open(unit=2,file='o111322_bpobj_sofar.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     policytax=0
+    pars(75)=-2.0_dp !mumar1
+    pars(81)=-2.0_dp !mumar2
+    pars(87)=-5.0_dp !mumar3
+    pars(93)=-5.0_dp !mumar4
+    pars(25)=pars(25)+50000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(75)=-2.0_dp !mumar1
-    pars(81)=-2.0_dp !mumar2
+
+    pars(75)=-5.0_dp !mumar1
+    pars(81)=-5.0_dp !mumar2
     pars(87)=-5.0_dp !mumar3
     pars(93)=-5.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(25)=pars(25)+50000.0_dp
+    pars(75)=-5.0_dp !mumar1
+    pars(81)=-5.0_dp !mumar2
+    pars(87)=-6.0_dp !mumar3
+    pars(93)=-6.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-
-    pars(25)=pars(25)+50000.0_dp
+    pars(75)=-4.0_dp !mumar1
+    pars(81)=-4.0_dp !mumar2
+    pars(87)=-6.0_dp !mumar3
+    pars(93)=-6.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
