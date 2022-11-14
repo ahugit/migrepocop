@@ -217,13 +217,13 @@ contains
     !if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
-	realpar(j)=par(j)               ; parname(j)='p(ex=1|ex=1),e' ; stepos(j)=1.0_dp !this is psih, the only one that governs fnprhc.  
+	realpar(j)=par(j)               ; parname(j)='p(ex=2|ex=1),e' ; stepos(j)=1.0_dp !this is psih, the only one that governs fnprhc.  
 	psih=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='p(ex=2|ex=1),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
-	junk=realpar(j)	            ; j=j+1
-	realpar(j)=0.0_dp               ; parname(j)='p(ex=1|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=1|ex=1),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
 	junk=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='p(ex=2|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
+	junk=realpar(j)	            ; j=j+1
+	realpar(j)=0.0_dp               ; parname(j)='p(ex=1|ex=2),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
 	junk=realpar(j)	            ; j=j+1
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
@@ -406,11 +406,11 @@ contains
     realpar(12)=temprob(1) 
     if (nexp>2) then ; print*, "it is only ok to write this way if nexp is 2! so beware" ; stop ; end if
     temprob(1:nexp)=fnprhc(1,np) !when experience is 1 and when working
-    realpar(16)=temprob(1) !this is prob of moving to experience=1 when your experience is 1. 
-    realpar(17)=temprob(2) !this is prob of moving to experience=2 when your experience is 1. 
+    realpar(16)=temprob(2) !this is prob of moving to experience=2 when your experience is 1. !
+    realpar(17)=temprob(1) !this is prob of moving to experience=1 when your experience is 1. 
     temprob(1:nexp)=fnprhc(nexp,np) !when experience is 2 and when working
-    realpar(18)=temprob(1) !this is prob of moving to experience=1 when your experience is 2. 
-    realpar(19)=temprob(2) !this is prob of moving to experience=2 when your experience is 2. 
+    realpar(18)=temprob(2) !this is prob of moving to experience=2 when your experience is 2.  
+    realpar(19)=temprob(1) !this is prob of moving to experience=1 when your experience is 2.
     !note that we are not writing the fnprhc(.,np1) because that is just prob of staying where you are is 1. Check this in the writing of fnprhc in writemoments. 
     !******************** ahu october2022 **********************************************
     temprob(1:nl)=fnprloc(1) !if origin location is loc1, what is the probability of drawing location 1
