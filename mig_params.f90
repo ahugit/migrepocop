@@ -270,7 +270,7 @@ contains
     !uloc: 33-41
     !do ed=1,2
         do i=1,nl
-            if (i==2) then
+            if (i==5) then
 			    realpar(j) = 0.0_dp  ; stepos(j)=0.0_dp
 			    uloc(i)=0.0_dp
 		    else 
@@ -284,7 +284,7 @@ contains
     !print*, 'Here is alf10',j
 	!wage 42: 65
     do i=1,nl
-        if (i==3) then
+        if (i==5) then
             realpar(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         else 
