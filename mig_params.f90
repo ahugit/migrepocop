@@ -208,9 +208,9 @@ contains
 
 	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=-1.0_dp 
 	psil(1)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='ucst' ; stepos(j)=0.5_dp*par(j) 
+	realpar(j)=par(j)               ; parname(j)='ucst' ; stepos(j)=0.0_dp*par(j) 
 	ucst=realpar(j)	            ; j=j+1
-	realpar(j)= -1.0_dp*multcst * logit(par(j))  ; parname(j)='agecst'	; stepos(j)=1.0_dp !; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
+	realpar(j)= -1.0_dp*multcst * logit(par(j))  ; parname(j)='agecst'	; stepos(j)=0.0_dp !; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	agecst=realpar(j)                   ; j=j+1
     !if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
@@ -242,9 +242,9 @@ contains
 	uhome(1)=realpar(j)                             ; j=j+1
     realpar(j) = par(j)              ; parname(j)='uhome(2)' ; stepos(j)=0.5_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	uhome(2)=realpar(j)                             ; j=j+1
-    realpar(j)=par(j)            ; parname(j)='ecst'	; stepos(j)=1.0_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
+    realpar(j)=par(j)            ; parname(j)='ecst'	; stepos(j)=0.0_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
     ecst=realpar(j)                                     ; j=j+1               ! types
-	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=1.0_dp*par(j) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
+	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=0.0_dp*par(j) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
 	kcst=realpar(j)                                     ; j=j+1
 	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=2.0_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
 	divpenalty=realpar(j)                               ; j=j+1
@@ -326,10 +326,10 @@ contains
     realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=1.0_dp ; stepos(j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
-    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=-1.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=1.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
     !print*, "Here it is sigom", j,par(j),realpar(j)
     sigo_m=realpar(j)                                ; j=j+1
-    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=-1.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=1.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
     !print*, "Here it is sigof", j,par(j),realpar(j)
     sigo_f=realpar(j)                                ; j=j+1
 
@@ -346,10 +346,10 @@ contains
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
-            realpar(j)=par(j)                          ; parname(j)='cst'       ; stepos(j)=0.5_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
+            realpar(j)=par(j)                          ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
-            realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=-2.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=1.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         else
             realpar(j)=par(j)                            ; parname(j)='ptypehs' ; stepos(j)=1.0_dp
@@ -364,10 +364,10 @@ contains
             !    realpar(j)= par(j)                         ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j)
             !    cst(i)=realpar(j)                           ; j=j+1 
             !else if (i==4) then
-            realpar(j)= cst(1)                         ; parname(j)='cst'       ; stepos(j)=0.0_dp
+            realpar(j)= par(j)                         ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j)
             cst(i)=realpar(j)                           ; j=j+1 
             !end if
-            realpar(j)=multmar * logit(par(j))                         ; parname(j)='mu_mar'     ; stepos(j)=-2.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=multmar * logit(par(j))                         ; parname(j)='mu_mar'     ; stepos(j)=1.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         end if 
     	!print*, 'Here is cost',cst(i),par(j-1),realpar(j-1)
