@@ -364,6 +364,10 @@ nonlabinc=0.0_dp !ahu030622
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
+    open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
 !    print*, "alf12", pars(52),logit(pars(52))
