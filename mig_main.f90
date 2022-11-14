@@ -390,71 +390,19 @@ nonlabinc=0.0_dp !ahu030622
     pars(54:62)=0.0_dp 
 
     pars(1)=pars(5)
-    pars(66)=0.5_dp
+    pars(66)=0.0_dp
     pars(67)=-0.2_dp
 
-    pars(16)=-25.0_dp !psih
-    pars(52)=-10.0_dp !alff12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=-25.0_dp !psih
-    pars(52)=-3.0_dp !alff12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=-25.0_dp !psih
-    pars(52)=-1.0_dp !alf12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=-25.0_dp !psih
-    pars(52)=1.0_dp !alf12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-    pars(16)=-2.0_dp !psih
-    pars(52)=-10.0_dp !alff12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=-2.0_dp !psih
-    pars(52)=-3.0_dp !alff12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     pars(16)=-2.0_dp !psih
     pars(52)=-1.0_dp !alf12
+    pars(64)=-1.0_dp !alf12
+    pars(51)=pars(63)
+    !pars(15)=-4.0_dp !agecst
+
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(16)=-2.0_dp !psih
-    pars(52)=1.0_dp !alf12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-
-    pars(16)=2.0_dp !psih
-    pars(52)=-10.0_dp !alff12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=2.0_dp !psih
-    pars(52)=-3.0_dp !alff12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=2.0_dp !psih
-    pars(52)=-1.0_dp !alf12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=2.0_dp !psih
-    pars(52)=1.0_dp !alf12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
+   
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
 !    print*, "alf12", pars(52),logit(pars(52))
@@ -489,9 +437,9 @@ nonlabinc=0.0_dp !ahu030622
         !else 
         !    iprint=-1
         !end if 
-        stopcr=20.0_dp
+        stopcr=5.0_dp
         nloop=npars+2
-        iquad=1 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
+        iquad=0 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
         simp=0.0_dp
         !sim annealing parameters: 
         tstart=0.3_dp*qval  !T0: starting temp (can set to zero to turn off sim annealing)
