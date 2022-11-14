@@ -17,8 +17,8 @@
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
     integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
-    logical, parameter :: typemoments=.true.
+    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: typemoments=.false.
     logical :: nonneg
     logical :: onthejobsearch=.TRUE. !set in main
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
@@ -58,7 +58,7 @@
 	integer(i4b) :: numperdat,numperobsdat,numpersim !previously ndata,ndataobs,nsim ALL set in main now 
 	!integer(i4b), parameter :: ndataobs = 84507  set in main now 
 	!integer(i4b), parameter :: nsim     = ndata*nsimeach  set in main now
-	integer(i4b), parameter :: nmom     = 1500 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 1200 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b) :: calcvar(nmom),calcorr(nmom)
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	
@@ -84,7 +84,7 @@
 	real(dp), parameter :: maxw=150.0_dp                ! upper truncation point of male log wage
 	real(dp), parameter :: pen=-99999999.0_dp
 	integer(i4b), parameter :: ipen=-99999	
-    real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=10.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwvar=10.0_dp
+    real(dp), parameter :: wtrans=10.0_dp,wwaged=1.0_dp,wdifww=10.0_dp,wrel=1.0_dp,wmove=1.0_dp,whour=1.0_dp,wwvar=10.0_dp
     real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
 !    real(dp), parameter :: wtrans=100.0_dp,wwaged=10.0_dp,wdifww=100.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwvar=100.0_dp
 !    real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
