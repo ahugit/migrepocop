@@ -382,35 +382,66 @@ nonlabinc=0.0_dp !ahu030622
     pars(78:79)=9.2_dp
     pars(84:85)=9.2_dp
     pars(90:91)=9.2_dp
+
     pars(16)=-25.0_dp !psih
+    pars(52)=-10.0_dp !alff12
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(16)=-5.0_dp !psih
+    pars(16)=-25.0_dp !psih
+    pars(52)=-3.0_dp !alff12
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(16)=-2.0_dp !psih
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=0.0_dp !psih
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(16)=2.0_dp !psih
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(52)=-0.1_dp !alff12
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
+    pars(16)=-25.0_dp !psih
     pars(52)=-1.0_dp !alf12
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(52)=-3.0_dp !alf12
+    pars(16)=-25.0_dp !psih
+    pars(52)=1.0_dp !alf12
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    pars(16)=-2.0_dp !psih
+    pars(52)=-10.0_dp !alff12
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=-2.0_dp !psih
+    pars(52)=-3.0_dp !alff12
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=-2.0_dp !psih
+    pars(52)=-1.0_dp !alf12
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=-2.0_dp !psih
+    pars(52)=1.0_dp !alf12
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    pars(16)=2.0_dp !psih
+    pars(52)=-10.0_dp !alff12
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=2.0_dp !psih
+    pars(52)=-3.0_dp !alff12
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=2.0_dp !psih
+    pars(52)=-1.0_dp !alf12
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=2.0_dp !psih
+    pars(52)=1.0_dp !alf12
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
