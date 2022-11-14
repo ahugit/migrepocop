@@ -383,6 +383,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(84:85)=9.2_dp
     pars(90:91)=9.2_dp
 
+    pars(1)=pars(5)
+
     pars(16)=-25.0_dp !psih
     pars(52)=-10.0_dp !alff12
     call getpars(pars,realpars)
