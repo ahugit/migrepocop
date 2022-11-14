@@ -1054,8 +1054,8 @@ end subroutine read_taxes
             end do 
 
             do i=1,nl
-            CALL condmom(im,(   cosexrel(18:21,:) .AND.  dat(18:21,:)%hhr==1 .AND. dat(18:21,:)%edr==1 .AND. dat(18:21,:)%logwr>=0 .AND. dat(18:21,:)%l==i) ,d1*dat(18:21,:)%logwr,mom,cnt,var)
-            WRITE(name(im),'("wned|18:21 by loc",i4)') i
+            CALL condmom(im,(   cosexrel(18:23,:) .AND.  dat(18:23,:)%hhr==1 .AND. dat(18:23,:)%edr==1 .AND. dat(18:23,:)%logwr>=0 .AND. dat(18:23,:)%l==i) ,d1*dat(18:23,:)%logwr,mom,cnt,var)
+            WRITE(name(im),'("wned|18:23 by loc",i4)') i
             weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
             im=im+1
             end do 
