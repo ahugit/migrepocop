@@ -328,7 +328,7 @@ nonlabinc=0.0_dp !ahu030622
     policytax=0
   
 
-    open(unit=2,file='o111322_1bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
+    !open(unit=2,file='o111322_1bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     pars1(75)=-4.0_dp !mumar1
     pars1(81)=-4.0_dp !mumar2
     pars1(87)=-7.0_dp !mumar3
@@ -360,17 +360,10 @@ nonlabinc=0.0_dp !ahu030622
     pars(15)=-5.0_dp !agecst
     pars(3)=pars(1)
     pars(10)=pars(10)-1.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
 
     open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(74)=-10000.0_dp
-    pars(80)=-10000.0_dp
+    pars(74)=-5000.0_dp
+    pars(80)=-5000.0_dp
     pars(86)=-30000.0_dp
     pars(92)=-30000.0_dp
     call getpars(pars,realpars)
@@ -381,6 +374,26 @@ nonlabinc=0.0_dp !ahu030622
     pars(80)=-5000.0_dp
     pars(86)=-30000.0_dp
     pars(92)=-30000.0_dp
+    pars(22)=12000.0_dp 
+    pars(23)=11000.0_dp 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars(74)=-5000.0_dp
+    pars(80)=-5000.0_dp
+    pars(86)=-30000.0_dp
+    pars(92)=-30000.0_dp
+    pars(68:69)=pars(68:69)-1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars(74)=-5000.0_dp
+    pars(80)=-5000.0_dp
+    pars(86)=-30000.0_dp
+    pars(92)=-30000.0_dp
+    pars(13)=pars(13)+0.5_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 

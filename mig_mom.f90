@@ -1054,23 +1054,35 @@ end subroutine read_taxes
             end do 
 
             do i=1,nl
-            CALL condmom(im,(   cosexrel(18:19,:) .AND.  dat(18:19,:)%hhr==1 .AND. dat(18:19,:)%edr==1 .AND. dat(18:19,:)%logwr>=0 .AND. dat(18:19,:)%l==i) ,d1*dat(18:19,:)%logwr,mom,cnt,var)
-            WRITE(name(im),'("wned|18:19 by loc",i4)') i
+            CALL condmom(im,(   cosexrel(18:21,:) .AND.  dat(18:21,:)%hhr==1 .AND. dat(18:21,:)%edr==1 .AND. dat(18:21,:)%logwr>=0 .AND. dat(18:21,:)%l==i) ,d1*dat(18:21,:)%logwr,mom,cnt,var)
+            WRITE(name(im),'("wned|18:21 by loc",i4)') i
             weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
             im=im+1
             end do 
 
-            i=3 !because location 3 has the most people at age18
+            i=5 !because location 3 has the most people at age18
             CALL condmom(im,(   cosexrel(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0 .AND. dat(18,:)%l==i) ,d1*dat(18,:)%logwr,mom,cnt,var)
-            WRITE(name(im),'("wned18 at loc 3    ",i4)') i
+            WRITE(name(im),'("wned18 at loc 5    ",i4)') i
             weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
             calcvar(im)=1
             im=im+1
             CALL condmom(im,(   cosexrel(18,:) .AND.  dat(18,:)%hhr==1 .AND. dat(18,:)%edr==1 .AND. dat(18,:)%logwr>=0  .AND. dat(18,:)%l==i) ,d1*  (dat(18,:)%logwr**2),mom,cnt,var)
-            WRITE(name(im),'("wvarned18 at loc 3 ",i4)') i
+            WRITE(name(im),'("wvarned18 at loc 5 ",i4)') i
             weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
             calcvar(im)=5
             im=im+1
+            i=5 !because location 3 has the most people at age18
+            CALL condmom(im,(   cosexrel(19,:) .AND.  dat(19,:)%hhr==1 .AND. dat(19,:)%edr==1 .AND. dat(19,:)%logwr>=0 .AND. dat(19,:)%l==i) ,d1*dat(19,:)%logwr,mom,cnt,var)
+            WRITE(name(im),'("wned19 at loc 5    ",i4)') i
+            weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+            calcvar(im)=1
+            im=im+1
+            CALL condmom(im,(   cosexrel(19,:) .AND.  dat(19,:)%hhr==1 .AND. dat(19,:)%edr==1 .AND. dat(19,:)%logwr>=0  .AND. dat(19,:)%l==i) ,d1*  (dat(19,:)%logwr**2),mom,cnt,var)
+            WRITE(name(im),'("wvarned19 at loc 5 ",i4)') i
+            weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp  !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess           
+            calcvar(im)=5
+            im=im+1
+
             do ia=mna,mna+3
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | stay ia ",tr2,i6)')  ia
