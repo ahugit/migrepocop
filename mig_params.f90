@@ -178,29 +178,29 @@ contains
     !ahu jan19 012819: not iterating on ed offers anymore. replacing them with curloc and ofloc offers instead 
     !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psio right here and those are the ones that are used in fnprof.
-	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=-2.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(1)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=-2.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(2)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,of,m' ; stepos(j)=-2.0_dp  ; if (onlyfem) stepos(j)=0.0_dp!psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,of,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp!psio is for the offer function
 	psio(3)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='emp,of,m' ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function !NO MORE OFLOC LAYOFF NONSENSE
 	psio(4)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=-2.0_dp ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=1.0_dp ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(5)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=-2.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,cur,f' ; stepos(j)=1.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
 	psio(6)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='emp,of,f' ; stepos(j)=-2.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='emp,of,f' ; stepos(j)=1.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function
 	psio(7)=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='emp,of,f' ; stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp  !psio is for the offer function !NO MORE OFLOC LAYOFF NONSENSE
 	psio(8)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,cur,m' ; stepos(j)=-2.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,cur,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(9)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,of,m' ; stepos(j)=-2.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,of,m' ; stepos(j)=-1.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !psio is for the offer function
 	psio(10)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,cur,f' ; stepos(j)=-2.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,cur,f' ; stepos(j)=1.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(11)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='u,of,f' ; stepos(j)=-2.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
+	realpar(j)=par(j)               ; parname(j)='u,of,f' ; stepos(j)=1.0_dp  ; if (onlymales) stepos(j)=0.0_dp !psio is for the offer function
 	psio(12)=realpar(j)	            ; j=j+1
     !print*, 'Here is psio12',j-1
     !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
@@ -689,11 +689,13 @@ contains
                     if ( de==5 .and. dsex==1 ) then 
                         fnprof(1:2)=exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
                     else if ( de==10 .and. dsex==1 ) then 
-                        fnprof(1:2)=exp(psio(3:4)) 
+                        fnprof(1)=exp(psio(3)) 
+                        fnprof(2)=0.0_dp !psio4 nuissance parameter
                     else if ( de==5 .and. dsex==2 ) then 
                         fnprof(1:2)=exp(psio(5:6)) 
                     else if ( de==10 .and. dsex==2 ) then 
-                        fnprof(1:2)=exp(psio(7:8)) 
+                        fnprof(1)=exp(psio(7)) 
+                        fnprof(2)=0.0_dp !psio8 nuissance parameter
                     end if 
                     fnprof(3)=exp( 0.0_dp )		! nothing happens												
                 else if (dw0 == np1) then 
@@ -719,11 +721,13 @@ contains
                     if ( de==5 .and. dsex==1 ) then 
                         fnprof(1:2)=0.0_dp !exp(psio(1:2)) !exp( psio(1) + psio(2) * abs(dsex==1) + psio(3) * abs(de==2) )	! offer 	 
                     else if ( de==10 .and. dsex==1 ) then 
-                        fnprof(1:2)=exp(psio(3:4)) 
+                        fnprof(1)=exp(psio(3)) 
+                        fnprof(2)=0.0_dp !psio4 nuissance parameter
                     else if ( de==5 .and. dsex==2 ) then 
                         fnprof(1:2)=0.0_dp !exp(psio(5:6)) 
                     else if ( de==10 .and. dsex==2 ) then 
-                        fnprof(1:2)=exp(psio(7:8)) 
+                        fnprof(1)=exp(psio(7)) 
+                        fnprof(2)=0.0_dp !psio8 nuissance parameter
                     end if 
                     fnprof(3)=exp( 0.0_dp )		! nothing happens												
                 else if (dw0 == np1) then 
