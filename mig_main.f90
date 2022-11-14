@@ -378,23 +378,41 @@ nonlabinc=0.0_dp !ahu030622
     pars(92)=-50000.0_dp
     pars(68:69)=pars(68:69)+2.0_dp
     pars(22:23)=40000.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(74)=-15000.0_dp
-    pars(80)=-5000.0_dp
-    pars(86)=-30000.0_dp
-    pars(92)=-50000.0_dp
-    pars(68:69)=pars(68:69)+2.0_dp
-    pars(22:23)=40000.0_dp
     pars(72:73)=9.2_dp
     pars(78:79)=9.2_dp
     pars(84:85)=9.2_dp
     pars(90:91)=9.2_dp
+    pars(16)=1.5_dp !psih
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars(16)=2.0_dp !psih
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=2.5_dp !psih
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=3.0_dp !psih
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=1.5_dp !psih
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(52)=-0.1_dp !psih
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=-0.15_dp !psih
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(16)=-0.25_dp !psih
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
