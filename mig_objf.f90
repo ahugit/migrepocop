@@ -344,10 +344,13 @@ contains
         write(60,'(1a15,2f9.1)') parname(i),realpar_save(i,1:2) 
 	end do 
 	do i=1,npars
-        write(60,'(1a15,8f9.1)') parname(i),realpar_save(i,3:10) 
+        write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,3:11) 
 	end do 
 	do i=1,npars
-        write(60,'(1a15,8f9.1)') parname(i),realpar_save(i,11:numit) 
+        write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,12:20) 
+	end do 
+	do i=1,npars
+        write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,21:numit) 
 	end do 
 
 
