@@ -326,7 +326,7 @@ nonlabinc=0.0_dp !ahu030622
     taxset=1
     moveshockdiv=1.0_dp
     policytax=0
-  
+    
 
     !open(unit=2,file='o111322_1bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     pars1(75)=-4.0_dp !mumar1
@@ -399,6 +399,10 @@ nonlabinc=0.0_dp !ahu030622
     pars(51)=pars(63)
     !pars(15)=-4.0_dp !agecst
 
+    terminalval=.FALSE.
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    terminalval=.TRUE.
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 

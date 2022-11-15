@@ -20,8 +20,8 @@ module sol
 contains		
 	subroutine solve
 	real(dp) :: vmax(2),val(2),vsum(2),valso(2),probmuq(nx,nq,nq),probmux(nx,nx,nq)
-    real(dp), dimension(nxs,nqs) :: vm0_s,vf0_s,vm_s,vf_s,prob_s
-	real(dp), dimension(nx,nq) :: vm_c,vf_c,prob
+    real(dp), dimension(nxs,nqs) :: vm0_s,vf0_s,vm_s,vf_s,prob_s,vcontm_s,vcontf_s
+	real(dp), dimension(nx,nq) :: vm_c,vf_c,prob,vcontm_c,vcontf_c
 	real(dp), dimension(nepsmove,nxs,nqs,nqs) :: vmr,vfr
 	integer(i4b) :: ia,q0,q,x0,x,z,iepsmove,index,trueindex,dd(12),ed(2),qm,xm,qf,xf,callfrom
     !print*, 'Here is iter',iter
@@ -68,8 +68,17 @@ end do
 				vf0_s = utils(2,:,:,trueindex) + wsnet(2,:,:,trueindex)		! v0: value function without movecost
 				vm0_c(:,:,ia,index) = utilc(1,:,:,trueindex)	! v0: value function without movecost, umar, consumption
 				vf0_c(:,:,ia,index) = utilc(2,:,:,trueindex)	! v0: value function without movecost, umar, consumption
-                
-			else 
+                if (terminalval) then 
+                    vcontm_s=vm0_s
+                    vcontf_s=vf0_s
+                    vcontm_c=vm0_c(:,:,ia,index)
+                    vcontf_c=vf0_c(:,:,ia,index)
+                    vm0_s=vm0_s+delta*vcontm_s+(delta**2)*vcontm_s+(delta**3)*vcontm_s+(delta**4)*vcontm_s+(delta**5)*vcontm_s+(delta**6)*vcontm_s+(delta**7)*vcontm_s+(delta**8)*vcontm_s+(delta**9)*vcontm_s+(delta**10)*vcontm_s
+                    vf0_s=vf0_s+delta*vcontf_s+(delta**2)*vcontf_s+(delta**3)*vcontf_s+(delta**4)*vcontf_s+(delta**5)*vcontf_s+(delta**6)*vcontf_s+(delta**7)*vcontf_s+(delta**8)*vcontf_s+(delta**9)*vcontf_s+(delta**10)*vcontf_s
+                    vm0_c(:,:,ia,index)=vm0_c(:,:,ia,index)+delta*vcontm_c+(delta**2)*vcontm_c+(delta**3)*vcontm_c+(delta**4)*vcontm_c+(delta**5)*vcontm_c+(delta**6)*vcontm_c+(delta**7)*vcontm_c+(delta**8)*vcontm_c+(delta**9)*vcontm_c+(delta**10)*vcontm_c
+                    vf0_c(:,:,ia,index)=vf0_c(:,:,ia,index)+delta*vcontf_c+(delta**2)*vcontf_c+(delta**3)*vcontf_c+(delta**4)*vcontf_c+(delta**5)*vcontf_c+(delta**6)*vcontf_c+(delta**7)*vcontf_c+(delta**8)*vcontf_c+(delta**9)*vcontf_c+(delta**10)*vcontf_c                                
+                end if 
+            else 
 				vm0_s = utils(1,:,:,trueindex) + wsnet(1,:,:,trueindex)		+ delta * emaxm_s(:,:,ia+1)	! v0: value function without movecost 
 				vf0_s = utils(2,:,:,trueindex) + wsnet(2,:,:,trueindex)		+ delta * emaxf_s(:,:,ia+1)	! v0: value function without movecost 
 				vm0_c(:,:,ia,index) = utilc(1,:,:,trueindex)	+ delta * emaxm_c(:,:,ia+1)	! v0: value function without movecost, umar, consumption
