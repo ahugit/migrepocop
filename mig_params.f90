@@ -98,8 +98,8 @@
 	real(dp), parameter :: delta=0.96_dp,alf=0.5_dp   !ahumarch1022 delta=0.96_dp changing to 0 to figure out the mumardecrease problem
 	real(dp), parameter :: mu_wge(2)=0.0_dp
 	real(dp) :: sig_wge(2),mu_mar(ntypp),sig_mar,ro,mu_o , sigo_m,sigo_f
-	real(dp) :: uhome(2),alphaed(2,neduc),alphakid(nkid) !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
-	real(dp) :: cst(ntypp),kcst,ecst,ucst,divpenalty,uloc(nl),sig_uloc,agecst
+	real(dp) :: uhome(2),uhomet(ntypp),alphaed(2,neduc),alphakid(nkid) !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
+	real(dp) :: cst(ntypp),kcst,divpenalty,uloc(nl),sig_uloc
 	real(dp) :: alf10(nl),alf11,alf12,alf13,alf1t(ntypp)            ! types
 	real(dp) :: alf20(nl),alf21,alf22,alf23,alf2t(ntypp)            ! types
 	real(dp) :: ptype,pmeet,omega(2),ptypehs(ntypp),ptypecol(ntypp) ! types
@@ -210,10 +210,10 @@ contains
 
 	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp 
 	psil(1)=realpar(j)	            ; j=j+1
-	realpar(j)=par(j)               ; parname(j)='ucst' ; stepos(j)=0.0_dp 
-	ucst=realpar(j)	            ; j=j+1
-	realpar(j)= -1.0_dp*multcst * logit(par(j))  ; parname(j)='agecst'	; stepos(j)=0.0_dp !; if (onlysingles) stepos(j)=0.0_dp !15 !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
-	agecst=realpar(j)                   ; j=j+1
+	realpar(j)= par(j))             ; parname(j)='uhomet 1'	; stepos(j)=1.0_dp*par(j) 
+	uhomet(1)=realpar(j)            ; j=j+1
+	realpar(j)= par(j))             ; parname(j)='uhomet 2'	; stepos(j)=1.0_dp*par(j) !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
+	uhomet(2)=realpar(j)            ; j=j+1
     !if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
@@ -244,8 +244,8 @@ contains
 	uhome(1)=realpar(j)                             ; j=j+1
     realpar(j) = par(j)              ; parname(j)='uhome(2)' ; stepos(j)=0.5_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	uhome(2)=realpar(j)                             ; j=j+1
-    realpar(j)=par(j)            ; parname(j)='ecst'	; stepos(j)=2.0_dp*(-1000.0_dp) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
-    ecst=realpar(j)                                     ; j=j+1               ! types
+    realpar(j)=par(j)            ; parname(j)='uhomet 3'	; stepos(j)=1.0_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
+    uhomet(3)=realpar(j)                                     ; j=j+1               ! types
 	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=2.0_dp*(-1000.0_dp) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
 	kcst=realpar(j)                                     ; j=j+1
 	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=2.0_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
@@ -322,8 +322,8 @@ contains
     realpar(j)=logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf22=realpar(j)                                ; j=j+1
     !print*, 'Here is alf23',j	
-    realpar(j)=0.0_dp                               ; parname(j)='alf23' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
-	alf23=realpar(j)	                            ; j=j+1
+    realpar(j)=par(j)                              ; parname(j)='uhomet 4' ; stepos(j)=par(j)  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
+	uhomet(4)=realpar(j)	                            ; j=j+1
 	
     realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=1.0_dp ; stepos(j+1)=1.0_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
@@ -431,7 +431,7 @@ contains
     !alphaed(:,2)=alphaed(:,1)
     mu_o=0.0_dp
     sig_mar=0.0_dp
-    ro=0.0_dp !no longer a parameter (put agecst in its place)
+    ro=0.0_dp !no longer a parameter 
 
     !***********************
     !ahu 041118 del and remove later:
@@ -509,77 +509,6 @@ contains
 	!character(len=15), dimension(:), intent(out) :: name ! names of each parameter
 	real(dp), dimension(:), intent(out) :: step 
 	integer(i4b) :: i,j
-	!name='' 
-	!step=0.0_dp
-    !name(1)='sig_o'		        ; step(1)=0.5_dp ; if (nepsmove==1) step(1)=0.0_dp 
-    !name(2)='uhome(m)'		    ; step(2)=1.0_dp*par(2)
-	!name(3)='uhome(f)'		    ; step(3)=1.0_dp*par(3)
-	!name(4)='cst(1)'			; step(4)=-1.0_dp*par(4)
-	!name(5)='kcst'		        ; step(5)=1.0_dp*par(5)
-	!name(6)='divpenalty'		; step(6)=1.0_dp*par(6) ; if (onlysingles) step(6)=0.0_dp
-	!name(7)='alphaed(m,1)'		; step(7)=1.0_dp*par(7)
-	!name(8)='alphaed(f,1)'		; step(8)=1.0_dp*par(8)
-	!name(9)='alphaed(m,2)'		; step(9)=1.0_dp*par(9) 
-	!name(10)='alphaed(f,2)'		; step(10)=1.0_dp*par(10) 
-	!name(11)='pkid'		        ; step(11)=1.0_dp   
-	!name(12)='pmeet'		    ; step(12)=-1.0_dp ; if (onlysingles) step(12)=0.0_dp
-	!j=13
-    !do i=1,nl
-    !    name(j)='uloc'	; step(j)=1.0_dp*par(j)    ; if (i==2) step(j)=0.0_dp ; j=j+1
-    !end do 	
-    
-	!do i=1,nl
-    !    name(j)='alf10' ; step(j)=0.5_dp*par(j)  ; j=j+1
-	!end do 
-	!name(j)='alf11'		; step(j)=0.5_dp*par(j) ; j=j+1
-	!name(j)='alf12'     ; step(j)=0.5_dp*par(j) ; j=j+1
-    !name(j)='alf13'		; step(j)=0.5_dp*par(j) ; j=j+1
-    
-    
-	!do i=1,nl
-    !    name(j)='alf20'	; step(j)=0.5_dp*par(j) ; j=j+1
-	!end do
-	!name(j)='alf21'		; step(j)=0.5_dp*par(j) ; j=j+1
-    !name(j)='alf22'		; step(j)=0.5_dp*par(j) ; j=j+1
-    !name(j)='alf23'		; step(j)=0.5_dp*par(j) ; j=j+1
-    !name(j)='sig_wge(1)'	; step(j)=0.5_dp ; j=j+1
-    !name(j)='sig_wge(2)'	; step(j)=0.5_dp ; j=j+1
-    !name(j)='ro'			; step(j)=0.5_dp  ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psio'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psil'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psil'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psil'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psih'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psih'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psih'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='psih'		; step(j)=0.5_dp ; j=j+1
-    !name(j)='mu_mar(1)'		    ; step(j)=1.0_dp*par(j)    ; if (onlysingles) step(j)=0.0_dp ; j=j+1
-    !name(j)='mu_mar(ntypp)'		; step(j)=1.0_dp*par(j)    ; if (onlysingles) step(j)=0.0_dp ; j=j+1
-    !name(j)='sig_mar'		; step(j)=0.0_dp    ; if (onlysingles) step(j)=0.0_dp ; j=j+1
-    !name(j)='ptypehs(1)'		; step(j)=-1.0_dp    ; j=j+1  
-    !name(j)='ptypecol(1)'		; step(j)=-1.0_dp    ; j=j+1 
-    !name(j)='alf1t(2)'		    ; step(j)=0.5_dp    ; j=j+1 
-    !name(j)='alf2t(2)'		    ; step(j)=0.5_dp    ; j=j+1
-    !name(j)='cst(2)'            ; step(j)=1.0_dp*par(j) ; j=j+1    
-    !name(j)='ecst'              ; step(j)=-1.0_dp*par(j) ; j=j+1     
-    !name(j)='alphakid(m,2)'     ; step(j)=1.0_dp*par(j) ; j=j+1 
-    !name(j)='alphakid(f,2)'     ; step(j)=1.0_dp*par(j) ; j=j+1
-    !name(j)='scst'              ; step(j)=0.0_dp    !*par(j)     
-	!if (j.ne.npars) then 
-    !    print*, 'j not equal to npars',j,npars
-    !    stop
-    !end if 
     step=0.0_dp
 	end subroutine getsteps
 
@@ -829,16 +758,11 @@ contains
                     real(dp) :: fnmove
                     integer(i4b) :: c,t,h
                     call index2cotyphome(trueindex,c,t,h)			
-                    fnmove = cst(t)  + ecst * one(empo<=np)  + ucst * one(empo==np1) + kcst * one(kid>1) !+ kcst * one(empo==np1)  !kid 1 is no kid, kid 2 is yes kid
+                    fnmove = cst(t)  + kcst * one(kid>1) !+ kcst * one(empo==np1)  !kid 1 is no kid, kid 2 is yes kid
                     !ahu october2022: no idea why this was kcst * one(empo==np1) 
                     !fnmove = fnmove / div
                 end function fnmove
-               
-                function cstia(age)
-                    integer(i4b), intent(in) :: age
-                    real(dp) :: cstia
-                        cstia= agecst*age   !+ one(age>=45)*2.0_dp*agecst * age
-                end FUNCTION
+
             !function fnprkid(kid0)
             !integer(i4b), intent(in) :: kid0
             !real(dp), dimension(0:maxkid) :: fnprkid

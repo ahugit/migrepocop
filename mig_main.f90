@@ -380,12 +380,15 @@ nonlabinc=0.0_dp !ahu030622
 
     open(unit=2,file='o111522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars2=pars
-    pars(24)=-1000.0_dp !ecst
-    pars(25)=-1000.0_dp !kcst 
-    pars(74)=-1000.0_dp
-    pars(80)=-2000.0_dp
-    pars(86)=-1000.0_dp
-    pars(92)=-2000.0_dp
+    pars(25)=0.0_dp !kcst 
+    pars(14)=5000.0_dp
+    pars(15)=7000.0_dp
+    pars(24)=10000.0_dp
+    pars(65)=15000.0_dp 
+    pars(74)=0.0_dp
+    pars(80)=0.0_dp
+    pars(86)=0.0_dp
+    pars(92)=0.0_dp
     pars(33:41)=pars1(33:41)
     pars(68:69)=-3.0_dp
     pars(22:23)=3000.0_dp*5.0_dp

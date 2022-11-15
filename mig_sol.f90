@@ -1077,9 +1077,9 @@ end do
 
             
                 if ( w(g) <= np ) then						
-				    utils(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome) + uloc(l(g)) + nonlabinc(x2e(x))
+				    utils(g,x,q,trueindex)	= uhomet(truetyp) * one(l(g)==truehome) + uhome(g) * one(l(g)==truehome) + uloc(l(g)) + nonlabinc(x2e(x))
 			    else if ( w(g) == np1 ) then 
-				    utils(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome)  + uloc(l(g)) + alphaed(g,x2e(x))  + alphakid(g) * one(x2kid(x)>1)  + nonlabinc(x2e(x))
+				    utils(g,x,q,trueindex)	= uhomet(truetyp) * one(l(g)==truehome) + uhome(g) * one(l(g)==truehome)  + uloc(l(g)) + alphaed(g,x2e(x))  + alphakid(g) * one(x2kid(x)>1)  + nonlabinc(x2e(x))
 			    end if
                 
                 !ahu october2022: 
@@ -1194,9 +1194,9 @@ end do
             
         do g=1,2
             if ( w(g) <= np ) then						
-                utilc(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome)   + uloc(l(g))
+                utilc(g,x,q,trueindex)	= uhomet(truetyp) * one(l(g)==truehome) +  uhome(g) * one(l(g)==truehome)   + uloc(l(g))
             else if ( w(g) == np1 ) then 
-                utilc(g,x,q,trueindex)	= uhome(g) * one(l(g)==truehome)   + uloc(l(g)) + alphaed(g,ed(g) ) + alphakid(g) * one(kid(g)>1) 
+                utilc(g,x,q,trueindex)	= uhomet(truetyp) * one(l(g)==truehome) + uhome(g) * one(l(g)==truehome)   + uloc(l(g)) + alphaed(g,ed(g) ) + alphakid(g) * one(kid(g)>1) 
                 !ahu october2022: 
                 !alphakid(g): kid(g)=1 is no kid, and kid(g)=2 and above is yes kid.   this alphakid used to have two dimensions for no reason. 
                 !nkid is never above 2 though (i set it that way in data too for numkids above 2 is just always 2 in data). 
