@@ -326,7 +326,7 @@ nonlabinc=0.0_dp !ahu030622
     taxset=1
     moveshockdiv=1.0_dp
     policytax=0
-    
+    terminalval=.TRUE.    
 
     !open(unit=2,file='o111322_1bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
     pars1(75)=-4.0_dp !mumar1
@@ -372,12 +372,10 @@ nonlabinc=0.0_dp !ahu030622
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
     open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(74)=-15000.0_dp
-    pars(80)=-5000.0_dp
-    pars(86)=-30000.0_dp
-    pars(92)=-50000.0_dp
-    pars(68:69)=pars(68:69)+2.0_dp
-    pars(22:23)=40000.0_dp
+    pars(74)=0.0_dp
+    pars(80)=0.0_dp
+    pars(86)=0.0_dp
+    pars(92)=0.0_dp
     pars(72)=8.9_dp !set according to loc5 wned at age 18
     pars(73)=8.8_dp !set according to loc5 wned at age 18
     pars(78)=8.9_dp
@@ -388,7 +386,6 @@ nonlabinc=0.0_dp !ahu030622
     pars(91)=8.8_dp
     pars(42:50)=0.0_dp 
     pars(54:62)=0.0_dp 
-
     pars(1)=pars(5)
     pars(66)=0.0_dp
     pars(67)=-0.2_dp
@@ -397,12 +394,27 @@ nonlabinc=0.0_dp !ahu030622
     pars(52)=-1.0_dp !alf12
     pars(64)=-1.0_dp !alf12
     pars(51)=pars(63)
-    !pars(15)=-4.0_dp !agecst
+ 
+    pars(15)=-40.0_dp !agecst
 
-    terminalval=.FALSE.
+    pars(68:69)=-4.0_dp 
+    pars(22:23)=5000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    terminalval=.TRUE.
+
+    pars(68:69)=-3.0_dp 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(68:69)=-2.0_dp 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(68:69)=-1.0_dp 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(68:69)=0.0_dp 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
