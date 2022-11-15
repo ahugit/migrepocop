@@ -349,9 +349,9 @@ contains
 	do i=1,npars
         write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,12:20) 
 	end do 
-	do i=1,npars
-        write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,21:numit) 
-	end do 
+	!do i=1,npars
+    !    write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,21:numit) 
+	!end do 
 
 
 	!write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,1:numit) 
