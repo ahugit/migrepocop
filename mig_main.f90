@@ -376,29 +376,30 @@ nonlabinc=0.0_dp !ahu030622
     pars(15)=-10.0_dp !agecst
     pars(24)=0.0_dp !ecst
     pars(25)=0.0_dp !kcst 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
     pars1=pars
 
     open(unit=2,file='o111522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
     pars2=pars
-
-    pars(74)=0.0_dp
-    pars(80)=0.0_dp
-    pars(86)=0.0_dp
-    pars(92)=0.0_dp
+    pars(24)=-1000.0_dp !ecst
+    pars(25)=-1000.0_dp !kcst 
+    pars(74)=-1000.0_dp
+    pars(80)=-2000.0_dp
+    pars(86)=-1000.0_dp
+    pars(92)=-2000.0_dp
     pars(33:41)=pars1(33:41)
-    !do i=1,3
-        do j=1,4
-            do k=1,5
-    pars(68:69)=-3.0_dp + 0.5*(j-1)
-    pars(22:23)=3000.0_dp*k
+    pars(68:69)=-3.0_dp
+    pars(22:23)=3000.0_dp*5.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-            end do 
-        end do 
+    !do i=1,3
+    !    do j=1,4
+    !        do k=1,5
+    !pars(68:69)=-3.0_dp + 0.5*(j-1)
+    !pars(22:23)=3000.0_dp*k
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
+    !        end do 
+    !    end do 
     !end do 
 
 !if (iwritegen==1) then
