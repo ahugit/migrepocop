@@ -397,6 +397,11 @@ nonlabinc=0.0_dp !ahu030622
  
     pars(15)=-40.0_dp !agecst
 
+    pars(74)=-10000.0_dp
+    pars(80)=-5000.0_dp
+    pars(86)=-15000.0_dp
+    pars(92)=-20000.0_dp
+    
     pars(68:69)=-4.0_dp 
     pars(22:23)=5000.0_dp
     call getpars(pars,realpars)
@@ -419,16 +424,6 @@ nonlabinc=0.0_dp !ahu030622
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(68:69)=0.0_dp 
-    pars(22:23)=5000.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(22:23)=10000.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(22:23)=15000.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
 
 
    
