@@ -328,48 +328,20 @@ nonlabinc=0.0_dp !ahu030622
     policytax=0
     terminalval=.TRUE.    
 
-    !open(unit=2,file='o111322_1bpobj.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
-    pars1(75)=-4.0_dp !mumar1
-    pars1(81)=-4.0_dp !mumar2
-    pars1(87)=-7.0_dp !mumar3
-    pars1(93)=-7.0_dp !mumar4
     pars1(25)=pars1(25)+50000.0_dp
     pars1(26)=pars1(26)+1.5_dp
     pars=pars1
-    pars(68)=-2.0_dp
-    pars(69)=-2.0_dp
     pars(14)=0.0_dp !ucst
     pars(15)=-10.0_dp !agecst
     pars(24)=0.0_dp !ecst
     pars(25)=0.0_dp !kcst 
-    pars(74)=0.0_dp 
-    pars(80)=0.0_dp 
-    pars(86)=0.0_dp
-    pars(92)=0.0_dp
     pars(90)=pars(90)-0.7
-    pars(22:23)=9000.0_dp
     pars(7)=2.0_dp
     pars(66)=pars(66)+1.3_dp
-    pars(74)=-20000.0_dp
-    pars(80)=-20000.0_dp
-    pars(86)=-30000.0_dp
-    pars(92)=-30000.0_dp
-    pars(68)=-2.0_dp
-    pars(69)=-3.0_dp
     pars(59:60)=pars(59:60)+0.3_dp
     pars(15)=-5.0_dp !agecst
     pars(3)=pars(1)
     pars(10)=pars(10)-1.0_dp
-
-    !open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !pars(74)=-15000.0_dp
-    !pars(80)=-5000.0_dp
-    !pars(86)=-30000.0_dp
-    !pars(92)=-50000.0_dp
-    !pars(68:69)=pars(68:69)+2.0_dp
-    !pars(22:23)=30000.0_dp
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(74)=0.0_dp
@@ -389,24 +361,50 @@ nonlabinc=0.0_dp !ahu030622
     pars(1)=pars(5)
     pars(66)=0.0_dp
     pars(67)=-0.2_dp
-
     pars(16)=-2.0_dp !psih
     pars(52)=-1.0_dp !alf12
     pars(64)=-1.0_dp !alf12
     pars(51)=pars(63)
- 
     pars(15)=-40.0_dp !agecst
-
     pars(74)=-5000.0_dp
     pars(80)=-5000.0_dp
     pars(86)=-5000.0_dp
     pars(92)=-5000.0_dp
     pars(68:69)=-0.6_dp 
     pars(22:23)=30000.0_dp
+    pars(14)=0.0_dp !ucst
+    pars(15)=-10.0_dp !agecst
+    pars(24)=0.0_dp !ecst
+    pars(25)=0.0_dp !kcst 
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+    pars1=pars
 
-   
+    open(unit=2,file='o111522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    pars2=pars
+
+    pars(74)=0.0_dp
+    pars(80)=0.0_dp
+    pars(86)=0.0_dp
+    pars(92)=0.0_dp
+    pars(68:69)=-2.0_dp 
+    pars(33:41)=pars1(33:41)
+    do i=1,3
+        do j=1,3
+            do k=1,3  
+    pars(74)=-3000.0_dp*j
+    pars(80)=-3000.0_dp*i
+    pars(86)=-3000.0_dp*j
+    pars(92)=-3000.0_dp*i
+    pars(22:23)=3000.0_dp*k
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+            end do 
+        end do 
+    end do 
+
 !if (iwritegen==1) then
 !    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
 !    print*, "alf12", pars(52),logit(pars(52))
