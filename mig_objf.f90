@@ -342,7 +342,7 @@ contains
 	!totcostname='total cost'
 	do i=1,npars
 		!write(60,'(1a15,4f12.4)') parname(i),realpar_save(i,1:4)
-        write(60,'(1a15,5f10.2)') parname(i),realpar_save(i,1:numit) 
+        write(60,'(1a15,9f10.2)') parname(i),realpar_save(i,1:numit) 
 	end do 
 	!write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,1:numit) 
 	!write(60,'(1a15,2f9.1)') parcostname(2),parcostsave(2,1:numit) 
