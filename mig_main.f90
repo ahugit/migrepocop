@@ -378,63 +378,30 @@ nonlabinc=0.0_dp !ahu030622
     pars(25)=0.0_dp !kcst 
     pars1=pars
 
+
     open(unit=2,file='o111522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
     pars2=pars
-    pars(25)=0.0_dp !kcst 
-    pars(14)=5000.0_dp
-    pars(15)=7000.0_dp
-    pars(24)=10000.0_dp
-    pars(65)=15000.0_dp 
     pars(74)=0.0_dp
     pars(80)=0.0_dp
     pars(86)=0.0_dp
     pars(92)=0.0_dp
+    pars(68:69)=-2.0_dp 
     pars(33:41)=pars1(33:41)
-    pars(68:69)=-3.0_dp
-    pars(22:23)=3000.0_dp*5.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(68:69)=-1.0_dp
-    pars(13)=pars(13)+0.5_dp
-    do i=1,3,2
-        do j=1,3,2
-            do k=1,3
-    !pars(68:69)=-3.0_dp + 0.5*(j-1)
-                pars(74)=-5000.0_dp*i
-                pars(80)=-5000.0_dp*j
-                pars(86)=-5000.0_dp*i
-                pars(92)=-5000.0_dp*j            
-                pars(22:23)=10000.0_dp*k
+    do i=1,3
+        do j=1,3
+            do k=1,3  
+    pars(74)=-3000.0_dp*j
+    pars(80)=-3000.0_dp*i
+    pars(86)=-3000.0_dp*j
+    pars(92)=-3000.0_dp*i
+    pars(22:23)=3000.0_dp*k
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
             end do 
         end do 
     end do 
-
-    pars(13)=pars(13)+0.5_dp
-    do i=1,3,2
-        do j=1,3,2
-            do k=1,3
-    !pars(68:69)=-3.0_dp + 0.5*(j-1)
-                pars(74)=-5000.0_dp*i
-                pars(80)=-5000.0_dp*j
-                pars(86)=-5000.0_dp*i
-                pars(92)=-5000.0_dp*j            
-                pars(22:23)=10000.0_dp*k
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-            end do 
-        end do 
-    end do 
-
-!if (iwritegen==1) then
-!    print*, "divpen", pars(26),logit(pars(26)),multdiv*logit(pars(26))
-!    print*, "alf12", pars(52),logit(pars(52))
-!    print*, "sigom", pars(68),logit(pars(68)),multsigo*logit(pars(68))
-!    print*, "mumar1", pars(75),logit(pars(75)),multmar*logit(pars(75))
-!    print*, "mumar4", pars(93),logit(pars(93)),multmar*logit(pars(93))
-!end if
-
 
 
 !*************************    
