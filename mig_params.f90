@@ -59,7 +59,7 @@
 	!integer(i4b), parameter :: ndataobs = 84507  set in main now 
 	!integer(i4b), parameter :: nsim     = ndata*nsimeach  set in main now
 	integer(i4b), parameter :: nmom     = 2000 !ahu summer18 050418: changed from 4200 to 498
-    integer(i4b) :: calcvar(nmom),calcorr(nmom)
+    integer(i4b), dimension(nmom) :: calcvar,calcorr,momwhich,momage,momsex,momrel
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	
 	integer(i4b), parameter :: ma=1,fe=2

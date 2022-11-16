@@ -330,6 +330,14 @@ contains
 	real(8), intent(in) :: objval
 	integer(i4b) :: i,t,ihead,j,k,trueindex
 	character(len=15) :: parcostname(2),moveshockname,totcostname
+
+	open(unit=6091115, file='wages.txt',status='replace')
+    do i=1,nmom
+		if (momwhich(i)>0) then
+        	write(6091115,'(i5,4i4,4F14.2)')	i,momwhich(i),momage(i),momsex(i),momrel(i),momsim_save(i,1:numit)  !,momdat_save(i,1)
+		end if 
+	end do
+
 	open(unit=60, file=momentfile,status='replace')
     !open(unit=61 change this 61 to another number since bestval is also 61 maybe among other things, file=momentonlyfile,status='replace')
 	!parcostsave(1,iter)=sigo_m
@@ -486,7 +494,9 @@ contains
 		!write(60,*)
 	end do
 	close(60)
-    !close(61)
+
+	close(6091115)
+
 	end subroutine writemoments
 end module objf
 
