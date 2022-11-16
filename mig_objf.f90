@@ -333,8 +333,10 @@ contains
 
 	open(unit=6091115, file='wages.txt',status='replace')
     do i=1,nmom
-		if (momwhich(i)>0) then
-        	write(6091115,'(i5,4i4,4F14.2)')	i,momwhich(i),momage(i),momsex(i),momrel(i),momsim_save(i,1:numit)  !,momdat_save(i,1)
+		if (momwhich(i)>10.and.momwhich<50) then
+        	write(6091115,'(i5,4i4,8F14.2)')	i,momwhich(i),momage(i),momsex(i),momrel(i),momsim_save(i,1:numit)  !,momdat_save(i,1)
+		else if (momwhich(i)>50) then
+			write(6091115,'(i5,4i4,8F14.2)')	i,momwhich(i),momage(i),momsex(i),momrel(i),momsim_save(i,1:numit)  !,momdat_save(i,1)	
 		end if 
 	end do
 
@@ -349,7 +351,7 @@ contains
 	!totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
 	!totcostname='total cost'
 	do i=1,npars
-        write(60,'(1a15,4f10.2)') parname(i),realpar_save(i,1:numit) 
+        write(60,'(1a15,8f10.2)') parname(i),realpar_save(i,1:numit) 
 	end do 
 !	do i=1,npars
 !        write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,3:11) !
