@@ -377,6 +377,8 @@ nonlabinc=0.0_dp !ahu030622
     pars(24)=0.0_dp !ecst
     pars(25)=0.0_dp !kcst 
     pars1=pars
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
 
     open(unit=2,file='o111522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)

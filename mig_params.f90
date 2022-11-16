@@ -18,7 +18,7 @@
     integer(i4b), parameter :: numit=29
     logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
-    logical, parameter :: typemoments=.false.
+    logical, parameter :: typemoments=.true.
     logical :: nonneg,terminalval
     logical :: onthejobsearch=.TRUE. !set in main
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
