@@ -890,16 +890,25 @@ end subroutine read_taxes
             do ia=mna,mxad,10 !ahu030622 changed from maxai-1 to mxad    
                 call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 .AND. move(ia,:)==1), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
                 write(name(im),'("getdiv move by ia ",i4)') ia
-                weights(im)=0.0_dp
+                weights(im)=wrel
                 im=im+1
             end do 
             do ia=mna,mxad,10 !ahu030622 changed from maxai-1 to mxad    
                 call condmom(im,( coho(ia,:) .AND. dat(ia,:)%rel==1 .AND. dat(ia+1,:)%rel>=0 .AND. move(ia,:)==0), d1*one(dat(ia+1,:)%rel==0),mom,cnt,var)
                 write(name(im),'("getdiv stay by ia ",i4)') ia
-                weights(im)=0.0_dp
+                weights(im)=wrel
                 im=im+1
             end do 
 
+
+            call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%rel==1 .AND. dat(MNA+1:MXA,:)%rel>=0 .AND. move(MNA:MXAD,:)==1), d1*one(dat(MNA+1:MXA,:)%rel==0),mom,cnt,var)
+            write(name(im),'("getdiv move all ")') 
+            weights(im)=wrel
+            im=im+1
+            call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%rel==1 .AND. dat(MNA+1:MXA,:)%rel>=0 .AND. move(MNA:MXAD,:)==0), d1*one(dat(MNA+1:MXA,:)%rel==0),mom,cnt,var)
+            write(name(im),'("getdiv stay all ")') 
+            weights(im)=wrel
+            im=im+1            
             !if (j==1) then !only do kid by age for married. for singles, it looks weird in the data (.30, .8, .16,.19) 
             !    do ia=MNA,MXAD,8
             !        CALL condmom(im,( cosexrel(ia,:) .AND. dat(ia,:)%kidr>=1 ),d1*one( dat(ia,:)%kidr==2 ),mom,cnt,var)

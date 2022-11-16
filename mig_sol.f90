@@ -1055,6 +1055,16 @@ end do
                     end if 
                     staterate=tax(bracket,numbin,l(g))%statesin
                     fedrate=tax(bracket,numbin,l(g))%fedsin
+                    if (policytax==4) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                        staterate=0.0_dp
+                        fedrate=tax(bracket,numbin,l(g))%fedsin              
+                    else if (policytax==5) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                        staterate=tax(bracket,numbin,l(g))%statesin
+                        fedrate=0.0_dp              
+                    else if (policytax==6) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                        staterate=0.0_dp
+                        fedrate=0.0_dp              
+                    end if
                     wsnet(g,x,q,trueindex)=(1.0_dp - (staterate+fedrate))*wsgross
                     !if (mysay==1) then 
                         !if (bracket<numbin) then ; bracketnext=bracket+1 ; else ; bracketnext=numbin ; end if 
@@ -1139,6 +1149,15 @@ end do
             else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
                 staterate=tax(pbrack,sbrack,l(1))%statesin
                 fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+            else if (policytax==4) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=0.0_dp
+                fedrate=tax(pbrack,sbrack,l(2))%fedmar                 
+            else if (policytax==5) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statemar
+                fedrate=0.0_dp              
+            else if (policytax==6) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=0.0_dp
+                fedrate=0.0_dp              
             end if
             wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) <= np .and. w(2) == np1 ) then		
@@ -1158,7 +1177,16 @@ end do
                 fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
             else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
                 staterate=tax(pbrack,sbrack,l(1))%statesin
-                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+                fedrate=tax(pbrack,sbrack,l(2))%fedsin             
+            else if (policytax==4) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=0.0_dp
+                fedrate=tax(pbrack,sbrack,l(2))%fedmar                 
+            else if (policytax==5) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statemar
+                fedrate=0.0_dp              
+            else if (policytax==6) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=0.0_dp
+                fedrate=0.0_dp                  
             end if
             wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) == np1 .and. w(2) <= np ) then		
@@ -1178,7 +1206,16 @@ end do
                 fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
             else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
                 staterate=tax(pbrack,sbrack,l(1))%statesin
-                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
+                fedrate=tax(pbrack,sbrack,l(2))%fedsin      
+            else if (policytax==4) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=0.0_dp
+                fedrate=tax(pbrack,sbrack,l(2))%fedmar                 
+            else if (policytax==5) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=tax(pbrack,sbrack,l(1))%statemar
+                fedrate=0.0_dp              
+            else if (policytax==6) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
+                staterate=0.0_dp
+                fedrate=0.0_dp                         
             end if
             wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
         else if ( w(1) == np1 .and. w(2) == np1 ) then		

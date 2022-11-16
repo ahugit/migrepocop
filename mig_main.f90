@@ -403,6 +403,7 @@ nonlabinc=0.0_dp !ahu030622
             
 
     open(unit=2,file='o111622_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars(21)=pars(21)+2.0_dp
     policytax=0
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
@@ -415,19 +416,13 @@ nonlabinc=0.0_dp !ahu030622
     policytax=3
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
-    open(unit=2,file='o111622_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(21)=pars(21)+1.0_dp
-    policytax=0
+    policytax=4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=1
+    policytax=5
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=2
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=3
+    policytax=6
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
