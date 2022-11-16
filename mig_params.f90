@@ -270,7 +270,7 @@ contains
     !uloc: 33-41
     !do ed=1,2
         do i=1,nl
-            if (i==3) then
+            if (i==2) then
 			    realpar(j) = 0.0_dp  ; stepos(j)=0.0_dp
 			    uloc(i)=0.0_dp
 		    else 
