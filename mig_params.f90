@@ -210,9 +210,9 @@ contains
 
 	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp 
 	psil(1)=realpar(j)	            ; j=j+1
-	realpar(j)= par(j))             ; parname(j)='uhomet 1'	; stepos(j)=1.0_dp*par(j) 
+	realpar(j)= par(j)             ; parname(j)='uhomet 1'	; stepos(j)=1.0_dp*par(j) 
 	uhomet(1)=realpar(j)            ; j=j+1
-	realpar(j)= par(j))             ; parname(j)='uhomet 2'	; stepos(j)=1.0_dp*par(j) !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
+	realpar(j)= par(j)             ; parname(j)='uhomet 2'	; stepos(j)=1.0_dp*par(j) !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	uhomet(2)=realpar(j)            ; j=j+1
     !if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
