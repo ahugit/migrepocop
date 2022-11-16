@@ -333,7 +333,7 @@ contains
 
 	open(unit=6091115, file='wages.txt',status='replace')
     do i=1,nmom
-		if (momwhich(i)>10.and.momwhich<50) then
+		if (momwhich(i)>10.and.momwhich(i)<50) then
         	write(6091115,'(i5,4i4,8F14.2)')	i,momwhich(i),momage(i),momsex(i),momrel(i),momsim_save(i,1:numit)  !,momdat_save(i,1)
 		else if (momwhich(i)>50) then
 			write(6091115,'(i5,4i4,8F14.2)')	i,momwhich(i),momage(i),momsex(i),momrel(i),momsim_save(i,1:numit)  !,momdat_save(i,1)	
