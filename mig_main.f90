@@ -343,7 +343,7 @@ nonlabinc=0.0_dp !ahu030622
     pars(3)=pars(1)
     pars(10)=pars(10)-1.0_dp
 
-    open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(74)=0.0_dp
     pars(80)=0.0_dp
     pars(86)=0.0_dp
@@ -377,11 +377,9 @@ nonlabinc=0.0_dp !ahu030622
     pars(24)=0.0_dp !ecst
     pars(25)=0.0_dp !kcst 
     pars1=pars
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
 
 
-    open(unit=2,file='o111522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !open(unit=2,file='o111522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars2=pars
     pars(74)=-20000.0_dp
     pars(80)=-20000.0_dp
@@ -395,26 +393,26 @@ nonlabinc=0.0_dp !ahu030622
     pars(39)=3000.0_dp
     pars(22:23)=0.0_dp
     pars(13)=pars(13)-0.5_dp
-    !do i=1,2
-    !    do j=1,2
-    !        do k=1,2  
-                i=1
-                j=1
-                k=1
-                pars(14)=5000.0_dp*i
-                pars(15)=5000.0_dp*j
-                pars(24)=5000.0_dp*j
-                pars(65)=5000.0_dp*k
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
-   !         end do 
-   !     end do 
-   ! end do 
-                call getpars(pars,realpars)
-                call objfunc(pars,qval) ; realpars=realpartemp   
+    i=1
+    j=1
+    k=1
+    pars(14)=5000.0_dp*i
+    pars(15)=5000.0_dp*j
+    pars(24)=5000.0_dp*j
+    pars(65)=5000.0_dp*k
             
 
     open(unit=2,file='o111622_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    policytax=0
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=1
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=2
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=3
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
