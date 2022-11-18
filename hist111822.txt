@@ -1,0 +1,500 @@
+   44  cd ..
+   45  cd ..
+   46  cd data2022
+   47  cd taxsim
+   48  cd .. 
+   49  cd taxsimfiles
+   50  vi input1.raw 
+   51  vi input2.raw 
+   52  vi txpydata2.raw 
+   53  cd ..
+   54  cd taxsimfiles
+   55  dir
+   56  ls -al
+   57  pwd
+   58  cd ..
+   59  cd psid2022
+   60  pwd
+   61  cd .. 
+   62  cd data2022
+   63  cd taxsim
+   64  cp txpydata2.raw /users/ahu/Dropbox/data2022/taxsimfiles/
+   65  cd .. 
+   66  cd taxsimfiles
+   67  ls -al
+   68  vi txpydata2.raw 
+   69  vi input2.raw 
+   70  vi input1.raw 
+   71  dir
+   72  ls -al
+   73  dir
+   74  ls -al
+   75   taxsim35.exe <test1985.raw > thisworks.raw
+   76   taxsim35.exe <test1985_2.raw > thisworks.raw
+   77  vi test1985.raw
+   78   taxsim35.exe <test1985.raw > thisworks.raw
+   79  vi test1985.raw
+   80   taxsim35.exe <test1985.raw > thisworks.raw
+   81  vi test1985.raw 
+   82   taxsim35.exe <txpydata2.raw > thisworks.raw
+   83  vi thisworks.raw 
+   84  vi txpydata2.raw 
+   85  vi test1985.raw 
+   86  vi txpydata2.raw 
+   87  vi test1985.raw 
+   88  vi test1985.raw 
+   89  vi txpydata2.raw 
+   90  vi test1985.raw 
+   91   taxsim35.exe <test1985.raw > thisworks.raw
+   92  vi test1985_2
+   93  vi test1985_2.raw 
+   94   taxsim35.exe <test1985.raw > thisworks.raw
+   95  vi test1985.raw 
+   96  vi txpydata2.raw 
+   97  vi test1985_2.raw 
+   98  vi test1985.raw 
+   99   taxsim35.exe <test1985.raw > thisworks.raw
+  100  ls -al
+  101   taxsim35.exe <test1985.raw > thisworks.raw
+  102  vi test1985.raw 
+  103   taxsim35.exe <test1985.raw > thisworks.raw
+  104  vi test1985.raw 
+  105  vi test1985.raw 
+  106   taxsim35.exe <test1985.raw > thisworks.raw
+  107  vi test1985.raw 
+  108   taxsim35.exe <test1985.raw > thisworks.raw
+  109  vi test1985.raw 
+  110   taxsim35.exe <test1985.raw > thisworks.raw
+  111   taxsim35.exe <test1985.raw > thisworks.raw
+  112  vi thisworks.raw 
+  113   taxsim35.exe <test1985.raw > thisworks.raw
+  114   taxsim35.exe <test1985.raw > thisworks.raw
+  115  vi thisworks.raw 
+  116  cd ..
+  117  cd taxsim
+  118  ls -al
+  119   taxsim35.exe <fam1985-fortaxsim.raw > fam1985-outtaxsim.raw
+  120  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  121  ls -al
+  122  rm fam1985-fortaxsim.raw 
+  123  rm fam1985-outtaxsim.raw 
+  124  rm fam1985-taxsim-*
+  125  ls -al
+  126  ls -al
+  127  taxsim35.exe <fam1986-taxsim-in.raw > fam1986-taxsim-out.raw
+  128  taxsim35.exe <fam1987-taxsim-in.raw > fam1987-taxsim-out.raw
+  129  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  130  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  131  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  132  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  133  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  134  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  135  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  136  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  137  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  138  ls -al
+  139  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  140  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsim-out.raw
+  141  taxsim35.exe <fam1985-taxsim-in.raw > fam1985-taxsimw
+  142  cp /users/ahu/Dropbox/awsgive.sh runtaxsim.sh
+  143  vi runtaxsim.sh 
+  144  vi runtaxsim.sh 
+  145  ls -al
+  146  bash runtaxsim.sh
+  147  bash runtaxsim.sh
+  148  vi runtaxsim.sh 
+  149  vi runtaxsim.sh 
+  150  vi runtaxsim.sh 
+  151  bash runtaxsim.sh
+  152  vi runtaxsim.sh 
+  153  bash runtaxsim.sh
+  154  vi runtaxsim.sh 
+  155  bash runtaxsim.sh
+  156  vi runtaxsim.sh 
+  157  ls -al
+  158  vi taxsim199999-out.raw
+  159  ls -al
+  160  vi runtaxsim.sh 
+  161  bash runtaxsim.sh 
+  162  ls -al
+  163  vi runtaxsim.sh 
+  164  bash runtaxsim.sh 
+  165  ls -al
+  166  vi taxsim1977-out.raw 
+  167  vi taxsim1994-out.raw 
+  168  taxsim35.exe <fam1977-taxsim-in.raw > fam1977-taxsim-out.raw
+  169  taxsim35.exe <taxsim1977-in.raw > taxsim1977-out.raw
+  170  vi taxsim1977-out.raw 
+  171  vi taxsim1977-in.raw 
+  172  taxsim35.exe <taxsim1977-in.raw > taxsim1977-out.raw
+  173  taxsim35.exe <taxsim1976-in.raw > taxsim1976-out.raw
+  174  taxsim35.exe <taxsim1977-in.raw > taxsim1977-out.raw
+  175  taxsim35.exe <taxsim1977-in.raw > taxsim1977-out.raw
+  176  bash runtaxsim.sh 
+  177  vi taxsim1982-out.raw 
+  178  bash runtaxsim.sh 
+  179  ls -al
+  180  bash runtaxsim.sh 
+  181  mv runtaxsim.sh /users/ahu/Dropbox/psid2022/TAXSIM_scripts/
+  182  cd .. 
+  183  cd .. 
+  184  cd psid2022/
+  185  cd TAXSIM_scripts/
+  186  do process.do 
+  187  mv process.do main.do
+  188  bash runtaxsim.sh 
+  189  cd .. 
+  190  cd taxsim
+  191  vi runtaxsim.sh 
+  192   taxsim35.exe <./taxsim-datagen-in.raw > ./taxsim-datagen-out.raw
+  193  dir
+  194  ls -al
+  195  cd ..
+  196  cd ..
+  197  cd data2022
+  198  cd taxsim
+  199   taxsim35.exe <./taxsim-datagen-in.raw > ./taxsim-datagen-out.raw
+  200  ls -al
+  201   taxsim35.exe <./taxsim-datagen-in.raw > ./taxsim-datagen-out.raw
+  202  pwd
+  203  pwd
+  204  taxsim35.exe <./taxsim1990-in.raw > ./taxsim1990-out.raw
+  205  pwd
+  206  echo $PATH
+  207  vi /users/ahu/Dropbox/setup-info/taxsimpathinfo.txt
+  208  pwd
+  209  ls -al
+  210  cd .. 
+  211  cd .. 
+  212  cd psid2022
+  213  cd taxsim
+  214  pwd
+  215  pwd
+  216  cd .. 
+  217  cd .. 
+  218  cd data2022
+  219  cd taxsim
+  220  ls -al
+  221  pwd
+  222  cd ..
+  223  cd .. 
+  224  cd psid2022
+  225  cd taxsim 
+  226  pwd
+  227  ls -al
+  228  bash runtaxsim.sh 
+  229  taxsim35.exe <./taxsimgen1-in.raw > ./taxsimgen1-out.raw
+  230  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxsimgen1-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsimgen1-out.raw
+  231  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen1-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen1-out.raw
+  232  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen1-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen1-out.raw
+  233  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen2-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen2-out.raw
+  234  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen2-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen2-out.raw
+  235  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen2-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen2-out.raw
+  236  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen1-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen1-out.raw
+  237  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen2-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen2-out.raw
+  238  pwd
+  239  cd /users/ahu/Dropbox/data2022/taxsim
+  240  vi taxgen1-out.raw
+  241  vi taxgen1-in.raw
+  242  vi TAXSIM1983-out.raw
+  243  vi taxgen1-out.raw
+  244  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen1-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen1-out.raw
+  245  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen2-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen2-out.raw
+  246  vi taxgen1-out.raw 
+  247  vi taxgen2-out.raw 
+  248  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxsim1993-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsim1993-out.raw
+  249  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxsim1993-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsim1993-out.raw
+  250  bash runtaxsim.sh 
+  251  pwd
+  252  cd ..
+  253  cd ..
+  254  cd psid2022
+  255  cd taxsim
+  256  bash runtaxsim.sh 
+  257  pwd
+  258  cd ..
+  259  cd ..
+  260  cd data2022
+  261  cd taxsim 
+  262  vi taxsim1994-out.raw
+  263  cd /users/ahu/Dropbox/psid2022/taxsim
+  264  bash runtaxsim.sh 
+  265  cd /users/ahu/Dropbox/data2022/taxsim
+  266  vi taxsim1994-out.raw
+  267  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen1-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen1-out.raw
+  268  vi taxgen1-out.raw 
+  269  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxgen2-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxgen2-out.raw
+  270  vi taxgen1-out.raw 
+  271  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxsimgen-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsimgen-out.raw
+  272  vi taxsimgen-out.raw 
+  273  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxsimgen-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsimgen-out.raw
+  274  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxsimgen-singles-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsimgen-singles-out.raw
+  275  vi taxsimtest-in.raw 
+  276  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/taxsimtest-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsimtest-out.raw
+  277  taxsim27.exe < /users/ahu/Dropbox/data2022/taxsim/taxsimtest-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsimtest-out.raw
+  278  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test-in.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  279  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  280  vi test-out.raw 
+  281  vi test.raw 
+  282  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  283  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  284  vi test.raw
+  285  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  286  vi test.raw 
+  287  vi test-out.raw 
+  288  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  289  pwd
+  290  vi test.raw
+  291  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  292  vi test-out.raw 
+  293  mv test.raw test-in.raw
+  294  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  295  vi testwy51-out.raw 
+  296  vi testwy51-in.raw 
+  297  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  298  vi testwy51-in.raw 
+  299  vi testwy51-out.raw 
+  300  vi testwy51-in.raw 
+  301  vi testwy51-in.raw 
+  302  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  303  vi testwy51-out.raw 
+  304  vi testwy51-in.raw 
+  305  vi testwy51-in.raw 
+  306  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  307  vi testwy51-out.raw 
+  308  dir
+  309  ls -al
+  310  vi testwy51-in.raw 
+  311  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  312  vi testwy51-out.raw 
+  313  vi testwy51-in.raw 
+  314  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  315  vi testwy51-out.raw 
+  316  pwd
+  317  vi testwy51-in.raw 
+  318  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  319  vi testwy51-out.raw 
+  320  vi testwy51-in.raw 
+  321  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  322  vi testwy51-out.raw 
+  323  vi test-in.raw 
+  324  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  325  vi testwy51-out.raw 
+  326  vi test-in.raw 
+  327  vi testwy51-in.raw 
+  328  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  329  vi testwy51-out.raw 
+  330  vi testwy51-in.raw 
+  331  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  332  vi testwy51-out.raw 
+  333  vi testwy51-in.raw 
+  334  vi testwy51-in.raw 
+  335  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  336  vi testwy51-out.raw 
+  337  vi test-in.raw 
+  338  vi test-in.raw 
+  339  vi testwy51-in.raw 
+  340  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  341  vi testwy51-out.raw 
+  342  vi test-in.raw
+  343  vi testwy51-in.raw 
+  344  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  345  vi testwy51-out.raw 
+  346  pwd
+  347  rm testwy51-out.raw 
+  348  rm testwy51-in.raw
+  349  vi testwy51-in.raw 
+  350  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  351  rm testwy51-out.raw 
+  352  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  353  rm testwy51-out.raw 
+  354  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/testwy51-in.raw > /users/ahu/Dropbox/data2022/taxsim/testwy51-out.raw
+  355  vi testwy51-out.raw 
+  356  vi test-in.raw
+  357  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test-in.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  358  vi test-out.raw 
+  359  vi test-in.raw
+  360  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test-in.raw > /users/ahu/Dropbox/data2022/taxsim/test-out.raw
+  361  vi test-out.raw 
+  362  vi test-in.raw 
+  363  vi test-out.raw 
+  364  vi test-in.raw 
+  365  cp test-in.raw test973-in.raw
+  366  vi test973-in.raw
+  367  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  368  vi test973-out.raw
+  369  cp test-in.raw test973-in.raw
+  370  vi test973-in.raw
+  371  vi test973-in.raw
+  372  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  373  vi test973-out.raw
+  374  vi test973-in.raw
+  375  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  376  vi test973-out.raw
+  377  vi test973-in.raw
+  378  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  379  vi test973-out.raw
+  380  vi test973-in.raw
+  381  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  382  vi test973-out.raw
+  383  vi test-in.raw 
+  384  cp test-in.raw test973-in.raw
+  385  cp test-in.raw test973-in.raw
+  386  vi test973-in.raw
+  387  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  388  vi test973-out.raw
+  389  vi test973-in.raw
+  390  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  391  vi test973-out.raw
+  392  vi test973-in.raw
+  393  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  394  vi test973-out.raw
+  395  vi test973-in.raw
+  396  vi test973-in.raw
+  397  vi test973-in.raw
+  398  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  399  vi test973-out.raw
+  400  vi test973-in.raw
+  401  cp test-in.raw test973-in.raw
+  402  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  403  vi test973-out.raw
+  404  cp test-in.raw test973-in.raw
+  405  vi test973-in.raw
+  406  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  407  vi test973-out.raw
+  408  cp test-in.raw test973-in.raw
+  409  vi test973-in.raw
+  410  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  411  vi test973-out.raw
+  412  vi test973-in.raw
+  413  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  414  vi test973-out.raw
+  415  vi test973-in.raw
+  416  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  417  vi test973-out.raw
+  418  vi test973-out.raw
+  419  vi test973-in.raw
+  420  vi test973-out.raw
+  421  vi test973-in.raw
+  422  vi test973-out.raw
+  423  vi test973-in.raw
+  424  vi test973-out.raw
+  425  vi test973-out.raw
+  426  vi test973-in.raw
+  427  vi test973-out.raw
+  428  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  429  vi test973-out.raw
+  430  vi test973-in.raw
+  431  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  432  rm test973-out.raw 
+  433  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  434  rm test973-out.raw 
+  435  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  436  vi test973-out.raw
+  437  vi test973-in.raw
+  438  vi test973-out.raw
+  439  vi test973-out.raw
+  440  vi test973-in.raw
+  441  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  442  vi test973-out.raw
+  443  vi test973-in.raw
+  444  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  445  vi test973-out.raw
+  446  vi test973-in.raw
+  447  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  448  vi test973-out.raw
+  449  vi test973-in.raw
+  450  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  451  vi test973-out.raw
+  452  vi test973-in.raw
+  453  vi test973-out.raw
+  454  vi test973-in.raw
+  455  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  456  vi test973-out.raw
+  457  vi test973-in.raw
+  458  vi test973-in.raw
+  459  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  460  vi test973-out.raw
+  461  vi test973-in.raw
+  462  cp test-in.raw test973-in.raw
+  463  vi test1973-in.raw
+  464  cp test-in.raw test973-in.raw
+  465  vi test973-in.raw
+  466  vi test973-in.raw
+  467  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  468  vi test973-out.raw
+  469  cp test-in.raw test973-in.raw
+  470  vi test973-in.raw
+  471  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  472  vi test973-out.raw
+  473  vi test973-in.raw
+  474  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  475  vi test973-out.raw
+  476  vi taxsim1985-in.raw
+  477  vi taxsim1985-out.raw
+  478  vi test973-in.raw
+  479  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  480  vi taxsim1985-out.raw
+  481  vi test973-out.raw
+  482  taxsim35.exe < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw full > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  483  vi test973-out.raw
+  484  taxsim35.exe full < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw
+  485  vi test973-out.raw
+  486  taxsim35.exe full < /users/ahu/Dropbox/data2022/taxsim/test973-in.raw > /users/ahu/Dropbox/data2022/taxsim/test973-out.raw full 
+  487  vi test973-out.raw
+  488  taxsim35.exe full < /users/ahu/Dropbox/data2022/taxsim/taxsim1968-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsim1968-out.raw full 
+  489  taxsim35.exe full < /users/ahu/Dropbox/data2022/taxsim/taxsim1968-in.raw > /users/ahu/Dropbox/data2022/taxsim/taxsim1968-out.raw full
+  490  vi taxsim1968-out.raw 
+  491  vi taxsim1968-out.raw 
+  492  cd taxsim 
+  493  rename dof.do states-fips-to-cendiv.do
+  494  mv dof.do states-fips-to-cendiv.do
+  495  mv states-fips-to-cendiv.do /users/ahu/Dropbox/psid2022/
+  496  mv analysis.do taxsim_analyze.do
+  497  mv main.do taxsim_create.do
+  498  mv states-soi-to-psid.do /users/ahu/Dropbox/psid2022/
+  499  cd ..
+  500  mv states_psid_labels.do states-psid-labels.do
+  501  cd "/Users/ahu/Dropbox/migrepo"
+  502  git tag -m "m111522_2" m111522_2 be39bddfc6af4faa15c1a1960dac4834aaa1a5a5
+  503  git tag -m "m111522_1" m111522_1 39667774245c34beb75813fee1b91eea4a4c5020
+  504  git tag -m "m111522_3" m111522_3 0f27d89d0b94ad57657d37f8573ae3db607957a6
+  505  git tag -m "m111522_4" m111522_4 56596de10602b9768dd95bca204fac49d9892b18
+  506  git commit -m "file transfer"
+  507  git commit -m "trying new opt output with different sigo,cst and uhome"
+  508* 
+  509  git commit -all -m "trying new opt output with different sigo,cst and uhome"
+  510  git commit --all -m "trying new opt output with different sigo,cst and uhome"
+  511  git commit --all -m "trying new opt output with different sigo,cst and higher uhome rel to prev"
+  512  git commit --all -m "trying new opt output with different (lower) sigo,cst and higher uhome rel to prev"
+  513  git commit --all -m "trying new opt output with different (lower) sigo,cst and uhome"
+  514  git commit --all -m "trying new opt output with different (lower) sigo,cst and higher uhome incrment"
+  515  git commit --all -m "trying new opt output with different psil and uhome"
+  516  git commit --all -m "lower psil was better cuz it doesn't require as high uhome which gives good wdif but for eustay no good"
+  517  git commit --all -m "sigo and uhome combos wider range of both"
+  518  git commit --all -m "sending opt"
+  519  git commit --all -m "higher sigo now because otherwise it just doesn't work. but increase cost to make up for it""
+  520  git commit --all -m "higher sigo now because otherwise it just doesn't work. but increase cost to make up for it"
+  521  git commit --all -m "higher cst now"
+  522  git commit --all -m "sigo even higher"
+  523  git commit --all -m "psil higher"
+  524  git commit --all -m "BIG CHGE BIG: ADDED UHOME BY TYPE, TOOK OUT SOME NUISSANCE PARS LIKE AGECST,UCST,ECST"
+  525  git commit --all -m "checks comparing to m111522_6 to check for consistency aftr chges"
+  526  git commit --all -m "m111522_6 with uhomet and smaller uloc differentials"
+  527  git commit --all -m "m111522_6 with smaller uloc differentials"
+  528  git commit --all -m "m111522_6 comparison contd"
+  529  git commit --all -m "m111522_6 with uloc4,5,9 chged to 3K and uhomet"
+  530  git commit --all -m "psil"
+  531  git commit --all -m "BIG BIG (bcuz I put buggy  the alf0 norm.: was setting uloc5=0 by mistake and alf20 for loc3 was being set to 0""
+  532  git commit --all -m "BIG BIG (bcuz I put buggy  the alf0 norm.: was setting uloc5=0 by mistake and alf20 for loc3 was being set to 0"
+  533  git commit --all -m "BIG BIG (bcuz I put buggy  the alf0 norm.: was setting uloc5=0 by mistake and alf20 for loc3 was being set to 0"
+  534  git commit --all -m "sending another opt"
+  535  git commit --all -m "sending another opt"
+  536  git commit --all -m "sending another opt"
+  537  git commit --all -m "ADDING WRITING OF WAGES FOR OUTPUT"
+  538  git commit --all -m "policytax with higher pmeet"
+  539  git commit --all -m "policytax with higher pmeet"
+  540  git commit --all -m "policytax with higher pmeet"
+  541  git commit --all -m "policytax with higher pmeet"
+  542  git commit --all -m "keep higher pmeet,add policy4to6,add getdiv all"
+  543  history > hist111822.txt
