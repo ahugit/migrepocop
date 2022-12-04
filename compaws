@@ -16,7 +16,7 @@ DIR2=/vol/migit
 
 cd $DIR1
 
-cat mig_combo.f90 pnmead.f90 mig_params.f90 mig_share.f90 mig_yaz.f90 mig_sol.f90 mig_mom.f90 mig_objf.f90 mig_main.f90 > $DIR1/program.f90
+cat SLgenlib.f90 mig_combo.f90 pnmead.f90 mig_params.f90 mig_share.f90 mig_yaz.f90 mig_sol.f90 mig_mom.f90 mig_objf.f90 mig_main.f90 > $DIR1/program.f90
 
 
 
