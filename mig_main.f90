@@ -47,6 +47,7 @@ program main
     real(dp) :: QQ(nmom),stderrs(npars),stepstderr(npars)
     integer(i4b) :: kactive,eflag,im,kk
     integer :: nactive
+    logical :: writestderr
 
     !integer, parameter :: lenrunid=5
     !character(LEN=lenrunid) :: runid='test' ! SEY OM OPTIONS.TXT
@@ -356,6 +357,8 @@ program main
             close(6538)
         end if 
     else 
+        writestderr=.FALSE.
+        if (iam==0) writestderr=.TRUE.
         stepstderr=0.0_dp
         stepstderr(42:50)=stepos(42:50)
         if (getstderr) then 
