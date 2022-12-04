@@ -390,11 +390,13 @@ program main
                         D(:,kactive)=(momsim_save(:,iter)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
                         WD(:,kactive)=momwgt*msm_wgt*D(:,kactive)
                         QWD(:,kactive)=QQ*WD(:,kactive)
-                        write(13,*)
-                        WRITE(13,'(I4,4F12.5,I4)') kactive,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter
-                        DO im=1,nmom
-                            WRITE(13,'(I4,11F12.5)') im,momsim_save(:,iter),momsim_save(:,1),momsim_save(:,iter)-momsim_save(:,1),D(im,1:8)
-                        ENDDO        
+                        if (writestderr) then
+                            write(13,*)
+                            WRITE(13,'(I4,4F12.5,I4)') kactive,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter
+                            DO im=1,nmom
+                                WRITE(13,'(I4,11F12.5)') im,momsim_save(im,iter),momsim_save(im,1),momsim_save(im,iter)-momsim_save(im,1),D(im,1:8)
+                            ENDDO        
+                        end if 
                     ENDIF
                 ENDIF
             ENDDO
