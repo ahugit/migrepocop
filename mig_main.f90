@@ -357,16 +357,18 @@ program main
             close(6538)
         end if 
     else 
-        writestderr=.FALSE.
-        if (iam==0) writestderr=.TRUE.
-        stepstderr=0.0_dp
-        stepstderr(42:50)=stepos(42:50)
         if (getstderr) then 
-            !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
-            if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')    
-            nactive = COUNT(stepstderr /= zero)
             call getpars(pars,realpars)
             call objfunc(pars,val) ; realpars=realpartemp
+            if (iam==0) print*, "Just ran iter", iter
+            stepstderr=0.0_dp
+            stepstderr(42:45)=  stepos(42:45)
+            nactive = COUNT(stepstderr /= zero)
+            if (iam==0) print*, "Here is nactive", nactive
+            writestderr=.FALSE.
+            if (iam==0) writestderr=.TRUE.    
+            !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
+            if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')    
             QQ=vardat_save(:,1)/numperdat
             !q1val(j)=val
             kactive=0 ! count of active parameters
@@ -375,14 +377,15 @@ program main
                     pars1=pars
                     pars1(kk)=pars1(kk)+stepstderr(kk)
                     call getpars(pars1,realpars1)
-                    call objfunc(pars1,val) ; realpars1=realpartemp        
+                    call objfunc(pars1,val) ; realpars1=realpartemp 
+                    if (iam==0) print*, "Just ran iter", iter       
                     dtheta(kk)=realpars1(kk)-realpars(kk)
-                    IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,2)-momsim_save(:,1))))==0) )  THEN
+                    IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,iter)-momsim_save(:,1))))==0) )  THEN
                         WRITE(13,'(1A22,1A16,1F8.5)') parname(kk), ' not identified ', dtheta(kk)
                     ELSE
                         kactive=kactive+1 ! number of parameters actually iterating on.   
                         activepari(kactive)=kk ! indexes of active parameters
-                        D(:,kactive)=(momsim_save(:,2)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
+                        D(:,kactive)=(momsim_save(:,iter)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
                         WD(:,kactive)=momwgt*msm_wgt*D(:,kactive)
                         QWD(:,kactive)=QQ*WD(:,kactive)
                     ENDIF
@@ -398,7 +401,7 @@ program main
             stderrs=-1. ! default value to indicate that the paramter was not estimated
             DO kk=1,kactive
                 stderrs(activepari(kk))=SQRT(SEmat(kk,kk))
-                if (writestderr) WRITE(13,'(1A15,1F12.6,1A5,1F6.3,1A1)') parname(activepari(kk)),stderrs(activepari(kk)),'    (',dtheta(activepari(kk)),')'
+                if (writestderr) WRITE(13,'(1A15,2F12.6,1A5,1F6.3,1A1)') parname(activepari(kk)),pars(activepari(kk)),stderrs(activepari(kk)),'    (',dtheta(activepari(kk)),')'
             ENDDO
             ! TESTING
             if (writestderr) then

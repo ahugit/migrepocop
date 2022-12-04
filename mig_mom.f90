@@ -1052,89 +1052,91 @@ end subroutine read_taxes
             calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
             im=im+1             
 !***********************************************
-            do ia=mna,mxa,1
-                CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("wnned|ia   ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
-                calcvar(im)=1
-                momwhich(im)=11
-                momage(im)=ia
-                momsex(im)=g
-                momrel(im)=j
-                im=im+1
-                CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*  (dat(ia,:)%logwr**2),mom,cnt,var)
-                WRITE(name(im),'("wvarned|ia ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-                calcvar(im)=5
-                momwhich(im)=51
-                momage(im)=ia
-                momsex(im)=g
-                momrel(im)=j
-                im=im+1
-            end do 
+            if (momdisplay) then
+                do ia=mna,mxa,1
+                    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
+                    WRITE(name(im),'("wnned|ia   ",i4)') ia
+                    weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+                    calcvar(im)=1
+                    momwhich(im)=11
+                    momage(im)=ia
+                    momsex(im)=g
+                    momrel(im)=j
+                    im=im+1
+                    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*  (dat(ia,:)%logwr**2),mom,cnt,var)
+                    WRITE(name(im),'("wvarned|ia ",i4)') ia
+                    weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                    calcvar(im)=5
+                    momwhich(im)=51
+                    momage(im)=ia
+                    momsex(im)=g
+                    momrel(im)=j
+                    im=im+1
+                end do 
 
-            do ia=mna,mxa,1
-                CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
-                WRITE(name(im),'("wed|ia   ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
-                calcvar(im)=1
-                momwhich(im)=12
-                momage(im)=ia
-                momsex(im)=g
-                momrel(im)=j
-                im=im+1
-                CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0) ,d1*  (dat(ia,:)%logwr**2),mom,cnt,var)
-                WRITE(name(im),'("wvared|ia ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-                calcvar(im)=5
-                momwhich(im)=52
-                momage(im)=ia
-                momsex(im)=g
-                momrel(im)=j
-                im=im+1
-            end do 
+                do ia=mna,mxa,1
+                    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
+                    WRITE(name(im),'("wed|ia   ",i4)') ia
+                    weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+                    calcvar(im)=1
+                    momwhich(im)=12
+                    momage(im)=ia
+                    momsex(im)=g
+                    momrel(im)=j
+                    im=im+1
+                    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0) ,d1*  (dat(ia,:)%logwr**2),mom,cnt,var)
+                    WRITE(name(im),'("wvared|ia ",i4)') ia
+                    weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                    calcvar(im)=5
+                    momwhich(im)=52
+                    momage(im)=ia
+                    momsex(im)=g
+                    momrel(im)=j
+                    im=im+1
+                end do 
 
-            do ia=mna,mxa,1
-                CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%wr>=0) ,d1*dat(ia,:)%wr,mom,cnt,var)
-                WRITE(name(im),'("wnned|ia   ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
-                calcvar(im)=1
-                momwhich(im)=13
-                momage(im)=ia
-                momsex(im)=g
-                momrel(im)=j
-                im=im+1
-                CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%wr>=0) ,d1*  (dat(ia,:)%wr**2),mom,cnt,var)
-                WRITE(name(im),'("wvarned|ia ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-                calcvar(im)=5
-                momwhich(im)=53
-                momage(im)=ia
-                momsex(im)=g
-                momrel(im)=j
-                im=im+1
-            end do 
+                do ia=mna,mxa,1
+                    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%wr>=0) ,d1*dat(ia,:)%wr,mom,cnt,var)
+                    WRITE(name(im),'("wnned|ia   ",i4)') ia
+                    weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+                    calcvar(im)=1
+                    momwhich(im)=13
+                    momage(im)=ia
+                    momsex(im)=g
+                    momrel(im)=j
+                    im=im+1
+                    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%wr>=0) ,d1*  (dat(ia,:)%wr**2),mom,cnt,var)
+                    WRITE(name(im),'("wvarned|ia ",i4)') ia
+                    weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                    calcvar(im)=5
+                    momwhich(im)=53
+                    momage(im)=ia
+                    momsex(im)=g
+                    momrel(im)=j
+                    im=im+1
+                end do 
 
-            do ia=mna,mxa,1
-                CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%wr>=0) ,d1*dat(ia,:)%wr,mom,cnt,var)
-                WRITE(name(im),'("wed|ia   ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
-                calcvar(im)=1
-                momwhich(im)=14
-                momage(im)=ia
-                momsex(im)=g
-                momrel(im)=j
-                im=im+1
-                CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%wr>=0) ,d1*  (dat(ia,:)%wr**2),mom,cnt,var)
-                WRITE(name(im),'("wvared|ia ",i4)') ia
-                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
-                calcvar(im)=5
-                momwhich(im)=54
-                momage(im)=ia
-                momsex(im)=g
-                momrel(im)=j
-                im=im+1
-            end do 
+                do ia=mna,mxa,1
+                    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%wr>=0) ,d1*dat(ia,:)%wr,mom,cnt,var)
+                    WRITE(name(im),'("wed|ia   ",i4)') ia
+                    weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+                    calcvar(im)=1
+                    momwhich(im)=14
+                    momage(im)=ia
+                    momsex(im)=g
+                    momrel(im)=j
+                    im=im+1
+                    CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%wr>=0) ,d1*  (dat(ia,:)%wr**2),mom,cnt,var)
+                    WRITE(name(im),'("wvared|ia ",i4)') ia
+                    weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                    calcvar(im)=5
+                    momwhich(im)=54
+                    momage(im)=ia
+                    momsex(im)=g
+                    momrel(im)=j
+                    im=im+1
+                end do 
+            end if !momdisplay
 !***********************************************
             do i=1,nl
             CALL condmom(im,(   cosexrel(18:23,:) .AND.  dat(18:23,:)%hhr==1 .AND. dat(18:23,:)%edr==1 .AND. dat(18:23,:)%logwr>=0 .AND. dat(18:23,:)%l==i) ,d1*dat(18:23,:)%logwr,mom,cnt,var)
