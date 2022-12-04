@@ -1096,25 +1096,25 @@ RETURN
 4900 FORMAT (' Estimating ',i4,' parameters on ',i3,' communicators')
 5000 FORMAT (' Progress Report every',i4,' function evaluations'/  &
              ' EVAL.   FUNC.VALUE.          PARAMETER VALUES')
-5100 FORMAT (/' ', i4, '  ', g12.5, '  ', 5G11.4, 3(/t22, 5G11.4))
+5100 FORMAT (/' ', i4, '  ', g12.5, '  ', 5G11.4, 3(/t22, 5G11.4/)/)
 5200 FORMAT (' No. of function evaluations > ',i5)
 5201 FORMAT (' No. of function evaluations per processor > ',i5)
 5300 FORMAT (' RMS of function values of last simplex =', g14.6)
-5400 FORMAT (' Centroid of last simplex =',4(/' ', 6G13.5))
+5400 FORMAT (' Centroid of last simplex =',4(/' ', 6G13.5/))
 5500 FORMAT (' Function value at centroid =', g14.6)
-5600 FORMAT (/' EVIDENCE OF CONVERGENCE')
-5700 FORMAT (/' Minimum found after',i5,' function evaluations')
-5701 FORMAT (/' Minimum found after',i5,' function evaluations per processor')
-5800 FORMAT (' Minimum at',4(/' ', 6G13.6))
+5600 FORMAT (/' EVIDENCE OF CONVERGENCE'/)
+5700 FORMAT (/' Minimum found after',i5,' function evaluations'/)
+5701 FORMAT (/' Minimum found after',i5,' function evaluations per processor'/)
+5800 FORMAT (' Minimum at',4(/' ', 6G13.6/))
 5900 FORMAT (' Function value at minimum =', g14.6)
 6000 FORMAT (/' Fitting quadratic surface about supposed minimum'/)
 6100 FORMAT (/' MATRIX OF ESTIMATED SECOND DERIVATIVES NOT +VE DEFN.'/ &
              ' MINIMUM PROBABLY NOT FOUND'/)
 6200 FORMAT (/t11, 'Search restarting'/)
-6300 FORMAT (' Minimum of quadratic surface =',g14.6,' at',4(/' ', 6G13.5))
+6300 FORMAT (' Minimum of quadratic surface =',g14.6,' at',4(/' ', 6G13.5/))
 6400 FORMAT (' IF THIS DIFFERS BY MUCH FROM THE MINIMUM ESTIMATED ',      &
              'FROM THE MINIMIZATION,'/' THE MINIMUM MAY BE FALSE &/OR THE ',  &
-             'INFORMATION MATRIX MAY BE INACCURATE'/)
+             'INFORMATION MATRIX MAY BE INACCURATE')
 6500 FORMAT (' Rank of information matrix =',i3/ &
              ' Inverse of information matrix:-')
 6600 FORMAT (/' If the function minimized was -LOG(LIKELIHOOD),'/         &
@@ -1122,8 +1122,8 @@ RETURN
              ' If the function was a sum of squares of residuals,'/       &
              ' this matrix must be multiplied by twice the estimated ',   &
              'residual variance'/' to obtain the covariance matrix.'/)
-6700 FORMAT (' INFORMATION MATRIX:-'/)
-6800 FORMAT (/' CORRELATION MATRIX:-')
+6700 FORMAT (' INFORMATION MATRIX:-')
+6800 FORMAT (/' CORRELATION MATRIX:-'/)
 6900 FORMAT (/' A further',i4,' function evaluations have been used'/)
 
 call MPI_Finalize(mpierr)

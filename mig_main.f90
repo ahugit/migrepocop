@@ -39,14 +39,16 @@ program main
 	integer :: mpierr,mpistat(mpi_status_size)
     real(4), allocatable, dimension(:,:) :: mytime 
     !for standard errors:
-    real(dp), allocatable, dimension(:,:) :: D,WD,QWD       !(nmom,nactive)
-    real(dp), allocatable, dimension(:,:) :: DpWDinv,SEmat  !(nactive,nactive)
-    real(dp), allocatable, dimension(:) :: dtheta           !nactive
-    integer(i4b), allocatable, dimension(:) :: activepari   !nactive
-    real(dp) :: QQ(nmom),stderrs(npars)
+    real(8) :: D(nmom,npars),WD(nmom,npars),QWD(nmom,npars)
+    real(8) :: DpWDinv(npars,npars),SEmat(npars,npars)
+    real(8) :: dtheta(npars),worksp(npars)
+    integer :: activepari(npars)
+    real(dp) :: QQ(nmom),stderrs(npars),stepstderr(npars)
     integer(i4b) :: kactive,eflag,im,kk
-    integer, parameter :: lenrunid=5
-    character(LEN=lenrunid) :: runid='test' ! SEY OM OPTIONS.TXT
+    integer :: nactive
+
+    !integer, parameter :: lenrunid=5
+    !character(LEN=lenrunid) :: runid='test' ! SEY OM OPTIONS.TXT
 
     !OPEN(5,FILE='options.txt')
     !READ(5,*) runid
@@ -294,14 +296,14 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     
-    pars(26)=pars(26)+1.0_dp !divpen
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !pars(26)=pars(26)+1.0_dp !divpen
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars=pars1
-    pars(26)=pars(26)+2.0_dp !divpen
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !pars=pars1
+    !pars(26)=pars(26)+2.0_dp !divpen
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     !pars(74)=pars(74)   
     !pars(80)=pars(74)  
@@ -353,27 +355,26 @@ program main
             close(6538)
         end if 
     else 
-        step=stepos
+        stepstderr=0.0_dp
+        stepstderr(42:50)=stepos(42:50)
         if (getstderr) then 
-            if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
-            nactive = COUNT(step /= zero)
-            allocate(D(nmom,nactive),WD(nmom,nactive),QWD(nmom,nactive))
-            allocate(DpWDinv(nactive,nactive),SEmat(nactive,nactive))
-            allocate(dtheta(nactive),activepari(nactive))
+            !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
+            if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')    
+            nactive = COUNT(stepstderr /= zero)
             call getpars(pars,realpars)
             call objfunc(pars,val) ; realpars=realpartemp
             QQ=vardat_save(:,1)/numperdat
-            q1val(j)=val
+            !q1val(j)=val
             kactive=0 ! count of active parameters
             DO kk=1,npars
-                IF (step(kk) .NE. 0.0)  THEN
-                    pars2=pars
-                    pars2(kk)=pars2(kk)+step(kk)
-                    call getpars(pars2,realpars2)
-                    call objfunc(pars2,val) ; realpars2=realpartemp        
-                    dtheta(kk)=realpars2(kk)-realpars(kk)
-                    IF (writestderr.and.MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,2)-momsim_save(:,1)))==0)) THEN
-                        WRITE(13,'(1A22,1A16,1F8.5)') parnames(kk), ' not identified ', dtheta(kk)
+                IF (stepstderr(kk) .NE. 0.0)  THEN
+                    pars1=pars
+                    pars1(kk)=pars1(kk)+stepstderr(kk)
+                    call getpars(pars1,realpars1)
+                    call objfunc(pars1,val) ; realpars1=realpartemp        
+                    dtheta(kk)=realpars1(kk)-realpars(kk)
+                    IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,2)-momsim_save(:,1))))==0) )  THEN
+                        WRITE(13,'(1A22,1A16,1F8.5)') parname(kk), ' not identified ', dtheta(kk)
                     ELSE
                         kactive=kactive+1 ! number of parameters actually iterating on.   
                         activepari(kactive)=kk ! indexes of active parameters
@@ -383,6 +384,7 @@ program main
                     ENDIF
                 ENDIF
             ENDDO
+            if (kactive.ne.nactive) then ; print*, "Something wrong with kactive",kactive,nactive ; stop ; end if
             ! kactive now holds total number of active parameters
             !Q_MSM=SUM(weights*MSM_weights*(datamoments-simmoments)**2)
             !FINDInv(matrix, inverse, n, errorflag)
@@ -405,7 +407,7 @@ program main
                 DO im=1,nmom
                     !WRITE(*,'(2F12.5)') WD(im,1:2)
                     !WRITE(*,'(4F12.5)') WD(im,1),weights(im), MSM_weights(im),D(im,1)
-                    WRITE(13,'(5F14.5)') MSM_weights(im),real(cntdat_save(im,1)),real(numperdat),cntdat_save(im,1),vardat_save(im,1)**(-1) ! weighting vector (main diagonal of diaginal weighting matrix)
+                    WRITE(13,'(5F14.5)') msm_wgt(im),real(cntdat_save(im,1)),real(numperdat),cntdat_save(im,1),vardat_save(im,1)**(-1) ! weighting vector (main diagonal of diaginal weighting matrix)
                 ENDDO
                 WRITE(13,*)
                 WRITE(13,*) 'QWD'
@@ -425,7 +427,6 @@ program main
                 WRITE(13,*)
                 CLOSE(13)
             end if
-            deallocate(D,WD,QWD,DpWDinv,SEmat,dtheta,activepari)
         end if 
     
         !call random_seed (size=p)
