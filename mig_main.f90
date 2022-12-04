@@ -38,6 +38,27 @@ program main
 	integer :: mpi_group_world,mygsize
 	integer :: mpierr,mpistat(mpi_status_size)
     real(4), allocatable, dimension(:,:) :: mytime 
+    !for standard errors:
+    real(dp), allocatable, dimension(:,:) :: D,WD,QWD       !(nmom,nactive)
+    real(dp), allocatable, dimension(:,:) :: DpWDinv,SEmat  !(nactive,nactive)
+    real(dp), allocatable, dimension(:) :: dtheta           !nactive
+    integer(i4b), allocatable, dimension(:) :: activepari   !nactive
+    real(dp) :: QQ(nmom),stderrs(npars)
+    integer(i4b) :: kactive,eflag,im,kk
+    integer, parameter :: lenrunid=5
+    character(LEN=lenrunid) :: runid='test' ! SEY OM OPTIONS.TXT
+
+    !OPEN(5,FILE='options.txt')
+    !READ(5,*) runid
+    !READ(5,*) estimate
+    !READ(5,*) stepsize0
+    !READ(5,*) fixtaua
+    !READ(5,*) fixtauth
+    !READ(5,*) min_wage
+    !READ(5,*) bootrun
+    !CLOSE(5)
+    
+
 	call mpi_init(mpierr)
 	call mpi_comm_rank(mpi_comm_world,iam,mpierr)
 	call mpi_comm_size(mpi_comm_world,numworld,mpierr)
@@ -148,11 +169,23 @@ program main
 		open(unit=500, file='chksimpath.txt',status='replace')	 !written by simulate/yaz_simpath
 	end if 
 	!call cohab_stderr(parvector,stepsize,stderrs)
-nonneg=.TRUE.
-!ahu030622 nonlabinc=(/ 300.0_dp,1100.0_dp /) 
-nonlabinc=0.0_dp !ahu030622
-
-
+    nonneg=.TRUE.
+    onthejobsearch=.TRUE.
+    nonlabinc=0.0_dp
+    numperdat=7209 !7538
+    allocate(init(numperdat)) !dat is deallocated at the end of the numit if statement but init is not, because I need it for the simulations in all calls! 
+    numperobsdat=113072 !114537
+    numpersim=numperdat*nsimeach
+    datafilename='familymig2022.txt'
+    taxset=1
+    moveshockdiv=1.0_dp
+    policytax=0
+    terminalval=.TRUE.    
+    !taxset=0
+    !numperdat=5233
+    !numperobsdat=84507
+    !numpersim=numperdat*nsimeach
+    !datafilename='familymigpsid.txt'
 
     if (icheck_eqvmvf) then
 		pars(3)=pars(2)
@@ -169,185 +202,69 @@ nonlabinc=0.0_dp !ahu030622
 		pars(npars)=0.0_dp          ! mu_mar
 	end if 
     
-      
-    !open(unit=2,file='bp041019_3.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !nonlabinc=0.0_dp
-    !The below are in order to set type parameters to values they were before we changed the getpars setup 
-    !(where ptype's are no longer 0 and mumar's are no longer all being set equal to mumar(1))
-    !pars(75)=0.0015_dp !mumar1
-    !pars(76)=0.0_dp !ptypehs2 
-    !pars(77)=0.0_dp !ptypecol2
-    !pars(81)=0.0015_dp !mumar2
-    !pars(82)=0.0_dp !ptypehs3 
-    !pars(83)=0.0_dp !ptypecol3
-    !pars(87)=0.0015_dp !mumar3
-    !pars(88)=0.0_dp !ptypehs4 
-    !pars(89)=0.0_dp !ptypecol4
-    !pars(93)=0.0015_dp !mumar4
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp     
 
-
-    !open(unit=2,file='bp090922.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
-    nonlabinc=0.0_dp
-    pars=pars1
-    !changing only type parameters in pars
-    !pars(70)=0 !ptype set to 0 in getpars
-    !pars(71)=0 !ptype set to 0 in getpars
-    pars(72)=8.9_dp !alf1t
-    pars(73)=8.9_dp !alf2t
-    !pars(74)=0 !cst1 this is set in getpars as it is a normalization
-    pars(75)=0.1_dp !mumar1 !should this be set to 0? 
-
-    pars(76)=0.1_dp !ptypehs2 
-    pars(77)=0.1_dp !ptypecol2
-    pars(78)=9.1_dp !alf1t
-    pars(79)=8.9_dp !alf2t
-    pars(80)=-100.0_dp !cst2 
-    pars(81)=0.1_dp !mumar2    
-    
-    pars(82)=0.1_dp !ptypehs3 
-    pars(83)=0.1_dp !ptypecol3
-    pars(84)=9.8_dp !alf1t
-    pars(85)=9.1_dp !alf2t
-    pars(86)=-500.0_dp !cst3
-    pars(87)=0.1_dp !mumar3
-    
-    pars(88)=-0.6_dp !ptypehs4 
-    pars(89)=0.1_dp !ptypecol4
-    pars(90)=9.4_dp !alf1t
-    pars(91)=9.2_dp !alf2t
-    pars(92)=8000.0_dp !cst4 
-    pars(93)=0.1_dp !mumar4
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp        
-
-
-
-
-    open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars1	; close(2)
-    onthejobsearch=.TRUE.
-    nonlabinc=0.0_dp
-    pars=pars1
+    open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !set all junk parameters to zero so that I get zeros for these parameters the next pars file after opt
-    !pars(9)=0.5_dp !u cur m (to bring up eu move and ee move so that they don't say I'll find a job after I movey)
-    !pars(23)=pars(22)
-    !pars(7:8)=-10.0_dp
-    !pars(12)=-10.0_dp  
-    pars(21)=-2.5_dp !pmeet to bring down getmar rates
+    pars(9)=0.5_dp !u cur m (to bring up eu move and ee move so that they don't say I'll find a job after I movey)
+    pars(7:8)=-10.0_dp
+    pars(12)=-10.0_dp 
+    pars(1)=1.0_dp  !emp curm
+    pars(2)=-1.0_dp !emp curm
+    pars(3)=1.0_dp  !emp ofm
+    pars(4)=0.0_dp !emp ofm set to 0 in getpars
+    pars(5)=1.0_dp  !emp curf
+    pars(6)=-1.0_dp !emp curf
+    pars(7)=-1.0_dp  !emp off
+    pars(8)=0.0_dp !emp off set to 0 in getpars
+    pars(3)=pars(1)
+    pars(1)=pars(5)
+    pars(10)=pars(10)-1.0_dp
+    pars(10)=1.0_dp !u cur m
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
-    pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
-    pars(27)=-5.0_dp !alphaed(m,noed)
-    pars(28)=-4.0_dp !alphaed(f,noed)
-    pars(29)=-5.3_dp !alphaed(m,ed)
-    pars(30)=-4.0_dp !alphaed(f,ed)
-    pars(1)=3.8417_dp     !higher empcurm because of chkobj101022
-    pars(7)=2.4740_dp     !higher emp of f because of chkobj101022
-    pars(33)=1358.7599_dp !higher uloc1 because of chkobj101022
-    pars(35)=3354.4870_dp !higher uloc3 because of chkobj101022
-    pars(36)=4763.7679_dp !higher uloc4 because of chkobj101022
-    pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
-    pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
-    pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
-    pars(70:71)=0.0_dp !make everyone type4  (note that ptype1 is fixed in getpars already)
-    pars(76:77)=0.0_dp !make everyone type4 
-    pars(82:83)=0.0_dp !make everyone type4
-    pars(88:89)=0.0_dp  !make everyone type4
-    pars(72)=9.1_dp
-    pars(78)=9.0_dp
-    pars(84)=9.2_dp
-    pars(90)=9.4_dp
-    pars(73)=9.2_dp
-    pars(79)=8.9_dp
-    pars(85)=9.0_dp
-    pars(91)=8.8_dp
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-4.0_dp !mumar3
-    pars(93)=-2.0_dp !mumar4
-    pars(15)=0.0_dp !ro
-    pars(74)=-2.0_dp  
-    pars(80)=-2.0_dp  
-    pars(86)=-2.0_dp  
-    pars(92)=-2.0_dp  
-    pars(17:19)=0.0_dp !psih2-4
-    pars(26)=-2.0_dp !divpenalty 
-    pars(53)=0.0_dp !alf13 
-    pars(65)=0.0_dp !alf23 
-    pars(52)=-1.0_dp !increasing alf12 because of nexp
-    pars(64)=-1.0_dp !increasing alf22 because of nexp
-    pars(16)=-1.5       !psih
-    pars(66)=-0.5_dp    !sigwgem
-    pars(67)=-1.0_dp    !sigwgef
-    pars(68)=3.0_dp     !sigom
-    pars(69)=-1.0_dp    !sigof
-    pars(22)=pars(22)+2000.0_dp 
-    pars(23)=pars(23)+2000.0_dp
-    pars(45)=pars(45)+0.1 !loc4 alf10
-    pars(46)=pars(46)+0.1 !loc5 alf10
-    pars(48)=pars(48)+0.2 !loc7 alf10
-    pars(50)=pars(50)+0.1 !loc9 alf10
     pars(11)=1.0_dp !u cur f because her emp is too low
-    !pars(1)=1.0_dp  !emp curm
-    !pars(2)=-1.0_dp !emp curm
-    !pars(3)=1.0_dp  !emp ofm
-    !pars(4)=0.0_dp !emp ofm set to 0 in getpars
-    !pars(5)=1.0_dp  !emp curf
-    !pars(6)=-1.0_dp !emp curf
-    !pars(7)=-1.0_dp  !emp off
-    !pars(8)=0.0_dp !emp off set to 0 in getpars
-    !pars(22:23)=6000.0_dp !uhome
-    pars(13)=2.4_dp    !psil
-    pars(74)=-5000  
-    pars(80)=-5000  
-    pars(86)=-5000  
-    pars(92)=-5000  
+    pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
+    pars(13)=2.4_dp    !psil 
+    pars(14)=0.0_dp !ucst
+    pars(15)=-40.0_dp !agecst
+    pars(15)=0.0_dp !ro
+    pars(16)=-1.5       !psih
+    pars(17:19)=0.0_dp !psih2-4
+    pars(21)=-2.5_dp !pmeet to bring down getmar rates
+    pars(22:23)=6000.0_dp !uhome
+    pars(24)=0.0_dp !ecst
+    pars(25)=0.0_dp !kcst 
+    pars(26)=-2.0_dp !divpenalty 
     pars(27)=-4.0_dp !alphaed(m,noed)
     pars(28)=-3.0_dp !alphaed(f,noed)
     pars(29)=-5.3_dp !alphaed(m,ed)
     pars(30)=-4.0_dp !alphaed(f,ed)
-    pars(10)=1.0_dp !u cur m
-    !pars(22:23)=50000.0_dp !uhome because home moves are low these days because of the high sigo I think so uhome has to be high enough relative to sigo. 
-    !taxset=0
-    !numperdat=5233
-    !numperobsdat=84507
-    !numpersim=numperdat*nsimeach
-    !datafilename='familymigpsid.txt'
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
-
-    onthejobsearch=.TRUE.
-    nonlabinc=0.0_dp
-    numperdat=7209 !7538
-    allocate(init(numperdat)) !dat is deallocated at the end of the numit if statement but init is not, because I need it for the simulations in all calls! 
-    numperobsdat=113072 !114537
-    numpersim=numperdat*nsimeach
-    datafilename='familymig2022.txt'
-    taxset=1
-    moveshockdiv=1.0_dp
-    policytax=0
-    terminalval=.TRUE.    
-
-    pars1(25)=pars1(25)+50000.0_dp
-    pars1(26)=pars1(26)+1.5_dp
-    pars=pars1
-    pars(14)=0.0_dp !ucst
-    pars(15)=-10.0_dp !agecst
-    pars(24)=0.0_dp !ecst
-    pars(25)=0.0_dp !kcst 
-    pars(90)=pars(90)-0.7
-    pars(7)=2.0_dp
-    pars(66)=pars(66)+1.3_dp
+    pars(33)=1358.7599_dp !higher uloc1 because of chkobj101022
+    pars(35)=3000.0_dp !uloc3
+    pars(36)=3000.0_dp !uloc4 
+    pars(37)=3000.0_dp !uloc5
+    pars(38)=5072.9306_dp !higher uloc6 because of chkobj101022
+    pars(39)=5328.9859_dp !higher uloc7 because of chkobj101022
+    pars(41)=4298.3866_dp !higher uloc9 because of chkobj101022
+    pars(42:50)=0.0_dp 
+    pars(45)=pars(45)+0.1 !loc4 alf10
+    pars(46)=pars(46)+0.1 !loc5 alf10
+    pars(48)=pars(48)+0.2 !loc7 alf10
+    pars(50)=pars(50)+0.1 !loc9 alf10
+    pars(51)=pars(63)
+    pars(52)=-1.0_dp !increasing alf12 because of nexp
+    pars(53)=0.0_dp !alf13 
+    pars(54:62)=0.0_dp 
     pars(59:60)=pars(59:60)+0.3_dp
-    pars(15)=-5.0_dp !agecst
-    pars(3)=pars(1)
-    pars(10)=pars(10)-1.0_dp
-
-    !open(unit=2,file='o111422_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(74)=0.0_dp
-    pars(80)=0.0_dp
-    pars(86)=0.0_dp
-    pars(92)=0.0_dp
+    pars(64)=-1.0_dp !increasing alf22 because of nexp
+    pars(65)=0.0_dp !alf23 
+    pars(66)=-0.5_dp    !sigwgem
+    pars(67)=-1.0_dp    !sigwgef
+    pars(68)=3.0_dp     !sigom
+    pars(69)=-1.0_dp    !sigof
+    pars(70:71)=0.0_dp !make everyone type4  (note that ptype1 is fixed in getpars already)
+    pars(76:77)=0.0_dp !make everyone type4 
+    pars(82:83)=0.0_dp !make everyone type4
+    pars(88:89)=0.0_dp  !make everyone type4
     pars(72)=8.9_dp !set according to loc5 wned at age 18
     pars(73)=8.8_dp !set according to loc5 wned at age 18
     pars(78)=8.9_dp
@@ -356,77 +273,44 @@ nonlabinc=0.0_dp !ahu030622
     pars(85)=8.8_dp
     pars(90)=8.9_dp
     pars(91)=8.8_dp
-    pars(42:50)=0.0_dp 
-    pars(54:62)=0.0_dp 
-    pars(1)=pars(5)
-    pars(66)=0.0_dp
-    pars(67)=-0.2_dp
-    pars(16)=-2.0_dp !psih
-    pars(52)=-1.0_dp !alf12
-    pars(64)=-1.0_dp !alf12
-    pars(51)=pars(63)
-    pars(15)=-40.0_dp !agecst
-    pars(74)=-5000.0_dp
-    pars(80)=-5000.0_dp
-    pars(86)=-5000.0_dp
-    pars(92)=-5000.0_dp
-    pars(68:69)=-0.6_dp 
-    pars(22:23)=30000.0_dp
-    pars(14)=0.0_dp !ucst
-    pars(15)=-10.0_dp !agecst
-    pars(24)=0.0_dp !ecst
-    pars(25)=0.0_dp !kcst 
-    pars1=pars
-
-
-    !open(unit=2,file='o111522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars2=pars
-    pars(74)=-20000.0_dp
-    pars(80)=-20000.0_dp
-    pars(86)=-20000.0_dp
-    pars(92)=-20000.0_dp
-    pars(68:69)=-2.5_dp 
-    pars(33:41)=pars1(33:41)
-    pars(35)=3000.0_dp
-    pars(36)=3000.0_dp
-    pars(37)=3000.0_dp
-    pars(39)=3000.0_dp
-    pars(22:23)=0.0_dp
-    pars(13)=pars(13)-0.5_dp
-    i=1
-    j=1
-    k=1
-    pars(14)=5000.0_dp*i
-    pars(15)=5000.0_dp*j
-    pars(24)=5000.0_dp*j
-    pars(65)=5000.0_dp*k
+    pars(74)=-5000  
+    pars(80)=-5000  
+    pars(86)=-5000  
+    pars(92)=-5000  
+    pars(75)=-4.0_dp !mumar1
+    pars(81)=-4.0_dp !mumar2
+    pars(87)=-4.0_dp !mumar3
+    pars(93)=-2.0_dp !mumar4
+    i=1 ; j=1 ; k=1
+    pars(14)=5000.0_dp*i !ucst 
+    pars(15)=5000.0_dp*j !agecst
+    pars(24)=5000.0_dp*j !ecst
+    pars(65)=5000.0_dp*k !kcst
             
-
     open(unit=2,file='o111622_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(21)=pars(21)+2.0_dp
+    pars1=pars
     policytax=0
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=1
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=2
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=3
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=5
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=6
+    
+    pars(26)=pars(26)+1.0_dp !divpen
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-!*************************    
+    pars=pars1
+    pars(26)=pars(26)+2.0_dp !divpen
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    !pars(74)=pars(74)   
+    !pars(80)=pars(74)  
+    !pars(86)=pars(74)
+    !pars(92)=pars(74)
+
+
+    
+    !*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
     !if (iam==0) print*, 'Here is qval: ', qval
@@ -444,12 +328,8 @@ nonlabinc=0.0_dp !ahu030622
         !optimization parameters:
         stepmin=stepos !ahu 121118
         maxfn=8000
-        !if (iam==0) then  
         iprint=20
-        !    open(unit=6538, file='lavas.txt',status='replace')		
-        !else 
-        !    iprint=-1
-        !end if 
+        !iprint=-1
         stopcr=5.0_dp
         nloop=npars+2
         iquad=0 !ag092522 agsept2022: This was 0 before but I don't think that's right so I'm trying this one. actually I don't think it matters (it only matters at end after convgence)
@@ -460,8 +340,7 @@ nonlabinc=0.0_dp !ahu030622
         tfreq=COUNT(stepmin /= zero) !number of function calls between temp reductions
         saseed=1            !seed for random numbers
         !call minim(p,    step,    nop, func,  maxfn,  iprint, stopcr, nloop, iquad,  simp, var, functn, ifault)
-        !call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)    
-    
+        !call minim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad,  simp, var, objfunc, writebest, ifault)        
     	if (groups) then 
 			call pminim(pars, stepmin, npars, qval, maxfn, iprint, stopcr, nloop, iquad, simp, var, objfunc, writebest,ifault,mygroup,numgroup,tstart, tstep	, tfreq, saseed)
 		else 
@@ -474,10 +353,81 @@ nonlabinc=0.0_dp !ahu030622
             close(6538)
         end if 
     else 
-		!conditional_moments=.false.		
-		conditional_moments=.true.	       
-        stepmin=stepos
-
+        step=stepos
+        if (getstderr) then 
+            if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
+            nactive = COUNT(step /= zero)
+            allocate(D(nmom,nactive),WD(nmom,nactive),QWD(nmom,nactive))
+            allocate(DpWDinv(nactive,nactive),SEmat(nactive,nactive))
+            allocate(dtheta(nactive),activepari(nactive))
+            call getpars(pars,realpars)
+            call objfunc(pars,val) ; realpars=realpartemp
+            QQ=vardat_save(:,1)/numperdat
+            q1val(j)=val
+            kactive=0 ! count of active parameters
+            DO kk=1,npars
+                IF (step(kk) .NE. 0.0)  THEN
+                    pars2=pars
+                    pars2(kk)=pars2(kk)+step(kk)
+                    call getpars(pars2,realpars2)
+                    call objfunc(pars2,val) ; realpars2=realpartemp        
+                    dtheta(kk)=realpars2(kk)-realpars(kk)
+                    IF (writestderr.and.MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,2)-momsim_save(:,1)))==0)) THEN
+                        WRITE(13,'(1A22,1A16,1F8.5)') parnames(kk), ' not identified ', dtheta(kk)
+                    ELSE
+                        kactive=kactive+1 ! number of parameters actually iterating on.   
+                        activepari(kactive)=kk ! indexes of active parameters
+                        D(:,kactive)=(momsim_save(:,2)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
+                        WD(:,kactive)=momwgt*msm_wgt*D(:,kactive)
+                        QWD(:,kactive)=QQ*WD(:,kactive)
+                    ENDIF
+                ENDIF
+            ENDDO
+            ! kactive now holds total number of active parameters
+            !Q_MSM=SUM(weights*MSM_weights*(datamoments-simmoments)**2)
+            !FINDInv(matrix, inverse, n, errorflag)
+            CALL FINDinv(MATMUL(TRANSPOSE(WD(:,1:kactive)),D(:,1:kactive)),DpWDinv(1:kactive,1:kactive),kactive,eflag) ! get (D'WD)^-1
+            ! Standard errors are sqrt of diagional elements of matrix ((D'WD)^-1 * D'WQWD * (D'WD)^-1)
+            SEmat(1:kactive,1:kactive)=MATMUL(MATMUL(DpWDinv(1:kactive,1:kactive),TRANSPOSE(WD(:,1:kactive))),MATMUL(QWD(:,1:kactive),DpWDinv(1:kactive,1:kactive)))
+            stderrs=-1. ! default value to indicate that the paramter was not estimated
+            DO kk=1,kactive
+                stderrs(activepari(kk))=SQRT(SEmat(kk,kk))
+                if (writestderr) WRITE(13,'(1A15,1F12.6,1A5,1F6.3,1A1)') parname(activepari(kk)),stderrs(activepari(kk)),'    (',dtheta(activepari(kk)),')'
+            ENDDO
+            ! TESTING
+            if (writestderr) then
+                WRITE(13,*) 'D'
+                DO im=1,nmom
+                    WRITE(13,'(2F12.5)') D(im,1:2)
+                ENDDO
+                WRITE(13,*)
+                WRITE(13,*) 'WD' 
+                DO im=1,nmom
+                    !WRITE(*,'(2F12.5)') WD(im,1:2)
+                    !WRITE(*,'(4F12.5)') WD(im,1),weights(im), MSM_weights(im),D(im,1)
+                    WRITE(13,'(5F14.5)') MSM_weights(im),real(cntdat_save(im,1)),real(numperdat),cntdat_save(im,1),vardat_save(im,1)**(-1) ! weighting vector (main diagonal of diaginal weighting matrix)
+                ENDDO
+                WRITE(13,*)
+                WRITE(13,*) 'QWD'
+                DO im=1,nmom
+                    WRITE(13,'(1F12.5)') QWD(im,1)
+                ENDDO
+                WRITE(13,*)
+                WRITE(13,*) 'DpWDinv'
+                DO im=1,1
+                    WRITE(13,'(1F12.5)') DpWDinv(im,1)
+                ENDDO
+                WRITE(13,*)
+                WRITE(13,*) 'SEmat'
+                DO im=1,1
+                    WRITE(13,'(1F12.5)') SEmat(im,1:1)
+                ENDDO
+                WRITE(13,*)
+                CLOSE(13)
+            end if
+            deallocate(D,WD,QWD,DpWDinv,SEmat,dtheta,activepari)
+        end if 
+    
         !call random_seed (size=p)
 	    !p=12
 	    !call random_seed (put = (/(k,k=1,p)/))
@@ -544,32 +494,6 @@ nonlabinc=0.0_dp !ahu030622
 					jloop: do j=1,nj2
 						if (parname(i)=='cst(1)'.or.parname(i)=='cst(2)') then
                             step(j)=(j-nj)*0.2_dp
-						else if (parname(i)=='ecst') then
-                            step(j)=(j-nj)*0.2_dp
-						else if (parname(i)=='kcst') then
-                            step(j)=(j-nj)*0.25_dp
-						else if (parname(i)=='divpenalty') then
-                            step(j)=(j-nj)*0.25_dp
-						else if (parname(i)=='alphaed(m,1)') then
-                            step(j)=(j-nj)*1.0_dp
-						else if (parname(i)=='alphaed(m,2)') then
-                            step(j)=(j-nj)*1.0_dp
-						else if (parname(i)=='alphaed(f,2)') then
-                            step(j)=(j-nj)*0.3_dp
-						else if (parname(i)=='psio') then
-                            step(j)=(j-nj)*0.3_dp
-						else if (parname(i)=='psil') then
-                            step(j)=(j-nj)*0.3_dp
-						else if (parname(i)=='psih') then
-                            step(j)=(j-nj)*0.3_dp
-                        else if (parname(i)=='uloc') then 
-							step(j)=(j-nj)*0.06_dp
-                        else if (parname(i)=='alf11'.or.parname(i)=='alf21') then 
-							step(j)=(j-nj)*0.1_dp
-                        else if (parname(i)=='alf20'.and.i==47) then
-                            step(j)=(j-nj)*0.05_dp
-						else if (parname(i)=='alf20'.and.i==48) then
-                            step(j)=(j-nj)*0.05_dp
 						else if (parname(i)=='alf13') then
                             step(j)=(j-nj)*0.2_dp*abs(pars(i))
 						else if (parname(i)=='alf22') then
@@ -623,6 +547,11 @@ nonlabinc=0.0_dp !ahu030622
 			end do 
 		end if 
 	end if 
+
+
+
+
+
 	runtime=secnds(begintime)
 	if (iam==0) then ; write(*,'("run time: ", f14.2)') runtime ; end if 
 	!ag090122 agsept2022 if (groups) then 

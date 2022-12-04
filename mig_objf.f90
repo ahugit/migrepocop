@@ -6,6 +6,7 @@ module objf
 	implicit none 
 	!include 'mpif.h'
 	real(dp) :: q_save(numit),qcont_save(nmom,numit)
+	real(dp), dimension(nmom) :: msm_wgt,momwgt
 	real(dp), dimension(npars,numit) :: par_save,realpar_save
 	real(dp), dimension(nmom,numit) :: momdat_save,momsim_save,vardat_save
 	integer(i4b), dimension(nmom,numit) :: cntdat_save,cntsim_save
@@ -23,7 +24,7 @@ contains
 	type(statevar), dimension(:,:), allocatable :: dat
 	real(dp), dimension(nmom), save :: momdat,vardat    !deljan03
 	integer(i4b), dimension(nmom), save :: cntdat       !deljan03
-	real(dp), dimension(nmom) :: momsim,varsim,mymom,myvar,msm_wgt,momwgt,qcont
+	real(dp), dimension(nmom) :: momsim,varsim,mymom,myvar,qcont
 	integer(i4b), dimension(nmom) :: cntsim,mycnt
 	integer(i4b), parameter :: datcountbar=10 !ahu jan19 010219 changing from 20 to 10 in order for emp at age 18 to count (thereis only 12 in that cell) because it identifies offer rates
 	real(dp) :: time(10),mutemp1,mutemp2,mutemp3
@@ -198,6 +199,14 @@ contains
 		else 
 			msm_wgt(i)=0.0_dp
 		end if 
+		!the version in train_stderr:
+		!if (vardat_save(im,1)*(cntdat_save(im,1))>0.) then !these are declared in the objf module and assigned values in objf
+		!    msm_wgt(im)=( cntdat_save(im,1) ) * vardat_save(im,1)**(-1)
+		!elseif (cntdat_save(im,1)==0) then
+		!    msm_wgt(im)=0.
+		!else
+		!    msm_wgt(im)=1.
+		!end if
 		!AG090122 AGSEPT2022
 		!IF WANT TO COMPARE OBJVAL BETWEEN RUNS GROUPS=TRUE AND GROUPS=FALSE THEN 
 		!NEED TO RUN GROUPS=TRUE WITH THE BELOW AND THEN GROUPS=FALSE WITH THE BELOW 
