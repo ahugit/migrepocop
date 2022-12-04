@@ -285,13 +285,13 @@ contains
 	!wage 42: 65
     do i=1,nl
         if (i==5) then
-            realpar(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=0.0_dp ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         else 
-            realpar(j)=par(j) !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=par(j) ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         end if     
-        parname(j)='alf10' ; stepos(j)=0.3_dp ; if (i==3) stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !dont iterate on alpha10(1) for a second
+        parname(j)='alf10'  
         j=j+1
     end do 
     !print*, 'Here is alf11 etc',j
@@ -306,13 +306,13 @@ contains
     !print*, 'Here is alf20',j
     do i=1,nl
         if (i==5) then
-            realpar(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=0.0_dp ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         else 
-            realpar(j)=par(j) !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=par(j) ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         end if     
-        parname(j)='alf20' ; stepos(j)=0.3_dp  ; if (i==3) stepos(j)=0.0_dp ;  if (onlymales) stepos(j)=0.0_dp 
+        parname(j)='alf20'  
 		j=j+1
 	end do 
     !print*, 'Here is alf21 etc',j
