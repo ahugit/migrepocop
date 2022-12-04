@@ -193,12 +193,19 @@ contains
     !deallocate(Iamtrying)
     
 	do i=1,nmom
-		!if (vardatamom(im)>0d0.or.countdatamom(im)>=datacountbar) !this "or" does not make any sense! !cohabitation correction 
-		if (vardat(i)>0.0_dp .and. cntdat(i)>=datcountbar ) then
-			msm_wgt(i)=vardat(i)**(-1) !1.0_dp ahu 041219    !AHU JAN19 012919
-		else 
+		!if (vardatamom(im)>0d0.or.countdatamom(im)>=datacountbar) !this "or" does not make any sense! !cohabitation correction
+		if (vardat(i)*cntdat(i)>0.0_dp ) then
+			msm_wgt(i)= ( cntdat(i) ) * vardat(i)**(-1) !1.0_dp ahu 041219    !AHU JAN19 012919
+		else if (cntdat(i)==0) then
 			msm_wgt(i)=0.0_dp
-		end if 
+		else
+			msm_wgt(i)=1.0_dp
+		end if  
+		!if (vardat(i)>0.0_dp .and. cntdat(i)>=datcountbar ) then
+		!	msm_wgt(i)=vardat(i)**(-1) !1.0_dp ahu 041219    !AHU JAN19 012919
+		!else 
+		!	msm_wgt(i)=0.0_dp
+		!end if 
 		!the version in train_stderr:
 		!if (vardat_save(im,1)*(cntdat_save(im,1))>0.) then !these are declared in the objf module and assigned values in objf
 		!    msm_wgt(im)=( cntdat_save(im,1) ) * vardat_save(im,1)**(-1)
