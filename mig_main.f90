@@ -46,7 +46,7 @@ program main
     integer :: activepari(npars)
     real(dp) :: QQ(nmom),stderrs(npars),stepstderr(npars)
     integer(i4b) :: kactive,eflag,im,kk
-    integer :: nactive
+    integer :: nactive,itermin1 !to take into account the fact that iter is augmented by 1 at the end of objf so need to undo that
     logical :: writestderr
 
     !integer, parameter :: lenrunid=5
@@ -379,22 +379,22 @@ program main
                     pars1=pars
                     pars1(kk)=pars1(kk)+stepstderr(kk)
                     call getpars(pars1,realpars1)
-                    call objfunc(pars1,val) ; realpars1=realpartemp 
+                    call objfunc(pars1,val) ; realpars1=realpartemp ; itermin1=iter-1
                     if (iam==0) print*, "Just ran iter", iter       
                     dtheta(kk)=realpars1(kk)-realpars(kk)
-                    IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,iter)-momsim_save(:,1))))==0) )  THEN
+                    IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,itermin1)-momsim_save(:,1))))==0) )  THEN
                         WRITE(13,'(1A22,1A16,1F8.5)') parname(kk), ' not identified ', dtheta(kk)
                     ELSE
                         kactive=kactive+1 ! number of parameters actually iterating on.   
                         activepari(kactive)=kk ! indexes of active parameters
-                        D(:,kactive)=(momsim_save(:,iter)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
+                        D(:,kactive)=(momsim_save(:,itermin1)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
                         WD(:,kactive)=momwgt*msm_wgt*D(:,kactive)
                         QWD(:,kactive)=QQ*WD(:,kactive)
                         if (writestderr) then
                             write(13,*)
-                            WRITE(13,'(I4,4F12.5,I4)') kactive,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter
+                            WRITE(13,'(I4,4F12.5,2I4)') kactive,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter,itermin1
                             DO im=1,nmom
-                                WRITE(13,'(I4,11F12.5)') im,momsim_save(im,iter),momsim_save(im,1),momsim_save(im,iter)-momsim_save(im,1),D(im,1:8)
+                                WRITE(13,'(I4,11F12.5)') im,momsim_save(im,itermin1),momsim_save(im,1),momsim_save(im,itermin1)-momsim_save(im,1),D(im,1:8)
                             ENDDO        
                         end if 
                     ENDIF
