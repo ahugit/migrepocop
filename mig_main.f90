@@ -411,7 +411,7 @@ program main
                 DO im=1,nmom
                     !WRITE(*,'(2F12.5)') WD(im,1:2)
                     !WRITE(*,'(4F12.5)') WD(im,1),weights(im), MSM_weights(im),D(im,1)
-                    WRITE(13,'(5F14.5)') msm_wgt(im),real(cntdat_save(im,1)),real(numperdat),cntdat_save(im,1),vardat_save(im,1)**(-1) ! weighting vector (main diagonal of diaginal weighting matrix)
+                    WRITE(13,'(F14.5,2I8,F14.5)') msm_wgt(im),cntdat_save(im,1),numperdat,vardat_save(im,1)**(-1) ! weighting vector (main diagonal of diaginal weighting matrix)
                 ENDDO
                 WRITE(13,*)
                 WRITE(13,*) 'QWD'
