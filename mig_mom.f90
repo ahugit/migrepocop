@@ -941,6 +941,14 @@ end subroutine read_taxes
                 if (g==2.and.j==0) headstr(ihead)='single fem wages'
                 if (g==2.and.j==1) headstr(ihead)='married fem wages'
                 ihead=ihead+1
+
+            do i=1,nl
+                CALL condmom(im,(   cosexrel(18:23,:) .AND.  dat(18:23,:)%hhr==1 .AND. dat(18:23,:)%edr==1 .AND. dat(18:23,:)%logwr>=0 .AND. dat(18:23,:)%l==i) ,d1*dat(18:23,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("wned|18:23 by loc",i4)') i
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                im=im+1
+            end do 
+        
     
             CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*dat(mna:mxa,:)%logwr,mom,cnt,var)
             WRITE(name(im),'("w|noed",tr1)') 
