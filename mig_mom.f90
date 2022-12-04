@@ -921,6 +921,73 @@ end subroutine read_taxes
         !END OF MOMENTS THAT PERTAIN TO JUST MARRIAGE
         !*************************************************************************************
 
+        !*****************************
+        if (stderrtest) then
+        g=1 !do g=minsex,maxsex   
+        do j=maxrelo,0,-1
+                if ( onlysingles ) then !  (.not.onlysingles).or.(onlysingles.and.j==0) ) then 
+                    cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g )			                    
+                else 
+                    cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g  .and. dat(MNAD:MXAD,:)%rel==j .and. norelchg(MNAD:MXAD,:)==1 )			
+                end if 
+                
+                if (j==1) wmovebyrel=wmovemar
+                if (j==0) wmovebyrel=wmovesin
+    
+    
+                headloc(ihead)=im
+                if (g==1.and.j==0) headstr(ihead)='single men wages'
+                if (g==1.and.j==1) headstr(ihead)='married men wages'
+                if (g==2.and.j==0) headstr(ihead)='single fem wages'
+                if (g==2.and.j==1) headstr(ihead)='married fem wages'
+                ihead=ihead+1
+    
+            CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*dat(mna:mxa,:)%logwr,mom,cnt,var)
+            WRITE(name(im),'("w|noed",tr1)') 
+            weights(im)=wwage 
+            calcvar(im)=1
+            im=im+1
+            CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*  (dat(mna:mxa,:)%logwr**2),mom,cnt,var)
+            WRITE(name(im),'("wvar|noed",tr1)') 
+            weights(im)=wwvar           
+            calcvar(im)=5
+            im=im+1
+            !CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*  (dat(mna:mxa,:)%logwr-mom(im-2))**2,mom,cnt,var)
+            !WRITE(name(im),'("wrng|noed",tr1)') 
+            !weights(im)=0.0_dp
+            !im=im+1            
+            CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==2 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*dat(mna:mxa,:)%logwr,mom,cnt,var)
+            WRITE(name(im),'("w|  ed",tr1)') 
+            weights(im)=wwage 
+            calcvar(im)=1
+            im=im+1
+            CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==2 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*  (dat(mna:mxa,:)%logwr**2),mom,cnt,var)
+            WRITE(name(im),'("wvar|ed",tr1)') 
+            weights(im)=wwvar 
+            calcvar(im)=5
+            im=im+1
+            do ia=agestart(NOCOLLEGE),mxad,10
+                CALL condmom(im,( cosexrel(ia,:) .AND.    dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0 ) ,d1*dat(ia,:)%logwr,mom,cnt,var)
+                WRITE(name(im),'("w|noed by age",tr1,I2)') ia
+                weights(im)=wwage 
+                im=im+1
+            end do            
+            !do ia=agestart(COLLEGE),mxad,10
+            !    CALL condmom(im,( cosexrel(ia,:) .AND.   dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0 ) ,d1*dat(ia,:)%logwr,mom,cnt,var)
+            !    WRITE(name(im),'("w|  ed by age",tr1,I2)') ia
+            !    weights(im)=wwage 
+            !    im=im+1
+            !end do    
+            do ddd=1,ndecile-1
+                CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
+                WRITE(name(im),'("wdecile|ned",tr1,i4)') ddd
+                weights(im)=wwaged !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
+                im=im+1
+            end do
+        end do !j for rel
+        end if !stderrtest
+        !*****************************
+        if (.not.stderrtest) then
         !*************************************************************************************
         !START OF LOOP BY SEX AND REL
         do g=minsex,maxsex   
@@ -1920,7 +1987,7 @@ end subroutine read_taxes
 
         end if !typemoments
         
-        
+        end if !stderrtest
     
     
     

@@ -362,7 +362,7 @@ program main
             call objfunc(pars,val) ; realpars=realpartemp
             if (iam==0) print*, "Just ran iter", iter
             stepstderr=0.0_dp
-            stepstderr=  stepos
+            stepstderr(42:50)=  stepos(42:50)
             nactive = COUNT(stepstderr /= zero)
             if (iam==0) print*, "Here is nactive", nactive
             writestderr=.FALSE.

@@ -18,7 +18,7 @@
     integer(i4b), parameter :: numit=7
     logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
-    logical, parameter :: typemoments=.false.,getstderr=.true.,momdisplay=.FALSE.
+    logical, parameter :: typemoments=.false.,getstderr=.true.,momdisplay=.FALSE.,stderrtest=.TRUE.
     logical :: nonneg,terminalval
     logical :: onthejobsearch=.TRUE. !set in main
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
@@ -58,7 +58,7 @@
 	integer(i4b) :: numperdat,numperobsdat,numpersim !previously ndata,ndataobs,nsim ALL set in main now 
 	!integer(i4b), parameter :: ndataobs = 84507  set in main now 
 	!integer(i4b), parameter :: nsim     = ndata*nsimeach  set in main now
-	integer(i4b), parameter :: nmom     = 305 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 50 !305 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b), dimension(nmom) :: calcvar,calcorr,momwhich,momage,momsex,momrel
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	
