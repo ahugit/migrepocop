@@ -358,6 +358,8 @@ program main
         end if 
     else 
         if (getstderr) then 
+            D=zero
+
             call getpars(pars,realpars)
             call objfunc(pars,val) ; realpars=realpartemp
             if (iam==0) print*, "Just ran iter", iter
@@ -388,6 +390,11 @@ program main
                         D(:,kactive)=(momsim_save(:,iter)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
                         WD(:,kactive)=momwgt*msm_wgt*D(:,kactive)
                         QWD(:,kactive)=QQ*WD(:,kactive)
+                        write(13,*)
+                        WRITE(13,'(I4,4F12.5,I4)') kactive,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter
+                        DO im=1,nmom
+                            WRITE(13,'(I4,11F12.5)') im,momsim_save(:,iter),momsim_save(:,1),momsim_save(:,iter)-momsim_save(:,1),D(im,1:8)
+                        ENDDO        
                     ENDIF
                 ENDIF
             ENDDO
