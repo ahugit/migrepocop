@@ -7,6 +7,7 @@ program main
 	use params !, only: myid,iter,parname,npars,stepmin
 	use objf
 	use pnelder_mead  
+    use SLgenlib !for FINDinv
     
 	!use alib, only: logitinv
 	implicit none	
