@@ -1055,7 +1055,7 @@ end subroutine read_taxes
             do ia=mna,mxa,1
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
                 WRITE(name(im),'("wnned|ia   ",i4)') ia
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
                 calcvar(im)=1
                 momwhich(im)=11
                 momage(im)=ia
@@ -1064,7 +1064,7 @@ end subroutine read_taxes
                 im=im+1
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*  (dat(ia,:)%logwr**2),mom,cnt,var)
                 WRITE(name(im),'("wvarned|ia ",i4)') ia
-                weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
                 calcvar(im)=5
                 momwhich(im)=51
                 momage(im)=ia
@@ -1076,7 +1076,7 @@ end subroutine read_taxes
             do ia=mna,mxa,1
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0) ,d1*dat(ia,:)%logwr,mom,cnt,var)
                 WRITE(name(im),'("wed|ia   ",i4)') ia
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
+                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp   !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess    
                 calcvar(im)=1
                 momwhich(im)=12
                 momage(im)=ia
@@ -1085,7 +1085,7 @@ end subroutine read_taxes
                 im=im+1
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==2 .AND. dat(ia,:)%logwr>=0) ,d1*  (dat(ia,:)%logwr**2),mom,cnt,var)
                 WRITE(name(im),'("wvared|ia ",i4)') ia
-                weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                weights(im)=0.0_dp !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
                 calcvar(im)=5
                 momwhich(im)=52
                 momage(im)=ia
