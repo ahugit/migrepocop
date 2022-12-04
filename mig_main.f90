@@ -383,7 +383,7 @@ program main
                     if (iam==0) print*, "Just ran iter", iter       
                     dtheta(kk)=realpars1(kk)-realpars(kk)
                     IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,itermin1)-momsim_save(:,1))))==0) )  THEN
-                        WRITE(13,'(1A22,1A16,1F8.5)') parname(kk), ' not identified ', dtheta(kk)
+                        WRITE(13,'(1A22,1A16,1F8.5,I4,2F12.5)') parname(kk), ' not identified ', dtheta(kk),kk,momsim_save(1,itermin1),momsim_save(1,1)
                     ELSE
                         kactive=kactive+1 ! number of parameters actually iterating on.   
                         activepari(kactive)=kk ! indexes of active parameters
