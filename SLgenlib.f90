@@ -5,7 +5,7 @@ MODULE SLgenlib
 ! Steven Laufer, Updated 6/10/10
 ! Library of general use functions and subroutines
 IMPLICIT NONE
-
+integer :: dint1=1
 CONTAINS
 
     ! linear inperpolation
@@ -52,7 +52,7 @@ CONTAINS
 		END DO
 		ii=ii-1
 		z=(xi-x(ii))/(x(ii+1)-x(ii))
-		interpnn=y(ii+(z>0.5))
+		interpnn=y(ii+dint1*(z>0.5)) !ag 120422: will not compile will just the parenthesis so added dint1 which is decalred at head of module
 	
 	END FUNCTION
 
@@ -93,9 +93,9 @@ CONTAINS
 
 	SUBROUTINE checklogic
 
-		IF (.TRUE. /= 1) THEN
-			WRITE(*,*) 'WARNING: Logical true does not equal one.'
-		END IF
+		!IF (.TRUE. /= 1) THEN !ag 120422: will not compile will just the parenthesis so uncommenting this out because I can't
+		!	WRITE(*,*) 'WARNING: Logical true does not equal one.'
+		!END IF
 		
 	END SUBROUTINE
 
@@ -307,9 +307,9 @@ end function
 
 		z1=1.*(y1-x1(i1))/(x1(i1+1)-x1(i1))
 		z2=1.*(y2-x2(i2))/(x2(i2+1)-x2(i2))
-		a1=(z1>.5)
-		a2=(z2>.5) 
-			
+		a1=dint1*(z1>.5) !ag 120422: will not compile will just the parenthesis so added dint1 which is decalred at head of module
+		a2=dint1*(z2>.5) !ag 120422: will not compile will just the parenthesis so added dint1 which is decalred at head of module
+
 		interpnn2=V(i1+a1,i2+a2)
 
 	END FUNCTION
