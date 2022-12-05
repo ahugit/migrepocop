@@ -364,7 +364,7 @@ program main
             call objfunc(pars,val) ; realpars=realpartemp
             if (iam==0) print*, "Just ran iter", iter
             stepstderr=0.0_dp
-            stepstderr(42:49)=  stepos(42:49)
+            stepstderr(1:41)=  stepos(1:41)
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
             writestderr=.FALSE.
@@ -391,11 +391,11 @@ program main
                         WD(:,kactive)=momwgt*msm_wgt*D(:,kactive)
                         QWD(:,kactive)=QQ*WD(:,kactive)
                         if (writestderr) then
-                            write(13,*)
+                            write(13,*) "kactive,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter,itermin1"
                             WRITE(13,'(I4,4F12.5,2I4)') kactive,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter,itermin1
-                            DO im=1,nmom
-                                WRITE(13,'(I4,11F12.5)') im,momsim_save(im,itermin1),momsim_save(im,1),momsim_save(im,itermin1)-momsim_save(im,1),D(im,1:8)
-                            ENDDO        
+                            !DO im=1,nmom
+                            !    WRITE(13,'(I4,11F12.5)') im,momsim_save(im,itermin1),momsim_save(im,1),momsim_save(im,itermin1)-momsim_save(im,1),D(im,1:8)
+                            !ENDDO        
                         end if 
                     ENDIF
                 ENDIF
