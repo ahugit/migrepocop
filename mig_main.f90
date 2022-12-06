@@ -426,7 +426,7 @@ ENDIF
                 WRITE(13,*) 'standard errors:'
                 DO ka=1,kactive
                     WRITE(13,'(1A15,5F12.5,1A5,1F12.5,1A1)') parname(activepari(ka)),pars(activepari(ka)),realpars(activepari(ka)),&
-                    & parvo1(activepari(ka)),realparvo1(activepari(ka)),dtheta(activepari(ka)),'    (',stderrs(activepari(ka)),')'
+                    & parvo1(activepari(ka),activepari(ka)),realparvo1(activepari(ka),activepari(ka)),dtheta(activepari(ka)),'    (',stderrs(activepari(ka)),')'
                 ENDDO    
                 WRITE(13,*) 'D'
                 DO im=1,nmom
