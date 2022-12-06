@@ -366,10 +366,10 @@ program main
             stepstderr=0.0_dp
             !Got the following: alphaed(m,ed)   not identified 12.84093 2.00000  29     0.11954     0.11954
             !Got the following: alphakid(m)     not identified  0.02182 2.00000  31     0.11954     0.11954
-            !so ignore those for now
-            stepstderr(1:26)=  stepos(1:26) !ok
-            stepstderr(33:49)=  stepos(33:49) !ok
-            stepstderr(50:npars)=  stepos(50:npars) 
+            !so ignore those for now since I'm identifying the problematic parameters anyway
+            !stepstderr(1:26)=  stepos(1:26) !ok
+            !stepstderr(33:49)=  stepos(33:49) !ok
+            stepstderr(50:63)=  stepos(50:63)  
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
             writestderr=.FALSE.
@@ -379,6 +379,7 @@ program main
             QQ=vardat_save(:,1)/numperdat
             !q1val(j)=val
             kactive=0 ! count of active parameters
+write(13,'(2x,"iter",tr2,"itm1",22x, tr2,"kk", tr1,"ka",tr1,    tr2,"pars(kk)",tr1,  tr1,"pars1(kk)",tr1,     tr1,"realp(kk)",tr1,"realp1(kk)",tr1,tr3,"step",tr2,tr2,"dtheta",tr1,tr3,"val",tr3,tr3,"val1",tr2)') 
             DO kk=1,npars
                 IF (abs(stepstderr(kk)) > 0.0_dp)  THEN
                     pars1=pars
@@ -387,22 +388,23 @@ program main
                     call objfunc(pars1,val1) ; realpars1=realpartemp ; itermin1=iter-1
                     if (iam==0) print*, "Just ran iter", iter       
                     dtheta(kk)=realpars1(kk)-realpars(kk)
-                    IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,itermin1)-momsim_save(:,1))))==0) )  THEN
-                        WRITE(13,'(1A22,1A16,2I4,6F12.5,I8)') parname(kk), ' not identified ', kactive,kk,abs(stepstderr(kk)),dtheta(kk),pars1(kk),pars(kk),realpars1(kk),realpars(kk) !,momsim_save(1,itermin1),momsim_save(1,1)
-                    ELSE
-                        kactive=kactive+1 ! number of parameters actually iterating on.   
-                        activepari(kactive)=kk ! indexes of active parameters
-                        D(:,kactive)=(momsim_save(:,itermin1)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
-                        WD(:,kactive)=momwgt*msm_wgt*D(:,kactive)
-                        QWD(:,kactive)=QQ*WD(:,kactive)
-                        if (writestderr) then
-                            write(13,'(22x,"kactive,kk,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter,itermin1")') 
-                            WRITE(13,'(1A22,2I4,4F12.5,2I4)') parname(kk),kactive,kk,pars(kk),pars1(kk),realpars(kk),realpars1(kk),iter,itermin1
-                            !DO im=1,nmom
-                            !    WRITE(13,'(I4,11F12.5)') im,momsim_save(im,itermin1),momsim_save(im,1),momsim_save(im,itermin1)-momsim_save(im,1),D(im,1:8)
-                            !ENDDO        
-                        end if 
-                    ENDIF
+IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,itermin1)-momsim_save(:,1))))==0) )  THEN
+    WRITE(13,'(2x,I4,     2x,I4,      1A22,        I4,    I4,        F11.2,           F11.2,               F11.2,         F11.2,    4f9.2,                                9x)') &
+    &            iter,    itermin1,  parname(kk),  kk,  kactive,     pars(kk),       pars1(kk),          realpars(kk),realpars1(kk),stepstderr(kk),dtheta(kk),val,val1,' notident'
+ELSE
+    kactive=kactive+1 ! number of parameters actually iterating on.   
+    activepari(kactive)=kk ! indexes of active parameters
+    D(:,kactive)=(momsim_save(:,itermin1)-momsim_save(:,1))/dtheta(kk) ! derivative of moments wrt paramter
+    WD(:,kactive)=momwgt*msm_wgt*D(:,kactive)
+    QWD(:,kactive)=QQ*WD(:,kactive)
+    if (writestderr) then
+    WRITE(13,'(2x,I4,    2x,I4,      1A22,         I4,    I4,        F11.2,           F11.2,               F11.2,         F11.2,    4f9.2,                                9x)') &
+     &           iter,    itermin1,  parname(kk),  kk,  kactive,     pars(kk),       pars1(kk),          realpars(kk),realpars1(kk),stepstderr(kk),dtheta(kk),val,val1
+        !DO im=1,nmom
+        !    WRITE(13,'(I4,11F12.5)') im,momsim_save(im,itermin1),momsim_save(im,1),momsim_save(im,itermin1)-momsim_save(im,1),D(im,1:8)
+        !ENDDO        
+    end if 
+ENDIF
                 ENDIF
             ENDDO
             if (kactive.ne.nactive) then ; print*, "Something wrong with kactive",kactive,nactive ; stop ; end if
