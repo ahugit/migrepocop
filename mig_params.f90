@@ -15,8 +15,8 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=90
-    logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.
+    integer(i4b), parameter :: numit=25
+    logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.,getstderr=.true.,momdisplay=.FALSE.,stderrtest=.FALSE.
     logical :: nonneg,terminalval
@@ -58,7 +58,7 @@
 	integer(i4b) :: numperdat,numperobsdat,numpersim !previously ndata,ndataobs,nsim ALL set in main now 
 	!integer(i4b), parameter :: ndataobs = 84507  set in main now 
 	!integer(i4b), parameter :: nsim     = ndata*nsimeach  set in main now
-	integer(i4b), parameter :: nmom     = 310 !ahu summer18 050418: changed from 4200 to 498
+	integer(i4b), parameter :: nmom     = 1800 !ahu summer18 050418: changed from 4200 to 498
     integer(i4b), dimension(nmom) :: calcvar,calcorr,momwhich,momage,momsex,momrel
 	integer(i4b), parameter :: maxrellength=10
 	integer(i4b), parameter :: namelen=90					!if you change this, don't forget to also change a100 in writemoments	
