@@ -338,9 +338,9 @@ contains
     
     do i=1,ntypp !The below are parameters 70 to 93. So 70-75 is type1, 76-81 is type2, 82-87 is type3, 88-93 is type4.
         if (i==1) then 
-            realpar(j)=0.0_dp                           ; parname(j)='ptypehs' ; stepos(j)=1.0_dp
+            realpar(j)=0.0_dp                           ; parname(j)='ptypehs' ; stepos(j)=0.0_dp
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
-            realpar(j)=0.0_dp                           ; parname(j)='ptypecol'  ; stepos(j)=1.0_dp
+            realpar(j)=0.0_dp                           ; parname(j)='ptypecol'  ; stepos(j)=0.0_dp
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
             realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
