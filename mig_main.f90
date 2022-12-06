@@ -375,7 +375,16 @@ program main
             stepstderr(33:49)=  stepos(33:49)   !ok 1:26 33:49
             stepstderr(50:63)=  stepos(50:63)   !ok 50:63 and also together with 1:26 and 33:49
             stepstderr(64:69)=  stepos(64:69)   !ok 
-            stepstderr(70:npars)=  stepos(70:npars)   
+            stepstderr(70:npars)=  stepos(70:npars)   !ok
+            stepstderr=zero
+            stepstderr(14:15)=500.0_dp !stepos(14:15)
+            stepstderr(24)=500.0_dp  !stepos(24)
+            stepstderr(65)=500.0_dp  !stepos(65)
+            !stepstderr(75)=stepos(75)
+            !stepstderr(81)=stepos(81)
+            !stepstderr(87)=stepos(87)
+            !stepstderr(93)=stepos(93)
+
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
             !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    

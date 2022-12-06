@@ -15,7 +15,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=96
+    integer(i4b), parameter :: numit=5
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.false.,getstderr=.true.,momdisplay=.FALSE.,stderrtest=.FALSE.
@@ -240,9 +240,9 @@ contains
     !realpar(j) = mult1c * logit(par(j))              ; parname(j)='uhome(2)' ; stepos(j)=0.2_dp	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	!uhome(2)=realpar(j)                             ; j=j+1
 
-    realpar(j) = par(j)             ; parname(j)='uhome(1)' ; stepos(j)=0.5_dp*PAR(J)	 ; if (onlyfem) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
+    realpar(j) = par(j)             ; parname(j)='uhome(1)' ; stepos(j)=0.0_dp*PAR(J)	 ; if (onlyfem) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	uhome(1)=realpar(j)                             ; j=j+1
-    realpar(j) = par(j)              ; parname(j)='uhome(2)' ; stepos(j)=0.5_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
+    realpar(j) = par(j)              ; parname(j)='uhome(2)' ; stepos(j)=0.0_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	uhome(2)=realpar(j)                             ; j=j+1
     realpar(j)=par(j)            ; parname(j)='uhomet 3'	; stepos(j)=0.5_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
     uhomet(3)=realpar(j)                                     ; j=j+1               ! types
