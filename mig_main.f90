@@ -41,11 +41,11 @@ program main
     real(4), allocatable, dimension(:,:) :: mytime 
     !for standard errors:
     real(8) :: D(nmom,npars),WD(nmom,npars),QWD(nmom,npars)
-    real(8) :: DpWDinv(npars,npars),SEmat(npars,npars)
+    real(8), dimension(npars,npars) :: DpWDinv,SEmat,parvo1,realparvo1
     real(8) :: dtheta(npars),worksp(npars)
     integer :: activepari(npars)
     real(dp) :: QQ(nmom),stderrs(npars),stepstderr(npars),val1
-    integer(i4b) :: kactive,eflag,im,kk
+    integer(i4b) :: kactive,eflag,im,kk,ka
     integer :: nactive,itermin1 !to take into account the fact that iter is augmented by 1 at the end of objf so need to undo that
     logical :: writestderr
 
@@ -172,6 +172,7 @@ program main
         open(unit=400, file='chksim.txt',status='replace')   
 		open(unit=500, file='chksimpath.txt',status='replace')	 !written by simulate/yaz_simpath
 	end if 
+    if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')    
 	!call cohab_stderr(parvector,stepsize,stderrs)
     nonneg=.TRUE.
     onthejobsearch=.TRUE.
@@ -358,8 +359,9 @@ program main
         end if 
     else 
         if (getstderr) then 
-            D=zero
-
+            D=zero ; WD=zero ; QWD=zero ; DpWDinv=zero ; SEmat=zero
+            dtheta=zero ; pars=zero ; pars1=zero ; realpars=zero ; realpars1=zero
+            parvo1=zero ; realparvo1=zero 
             call getpars(pars,realpars)
             call objfunc(pars,val) ; realpars=realpartemp
             if (iam==0) print*, "Just ran iter", iter
@@ -375,7 +377,6 @@ program main
             writestderr=.FALSE.
             if (iam==0) writestderr=.TRUE.    
             !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
-            if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')    
             QQ=vardat_save(:,1)/numperdat
             !q1val(j)=val
             kactive=0 ! count of active parameters
@@ -388,9 +389,11 @@ write(13,'(2x,"iter",tr2,"itm1",22x, tr2,"kk", tr1,  tr1,"ka",tr1,    tr3,"pars(
                     call objfunc(pars1,val1) ; realpars1=realpartemp ; itermin1=iter-1
                     if (iam==0) print*, "Just ran iter", iter       
                     dtheta(kk)=realpars1(kk)-realpars(kk)
+                    realparvo1(:,kk)=realpars1(:); parvo1(:,kk)=pars1(:)
 IF (writestderr.and.(MAXVAL(ABS(QQ*momwgt*msm_wgt*(momsim_save(:,itermin1)-momsim_save(:,1))))==0) )  THEN
     WRITE(13,'(2x,I4,     2x,I4,      1A22,        I4,    I4,        F11.2,           F11.2,               F11.2,         F11.2,    4f9.2,                                9x)') &
     &            iter,    itermin1,  parname(kk),  kk,  kactive,     pars(kk),       pars1(kk),          realpars(kk),realpars1(kk),stepstderr(kk),dtheta(kk),val,val1,' notident'
+    STOP
 ELSE
     kactive=kactive+1 ! number of parameters actually iterating on.   
     activepari(kactive)=kk ! indexes of active parameters
@@ -415,15 +418,15 @@ ENDIF
             ! Standard errors are sqrt of diagional elements of matrix ((D'WD)^-1 * D'WQWD * (D'WD)^-1)
             SEmat(1:kactive,1:kactive)=MATMUL(MATMUL(DpWDinv(1:kactive,1:kactive),TRANSPOSE(WD(:,1:kactive))),MATMUL(QWD(:,1:kactive),DpWDinv(1:kactive,1:kactive)))
             stderrs=-1. ! default value to indicate that the paramter was not estimated
-            DO kk=1,kactive
-                stderrs(activepari(kk))=SQRT(SEmat(kk,kk))
+            DO ka=1,kactive
+                stderrs(activepari(ka))=SQRT(SEmat(ka,ka))
             ENDDO
             ! TESTING
             if (writestderr) then
                 WRITE(13,*) 'standard errors:'
-                DO kk=1,kactive
-                    WRITE(13,'(1A15,5F12.5,1A5,1F12.5,1A1)') parname(activepari(kk)),pars(activepari(kk)),realpars(activepari(kk)),&
-                    & pars1(activepari(kk)),realpars1(activepari(kk)),dtheta(activepari(kk)),'    (',stderrs(activepari(kk)),')'
+                DO ka=1,kactive
+                    WRITE(13,'(1A15,5F12.5,1A5,1F12.5,1A1)') parname(activepari(ka)),pars(activepari(ka)),realpars(activepari(ka)),&
+                    & parvo1(activepari(ka)),realparvo1(activepari(ka)),dtheta(activepari(ka)),'    (',stderrs(activepari(ka)),')'
                 ENDDO    
                 WRITE(13,*) 'D'
                 DO im=1,nmom
@@ -438,13 +441,13 @@ ENDIF
                 ENDDO
                 WRITE(13,*)
                 WRITE(13,*) 'DpWDinv(kk,kk)'
-                DO kk=1,kactive
-                    WRITE(13,'(1F12.5)') DpWDinv(kk,kk)
+                DO ka=1,kactive
+                    WRITE(13,'(1F12.5)') DpWDinv(ka,ka)
                 ENDDO
                 WRITE(13,*)
                 WRITE(13,*) 'SEmat'
-                DO kk=1,kactive
-                    WRITE(13,'(1F12.5)') SEmat(kk,kk)
+                DO ka=1,kactive
+                    WRITE(13,'(1F12.5)') SEmat(ka,ka)
                 ENDDO
                 WRITE(13,*)
                 CLOSE(13)
