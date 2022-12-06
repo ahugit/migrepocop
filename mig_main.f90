@@ -371,10 +371,10 @@ program main
             !Got the following: alphaed(m,ed)   not identified 12.84093 2.00000  29     0.11954     0.11954
             !Got the following: alphakid(m)     not identified  0.02182 2.00000  31     0.11954     0.11954
             !so ignore those for now since I'm identifying the problematic parameters anyway
-            !stepstderr(1:26)=  stepos(1:26)     !ok  1:26 33:49
-            !stepstderr(33:49)=  stepos(33:49)   !ok 1:26 33:49
-            !stepstderr(50:63)=  stepos(50:63)   !ok 50:63 and also together with 1:26 and 33:49
-            !stepstderr(64:69)=  stepos(64:69)   !ok 
+            stepstderr(1:26)=  stepos(1:26)     !ok  1:26 33:49
+            stepstderr(33:49)=  stepos(33:49)   !ok 1:26 33:49
+            stepstderr(50:63)=  stepos(50:63)   !ok 50:63 and also together with 1:26 and 33:49
+            stepstderr(64:69)=  stepos(64:69)   !ok 
             stepstderr(70:npars)=  stepos(70:npars)   
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
