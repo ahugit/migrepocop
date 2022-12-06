@@ -44,7 +44,7 @@ program main
     real(8) :: DpWDinv(npars,npars),SEmat(npars,npars)
     real(8) :: dtheta(npars),worksp(npars)
     integer :: activepari(npars)
-    real(dp) :: QQ(nmom),stderrs(npars),stepstderr(npars)
+    real(dp) :: QQ(nmom),stderrs(npars),stepstderr(npars),val1
     integer(i4b) :: kactive,eflag,im,kk
     integer :: nactive,itermin1 !to take into account the fact that iter is augmented by 1 at the end of objf so need to undo that
     logical :: writestderr
@@ -367,8 +367,9 @@ program main
             !Got the following: alphaed(m,ed)   not identified 12.84093 2.00000  29     0.11954     0.11954
             !Got the following: alphakid(m)     not identified  0.02182 2.00000  31     0.11954     0.11954
             !so ignore those for now
-            stepstderr(1:26)=  stepos(1:26)
-            stepstderr(33:49)=  stepos(33:49)
+            stepstderr(1:26)=  stepos(1:26) !ok
+            stepstderr(33:49)=  stepos(33:49) !ok
+            stepstderr(50:npars)=  stepos(50:npars) 
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
             writestderr=.FALSE.
