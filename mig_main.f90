@@ -367,9 +367,9 @@ program main
             !Got the following: alphaed(m,ed)   not identified 12.84093 2.00000  29     0.11954     0.11954
             !Got the following: alphakid(m)     not identified  0.02182 2.00000  31     0.11954     0.11954
             !so ignore those for now since I'm identifying the problematic parameters anyway
-            !stepstderr(1:26)=  stepos(1:26) !ok
-            !stepstderr(33:49)=  stepos(33:49) !ok
-            stepstderr(50:63)=  stepos(50:63)  
+            stepstderr(1:26)=  stepos(1:26)     !ok  1:26 33:49
+            stepstderr(33:49)=  stepos(33:49)   !ok 1:26 33:49
+            stepstderr(50:63)=  stepos(50:63)   !ok 50:63
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
             writestderr=.FALSE.
@@ -379,7 +379,7 @@ program main
             QQ=vardat_save(:,1)/numperdat
             !q1val(j)=val
             kactive=0 ! count of active parameters
-write(13,'(2x,"iter",tr2,"itm1",22x, tr2,"kk", tr1,"ka",tr1,    tr2,"pars(kk)",tr1,  tr1,"pars1(kk)",tr1,     tr1,"realp(kk)",tr1,"realp1(kk)",tr1,tr3,"step",tr2,tr2,"dtheta",tr1,tr3,"val",tr3,tr3,"val1",tr2)') 
+write(13,'(2x,"iter",tr2,"itm1",22x, tr2,"kk", tr1,  tr1,"ka",tr1,    tr3,"pars(kk)",  tr2,"pars1(kk)",     tr2,"realp(kk)",   tr1,"realp1(kk)",  tr5,"step",   tr3,"dtheta",   tr6,"val",   tr5,"val1")') 
             DO kk=1,npars
                 IF (abs(stepstderr(kk)) > 0.0_dp)  THEN
                     pars1=pars
