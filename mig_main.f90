@@ -374,14 +374,15 @@ program main
             !stepstderr(1:26)=  stepos(1:26)     !ok  1:26 33:49
             !stepstderr(33:49)=  stepos(33:49)   !ok 1:26 33:49
             !stepstderr(50:63)=  stepos(50:63)   !ok 50:63 and also together with 1:26 and 33:49
-            stepstderr(64:69)=  stepos(64:69)   !ok 1:26 33:49
+            !stepstderr(64:69)=  stepos(64:69)   !ok 
+            stepstderr(70:npars)=  stepos(70:npars)   
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
             !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
             QQ=vardat_save(:,1)/numperdat
             !q1val(j)=val
             kactive=0 ! count of active parameters
-write(13,'(2x,"iter",tr2,"itm1",22x, tr2,"kk", tr1,  tr1,"ka",tr1,    tr3,"pars(kk)",  tr2,"pars1(kk)",     tr2,"realp(kk)",   tr1,"realp1(kk)",  tr5,"step",   tr3,"dtheta",   tr6,"val",   tr5,"val1")') 
+write(13,'(2x,"iter",tr2,"itm1",15x,"parname", tr2,"kk", tr1,  tr1,"ka",tr1,    tr3,"pars(kk)",  tr2,"pars1(kk)",     tr2,"realp(kk)",   tr1,"realp1(kk)",  tr5,"step",   tr3,"dtheta",   tr6,"val",   tr5,"val1",9x)') 
             DO kk=1,npars
                 IF (abs(stepstderr(kk)) > 0.0_dp)  THEN
                     pars1=pars
