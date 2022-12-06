@@ -377,9 +377,9 @@ program main
             stepstderr(64:69)=  stepos(64:69)   !ok 
             stepstderr(70:npars)=  stepos(70:npars)   !ok
             stepstderr=zero
-            stepstderr(14:15)=500.0_dp !stepos(14:15)
-            stepstderr(24)=500.0_dp  !stepos(24)
-            stepstderr(65)=500.0_dp  !stepos(65)
+            stepstderr(14:15)=stepos(14:15)
+            stepstderr(24)=stepos(24)
+            stepstderr(65)=stepos(65)
             !stepstderr(75)=stepos(75)
             !stepstderr(81)=stepos(81)
             !stepstderr(87)=stepos(87)
