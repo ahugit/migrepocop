@@ -172,6 +172,8 @@ program main
         open(unit=400, file='chksim.txt',status='replace')   
 		open(unit=500, file='chksimpath.txt',status='replace')	 !written by simulate/yaz_simpath
 	end if 
+    writestderr=.FALSE.
+    if (iam==0) writestderr=.TRUE.    
     if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')    
 	!call cohab_stderr(parvector,stepsize,stderrs)
     nonneg=.TRUE.
@@ -375,8 +377,6 @@ program main
             stepstderr(64:69)=  stepos(64:69)   !ok 1:26 33:49
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
-            writestderr=.FALSE.
-            if (iam==0) writestderr=.TRUE.    
             !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
             QQ=vardat_save(:,1)/numperdat
             !q1val(j)=val
