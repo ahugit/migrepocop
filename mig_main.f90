@@ -417,35 +417,34 @@ ENDIF
             stderrs=-1. ! default value to indicate that the paramter was not estimated
             DO kk=1,kactive
                 stderrs(activepari(kk))=SQRT(SEmat(kk,kk))
-                if (writestderr) WRITE(13,'(1A15,2F12.6,1A5,1F6.3,1A1)') parname(activepari(kk)),pars(activepari(kk)),stderrs(activepari(kk)),'    (',dtheta(activepari(kk)),')'
             ENDDO
             ! TESTING
             if (writestderr) then
+                WRITE(13,*) 'standard errors:'
+                DO kk=1,kactive
+                    WRITE(13,'(1A15,5F12.5,1A5,1F12.5,1A1)') parname(activepari(kk)),pars(activepari(kk)),realpars(activepari(kk)),&
+                    & pars1(activepari(kk)),realpars1(activepari(kk)),dtheta(activepari(kk)),'    (',stderrs(activepari(kk)),')'
+                ENDDO    
                 WRITE(13,*) 'D'
                 DO im=1,nmom
                     WRITE(13,'(I4,8F12.5)') im,D(im,1:8)
                 ENDDO
                 WRITE(13,*)
-                WRITE(13,*) 'WD' 
+                WRITE(13,*) 'QWD,WD,momwgt,msm_wgt,momwgt*msm_wgt,cntdat,numperdat,vardatinv' 
                 DO im=1,nmom
                     !WRITE(*,'(2F12.5)') WD(im,1:2)
                     !WRITE(*,'(4F12.5)') WD(im,1),weights(im), MSM_weights(im),D(im,1)
-                    WRITE(13,'(3F14.5,2I8,F14.5)') momwgt(im),msm_wgt(im),momwgt(im)*msm_wgt(im),cntdat_save(im,1),numperdat,vardat_save(im,1)**(-1) ! weighting vector (main diagonal of diaginal weighting matrix)
+                    WRITE(13,'(5F14.5,2I8,F14.5)') QWD(im,1),WD(im,1),momwgt(im),msm_wgt(im),momwgt(im)*msm_wgt(im),cntdat_save(im,1),numperdat,vardat_save(im,1)**(-1) ! weighting vector (main diagonal of diaginal weighting matrix)
                 ENDDO
                 WRITE(13,*)
-                WRITE(13,*) 'QWD'
-                DO im=1,nmom
-                    WRITE(13,'(1F12.5)') QWD(im,1)
-                ENDDO
-                WRITE(13,*)
-                WRITE(13,*) 'DpWDinv'
-                DO im=1,1
-                    WRITE(13,'(1F12.5)') DpWDinv(im,1)
+                WRITE(13,*) 'DpWDinv(kk,kk)'
+                DO kk=1,kactive
+                    WRITE(13,'(1F12.5)') DpWDinv(kk,kk)
                 ENDDO
                 WRITE(13,*)
                 WRITE(13,*) 'SEmat'
-                DO im=1,1
-                    WRITE(13,'(1F12.5)') SEmat(im,1:1)
+                DO kk=1,kactive
+                    WRITE(13,'(1F12.5)') SEmat(kk,kk)
                 ENDDO
                 WRITE(13,*)
                 CLOSE(13)
