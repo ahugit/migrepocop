@@ -389,15 +389,15 @@ program main
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
             !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
-            !do im=1,nmom
-            !    if (cntdat_save(im,1)>0) then
-            !        QQ(im)=vardat_save(im,1)/real(cntdat_save(im,1))   !numperdat
-            !    else 
-            !        QQ(im)=0.0_dp
-            !    end if
-            !end do 
+            do im=1,nmom
+                if (cntdat_save(im,1)>0) then
+                    QQ(im)=vardat_save(im,1)/real(cntdat_save(im,1))   !numperdat
+                else 
+                    QQ(im)=0.0_dp
+                end if
+            end do 
             !q1val(j)=val
-            QQ=vardat_save(:,1)/numperdat
+            !QQ=vardat_save(:,1)/numperdat
             kactive=0 ! count of active parameters
 write(13,'(2x,"iter",tr2,"itm1",15x,"parname", tr2,"kk", tr1,  tr1,"ka",tr1,    tr3,"pars(kk)",  tr2,"pars1(kk)",     tr2,"realp(kk)",   tr1,"realp1(kk)",  tr5,"step",   tr3,"dtheta",   tr6,"val",   tr5,"val1",9x)') 
             DO kk=1,npars
