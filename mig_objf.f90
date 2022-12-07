@@ -195,7 +195,7 @@ contains
 	do i=1,nmom
 		!if (vardatamom(im)>0d0.or.countdatamom(im)>=datacountbar) !this "or" does not make any sense! !cohabitation correction
 		if (vardat(i)*cntdat(i)>0.0_dp ) then
-			msm_wgt(i)= 1.0_dp !( real(cntdat(i))/real(numperdat) ) * vardat(i)**(-1) !1.0_dp ahu 041219    !AHU JAN19 012919
+			msm_wgt(i)= vardat(i)**(-1) !1.0_dp !( real(cntdat(i))/real(numperdat) ) * vardat(i)**(-1) !1.0_dp ahu 041219    !AHU JAN19 012919
 		else if (cntdat(i)==0) then
 			msm_wgt(i)=0.0_dp
 		else
