@@ -1032,7 +1032,7 @@ end subroutine read_taxes
             end do     
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("move home ",tr3)')  !added this ahu 121718
-            weights(im)=wmove
+            weights(im)=whome
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | u stay",tr3)')  
@@ -1113,12 +1113,12 @@ end subroutine read_taxes
             ihead=ihead+1
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l/=dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
             write(name(im),'("wdif | hmemve=0 ",tr2)')  
-            weights(im)=wdifww
+            weights(im)=whome
             calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
             write(name(im),'("wdif | hmemve=1 ",tr2)')  
-            weights(im)=wdifww
+            weights(im)=whome
             calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
@@ -1617,7 +1617,7 @@ end subroutine read_taxes
         do i=1,nl         
             call condmom(im,( coho(MNA:MXAD,:) .AND. dat(MNA+1:MXA,:)%l==i .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme  ),mom,cnt,var)		
             write(name(im),'("%hme-mvs to",tr3,i4)') i
-            weights(im)=wmovebyrel
+            weights(im)=whome
             im=im+1 
         end do          
         do j=1,NL
@@ -1639,11 +1639,11 @@ end subroutine read_taxes
         ihead=ihead+1     
         CALL condmom(im,( coho(MNA:MXAD,:).AND.  (moverank(MNA:MXAD,:)>1).AND.(move(MNA:MXAD,:)==1)  ),d1*one(homemove(MNA:MXAD,:)==0),mom,cnt,var)
         WRITE(name(im),'("non-home ")') 
-        weights(im)=wmove
+        weights(im)=whome
         im=im+1 
         CALL condmom(im,(coho(MNA:MXAD,:).AND.  (moverank(MNA:MXAD,:)>1).AND.(move(MNA:MXAD,:)==1)  ),d1*one(homemove(MNA:MXAD,:)==1),mom,cnt,var)
         WRITE(name(im),'("home     ")') 
-        weights(im)=wmove
+        weights(im)=whome
         im=im+1 
         
 
