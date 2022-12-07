@@ -377,10 +377,10 @@ program main
             stepstderr(64:69)=  stepos(64:69)   !ok 
             stepstderr(70:npars)=  stepos(70:npars)   !ok
             stepstderr=zero
-            stepstderr(14:15)=1000.0_dp !stepos(14:15)
-            stepstderr(24)=1000.0_dp  !stepos(24)
-            stepstderr(65)=1000.0_dp  !stepos(65)
-            stepstderr(66:67)=0.3_dp  !stepos(66:67)
+            stepstderr(14:15)=stepos(14:15)
+            stepstderr(24)=stepos(24)
+            stepstderr(65)=stepos(65)
+            stepstderr(66:67)=stepos(66:67)
             !stepstderr(75)=stepos(75)
             !stepstderr(81)=stepos(81)
             !stepstderr(87)=stepos(87)
@@ -389,15 +389,15 @@ program main
             nactive = COUNT(abs(stepstderr) > 0)
             if (iam==0) print*, "Here is nactive", nactive
             !if (writestderr) OPEN(13,FILE='stderrors'//runid//'.txt',STATUS='REPLACE')    
-            !do im=1,nmom
-            !    if (cntdat_save(im,1)>0) then
-            !        QQ(im)=vardat_save(im,1)/real(cntdat_save(im,1))   !numperdat
-            !    else 
-            !        QQ(im)=0.0_dp
-            !    end if
-            !end do 
+            do im=1,nmom
+                if (cntdat_save(im,1)>0) then
+                    QQ(im)=vardat_save(im,1)/real(cntdat_save(im,1))   !numperdat
+                else 
+                    QQ(im)=0.0_dp
+                end if
+            end do 
             !q1val(j)=val
-            QQ=vardat_save(:,1)/numperobsdat
+            !QQ=vardat_save(:,1)/numperobsdat
             kactive=0 ! count of active parameters
 write(13,'(2x,"iter",tr2,"itm1",15x,"parname", tr2,"kk", tr1,  tr1,"ka",tr1,    tr3,"pars(kk)",  tr2,"pars1(kk)",     tr2,"realp(kk)",   tr1,"realp1(kk)",  tr5,"step",   tr3,"dtheta",   tr6,"val",   tr5,"val1",9x)') 
             DO kk=1,npars
