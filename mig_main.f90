@@ -173,7 +173,7 @@ program main
 		open(unit=500, file='chksimpath.txt',status='replace')	 !written by simulate/yaz_simpath
 	end if 
     writestderr=.FALSE.
-    if (iam==0) writestderr=.TRUE.    
+    if (iam==0) writestderr=.FALSE.    
     if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')    
 	!call cohab_stderr(parvector,stepsize,stderrs)
     nonneg=.TRUE.
@@ -298,22 +298,21 @@ program main
     pars(21)=pars(21)+2.0_dp
     pars1=pars
     policytax=0
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
     
-    !pars(26)=pars(26)+1.0_dp !divpen
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+    pars(74)=pars(92)   
+    pars(80)=pars(92)  
+    pars(86)=pars(92)
+    pars(92)=pars(92)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
-    !pars=pars1
-    !pars(26)=pars(26)+2.0_dp !divpen
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+    pars=pars1
+    pars(26)=pars(26)+2.0_dp !divpen
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
-    !pars(74)=pars(74)   
-    !pars(80)=pars(74)  
-    !pars(86)=pars(74)
-    !pars(92)=pars(74)
 
 
     
