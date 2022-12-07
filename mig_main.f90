@@ -380,6 +380,7 @@ program main
             stepstderr(14:15)=stepos(14:15)
             stepstderr(24)=stepos(24)
             stepstderr(65)=stepos(65)
+            stepstderr(66:67)=stepos(66:67)
             !stepstderr(75)=stepos(75)
             !stepstderr(81)=stepos(81)
             !stepstderr(87)=stepos(87)
