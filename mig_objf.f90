@@ -199,7 +199,7 @@ contains
 		else if (cntdat(i)==0) then
 			msm_wgt(i)=0.0_dp
 		else
-			msm_wgt(i)=1.0_dp
+			msm_wgt(i)=0.0_dp
 		end if  
 		!if (vardat(i)>0.0_dp .and. cntdat(i)>=datcountbar ) then
 		!	msm_wgt(i)=vardat(i)**(-1) !1.0_dp ahu 041219    !AHU JAN19 012919
