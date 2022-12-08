@@ -1,0 +1,126 @@
+ numworld,Iam           36           0
+ Here is numworld          36
+ numworld,Iam           36           1
+ numworld,Iam           36           2
+ numworld,Iam           36           3
+ numworld,Iam           36           4
+ numworld,Iam           36           5
+ numworld,Iam           36           6
+ numworld,Iam           36           7
+ numworld,Iam           36           8
+ numworld,Iam           36           9
+ numworld,Iam           36          10
+ numworld,Iam           36          11
+ numworld,Iam           36          12
+ numworld,Iam           36          14
+ numworld,Iam           36          15
+ numworld,Iam           36          16
+ numworld,Iam           36          18
+ numworld,Iam           36          19
+ numworld,Iam           36          22
+ numworld,Iam           36          23
+ numworld,Iam           36          24
+ numworld,Iam           36          26
+ numworld,Iam           36          27
+ numworld,Iam           36          28
+ numworld,Iam           36          29
+ numworld,Iam           36          31
+ numworld,Iam           36          32
+ numworld,Iam           36          34
+ numworld,Iam           36          35
+ numworld,Iam           36          21
+ numworld,Iam           36          25
+ numworld,Iam           36          20
+ numworld,Iam           36          30
+ numworld,Iam           36          33
+ numworld,Iam           36          17
+ numworld,Iam           36          13
+mycos,mytyps,myhomes,myindexs
+iter,obj,time:      1         47.76          4.22          1.14         23.91          0.46          0.02         29.75
+ Just ran iter           2
+ Here is nactive           6
+iter,obj,time:      2         48.54          4.28          1.11         23.61          0.86          0.04         29.90
+ Just ran iter           3
+iter,obj,time:      3         47.67          4.29          1.11         23.57          0.88          0.04         29.89
+ Just ran iter           4
+iter,obj,time:      4         47.44          4.30          1.11         23.57          0.95          0.03         29.95
+ Just ran iter           5
+iter,obj,time:      5         47.72          4.30          1.11         23.64          0.97          0.04         30.05
+ Just ran iter           6
+iter,obj,time:      6         56.54          4.30          1.11         23.62          1.10          0.04         30.17
+ Just ran iter           7
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+
+Fortran runtime warning: At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+iter,obj,time:      7         53.12          4.30          1.11         23.58          0.88          0.03         29.90
+ Just ran iter           8
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+run time:         209.61
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+
+Fortran runtime warning: At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+At line 13869 of file /home/ec2-user/work/program.f90
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'
+
+Fortran runtime warning: An array temporary was created for argument 'inverse' of procedure 'findinv'

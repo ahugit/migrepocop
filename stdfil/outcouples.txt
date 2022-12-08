@@ -1,0 +1,184 @@
+ numworld,Iam           36           8
+ numworld,Iam           36          10
+ numworld,Iam           36          11
+ numworld,Iam           36          12
+ numworld,Iam           36          13
+ numworld,Iam           36          14
+ numworld,Iam           36          15
+ numworld,Iam           36          16
+ numworld,Iam           36          17
+ numworld,Iam           36          28
+ numworld,Iam           36          34
+ numworld,Iam           36          35
+ numworld,Iam           36           0
+ Here is numworld          36
+ numworld,Iam           36           1
+ numworld,Iam           36           2
+ numworld,Iam           36           3
+ numworld,Iam           36           4
+ numworld,Iam           36           5
+ numworld,Iam           36           6
+ numworld,Iam           36           7
+ numworld,Iam           36          18
+ numworld,Iam           36          19
+ numworld,Iam           36          21
+ numworld,Iam           36          22
+ numworld,Iam           36          23
+ numworld,Iam           36          24
+ numworld,Iam           36          26
+ numworld,Iam           36          30
+ numworld,Iam           36          31
+ numworld,Iam           36          32
+ numworld,Iam           36          20
+ numworld,Iam           36          33
+ numworld,Iam           36          25
+ numworld,Iam           36          27
+ numworld,Iam           36           9
+ numworld,Iam           36          29
+mycos,mytyps,myhomes,myindexs
+iter,obj,time:      1         20.24         73.60          1.34         40.73          0.75          0.99        117.41
+ Just ran iter           2
+ Here is nactive          71
+iter,obj,time:      2         20.15         72.65          1.33         41.11          0.38          1.02        116.49
+ Just ran iter           3
+iter,obj,time:      3         21.53         72.65          1.32         41.10          0.25          1.11        116.43
+ Just ran iter           4
+iter,obj,time:      4         20.10         72.49          1.30         41.11          0.29          1.10        116.29
+ Just ran iter           5
+iter,obj,time:      5         27.40         72.57          1.34         40.98          0.36          1.01        116.27
+ Just ran iter           6
+iter,obj,time:      6         20.86         72.80          1.35         41.04          0.48          1.01        116.67
+ Just ran iter           7
+iter,obj,time:      7         20.27         72.64          1.33         41.09          0.43          1.02        116.51
+ Just ran iter           8
+iter,obj,time:      8         20.53         72.66          1.32         41.09          0.59          1.02        116.69
+ Just ran iter           9
+iter,obj,time:      9         21.18         72.74          1.35         41.05          0.36          1.01        116.52
+ Just ran iter          10
+iter,obj,time:     10         20.59         72.77          1.36         41.10          0.74          1.03        117.00
+ Just ran iter          11
+iter,obj,time:     11         20.47         72.52          1.30         41.20          0.52          1.04        116.57
+ Just ran iter          12
+iter,obj,time:     12         21.13         72.86          1.35         41.02          0.30          1.06        116.59
+ Just ran iter          13
+iter,obj,time:     13         20.32         72.79          1.36         40.88          0.41          1.05        116.48
+ Just ran iter          14
+iter,obj,time:     14         20.37         72.66          1.32         41.03          0.43          1.05        116.49
+ Just ran iter          15
+iter,obj,time:     15         19.98         72.59          1.32         41.04          0.32          1.02        116.28
+ Just ran iter          16
+iter,obj,time:     16         20.20         72.66          1.33         41.05          0.52          1.04        116.59
+ Just ran iter          17
+iter,obj,time:     17         20.43         72.84          1.35         41.04          0.45          1.04        116.71
+ Just ran iter          18
+iter,obj,time:     18         22.80         72.72          1.32         41.07          0.39          1.04        116.54
+ Just ran iter          19
+iter,obj,time:     19         24.44         72.67          1.34         41.10          0.21          1.04        116.36
+ Just ran iter          20
+iter,obj,time:     20         20.19         72.74          1.33         41.05          0.75          1.04        116.91
+ Just ran iter          21
+iter,obj,time:     21         23.15         72.70          1.35         41.06          0.13          1.05        116.30
+ Just ran iter          22
+iter,obj,time:     22         20.33         72.54          1.30         41.13          0.38          1.05        116.40
+ Just ran iter          23
+iter,obj,time:     23         23.46         72.72          1.34         41.02          0.38          1.09        116.55
+ Just ran iter          24
+iter,obj,time:     24         23.45         72.64          1.34         41.05          0.38          1.06        116.46
+ Just ran iter          25
+iter,obj,time:     25         23.58         72.73          1.34         41.05          0.13          1.05        116.30
+ Just ran iter          26
+iter,obj,time:     26         19.04         72.66          1.30         41.08          0.42          1.05        116.51
+ Just ran iter          27
+iter,obj,time:     27         19.77         72.38          1.26         41.46          0.42          1.05        116.57
+ Just ran iter          28
+iter,obj,time:     28         19.37         72.33          1.25         41.51          0.39          1.04        116.52
+ Just ran iter          29
+iter,obj,time:     29         19.81         72.68          1.31         41.00          0.30          1.06        116.36
+ Just ran iter          30
+iter,obj,time:     30         20.17         72.56          1.29         41.09          0.47          1.05        116.46
+ Just ran iter          31
+iter,obj,time:     31         20.38         72.71          1.34         40.96          0.17          1.05        116.23
+ Just ran iter          32
+iter,obj,time:     32         19.25         72.35          1.24         41.54          0.16          1.09        116.38
+ Just ran iter          33
+iter,obj,time:     33         19.82         72.57          1.29         41.12          0.35          1.07        116.40
+ Just ran iter          34
+iter,obj,time:     34         20.47         72.39          1.29         41.48          0.49          1.08        116.73
+ Just ran iter          35
+iter,obj,time:     35         19.70         72.63          1.33         40.90          0.37          1.06        116.29
+ Just ran iter          36
+iter,obj,time:     36         19.80         72.70          1.37         40.98          0.31          1.07        116.44
+ Just ran iter          37
+iter,obj,time:     37         20.26         72.38          1.24         41.20          0.51          1.07        116.41
+ Just ran iter          38
+iter,obj,time:     38         19.69         72.44          1.28         41.29          0.69          1.06        116.76
+ Just ran iter          39
+iter,obj,time:     39         20.20         72.62          1.30         41.03          0.30          1.07        116.33
+ Just ran iter          40
+iter,obj,time:     40         20.24         72.52          1.29         41.08          0.48          1.06        116.43
+ Just ran iter          41
+iter,obj,time:     41         19.81         72.65          1.33         40.97          0.37          1.09        116.41
+ Just ran iter          42
+iter,obj,time:     42         19.80         72.70          1.37         40.87          0.40          1.09        116.42
+ Just ran iter          43
+iter,obj,time:     43         20.00         72.65          1.33         41.06          0.31          1.07        116.42
+ Just ran iter          44
+iter,obj,time:     44         20.13         72.52          1.30         41.00          0.59          1.10        116.52
+ Just ran iter          45
+iter,obj,time:     45         20.08         72.58          1.29         41.22          0.32          1.08        116.48
+ Just ran iter          46
+iter,obj,time:     46         20.67         72.52          1.28         41.35          0.25          1.11        116.52
+ Just ran iter          47
+iter,obj,time:     47         24.05         72.59          1.34         40.80          0.45          1.10        116.27
+ Just ran iter          48
+iter,obj,time:     48         21.03         72.64          1.36         40.81          0.71          1.09        116.61
+ Just ran iter          49
+iter,obj,time:     49         21.84         72.68          1.29         40.97          0.33          1.12        116.38
+ Just ran iter          50
+iter,obj,time:     50         22.09         72.64          1.32         40.94          0.45          1.12        116.46
+ Just ran iter          51
+iter,obj,time:     51         20.86         72.23          1.23         41.38          0.38          1.09        116.31
+ Just ran iter          52
+iter,obj,time:     52         19.63         72.54          1.26         41.21          0.31          1.09        116.41
+ Just ran iter          53
+iter,obj,time:     53         20.49         72.48          1.30         41.03          0.62          1.09        116.53
+ Just ran iter          54
+iter,obj,time:     54         20.53         72.88          1.39         40.80          0.34          1.10        116.52
+ Just ran iter          55
+iter,obj,time:     55         20.11         72.62          1.27         41.05          0.48          1.11        116.54
+ Just ran iter          56
+iter,obj,time:     56         20.30         72.55          1.31         41.05          0.42          1.12        116.47
+ Just ran iter          57
+iter,obj,time:     57         20.40         72.66          1.35         40.98          0.29          1.12        116.39
+ Just ran iter          58
+iter,obj,time:     58         19.69         72.59          1.31         40.87          0.41          1.12        116.30
+ Just ran iter          59
+iter,obj,time:     59         20.35         72.57          1.34         41.28          0.23          1.11        116.54
+ Just ran iter          60
+iter,obj,time:     60         20.30         72.73          1.30         40.98          0.45          1.12        116.60
+ Just ran iter          61
+iter,obj,time:     61         21.42         72.61          1.20         41.25          0.34          1.12        116.52
+ Just ran iter          62
+iter,obj,time:     62         20.00         72.44          1.25         41.55          0.16          1.12        116.52
+ Just ran iter          63
+iter,obj,time:     63         20.06         72.34          1.26         41.53          0.19          1.16        116.48
+ Just ran iter          64
+iter,obj,time:     64         21.61         72.30          1.28         41.70          0.01          1.14        116.43
+ Just ran iter          65
+iter,obj,time:     65         20.10         72.62          1.27         41.27          0.08          1.14        116.38
+ Just ran iter          66
+iter,obj,time:     66         21.44         72.69          1.26         41.17          0.17          1.12        116.41
+ Just ran iter          67
+iter,obj,time:     67         20.10         72.70          1.26         41.20          0.36          1.16        116.68
+ Just ran iter          68
+iter,obj,time:     68         20.24         72.62          1.24         41.16          0.37          1.16        116.55
+ Just ran iter          69
+iter,obj,time:     69         20.40         72.62          1.29         41.18          0.23          1.12        116.44
+ Just ran iter          70
+iter,obj,time:     70         20.33         72.62          1.29         41.15          0.53          1.16        116.74
+ Just ran iter          71
+iter,obj,time:     71         20.35         72.68          1.30         41.14          0.41          1.16        116.69
+ Just ran iter          72
+iter,obj,time:     72         20.57         72.62          1.27         41.20          0.38          1.04        116.50
+ Just ran iter          73
+run time:        8388.12
