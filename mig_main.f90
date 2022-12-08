@@ -174,7 +174,8 @@ program main
 	end if 
     writestderr=.FALSE.
     if (iam==0) writestderr=.FALSE.    
-    if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')    
+    if (writestderr) OPEN(13,FILE='stderrors.txt',STATUS='REPLACE')  
+    policytax=0  
 	!call cohab_stderr(parvector,stepsize,stderrs)
     nonneg=.TRUE.
     onthejobsearch=.TRUE.
@@ -303,6 +304,18 @@ program main
     pars(86)=pars(92)
     pars(92)=pars(92)
     pars(26)=pars(26)+2.0_dp !divpen
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='o120822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='o120822_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='o120822_3bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 

@@ -195,7 +195,7 @@ contains
 	do i=1,nmom
 		!if (vardatamom(im)>0d0.or.countdatamom(im)>=datacountbar) !this "or" does not make any sense! !cohabitation correction
 		if (vardat(i)*cntdat(i)>0.0_dp ) then
-			msm_wgt(i)= 1.0_dp !vardat(i)**(-1) !( real(cntdat(i))/real(numperdat) ) * vardat(i)**(-1) !1.0_dp ahu 041219    !AHU JAN19 012919
+			msm_wgt(i)= vardat(i)**(-1) !( real(cntdat(i))/real(numperdat) ) * vardat(i)**(-1) !1.0_dp ahu 041219    !AHU JAN19 012919
 		else 
 			msm_wgt(i)=0.0_dp
 			!else if (cntdat(i)==0) then
@@ -373,7 +373,7 @@ contains
 	!totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
 	!totcostname='total cost'
 	do i=1,npars
-        write(60,'(1a15,3f10.2)') parname(i),realpar_save(i,1:numit) 
+        write(60,'(1a15,4f10.2)') parname(i),realpar_save(i,1:numit) 
 	end do 
 !	do i=1,npars
 !        write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,3:11) !
