@@ -299,23 +299,25 @@ program main
     pars(21)=pars(21)+2.0_dp
     pars1=pars
     policytax=0
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     pars(74)=pars(92)   
     pars(80)=pars(92)  
     pars(86)=pars(92)
     pars(92)=pars(92)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     pars(26)=pars(26)+2.0_dp !divpen
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
 
-    !open(unit=2,file='o120822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+    open(unit=2,file='o120822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    do i=0,3
+        do j=0,3
+            pars(75)=-9.0_dp+i*2.0_dp !mumar1
+            pars(81)=-9.0_dp+i*2.0_dp !mumar2
+            pars(87)=-9.0_dp+j*2.0_dp !mumar3
+            pars(93)=-9.0_dp+j*2.0_dp !mumar4
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
+    end do 
+
+
 
  
     
