@@ -306,9 +306,12 @@ program main
     pars(26)=pars(26)+2.0_dp !divpen
 
     open(unit=2,file='o120822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars(75)=-5.0_dp !mumar1
+    pars(81)=-7.0_dp !mumar2
+    pars(87)=-6.0_dp !mumar3
+    pars(93)=-7.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
     !do i=0,3
     !    do j=0,3
     !        pars(75)=-9.0_dp+i*2.0_dp !mumar1
