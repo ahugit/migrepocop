@@ -211,7 +211,7 @@ program main
 	end if 
     
 
-    open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !set all junk parameters to zero so that I get zeros for these parameters the next pars file after opt
     pars(9)=0.5_dp !u cur m (to bring up eu move and ee move so that they don't say I'll find a job after I movey)
     pars(7:8)=-10.0_dp
