@@ -315,15 +315,20 @@ program main
 
     open(unit=2,file='o121122_bpconstruct.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(21)=-2.0_dp
-    do i=0,7
+    do i=0,2
         pars(75)=-7.0_dp+i*1.0_dp !mumar1
         pars(81)=-7.0_dp+i*1.0_dp !mumar2
         pars(87)=-7.0_dp+i*1.0_dp !mumar3
         pars(93)=-7.0_dp+i*1.0_dp !mumar4
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp
+        do j=0,2
+            pars(14)=7000.0_dp +j*7000.0_dp !uhomet
+            pars(15)=7000.0_dp +j*7000.0_dp !uhomet
+            pars(24)=7000.0_dp +j*7000.0_dp !uhomet
+            pars(65)=7000.0_dp +j*7000.0_dp !uhomet    
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp
+        end do    
     end do
-
 
     !do i=0,3
     !    do j=0,3
