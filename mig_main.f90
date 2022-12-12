@@ -314,18 +314,11 @@ program main
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
     open(unit=2,file='o121122_bpconstruct.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(21)=-1.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(21)=-1.5_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     pars(21)=-2.0_dp
+    pars(75)=-4.0_dp !mumar1
+    pars(81)=-7.0_dp !mumar2
+    pars(87)=-4.0_dp !mumar3
+    pars(93)=-7.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
