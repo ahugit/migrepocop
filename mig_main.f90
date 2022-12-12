@@ -295,15 +295,15 @@ program main
     pars(24)=5000.0_dp*j !ecst
     pars(65)=5000.0_dp*k !kcst
             
-    open(unit=2,file='o111622_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(21)=pars(21)+2.0_dp
-    pars1=pars
-    policytax=0
-    pars(74)=pars(92)   
-    pars(80)=pars(92)  
-    pars(86)=pars(92)
-    pars(92)=pars(92)
-    pars(26)=pars(26)+2.0_dp !divpen
+    !open(unit=2,file='o111622_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !pars(21)=pars(21)+2.0_dp
+    !pars1=pars
+    !policytax=0
+    !pars(74)=pars(92)   
+    !pars(80)=pars(92)  
+    !pars(86)=pars(92)
+    !pars(92)=pars(92)
+    !pars(26)=pars(26)+2.0_dp !divpen
 
     open(unit=2,file='o120822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(75)=-5.0_dp !mumar1
@@ -312,6 +312,11 @@ program main
     pars(93)=-7.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='o121122_bpconstruct.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
     !do i=0,3
     !    do j=0,3
     !        pars(75)=-9.0_dp+i*2.0_dp !mumar1
