@@ -290,10 +290,10 @@ program main
     pars(87)=-4.0_dp !mumar3
     pars(93)=-2.0_dp !mumar4
     i=1 ; j=1 ; k=1
-    pars(14)=5000.0_dp*i !ucst 
-    pars(15)=5000.0_dp*j !agecst
-    pars(24)=5000.0_dp*j !ecst
-    pars(65)=5000.0_dp*k !kcst
+    pars(14)=5000.0_dp*i !ucst now uhomet 
+    pars(15)=5000.0_dp*j !agecst now uhomet
+    pars(24)=5000.0_dp*j !ecst now uhomet
+    pars(65)=5000.0_dp*k !alf23 now uhomet (note this was wrongly labeled as kcst in commit 3d3c17 but of no consequene)
             
     !open(unit=2,file='o111622_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !pars(21)=pars(21)+2.0_dp
