@@ -332,50 +332,41 @@ program main
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp
 
-    pars(16)=-50.0_dp
-    pars(52)=-50.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(16)=-50.0_dp
-    do j=0,2
-        pars(52)=-3.0_dp + j*2.5_dp  
+    do i=0,1
+        pars(66)=pars(66)+i*2.0_dp
+        
+        pars(16)=-2.0_dp
+        pars(52)=-50.0_dp 
         call getpars(pars,realpars)
         call objfunc(pars,qval) ; realpars=realpartemp   
-    end do 
+        do j=1,2
+            pars(52)=-3.0_dp + j*2.5_dp  
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
 
-    pars(16)=-2.0_dp
-    pars(52)=-50.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(16)=-2.0_dp
-    do j=0,2
-        pars(52)=-3.0_dp + j*2.5_dp  
+
+        pars(16)=-1.0_dp
+        pars(52)=-50.0_dp 
         call getpars(pars,realpars)
         call objfunc(pars,qval) ; realpars=realpartemp   
-    end do 
+        do j=1,2
+            pars(52)=-3.0_dp + j*2.5_dp  
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
 
-
-    pars(16)=-1.0_dp
-    pars(52)=-50.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(16)=-1.0_dp
-    do j=0,2
-        pars(52)=-3.0_dp + j*2.5_dp  
+        pars(16)=0.5_dp
+        pars(52)=-50.0_dp 
         call getpars(pars,realpars)
         call objfunc(pars,qval) ; realpars=realpartemp   
+        do j=1,2
+            pars(52)=-3.0_dp + j*2.5_dp  
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
     end do 
 
-    pars(16)=0.5_dp
-    pars(52)=-50.0_dp 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    pars(16)=0.5_dp
-    do j=0,2
-        pars(52)=-3.0_dp + j*2.5_dp  
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp   
-    end do 
     !pars(16)=-8.0_dp + i*2.5_dp   !-5    -2   -1
     !pars(52)=-5.5_dp + j*2.5_dp   !-2.5   -1  0
 
