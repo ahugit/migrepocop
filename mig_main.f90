@@ -324,15 +324,49 @@ program main
     pars(15)=7000.0_dp +j*7000.0_dp !uhomet
     pars(24)=7000.0_dp +j*7000.0_dp !uhomet
     pars(65)=7000.0_dp +j*7000.0_dp !uhomet    
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp
 
 
-    open(unit=2,file='o121222_bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp
-
+    !open(unit=2,file='o121222_bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp
     
+do i=0,3
+    do j=0,3
+pars(16)=-8.0_dp + i*2.5_dp   !-5    -2   -1
+pars(52)=-5.5_dp + j*2.5_dp   !-2.5   -1  0
+!pars(64)=-5.5_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp   
+    end do 
+end do 
+
+
+!pars(16)=8.0_dp
+!pars(52)=-5.5_dp
+!pars(16)=-8.0_dp
+!pars(52)=0.0_dp
+!pars(16)=8.0_dp
+!pars(52)=0.0_dp
+!pars(16)=-2.0_dp
+!pars(52)=-2.5_dp
+!pars(16)=1.0_dp
+!pars(52)=-2.5_dp
+!pars(16)=-2.0_dp
+!pars(52)=-1.0_dp
+!pars(16)=1.0_dp
+!pars(52)=-1.0_dp
+!pars(16)=-5.0_dp
+!pars(52)=-5.5_dp
+!pars(16)=1.0_dp
+!pars(52)=-5.5_dp
+!pars(16)=-5.0_dp
+!pars(52)=0.0_dp
+!pars(16)=1.0_dp
+!pars(52)=0.0_dp
+
+
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
