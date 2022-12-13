@@ -333,7 +333,7 @@ program main
     !call objfunc(pars,qval) ; realpars=realpartemp
 
     do i=0,1
-        pars(66)=pars(66)+i*2.0_dp
+        pars(66)=pars(66)+i*1.0_dp
         
         pars(16)=-2.0_dp
         pars(52)=-50.0_dp 
