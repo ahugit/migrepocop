@@ -332,40 +332,40 @@ program main
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp
 
-        pars(66)=pars(66)+0.5_dp        
+    do i=0,1
+        pars(66)=pars(66)+i*1.0_dp
+        
         pars(16)=-2.0_dp
         pars(52)=-50.0_dp 
-        pars(52)=-2.9_dp + 3.*0.6_dp  
         call getpars(pars,realpars)
         call objfunc(pars,qval) ; realpars=realpartemp   
- 
+        do j=1,2
+            pars(52)=-3.0_dp + j*2.5_dp  
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
 
-    !pars(16)=-8.0_dp + i*2.5_dp   !-5    -2   -1
-    !pars(52)=-5.5_dp + j*2.5_dp   !-2.5   -1  0
 
-!pars(16)=8.0_dp
-!pars(52)=-5.5_dp
-!pars(16)=-8.0_dp
-!pars(52)=0.0_dp
-!pars(16)=8.0_dp
-!pars(52)=0.0_dp
-!pars(16)=-2.0_dp
-!pars(52)=-2.5_dp
-!pars(16)=1.0_dp
-!pars(52)=-2.5_dp
-!pars(16)=-2.0_dp
-!pars(52)=-1.0_dp
-!pars(16)=1.0_dp
-!pars(52)=-1.0_dp
-!pars(16)=-5.0_dp
-!pars(52)=-5.5_dp
-!pars(16)=1.0_dp
-!pars(52)=-5.5_dp
-!pars(16)=-5.0_dp
-!pars(52)=0.0_dp
-!pars(16)=1.0_dp
-!pars(52)=0.0_dp
+        pars(16)=-1.0_dp
+        pars(52)=-50.0_dp 
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp   
+        do j=1,2
+            pars(52)=-3.0_dp + j*2.5_dp  
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
 
+        pars(16)=0.5_dp
+        pars(52)=-50.0_dp 
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp   
+        do j=1,2
+            pars(52)=-3.0_dp + j*2.5_dp  
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
+    end do 
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
