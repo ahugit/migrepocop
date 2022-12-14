@@ -625,7 +625,7 @@ end subroutine read_taxes
 	integer(i4b), dimension(MNAD:MXA,nper) :: norelchg,move,emph,empw,edh,edw,dur,dee,deue
 	real(dp), dimension(MNAD:MXA,nper) :: logwh,logww
     integer(i4b), dimension(nper) :: nummove,cohogen,sexgen    !nummove_ma,nummove_si !integer(i4b), dimension(MNAD:MXA,ndat) :: nummov,nummove_mar,nummove_sin
-    real(dp) :: wmovebyrel,decilegrid(ndecile)
+    real(dp) :: decilegrid(ndecile)
     INTEGER(I4B),DIMENSION(MNAD:MXA,nper) :: kidtrans,homemove,moverank
     INTEGER(I4B),DIMENSION(nper) :: movesum
     REAL(dp),DIMENSION(MNAD:MXA,nper) :: mean4h,deltawage4,deltawage
@@ -661,7 +661,6 @@ end subroutine read_taxes
     nummove=-99 
     cohogen=-99 
     sexgen=-99 
-    wmovebyrel=-99.0_dp
     calcvar=0   !declared globally
     calcorr=0   !declared globally
     mominfo=-1  !declared globally
@@ -931,8 +930,8 @@ end subroutine read_taxes
                     cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g  .and. dat(MNAD:MXAD,:)%rel==j .and. norelchg(MNAD:MXAD,:)==1 )			
                 end if 
                 
-                if (j==1) wmovebyrel=wmovemar
-                if (j==0) wmovebyrel=wmovesin
+                !if (j==1) wmovebyrel=wmovemar
+                !if (j==0) wmovebyrel=wmovesin
     
     
                 headloc(ihead)=im
@@ -989,7 +988,7 @@ end subroutine read_taxes
             do ddd=1,ndecile-1
                 CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
                 WRITE(name(im),'("wdecile|ned",tr1,i4)') ddd
-                weights(im)=wwaged !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
                 im=im+1
             end do
         end do !j for rel
@@ -1006,8 +1005,8 @@ end subroutine read_taxes
                 cosexrel(MNAD:MXAD,:)= (dat(MNAD:MXAD,:)%co==co .and. dat(MNAD:MXAD,:)%sexr==g  .and. dat(MNAD:MXAD,:)%rel==j .and. norelchg(MNAD:MXAD,:)==1 )			
             end if 
             
-            if (j==1) wmovebyrel=wmovemar
-            if (j==0) wmovebyrel=wmovesin
+            !if (j==1) wmovebyrel=wmovemar
+            !if (j==0) wmovebyrel=wmovesin
 
 
             headloc(ihead)=im
@@ -1036,19 +1035,19 @@ end subroutine read_taxes
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | u stay",tr3)')  
-            weights(im)=wtrans 
+            weights(im)=whour
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | u move",tr3)')  
-            weights(im)=wtrans 
+            weights(im)=whour
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | e stay",tr3)')  
-            weights(im)=wtrans 
+            weights(im)=whour
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | e move",tr3)')  
-            weights(im)=wtrans 
+            weights(im)=whour
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0  .AND. move(MNA:MXAD,:)>=0 ),   d1* move(MNA:MXAD,:) ,mom,cnt,var)	
             write(name(im),'("move | u ",tr5)')  
@@ -1069,41 +1068,42 @@ end subroutine read_taxes
             weights(im)=wmove
             im=im+1
 
-            !Moved these here conditioning on sex because note that the respondents can be both male as well as female! 
-            !headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ee|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("eu|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ue|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("uu|ee stay")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ee|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("eu|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
-            write(name(im),'("ue|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-            call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
-            write(name(im),'("uu|ee move")')  
-            weights(im)=wtrans 
-            im=im+1 
-
+            if (j==1) then
+                !Moved these here conditioning on sex because note that the respondents can be both male as well as female! 
+                !headloc(ihead)=im; headstr(ihead)='joint emp transition rates ';ihead=ihead+1
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+                write(name(im),'("ee|ee stay")')  
+                weights(im)=whour  
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+                write(name(im),'("eu|ee stay")')  
+                weights(im)=whour 
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+                write(name(im),'("ue|ee stay")')  
+                weights(im)=whour 
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+                write(name(im),'("uu|ee stay")')  
+                weights(im)=whour
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+                write(name(im),'("ee|ee move")')  
+                weights(im)=whour
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+                write(name(im),'("eu|ee move")')  
+                weights(im)=whour
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0..AND. dat(MNA+1:MXA,:)%hhsp==1  ),mom,cnt,var)		
+                write(name(im),'("ue|ee move")')  
+                weights(im)=whour
+                im=im+1 
+                call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhsp==0  ),mom,cnt,var)		
+                write(name(im),'("uu|ee move")')  
+                weights(im)=whour
+                im=im+1 
+            end if 
 
             headloc(ihead)=im
             if (g==1.and.j==0) headstr(ihead)='single men wages'
@@ -1119,18 +1119,18 @@ end subroutine read_taxes
                 im=im+1
                 CALL condmom(im,(   cosexrel(ia,:) .AND.  dat(ia,:)%hhr==1 .AND. dat(ia,:)%edr==1 .AND. dat(ia,:)%logwr>=0) ,d1*  (dat(ia,:)%logwr**2),mom,cnt,var)
                 WRITE(name(im),'("wvarned|ia ",i4)') ia
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
+                weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp    !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess         
                 calcvar(im)=5
                 im=im+1
             end do 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l/=dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
             write(name(im),'("wdif | hmemve=0 ",tr2)')  
-            weights(im)=whome
+            weights(im)=wdifww
             calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 .and. dat(MNA+1:MXA,:)%l==dat(MNA+1:MXA,:)%hme ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
             write(name(im),'("wdif | hmemve=1 ",tr2)')  
-            weights(im)=whome
+            weights(im)=wdifww
             calcvar(im)=0 !dont forget to set these to 0 if there is no wdif2 following this moment 
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1  .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr ),mom,cnt,var)		
@@ -1301,7 +1301,7 @@ end subroutine read_taxes
             do ddd=1,ndecile-1
                 CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
                 WRITE(name(im),'("wdecile|ned",tr1,i4)') ddd
-                weights(im)=wwaged !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
+                weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
                 im=im+1
             end do
             !do ddd=1,ndecile-1
@@ -1324,7 +1324,7 @@ end subroutine read_taxes
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1 .AND. move(MNA:MXAD,:)==0 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr )**2,mom,cnt,var)		
             write(name(im),'("wdif2 | stay ",tr2)')  
-            weights(im)=wdifww 
+            weights(im)=wwvar
             calcvar(im)=5
             im=im+1 
             !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1 .AND. move(MNA:MXAD,:)==0 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr - mom(im-2) )**2,mom,cnt,var)		
@@ -1338,7 +1338,7 @@ end subroutine read_taxes
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1 .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr )**2,mom,cnt,var)		
             write(name(im),'("wdif2 | move ",tr2)')  
-            weights(im)=wdifww  
+            weights(im)=wwvar
             calcvar(im)=5
             im=im+1 
             !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1 .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr - mom(im-2) )**2,mom,cnt,var)		
@@ -1354,7 +1354,7 @@ end subroutine read_taxes
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1  .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr )**2,mom,cnt,var)		
             write(name(im),'("wdif2 | eue,s ",tr2)')  
-            weights(im)=wdifww 
+            weights(im)=wwvar
             calcvar(im)=5
             im=im+1 
             !call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1  .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr - mom(im-2))**2,mom,cnt,var)		
@@ -1398,7 +1398,7 @@ end subroutine read_taxes
                 im=im+1 
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr )**2,mom,cnt,var)		
                 write(name(im),'("wdif2 | stay ia ",tr2,i6)')  ia
-                weights(im)=wdifww
+                weights(im)=wwvar
                 calcvar(im)=5
                 im=im+1 
             end do   
@@ -1410,7 +1410,7 @@ end subroutine read_taxes
                 im=im+1 
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 .AND. ( dat(ia+1,:)%logwr-dat(ia,:)%logwr>0 ) ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr )**2,mom,cnt,var)		
                 write(name(im),'("wdif2 | stay ia,wdif>0 ",tr2,i6)')  ia
-                weights(im)=wdifww
+                weights(im)=wwvar
                 calcvar(im)=5
                 im=im+1 
             end do   
@@ -1432,21 +1432,21 @@ end subroutine read_taxes
             
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | u stay",tr3)')  
-            weights(im)=wtrans 
+            weights(im)=whour
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==0 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | u move",tr3)')  
-            weights(im)=wtrans 
+            weights(im)=whour
             im=im+1 
 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==0 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | e stay",tr3)')  
-            weights(im)=wtrans 
+            weights(im)=whour
             im=im+1 
             
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA+1:MXA,:)%hhr>=0 .AND. move(MNA:MXAD,:)==1 ),   d1*one( dat(MNA+1:MXA,:)%hhr==1 ),mom,cnt,var)		
             write(name(im),'("e | e move",tr3)')  
-            weights(im)=wtrans 
+            weights(im)=whour
             im=im+1 
             
             do jj=1,2
@@ -1653,13 +1653,13 @@ end subroutine read_taxes
         do j=1,NL
             CALL condmom(im,( coho(MNA:MXAD,:) .AND.(move(MNA:MXAD,:)==1).AND.(dat(MNA:MXAD,:)%l>=0).AND.(norelchg(MNA:MXAD,:)==1) ),d1*one(dat(MNA:MXAD,:)%l==j),mom,cnt,var)
             WRITE(name(im),'("prop-of-moves-from ",I4)') j
-            weights(im)=wmovebyrel
+            weights(im)=wprop
             im=im+1 
         end do  
         do j=1,NL
             CALL condmom(im,( coho(MNA:MXAD,:).AND.(move(MNA:MXAD,:)==1).AND.(dat(MNA+1:MXA,:)%l>=0).AND.(norelchg(MNA:MXAD,:)==1) ),d1*one(dat(MNA+1:MXA,:)%l==j),mom,cnt,var)
             WRITE(name(im),'("prop-of-moves-to  ",I4)') j
-            weights(im)=wmovebyrel
+            weights(im)=wprop
             im=im+1 
         end do  
 
