@@ -1393,31 +1393,31 @@ end subroutine read_taxes
             do ia=mna,mxad,5
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | stay ia ",tr2,i6)')  ia
-                weights(im)=0.0_dp
+                weights(im)=wdifww
                 calcvar(im)=1
                 im=im+1 
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr )**2,mom,cnt,var)		
                 write(name(im),'("wdif2 | stay ia ",tr2,i6)')  ia
-                weights(im)=0.0_dp
+                weights(im)=wdifww
                 calcvar(im)=5
                 im=im+1 
             end do   
             do ia=mna,mxad,5
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 .AND. ( dat(ia+1,:)%logwr-dat(ia,:)%logwr>0 ) ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | stay ia,wdif>0 ",tr2,i6)')  ia
-                weights(im)=0.0_dp
+                weights(im)=wdifww
                 calcvar(im)=1
                 im=im+1 
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 .AND. ( dat(ia+1,:)%logwr-dat(ia,:)%logwr>0 ) ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr )**2,mom,cnt,var)		
                 write(name(im),'("wdif2 | stay ia,wdif>0 ",tr2,i6)')  ia
-                weights(im)=0.0_dp
+                weights(im)=wdifww
                 calcvar(im)=5
                 im=im+1 
             end do   
             do ia=mna,mxad,5
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==1 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr ),mom,cnt,var)		
                 write(name(im),'("wdif | move ia ",tr2,i6)')  ia
-                weights(im)=0.0_dp
+                weights(im)=wdifww
                 im=im+1 
             end do   
 
