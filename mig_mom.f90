@@ -1301,7 +1301,7 @@ end subroutine read_taxes
             do ddd=1,ndecile-1
                 CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
                 WRITE(name(im),'("wdecile|ned",tr1,i4)') ddd
-                weights(im)=wwvar !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
+                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
                 im=im+1
             end do
             !do ddd=1,ndecile-1
