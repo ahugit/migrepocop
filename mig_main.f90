@@ -336,8 +336,6 @@ program main
     !pars(67)=pars(67)+0.5_dp    
     pars(16)=-2.0_dp
     pars(52)=-3.0_dp + 1*2.5_dp  
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
 
     pars(72)=9.5_dp !set according to loc5 wned at age 18
     pars(73)=8.8_dp !set according to loc5 wned at age 18

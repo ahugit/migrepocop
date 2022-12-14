@@ -1324,7 +1324,7 @@ end subroutine read_taxes
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1 .AND. move(MNA:MXAD,:)==0 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr )**2,mom,cnt,var)		
             write(name(im),'("wdif2 | stay ",tr2)')  
-            weights(im)=wwvar
+            weights(im)=wdifww
             calcvar(im)=5
             im=im+1 
             !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1 .AND. move(MNA:MXAD,:)==0 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr - mom(im-2) )**2,mom,cnt,var)		
@@ -1338,7 +1338,7 @@ end subroutine read_taxes
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1 .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr )**2,mom,cnt,var)		
             write(name(im),'("wdif2 | move ",tr2)')  
-            weights(im)=wwvar
+            weights(im)=wdifww
             calcvar(im)=5
             im=im+1 
             !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dee(MNA:MXAD,:)==1 .AND. move(MNA:MXAD,:)==1 ),   d1*( dat(MNA+1:MXA,:)%logwr-dat(MNA:MXAD,:)%logwr - mom(im-2) )**2,mom,cnt,var)		
@@ -1354,7 +1354,7 @@ end subroutine read_taxes
             im=im+1 
             call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1  .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr )**2,mom,cnt,var)		
             write(name(im),'("wdif2 | eue,s ",tr2)')  
-            weights(im)=wwvar
+            weights(im)=wdifww
             calcvar(im)=5
             im=im+1 
             !call condmom(im,( cosexrel(MNA:MXAD-1,:) .AND. deue(MNA:MXAD-1,:)==1  .AND. dat(MNA+1:MXAD,:)%l==dat(MNA:MXAD-1,:)%l .AND. dat(MNA+2:MXA,:)%l==dat(MNA:MXAD-1,:)%l),   d1*( dat(MNA+2:MXA,:)%logwr-dat(MNA:MXAD-1,:)%logwr - mom(im-2))**2,mom,cnt,var)		
@@ -1398,7 +1398,7 @@ end subroutine read_taxes
                 im=im+1 
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr )**2,mom,cnt,var)		
                 write(name(im),'("wdif2 | stay ia ",tr2,i6)')  ia
-                weights(im)=wwvar
+                weights(im)=wdifww
                 calcvar(im)=5
                 im=im+1 
             end do   
@@ -1410,7 +1410,7 @@ end subroutine read_taxes
                 im=im+1 
                 call condmom(im,( cosexrel(ia,:) .AND. dee(ia,:)==1  .AND. move(ia,:)==0 .AND. ( dat(ia+1,:)%logwr-dat(ia,:)%logwr>0 ) ),   d1*( dat(ia+1,:)%logwr-dat(ia,:)%logwr )**2,mom,cnt,var)		
                 write(name(im),'("wdif2 | stay ia,wdif>0 ",tr2,i6)')  ia
-                weights(im)=wwvar
+                weights(im)=wdifww
                 calcvar(im)=5
                 im=im+1 
             end do   
