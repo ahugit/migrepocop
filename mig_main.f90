@@ -339,6 +339,18 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars(72)=9.5_dp !set according to loc5 wned at age 18
+    pars(73)=8.8_dp !set according to loc5 wned at age 18
+    pars(78)=8.7_dp
+    pars(79)=8.8_dp
+    pars(84)=8.9_dp
+    pars(85)=8.8_dp
+    pars(90)=9.6_dp
+    pars(91)=8.8_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
     !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
