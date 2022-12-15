@@ -324,19 +324,8 @@ program main
     pars(15)=7000.0_dp +j*7000.0_dp !uhomet
     pars(24)=7000.0_dp +j*7000.0_dp !uhomet
     pars(65)=7000.0_dp +j*7000.0_dp !uhomet    
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp
-
-
-    !open(unit=2,file='o121222_bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp
-
-    !pars(66)=pars(66)+1.0_dp    
-    !pars(67)=pars(67)+0.5_dp    
     pars(16)=-2.0_dp
     pars(52)=-3.0_dp + 1*2.5_dp  
-
     pars(72)=9.5_dp !set according to loc5 wned at age 18
     pars(73)=8.8_dp !set according to loc5 wned at age 18
     pars(78)=8.7_dp
@@ -348,6 +337,13 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    open(unit=2,file='o121522_1bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
