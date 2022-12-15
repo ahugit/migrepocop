@@ -334,6 +334,7 @@ program main
     pars(85)=8.8_dp
     pars(90)=9.6_dp
     pars(91)=8.8_dp
+    pars1=pars
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -341,9 +342,11 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    open(unit=2,file='o121522_1bpnel.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars(1:12)=pars1(1:12)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+
+
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
