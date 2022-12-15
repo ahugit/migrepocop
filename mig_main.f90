@@ -339,13 +339,22 @@ program main
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
     open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars2=pars
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(1:12)=pars1(1:12)
+    pars(66:67)=pars1(66:67)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars(72)=9.5_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(72)=pars2(72)
+    pars(90)=9.5_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
 
     !*************************    
