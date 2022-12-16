@@ -66,7 +66,7 @@
     INTEGER(I4B), PARAMETER :: NOCOLLEGE=1,COLLEGE=2
 	integer(i4b), parameter, dimension(2) :: agestart=(/ mna,22 /)		!changed this from 18,22 !chanage this back ahu 070312 (/18,22/) !starting age for simulations for each education level
 	real(dp), parameter :: mult1=10000.0_dp !ahu jan19 012519
-    real(dp), parameter :: multmar=50000.0_dp,multsigo=300000.0_dp,multdiv=5000.0_dp,multcst=30000.0_dp !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
+    real(dp), parameter :: multmar=50000.0_dp,multsigo=300000.0_dp,multdiv=20000.0_dp,multcst=30000.0_dp !ahu jan19 012019  !ahu030622 VERY IMPORTANT CHANGE MULTMAR
 	real(dp), parameter :: maxhgrid=8.0_dp 
 	real(dp), parameter :: tottime=16.0_dp
 	real(dp), parameter :: hhours_conv=250.0_dp					! multuiply hours per day by this to get hours per year for hours worked
