@@ -17,8 +17,8 @@
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
     integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
-    logical, parameter :: typemoments=.true.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
+    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: typemoments=.false.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
     logical :: nonneg,terminalval
     logical :: onthejobsearch=.TRUE. !set in main
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
@@ -248,7 +248,7 @@ contains
     uhomet(3)=realpar(j)                                     ; j=j+1               ! types
 	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=1.0_dp*(1000.0_dp) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
 	kcst=realpar(j)                                     ; j=j+1
-	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=1.0_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
+	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
 	divpenalty=realpar(j)                               ; j=j+1
     !print*, 'Here is divpenalty',j-1,divpenalty 
 
@@ -351,7 +351,7 @@ contains
             realpar(j)=par(j)                          ; parname(j)='cst'       ; stepos(j)=0.5_dp*(-5000.0_dp) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
-            realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=2.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=1.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         else
             realpar(j)=par(j)                            ; parname(j)='ptypehs' ; stepos(j)=1.0_dp
