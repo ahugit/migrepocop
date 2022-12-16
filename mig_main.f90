@@ -350,6 +350,7 @@ program main
     pars(85)=9.1_dp
     pars(90)=9.7_dp
     pars(91)=9.0_dp
+    pars(26)=pars(26)-3.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
