@@ -342,43 +342,33 @@ program main
     pars(72)=9.5_dp
     pars(90)=9.7_dp
     pars(88)=pars(88)-1._dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(72)=9.0_dp
-    pars(73)=9.0_dp
-    pars(78)=9.0_dp
-    pars(79)=9.0_dp
-    pars(84)=9.0_dp
-    pars(85)=9.0_dp
-    pars(90)=9.0_dp
+    pars(72)=9.3_dp
+    pars(73)=8.5_dp
+    pars(78)=8.7_dp
+    pars(79)=9.1_dp
+    pars(84)=8.8_dp
+    pars(85)=9.1_dp
+    pars(90)=9.7_dp
     pars(91)=9.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(72)=9.0_dp
-    pars(73)=8.4_dp
-    pars(78)=9.0_dp
-    pars(79)=8.4_dp
-    pars(84)=9.0_dp
-    pars(85)=8.4_dp
-    pars(90)=9.0_dp
-    pars(91)=8.4_dp
+    pars(26)=pars(26)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-
-    pars(72)=9.5_dp
-    pars(73)=8.4_dp
-    pars(78)=9.0_dp
-    pars(79)=8.4_dp
-    pars(84)=9.0_dp
-    pars(85)=8.4_dp
-    pars(90)=9.5_dp
-    pars(91)=8.4_dp
+    pars(26)=pars(26)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars(26)=pars(26)-2.0_dp
+    pars(75)=pars(75)+1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(75)=pars(75)+1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
