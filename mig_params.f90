@@ -210,7 +210,7 @@ contains
 
 	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp !0.5_dp 
 	psil(1)=realpar(j)	            ; j=j+1
-	realpar(j)= par(j)             ; parname(j)='uhomet 1'	; stepos(j)=0.0_dp*par(j) 
+	realpar(j)= par(j)             ; parname(j)='uhomet 1'	; stepos(j)=0.5_dp*par(j) 
 	uhomet(1)=realpar(j)            ; j=j+1
 	realpar(j)= uhomet(1)             ; parname(j)='uhomet 2'	; stepos(j)=0.0_dp*par(j) !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	uhomet(2)=realpar(j)            ; j=j+1
@@ -231,7 +231,7 @@ contains
     
     realpar(j)=logit(par(j))        ; parname(j)='pkid' ; stepos(j)=0.0_dp  ; if (onlysingles) stepos(j)=0.0_dp !20
 	pkid=realpar(j)                 ; j=j+1
-    realpar(j)=logit(par(j))	    ; parname(j)='pmeet' ; stepos(j)=1.0_dp ; if (onlysingles) stepos(j)=0.0_dp !21
+    realpar(j)=logit(par(j))	    ; parname(j)='pmeet' ; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !21
 	pmeet=realpar(j)                ; j=j+1
 
 
@@ -246,7 +246,7 @@ contains
 	uhome(2)=realpar(j)                             ; j=j+1
     realpar(j)=uhomet(1)            ; parname(j)='uhomet 3'	; stepos(j)=0.0_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
     uhomet(3)=realpar(j)                                     ; j=j+1               ! types
-	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=0.0_dp*(1000.0_dp) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
+	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=1.0_dp*(1000.0_dp) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
 	kcst=realpar(j)                                     ; j=j+1
 	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=1.0_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
 	divpenalty=realpar(j)                               ; j=j+1
@@ -342,13 +342,13 @@ contains
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
             realpar(j)=0.0_dp                           ; parname(j)='ptypecol'  ; stepos(j)=0.0_dp
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.4_dp  ; if (onlyfem) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
-            realpar(j)=par(j)                          ; parname(j)='alf2t'     ; stepos(j)=0.4_dp  ; if (onlymales) stepos(j)=0.0_dp
+            realpar(j)=par(j)                          ; parname(j)='alf2t'     ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
-            realpar(j)=par(j)                          ; parname(j)='cst'       ; stepos(j)=0.0_dp*(-5000.0_dp) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
+            realpar(j)=par(j)                          ; parname(j)='cst'       ; stepos(j)=0.5_dp*(-5000.0_dp) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
             realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=2.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
@@ -358,9 +358,9 @@ contains
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
             realpar(j)=par(j)                            ; parname(j)='ptypecol'  ; stepos(j)=1.0_dp
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.4_dp  ; if (onlyfem) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.4_dp  ; if (onlymales) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !if (i<4) then
             !    realpar(j)= par(j)                         ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j)
