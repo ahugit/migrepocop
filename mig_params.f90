@@ -325,7 +325,7 @@ contains
     realpar(j)=uhomet(1)                              ; parname(j)='uhomet 4' ; stepos(j)=0.0_dp*par(j)  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
 	uhomet(4)=realpar(j)	                            ; j=j+1
 	
-    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=0.5_dp ; stepos(j+1)=0.5_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
+    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=0.0_dp ; stepos(j+1)=0.5_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
     realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=0.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp

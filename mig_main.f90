@@ -341,7 +341,7 @@ program main
     pars(47)=pars(47)-0.2
     pars(72)=9.5_dp
     pars(90)=9.7_dp
-    pars(88)=pars(88)-1._dp
+    !pars(88)=pars(88)-1._dp
     pars(72)=9.3_dp
     pars(73)=8.5_dp
     pars(78)=8.7_dp
