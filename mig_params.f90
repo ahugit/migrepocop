@@ -15,10 +15,10 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=3
+    integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
-    logical, parameter :: typemoments=.true.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
+    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: typemoments=.false.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
     logical :: nonneg,terminalval
     logical :: onthejobsearch=.TRUE. !set in main
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
@@ -84,8 +84,8 @@
 	real(dp), parameter :: maxw=150.0_dp                ! upper truncation point of male log wage
 	real(dp), parameter :: pen=-99999999.0_dp
 	integer(i4b), parameter :: ipen=-99999	
-    real(dp), parameter :: wwage=50.0_dp,wwvar=50.0_dp,wdifww=50.0_dp,whour=50.0_dp
-    real(dp), parameter :: wrel=100.0_dp,wmove=1.0_dp,whome=10.0_dp,wkid=1.0_dp,wprop=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
+    real(dp), parameter :: wwage=50.0_dp,wwvar=10.0_dp,wdifww=10.0_dp,whour=50.0_dp
+    real(dp), parameter :: wrel=50.0_dp,wmove=50.0_dp,whome=50.0_dp,wkid=1.0_dp,wprop=10.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     !    real(dp), parameter :: wtrans=100.0_dp,wwaged=10.0_dp,wdifww=100.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwvar=100.0_dp
 !    real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     character(len=23) :: datafilename  != 'familymigpsid.txt' ! data filename set in main now
@@ -208,7 +208,7 @@ contains
     !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psio right here and those are the ones that are used in fnprof.
 
-	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp !0.5_dp 
+	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=1.0_dp !0.5_dp 
 	psil(1)=realpar(j)	            ; j=j+1
 	realpar(j)= par(j)             ; parname(j)='uhomet 1'	; stepos(j)=0.5_dp*par(j) 
 	uhomet(1)=realpar(j)            ; j=j+1
@@ -217,7 +217,7 @@ contains
     !if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
-	realpar(j)=par(j)               ; parname(j)='p(ex=2|ex=1),e' ; stepos(j)=1.0_dp !this is psih, the only one that governs fnprhc.  
+	realpar(j)=par(j)               ; parname(j)='p(ex=2|ex=1),e' ; stepos(j)=0.0_dp !this is psih, the only one that governs fnprhc.  
 	psih=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='p(ex=1|ex=1),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
 	junk=realpar(j)	            ; j=j+1
@@ -274,7 +274,7 @@ contains
 			    realpar(j) = 0.0_dp  ; stepos(j)=0.0_dp
 			    uloc(i)=0.0_dp
 		    else 
-			    realpar(j) = par(j) ; stepos(j)=0.0_dp*PAR(J)    !mult1 * min2pls( par(j) )
+			    realpar(j) = par(j) ; stepos(j)=1.0_dp*PAR(J)    !mult1 * min2pls( par(j) )
 			    uloc(i)=realpar(j)
 		    end if 
             parname(j)='uloc' 
@@ -288,17 +288,17 @@ contains
             realpar(j)=0.0_dp ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         else 
-            realpar(j)=par(j) ; stepos(j)=0.6_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=par(j) ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         end if     
         parname(j)='alf10'  
         j=j+1
     end do 
     !print*, 'Here is alf11 etc',j
-    realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp
 	alf11=realpar(j)                                ; j=j+1
     !print*, 'Here is alf12',j	
-    realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp
     alf12=realpar(j)                                ; j=j+1
     !print*, 'Here is alf13',j	
     realpar(j)=0.0_dp                               ; parname(j)='alf13' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
@@ -309,29 +309,29 @@ contains
             realpar(j)=0.0_dp ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         else 
-            realpar(j)=par(j) ; stepos(j)=0.6_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=par(j) ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         end if     
         parname(j)='alf20'  
 		j=j+1
 	end do 
     !print*, 'Here is alf21 etc',j
-	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp 
+	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf21=realpar(j)                                ; j=j+1
     !print*, 'Here is alf22',j	    
-    realpar(j)=logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp 
+    realpar(j)=logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf22=realpar(j)                                ; j=j+1
     !print*, 'Here is alf23',j	
     realpar(j)=uhomet(1)                              ; parname(j)='uhomet 4' ; stepos(j)=0.0_dp*par(j)  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 
 	uhomet(4)=realpar(j)	                            ; j=j+1
 	
-    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=0.0_dp ; stepos(j+1)=0.5_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
+    realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=0.5_dp ; stepos(j+1)=0.5_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
-    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=0.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=0.5_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
     !print*, "Here it is sigom", j,par(j),realpar(j)
     sigo_m=realpar(j)                                ; j=j+1
-    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=0.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=0.5_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
     !print*, "Here it is sigof", j,par(j),realpar(j)
     sigo_f=realpar(j)                                ; j=j+1
 
