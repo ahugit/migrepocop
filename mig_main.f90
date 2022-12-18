@@ -313,7 +313,7 @@ program main
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
-    open(unit=2,file='o121122_bpconstruct.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !open(unit=2,file='o121122_bpconstruct.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(21)=-2.0_dp
     i=1 ; j=0
     pars(75)=-7.0_dp+i*1.0_dp !mumar1
@@ -336,7 +336,7 @@ program main
     pars(91)=8.8_dp
     pars1=pars
 
-    open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(66:67)=pars1(66:67)
     pars(47)=pars(47)-0.2
     pars(72)=9.5_dp
@@ -352,19 +352,19 @@ program main
     pars(91)=9.0_dp
     pars(26)=pars(26)-3.0_dp
     !pars(75)=pars(75)+0.5_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
 
     open(unit=2,file='o121822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-
-    open(unit=2,file='o121822_2bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars(12)=pars(12)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-
+    pars(12)=pars(12)-1.0_dp
+    pars(68:69)=pars(68:69)-1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
