@@ -361,6 +361,7 @@ program main
     pars(81)=-7.0_dp !mumar2
     pars(87)=-7.0_dp !mumar3
     pars(93)=-7.0_dp !mumar4
+    pars(74)=-100000.0_dp !cst
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     taxset=0
