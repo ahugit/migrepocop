@@ -359,25 +359,9 @@ program main
     open(unit=2,file='o121922_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(75)=-7.0_dp
     policytax=0
-    terminalval=.FALSE.
-    ntermval=10
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    terminalval=.FALSE.
-    ntermval=50
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
     terminalval=.TRUE.
-    ntermval=1
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
     ntermval=5
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    ntermval=10
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    ntermval=50
+    pars(91)=8.8_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     

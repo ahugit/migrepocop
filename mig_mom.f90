@@ -1103,6 +1103,12 @@ end subroutine read_taxes
                 write(name(im),'("uu|ee move")')  
                 weights(im)=whour
                 im=im+1 
+                !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%logwsp>=0 ), d1*  (dat(MNA:MXAD,:)%logwr*dat(MNA:MXAD,:)%logwsp)  ,mom,cnt,var)		
+                !write(name(im),'("uu|ee move")')  
+                !weights(im)=whour
+                !im=im+1 
+                !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%logwsp>=0 ), d1*  (dat(MNA:MXAD,:)%logwr)  ,mom,cnt,var)		
+                !call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%logwsp>=0 ), d1*  (dat(MNA:MXAD,:)%logwsp)  ,mom,cnt,var)		
             end if 
 
             headloc(ihead)=im
