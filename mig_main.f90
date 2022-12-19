@@ -355,9 +355,18 @@ program main
 
     open(unit=2,file='o121822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(12)=pars(12)+1.5_dp
+
+    open(unit=2,file='bpobjsofar.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars(10)=pars(10)-1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(10)=pars(10)-1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
