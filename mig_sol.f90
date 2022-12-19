@@ -140,18 +140,20 @@ end do
 						    !emaxf_c(x0,q0,ia)=sum(prob*vf_c)                    
                             do q=1,nq
                             do x=1,nx
-                            do x0=1,nx
                                 if (terminalval.and.ia==MXA) then 
                                     vterminal(1)=vm_c(x,q)
                                     vterminal(2)=vf_c(x,q)	
                                     do nnn=1,ntermval
                                         vterminal(1:2) = vterminal(1:2)  + (delta**nnn)*vterminal(1:2)
                                     end do
-                                    vm_c(x,q) = vterminal(1)
-                                    vf_c(x,q) = vterminal(2)
+                                    valso(1:2) = vterminal(1:2)
+                                else 
+                                    valso(1)=vm_c(x,q)
+                                    valso(2)=vf_c(x,q)
                                 end if                     
-                                emaxm_c(x0,q0,ia)=emaxm_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vm_c(x,q)
-                                emaxf_c(x0,q0,ia)=emaxf_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vf_c(x,q)
+                            do x0=1,nx
+                                emaxm_c(x0,q0,ia)=emaxm_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*valso(1)
+                                emaxf_c(x0,q0,ia)=emaxf_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*valso(2)
                             end do 
                             end do 
                             end do	 				
@@ -254,11 +256,13 @@ end do
                                         do nnn=1,ntermval
                                             vterminal(1:2) = vterminal(1:2)  + (delta**nnn)*vterminal(1:2)
                                         end do
-                                        vmr(iepsmove,x,q,q0) = vterminal(1)
-                                        vfr(iepsmove,x,q,q0) = vterminal(2)
+                                        valso(1:2)=vterminal(1:2)
+                                    else 
+                                        valso(1)=vmr(iepsmove,x,q,q0) 
+                                        valso(2)=vfr(iepsmove,x,q,q0) 
                                     end if                     
-                                    emaxm_s(x0,q0,ia)	= emaxm_s(x0,q0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,1) * ppsx(x,q0,x0) * vmr(iepsmove,x,q,q0) 
-                                    emaxf_s(x0,q0,ia)	= emaxf_s(x0,q0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,2) * ppsx(x,q0,x0) * vfr(iepsmove,x,q,q0) 	
+                                    emaxm_s(x0,q0,ia)	= emaxm_s(x0,q0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,1) * ppsx(x,q0,x0) * valso(1) 
+                                    emaxf_s(x0,q0,ia)	= emaxf_s(x0,q0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,2) * ppsx(x,q0,x0) * valso(2) 	
                                 end do 
                             end do 
                         end do
