@@ -1045,7 +1045,7 @@ end do
 			    if ( w(g) <= np ) then	
                     epsw(g)=wg(w(g),g) !sig_wge(g)*wg(w(g),g)
 				    ws(g,x,q,trueindex)	= fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x)) 
-                    wsnet(g,x,q,trueindex)=ws(g,x,q,trueindex)
+                    wsnet(g,x,q,trueindex)=0.5_dp*ws(g,x,q,trueindex)
                     !if (mysay==1) then 
                         !if (bracket<numbin) then ; bracketnext=bracket+1 ; else ; bracketnext=numbin ; end if 
                         !if (bracket>1) then ; bracketprev=bracket-1 ; else ; bracketprev=1 ; end if 
@@ -1115,17 +1115,17 @@ end do
             epsw(2)=wg(w(2),2) !CD(2,1)*wg(w(1),1) + CD(2,2)*wg(w(2),2)
             wc(1,x,q,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
             wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )  
-            wcnet(1:2,x,q,trueindex)	= wc(1:2,x,q,trueindex)   
+            wcnet(1:2,x,q,trueindex)	= 0.5_dp*wc(1:2,x,q,trueindex)   
         else if ( w(1) <= np .and. w(2) == np1 ) then		
             epsw(1)=wg(w(1),1) !sig_wge(1)*wg(w(1),1)
             wc(1,x,q,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
             wc(2,x,q,trueindex)	= 0.0_dp
-            wcnet(1:2,x,q,trueindex)	= wc(1:2,x,q,trueindex)   
+            wcnet(1:2,x,q,trueindex)	= 0.5_dp*wc(1:2,x,q,trueindex)   
         else if ( w(1) == np1 .and. w(2) <= np ) then		
             epsw(2)=wg(w(2),2) !sig_wge(2)*wg(w(2),2)
             wc(1,x,q,trueindex)	= 0.0_dp
             wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )   
-            wcnet(1:2,x,q,trueindex)	= wc(1:2,x,q,trueindex)   
+            wcnet(1:2,x,q,trueindex)	= 0.5_dp*wc(1:2,x,q,trueindex)   
         else if ( w(1) == np1 .and. w(2) == np1 ) then		
             wc(1,x,q,trueindex)	= 0.0_dp
             wc(2,x,q,trueindex)	= 0.0_dp           
