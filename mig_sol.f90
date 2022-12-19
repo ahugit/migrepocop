@@ -1045,27 +1045,7 @@ end do
 			    if ( w(g) <= np ) then	
                     epsw(g)=wg(w(g),g) !sig_wge(g)*wg(w(g),g)
 				    ws(g,x,q,trueindex)	= fnwge(g,truetyp, l(g),epsw(g), x2e(x), x2r(x)) 
-                    wsgross=ws(g,x,q,trueindex)
-                    bracket=locate(  pwages(1:numbin)  ,  wsgross ) 
-                    if (bracket<1.or.bracket>numbin) then               
-                        print*, "There is something wrong with locate bracket",bracket
-                        print*, "pwages(1:numbin)",pwages(1:numbin)
-                        print*, "wsgross         ",wsgross
-                        stop
-                    end if 
-                    staterate=tax(bracket,numbin,l(g))%statesin
-                    fedrate=tax(bracket,numbin,l(g))%fedsin
-                    if (policytax==4) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                        staterate=0.0_dp
-                        fedrate=tax(bracket,numbin,l(g))%fedsin              
-                    else if (policytax==5) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                        staterate=tax(bracket,numbin,l(g))%statesin
-                        fedrate=0.0_dp              
-                    else if (policytax==6) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                        staterate=0.0_dp
-                        fedrate=0.0_dp              
-                    end if
-                    wsnet(g,x,q,trueindex)=(1.0_dp - (staterate+fedrate))*wsgross
+                    wsnet(g,x,q,trueindex)=ws(g,x,q,trueindex)
                     !if (mysay==1) then 
                         !if (bracket<numbin) then ; bracketnext=bracket+1 ; else ; bracketnext=numbin ; end if 
                         !if (bracket>1) then ; bracketprev=bracket-1 ; else ; bracketprev=1 ; end if 
@@ -1135,89 +1115,17 @@ end do
             epsw(2)=wg(w(2),2) !CD(2,1)*wg(w(1),1) + CD(2,2)*wg(w(2),2)
             wc(1,x,q,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
             wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )  
-            wcgross(1:2)= wc(1:2,x,q,trueindex)
-            pbrack=locate(  pwages(1:numbin)  ,  wcgross(1) ) 
-            sbrack=locate(  swages(1:numbin)  ,  wcgross(2) ) 
-            staterate=tax(pbrack,sbrack,l(1))%statemar
-            fedrate=tax(pbrack,sbrack,l(2))%fedmar
-            if (policytax==1) then !sets state tax rate for mar equal to state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statesin
-                fedrate=tax(pbrack,sbrack,l(2))%fedmar                     
-            else if (policytax==2) then !sets fed tax rate for mar equal to fed tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statemar
-                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
-            else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statesin
-                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
-            else if (policytax==4) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=0.0_dp
-                fedrate=tax(pbrack,sbrack,l(2))%fedmar                 
-            else if (policytax==5) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statemar
-                fedrate=0.0_dp              
-            else if (policytax==6) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=0.0_dp
-                fedrate=0.0_dp              
-            end if
-            wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
+            wcnet(1:2,x,q,trueindex)	= wc(1:2,x,q,trueindex)   
         else if ( w(1) <= np .and. w(2) == np1 ) then		
             epsw(1)=wg(w(1),1) !sig_wge(1)*wg(w(1),1)
             wc(1,x,q,trueindex)	= fnwge(1,truetyp, l(1),epsw(1), ed(1), expe(1) ) 
             wc(2,x,q,trueindex)	= 0.0_dp
-            wcgross(1:2)= wc(1:2,x,q,trueindex)
-            pbrack=locate(  pwages(1:numbin)  ,  wcgross(1) ) 
-            sbrack=1
-            staterate=tax(pbrack,sbrack,l(1))%statemar
-            fedrate=tax(pbrack,sbrack,l(2))%fedmar
-            if (policytax==1) then !sets state tax rate for mar equal to state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statesin
-                fedrate=tax(pbrack,sbrack,l(2))%fedmar                     
-            else if (policytax==2) then !sets fed tax rate for mar equal to fed tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statemar
-                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
-            else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statesin
-                fedrate=tax(pbrack,sbrack,l(2))%fedsin             
-            else if (policytax==4) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=0.0_dp
-                fedrate=tax(pbrack,sbrack,l(2))%fedmar                 
-            else if (policytax==5) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statemar
-                fedrate=0.0_dp              
-            else if (policytax==6) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=0.0_dp
-                fedrate=0.0_dp                  
-            end if
-            wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
+            wcnet(1:2,x,q,trueindex)	= wc(1:2,x,q,trueindex)   
         else if ( w(1) == np1 .and. w(2) <= np ) then		
             epsw(2)=wg(w(2),2) !sig_wge(2)*wg(w(2),2)
             wc(1,x,q,trueindex)	= 0.0_dp
             wc(2,x,q,trueindex)	= fnwge(2,truetyp, l(2),epsw(2), ed(2), expe(2) )   
-            wcgross(1:2)= wc(1:2,x,q,trueindex)
-            pbrack=1
-            sbrack=locate(  swages(1:numbin)  ,  wcgross(2) ) 
-            staterate=tax(pbrack,sbrack,l(1))%statemar
-            fedrate=tax(pbrack,sbrack,l(2))%fedmar
-            if (policytax==1) then !sets state tax rate for mar equal to state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statesin
-                fedrate=tax(pbrack,sbrack,l(2))%fedmar                     
-            else if (policytax==2) then !sets fed tax rate for mar equal to fed tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statemar
-                fedrate=tax(pbrack,sbrack,l(2))%fedsin                 
-            else if (policytax==3) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statesin
-                fedrate=tax(pbrack,sbrack,l(2))%fedsin      
-            else if (policytax==4) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=0.0_dp
-                fedrate=tax(pbrack,sbrack,l(2))%fedmar                 
-            else if (policytax==5) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=tax(pbrack,sbrack,l(1))%statemar
-                fedrate=0.0_dp              
-            else if (policytax==6) then !sets fed AND state tax rate for mar equal to fed AND state tax rate for singles
-                staterate=0.0_dp
-                fedrate=0.0_dp                         
-            end if
-            wcnet(1:2,x,q,trueindex)	= (1.0_dp - (staterate+fedrate) )*wcgross(1:2)    
+            wcnet(1:2,x,q,trueindex)	= wc(1:2,x,q,trueindex)   
         else if ( w(1) == np1 .and. w(2) == np1 ) then		
             wc(1,x,q,trueindex)	= 0.0_dp
             wc(2,x,q,trueindex)	= 0.0_dp           
