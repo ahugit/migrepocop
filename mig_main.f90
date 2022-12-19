@@ -357,33 +357,32 @@ program main
     pars(12)=pars(12)+1.5_dp
 
     open(unit=2,file='o121922_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    terminalval=.FALSE.
     pars(75)=-7.0_dp
     policytax=0
+    terminalval=.FALSE.
+    ntermval=10
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=1
+    terminalval=.FALSE.
+    ntermval=50
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=2
+    terminalval=.TRUE.
+    ntermval=1
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=3
+    ntermval=5
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=4
+    ntermval=10
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=5
+    ntermval=50
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=6
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    taxset=0
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
+    
+    
+    
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)

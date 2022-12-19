@@ -19,11 +19,11 @@ module sol
     real(dp) :: vsingtest(2) !ag090822 agsept2022
 contains		
 	subroutine solve
-	real(dp) :: vmax(2),val(2),vsum(2),valso(2),probmuq(nx,nq,nq),probmux(nx,nx,nq)
-    real(dp), dimension(nxs,nqs) :: vm0_s,vf0_s,vm_s,vf_s,prob_s,vcontm_s,vcontf_s
-	real(dp), dimension(nx,nq) :: vm_c,vf_c,prob,vcontm_c,vcontf_c
+	real(dp) :: vmax(2),val(2),vsum(2),valso(2),probmuq(nx,nq,nq),probmux(nx,nx,nq),vterminal(2)
+    real(dp), dimension(nxs,nqs) :: vm0_s,vf0_s,vm_s,vf_s,prob_s
+	real(dp), dimension(nx,nq) :: vm_c,vf_c,prob
 	real(dp), dimension(nepsmove,nxs,nqs,nqs) :: vmr,vfr
-	integer(i4b) :: ia,q0,q,x0,x,z,iepsmove,index,trueindex,dd(12),ed(2),qm,xm,qf,xf,callfrom
+	integer(i4b) :: ia,q0,q,x0,x,z,iepsmove,index,trueindex,dd(12),ed(2),qm,xm,qf,xf,callfrom,nnn
     !print*, 'Here is iter',iter
 	begintime=secnds(0.0)
     yaz=.false.
@@ -68,16 +68,6 @@ end do
 				vf0_s = utils(2,:,:,trueindex) + wsnet(2,:,:,trueindex)		! v0: value function without movecost
 				vm0_c(:,:,ia,index) = utilc(1,:,:,trueindex)	! v0: value function without movecost, umar, consumption
 				vf0_c(:,:,ia,index) = utilc(2,:,:,trueindex)	! v0: value function without movecost, umar, consumption
-                if (terminalval) then 
-                    vcontm_s=vm0_s
-                    vcontf_s=vf0_s
-                    vcontm_c=vm0_c(:,:,ia,index)
-                    vcontf_c=vf0_c(:,:,ia,index)
-                    vm0_s=vm0_s+delta*vcontm_s+(delta**2)*vcontm_s+(delta**3)*vcontm_s+(delta**4)*vcontm_s+(delta**5)*vcontm_s+(delta**6)*vcontm_s+(delta**7)*vcontm_s+(delta**8)*vcontm_s+(delta**9)*vcontm_s+(delta**10)*vcontm_s
-                    vf0_s=vf0_s+delta*vcontf_s+(delta**2)*vcontf_s+(delta**3)*vcontf_s+(delta**4)*vcontf_s+(delta**5)*vcontf_s+(delta**6)*vcontf_s+(delta**7)*vcontf_s+(delta**8)*vcontf_s+(delta**9)*vcontf_s+(delta**10)*vcontf_s
-                    vm0_c(:,:,ia,index)=vm0_c(:,:,ia,index)+delta*vcontm_c+(delta**2)*vcontm_c+(delta**3)*vcontm_c+(delta**4)*vcontm_c+(delta**5)*vcontm_c+(delta**6)*vcontm_c+(delta**7)*vcontm_c+(delta**8)*vcontm_c+(delta**9)*vcontm_c+(delta**10)*vcontm_c
-                    vf0_c(:,:,ia,index)=vf0_c(:,:,ia,index)+delta*vcontf_c+(delta**2)*vcontf_c+(delta**3)*vcontf_c+(delta**4)*vcontf_c+(delta**5)*vcontf_c+(delta**6)*vcontf_c+(delta**7)*vcontf_c+(delta**8)*vcontf_c+(delta**9)*vcontf_c+(delta**10)*vcontf_c                                
-                end if 
             else 
 				vm0_s = utils(1,:,:,trueindex) + wsnet(1,:,:,trueindex)		+ delta * emaxm_s(:,:,ia+1)	! v0: value function without movecost 
 				vf0_s = utils(2,:,:,trueindex) + wsnet(2,:,:,trueindex)		+ delta * emaxf_s(:,:,ia+1)	! v0: value function without movecost 
@@ -151,8 +141,17 @@ end do
                             do q=1,nq
                             do x=1,nx
                             do x0=1,nx
-                                    emaxm_c(x0,q0,ia)=emaxm_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vm_c(x,q)
-						            emaxf_c(x0,q0,ia)=emaxf_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vf_c(x,q)
+                                if (terminalval.and.ia==MXA) then 
+                                    vterminal(1)=vm_c(x,q)
+                                    vterminal(2)=vf_c(x,q)	
+                                    do nnn=1,ntermval
+                                        vterminal(1:2) = vterminal(1:2)  + (delta**nnn)*vterminal(1:2)
+                                    end do
+                                    vm_c(x,q) = vterminal(1)
+                                    vf_c(x,q) = vterminal(2)
+                                end if                     
+                                emaxm_c(x0,q0,ia)=emaxm_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vm_c(x,q)
+                                emaxf_c(x0,q0,ia)=emaxf_c(x0,q0,ia)+probmuq(x0,q,q0)*probmux(x0,x,q0)*vf_c(x,q)
                             end do 
                             end do 
                             end do	 				
@@ -249,6 +248,15 @@ end do
 						            !emaxm_s(q0,x0,ia)	= sum( prob_s * vmr(:,:,q0) )		
                                     !prob_s=matmul( reshape(ppsq(:,q0,x0,2),(/nqs,1/)) , reshape(ppsx(:,q0,x0),(/1,nxs/)) )
 						            !emaxf_s(q0,x0,ia)	= sum( probf_s * vfr(:,:,:,q0) )
+                                    if (terminalval.and.ia==MXA) then 
+                                        vterminal(1)=vmr(iepsmove,x,q,q0) 
+                                        vterminal(2)=vfr(iepsmove,x,q,q0) 	
+                                        do nnn=1,ntermval
+                                            vterminal(1:2) = vterminal(1:2)  + (delta**nnn)*vterminal(1:2)
+                                        end do
+                                        vmr(iepsmove,x,q,q0) = vterminal(1)
+                                        vfr(iepsmove,x,q,q0) = vterminal(2)
+                                    end if                     
                                     emaxm_s(x0,q0,ia)	= emaxm_s(x0,q0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,1) * ppsx(x,q0,x0) * vmr(iepsmove,x,q,q0) 
                                     emaxf_s(x0,q0,ia)	= emaxf_s(x0,q0,ia) + ppso(iepsmove) * ppsq(q,q0,x0,2) * ppsx(x,q0,x0) * vfr(iepsmove,x,q,q0) 	
                                 end do 
