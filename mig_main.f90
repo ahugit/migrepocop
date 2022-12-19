@@ -359,14 +359,25 @@ program main
     open(unit=2,file='bpobjsofar.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(10)=pars(10)-1.0_dp
+    policytax=1
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=2
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=3
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=4
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=5
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    policytax=6
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(10)=pars(10)-1.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
