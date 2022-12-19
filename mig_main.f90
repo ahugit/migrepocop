@@ -357,16 +357,8 @@ program main
     pars(12)=pars(12)+1.5_dp
 
     open(unit=2,file='o121922_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(72)=9.21_dp
-    pars(73)=8.67_dp
-    pars(78)=9.29_dp
-    pars(79)=8.86_dp
-    pars(84)=8.85_dp
-    pars(85)=9.08_dp
-    pars(90)=9.03_dp
-    pars(91)=8.77_dp
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
+    pars(75)=-7.0_dp !mumar1
+    pars(81)=-7.0_dp !mumar2
     pars(87)=-7.0_dp !mumar3
     pars(93)=-7.0_dp !mumar4
     call getpars(pars,realpars)
@@ -390,6 +382,14 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    !pars(72)=9.21_dp
+    !pars(73)=8.67_dp
+    !pars(78)=9.29_dp
+    !pars(79)=8.86_dp
+    !pars(84)=8.85_dp
+    !pars(85)=9.08_dp
+    !pars(90)=9.03_dp
+    !pars(91)=8.77_dp
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
