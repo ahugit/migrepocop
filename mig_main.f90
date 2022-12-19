@@ -356,7 +356,7 @@ program main
     open(unit=2,file='o121822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(12)=pars(12)+1.5_dp
 
-    open(unit=2,file='bpobjsofar.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    open(unit=2,file='o121922_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(72)=9.21_dp
     pars(73)=8.67_dp
     pars(78)=9.29_dp
@@ -365,6 +365,10 @@ program main
     pars(85)=9.08_dp
     pars(90)=9.03_dp
     pars(91)=8.77_dp
+    pars(75)=-4.0_dp !mumar1
+    pars(81)=-4.0_dp !mumar2
+    pars(87)=-7.0_dp !mumar3
+    pars(93)=-7.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     policytax=1

@@ -369,7 +369,7 @@ contains
             realpar(j)= cst(1)                         ; parname(j)='cst'       ; stepos(j)=0.0_dp*(-5000.0_dp)
             cst(i)=realpar(j)                           ; j=j+1 
             !end if
-            realpar(j)=mu_mar(1)                       ; parname(j)='mu_mar'     ; stepos(j)=0.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=multmar * logit(par(j))                        ; parname(j)='mu_mar'     ; stepos(j)=0.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         end if 
     	!print*, 'Here is cost',cst(i),par(j-1),realpar(j-1)
