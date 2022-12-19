@@ -19,7 +19,7 @@ module sol
     real(dp) :: vsingtest(2) !ag090822 agsept2022
 contains		
 	subroutine solve
-	real(dp) :: vmax(2),val(2),vsum(2),valso(2),probmuq(nx,nq,nq),probmux(nx,nx,nq),vterminal(2)
+	real(dp) :: vmax(2),val(2),vsum(2),valso(2),probmuq(nx,nq,nq),probmux(nx,nx,nq)
     real(dp), dimension(nxs,nqs) :: vm0_s,vf0_s,vm_s,vf_s,prob_s
 	real(dp), dimension(nx,nq) :: vm_c,vf_c,prob
 	real(dp), dimension(nepsmove,nxs,nqs,nqs) :: vmr,vfr
@@ -141,12 +141,11 @@ end do
                             do q=1,nq
                             do x=1,nx
                                 if (terminalval.and.ia==MXA) then 
-                                    vterminal(1)=vm_c(x,q)
-                                    vterminal(2)=vf_c(x,q)	
-                                    do nnn=1,ntermval
-                                        vterminal(1:2) = vterminal(1:2)  + (delta**nnn)*vterminal(1:2)
+                                    valso=0.0_dp
+                                    do nnn=0,ntermval
+                                        valso(1) = valso(1)  + (delta**nnn)*vm_c(x,q)
+                                        valso(2) = valso(2)  + (delta**nnn)*vf_c(x,q)
                                     end do
-                                    valso(1:2) = vterminal(1:2)
                                 else 
                                     valso(1)=vm_c(x,q)
                                     valso(2)=vf_c(x,q)
@@ -251,12 +250,11 @@ end do
                                     !prob_s=matmul( reshape(ppsq(:,q0,x0,2),(/nqs,1/)) , reshape(ppsx(:,q0,x0),(/1,nxs/)) )
 						            !emaxf_s(q0,x0,ia)	= sum( probf_s * vfr(:,:,:,q0) )
                                     if (terminalval.and.ia==MXA) then 
-                                        vterminal(1)=vmr(iepsmove,x,q,q0) 
-                                        vterminal(2)=vfr(iepsmove,x,q,q0) 	
-                                        do nnn=1,ntermval
-                                            vterminal(1:2) = vterminal(1:2)  + (delta**nnn)*vterminal(1:2)
+                                        valso=0.0_dp
+                                        do nnn=0,ntermval
+                                            valso(1) = valso(1)  + (delta**nnn)*vmr(iepsmove,x,q,q0) 
+                                            valso(2) = valso(2)  + (delta**nnn)*vfr(iepsmove,x,q,q0) 
                                         end do
-                                        valso(1:2)=vterminal(1:2)
                                     else 
                                         valso(1)=vmr(iepsmove,x,q,q0) 
                                         valso(2)=vfr(iepsmove,x,q,q0) 
