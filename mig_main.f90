@@ -356,33 +356,15 @@ program main
     open(unit=2,file='o121822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(12)=pars(12)+1.5_dp
 
-    open(unit=2,file='bpobjsofar.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(72)=9.21_dp
-    pars(73)=8.67_dp
-    pars(78)=9.29_dp
-    pars(79)=8.86_dp
-    pars(84)=8.85_dp
-    pars(85)=9.08_dp
-    pars(90)=9.03_dp
-    pars(91)=8.77_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=1
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=2
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=3
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=5
+    open(unit=2,file='o121922_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    terminalval=.FALSE.
+    pars(75)=-7.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     policytax=6
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    taxset=0
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
