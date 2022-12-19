@@ -363,21 +363,10 @@ program main
     pars(93)=-7.0_dp !mumar4
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=1
+    taxset=0
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=2
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=3
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=4
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    policytax=5
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    taxset=1
     policytax=6
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
