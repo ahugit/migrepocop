@@ -261,7 +261,7 @@ contains
                     mutemp3=momsim(i+2)/cntsim(i+2)
                     momsim(i)= mutemp1
                     momsim(i+1)= mutemp2                    
-                    momsim(i+2)= mutemp3 - mutemp1 * mutemp2   
+                    momsim(i+2)= mutemp3 - mutemp1 * mutemp2 
                 end if 
             end if
 		end if 
@@ -373,7 +373,7 @@ contains
 	!totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
 	!totcostname='total cost'
 	do i=1,npars
-        write(60,'(1a15,6f10.2)') parname(i),realpar_save(i,1:numit) 
+        write(60,'(1a15,2f10.2)') parname(i),realpar_save(i,1:numit) 
 	end do 
 !	do i=1,npars
 !        write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,12:20) 
