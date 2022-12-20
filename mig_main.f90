@@ -365,18 +365,31 @@ program main
     pars(21)=pars(21)+0.8_dp
     pars(11)=pars(11)-1.5_dp !u cur f
     pars(12)=pars(12)+1.5_dp !u of f
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    terminalval=.FALSE.
-    ntermval=5
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    terminalval=.TRUE.
-    ntermval=5
     pars(76:77)=0.0_dp
     pars(82:83)=0.0_dp
     pars(88:89)=0.0_dp
+    pars(72)=8.5_dp
+    pars(73)=8.5_dp
+    pars(78)=8.5_dp
+    pars(79)=8.5_dp
+    pars(84)=8.5_dp
+    pars(85)=8.5_dp
+    pars(90)=8.5_dp
+    pars(91)=8.5_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(72)=9.3_dp
+    pars(73)=9.3_dp
+    pars(78)=9.3_dp
+    pars(79)=9.3_dp
+    pars(84)=9.3_dp
+    pars(85)=9.3_dp
+    pars(90)=9.3_dp
+    pars(91)=9.3_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
     pars(72)=9.3_dp
     pars(73)=9.3_dp
     pars(78)=9.0_dp
@@ -388,10 +401,9 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     
-    terminalval=.FALSE.
-    ntermval=5
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
