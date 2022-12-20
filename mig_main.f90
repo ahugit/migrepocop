@@ -361,7 +361,8 @@ program main
     policytax=0
     terminalval=.TRUE.
     ntermval=5
-    pars(91)=8.8_dp
+    pars(91)=9.3_dp
+    pars(21)=pars(21)+0.8_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     

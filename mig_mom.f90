@@ -1105,17 +1105,17 @@ end subroutine read_taxes
                 im=im+1 
                 call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%logwsp>=0 ), d1*  (dat(MNA:MXAD,:)%logwr)  ,mom,cnt,var)		
                 write(name(im),'("lwager")')  
-                weights(im)=wwvar
+                weights(im)=wcorr
                 calcorr(im)=1
                 im=im+1 
                 call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%logwsp>=0 ), d1*  (dat(MNA:MXAD,:)%logwsp)  ,mom,cnt,var)		
                 write(name(im),'("lwagesp")')  
-                weights(im)=wwvar
+                weights(im)=wcorr
                 calcorr(im)=5
                 im=im+1 
                 call condmom(im,( cosexrel(MNA:MXAD,:) .AND. dat(MNA:MXAD,:)%hhr==1 .AND. dat(MNA:MXAD,:)%hhsp==1 .AND. dat(MNA:MXAD,:)%logwr>=0 .AND. dat(MNA:MXAD,:)%logwsp>=0 ), d1*  (dat(MNA:MXAD,:)%logwr*dat(MNA:MXAD,:)%logwsp)  ,mom,cnt,var)		
                 write(name(im),'("lwager*lwagesp")')  
-                weights(im)=wwvar
+                weights(im)=wcorr
                 calcorr(im)=5
                 im=im+1 
             end if 
@@ -1316,7 +1316,7 @@ end subroutine read_taxes
             do ddd=1,ndecile-1
                 CALL condmom(im,(   cosexrel(mna:mxa,:) .AND.  dat(mna:mxa,:)%hhr==1 .AND. dat(mna:mxa,:)%edr==1 .AND. dat(mna:mxa,:)%logwr>=0 ) ,d1*one( (dat(mna:mxa,:)%logwr>decilegrid(ddd) .and. dat(mna:mxa,:)%logwr<decilegrid(ddd+1) ) ),mom,cnt,var)
                 WRITE(name(im),'("wdecile|ned",tr1,i4)') ddd
-                weights(im)=wwage !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
+                weights(im)=wwdecile !; if (onlysingles.and.j==1) weights(im)=0.0_dp !ag092922 sept2022 after I moved around these moms, there was still j left here and that made different procesors have different objval because momwgts were different since j was just assigned a different value by each processors I guess 
                 im=im+1
             end do
             !do ddd=1,ndecile-1
