@@ -367,9 +367,31 @@ program main
     pars(12)=pars(12)+1.5_dp !u of f
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+    terminalval=.FALSE.
+    ntermval=5
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    terminalval=.TRUE.
+    ntermval=5
+    pars(76:77)=0.0_dp
+    pars(82:83)=0.0_dp
+    pars(88:89)=0.0_dp
+    pars(72)=9.3_dp
+    pars(73)=9.3_dp
+    pars(78)=9.0_dp
+    pars(79)=9.0_dp
+    pars(84)=8.5_dp
+    pars(85)=8.5_dp
+    pars(90)=9.5_dp
+    pars(91)=9.5_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
     
-    
-    
+    terminalval=.FALSE.
+    ntermval=5
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
