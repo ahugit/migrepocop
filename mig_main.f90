@@ -376,10 +376,14 @@ program main
     pars(85)=9.1_dp
     pars(90)=8.8_dp
     pars(91)=9.1_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
     
 
+    pars(1)=pars(1)-2.0_dp
+    pars(3)=pars(3)-1.0_dp
+    pars(64)=pars(52)
+    pars(52)=pars(52)+1.0_dp    
     pars(72)=9.1_dp
     pars(73)=8.6_dp
     pars(78)=9.1_dp
@@ -391,14 +395,21 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(1)=pars(1)-2.0_dp
+    pars(3)=pars(3)-1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(9)=pars(9)-2.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
     pars(72)=9.1_dp
     pars(73)=8.6_dp
     pars(78)=9.1_dp
     pars(79)=8.6_dp
     pars(84)=8.9_dp
     pars(85)=9.1_dp
-    pars(90)=8.9_dp
+    pars(90)=9.3_dp
     pars(91)=9.1_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   

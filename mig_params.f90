@@ -16,7 +16,7 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=3
+    integer(i4b), parameter :: numit=4
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
     logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
     logical, parameter :: typemoments=.true.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
@@ -343,9 +343,9 @@ contains
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
             realpar(j)=0.0_dp                           ; parname(j)='ptypecol'  ; stepos(j)=0.0_dp
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.4_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
-            realpar(j)=par(j)                          ; parname(j)='alf2t'     ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp
+            realpar(j)=par(j)                          ; parname(j)='alf2t'     ; stepos(j)=0.6_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !realpar(j)= -1.0_dp*mult1c * logit(par(j))   ; parname(j)='cst'       ; stepos(j)=0.5_dp
             !cst(i)=realpar(j)                           ; j=j+1 
@@ -355,13 +355,13 @@ contains
             realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=1.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         else
-            realpar(j)=par(j)                            ; parname(j)='ptypehs' ; stepos(j)=1.0_dp
+            realpar(j)=par(j)                            ; parname(j)='ptypehs' ; stepos(j)=0.0_dp
             ptypehs(i)=exp(realpar(j))                  ; indust1(i)=j ; j=j+1
-            realpar(j)=par(j)                            ; parname(j)='ptypecol'  ; stepos(j)=1.0_dp
+            realpar(j)=par(j)                            ; parname(j)='ptypecol'  ; stepos(j)=0.0_dp
             ptypecol(i)=exp(realpar(j))                 ; indust2(i)=j ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf1t'     ; stepos(j)=0.4_dp  ; if (onlyfem) stepos(j)=0.0_dp
             alf1t(i)=realpar(j)                         ; j=j+1
-            realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp
+            realpar(j)=par(j)                           ; parname(j)='alf2t'     ; stepos(j)=0.6_dp  ; if (onlymales) stepos(j)=0.0_dp
 	        alf2t(i)=realpar(j)                         ; j=j+1
             !if (i<4) then
             !    realpar(j)= par(j)                         ; parname(j)='cst'       ; stepos(j)=1.0_dp*par(j)
