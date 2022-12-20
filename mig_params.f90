@@ -218,7 +218,7 @@ contains
     !if (iwritegen==1) print*, "Here is ro", ro, par(j-1)
     !note that realpar's for psih parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psih right here and those are the ones that are used in fnprhc.
-	realpar(j)=par(j)               ; parname(j)='p(ex=2|ex=1),e' ; stepos(j)=0.0_dp !this is psih, the only one that governs fnprhc.  
+	realpar(j)=par(j)               ; parname(j)='p(ex=2|ex=1),e' ; stepos(j)=0.5_dp !this is psih, the only one that governs fnprhc.  
 	psih=realpar(j)	            ; j=j+1
 	realpar(j)=0.0_dp               ; parname(j)='p(ex=1|ex=1),e' ; stepos(j)=0.0_dp !this is just for visuals. not a parameter anymore. 
 	junk=realpar(j)	            ; j=j+1
@@ -289,17 +289,17 @@ contains
             realpar(j)=0.0_dp ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         else 
-            realpar(j)=par(j) ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=par(j) ; stepos(j)=0.5_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         end if     
         parname(j)='alf10'  
         j=j+1
     end do 
     !print*, 'Here is alf11 etc',j
-    realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=logit(par(j))                        ; parname(j)='alf11' ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
 	alf11=realpar(j)                                ; j=j+1
     !print*, 'Here is alf12',j	
-    realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
     alf12=realpar(j)                                ; j=j+1
     !print*, 'Here is alf13',j	
     realpar(j)=0.0_dp                               ; parname(j)='alf13' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
@@ -310,17 +310,17 @@ contains
             realpar(j)=0.0_dp ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         else 
-            realpar(j)=par(j) ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=par(j) ; stepos(j)=0.5_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         end if     
         parname(j)='alf20'  
 		j=j+1
 	end do 
     !print*, 'Here is alf21 etc',j
-	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp 
+	realpar(j)=logit(par(j))                        ; parname(j)='alf21' ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf21=realpar(j)                                ; j=j+1
     !print*, 'Here is alf22',j	    
-    realpar(j)=logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp 
+    realpar(j)=logit(par(j))                 ; parname(j)='alf22' ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp 
 	alf22=realpar(j)                                ; j=j+1
     !print*, 'Here is alf23',j	
     realpar(j)=uhomet(1)                              ; parname(j)='uhomet 4' ; stepos(j)=0.0_dp*par(j)  ; if (onlymales) stepos(j)=0.0_dp !-1.0_dp*logit(par(j)) 

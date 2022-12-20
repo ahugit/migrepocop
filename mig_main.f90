@@ -363,6 +363,8 @@ program main
     ntermval=5
     pars(91)=9.3_dp
     pars(21)=pars(21)+0.8_dp
+    pars(11)=pars(11)-1.5_dp !u cur f
+    pars(12)=pars(12)+1.5_dp !u of f
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     
