@@ -350,41 +350,29 @@ program main
     pars(52)=pars(52)+1.0_dp    !alf12
 
     open(unit=2,file='o122022_bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(72)=9.0_dp
-    pars(73)=9.0_dp
-    pars(78)=9.0_dp
-    pars(79)=9.0_dp
-    pars(84)=9.0_dp
-    pars(85)=9.0_dp
-    pars(90)=9.0_dp
-    pars(91)=9.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars(52)=pars(52)-1.0_dp    !alf12
+    pars(66)=pars(66)+1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    
     pars(67)=pars(66)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
+    
     pars(28)=pars(27)   !alpha (ned and ed)
     pars(30)=pars(29)
     pars(32)=pars(31)   !alphakid
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
+    
     pars(69)=pars(68)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
+    
 
     pars(54:64)=pars(42:52) 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp    
-
+    
     pars(5:8)=pars(1:4)
     pars(11:12)=pars(9:10)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
+    
 
 
     !*************************    
