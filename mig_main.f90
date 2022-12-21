@@ -360,18 +360,19 @@ program main
     pars(2)=-2.0_dp
     pars(5)=-1.0_dp
     pars(6)=-2.0_dp
+    pars(11)=pars(11)-1.0_dp    !u cur f
+    pars(12)=pars(12)-1.0_dp    !u of f
     pars1=pars
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(28)=pars(28)+1.0_dp
-    pars(30)=pars(30)+1.0_dp
+    pars(35:38)=4000.0_dp
+    pars(36)=2500.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
     pars=pars1
-    pars(11)=pars(11)-1.0_dp    !u cur f
-    pars(12)=pars(12)-1.0_dp    !u of f
+    pars(74)=-3000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
