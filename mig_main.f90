@@ -363,16 +363,25 @@ program main
     pars(11)=pars(11)-1.0_dp    !u cur f
     pars(12)=pars(12)-1.0_dp    !u of f
     pars(75)=-5.5_dp
+    pars(66)=pars(66)+1.0_dp
     pars1=pars
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(66)=pars(66)+1.0_dp
+    pars=pars1
+    pars(74)=-5000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
     pars=pars1
-    pars(52)=pars(52)+1.0_dp
+    pars(74)=-5000.0_dp
+    pars(13)=pars(13)+1.0_dp 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars=pars1
+    pars(74)=-5000.0_dp
+    pars(14)=pars(14)+5000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
