@@ -350,11 +350,12 @@ program main
     pars(52)=pars(52)+1.0_dp    !alf12
 
     open(unit=2,file='o122022_bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    pars(52)=pars(52)-1.0_dp    !alf12
+    pars(66)=pars(66)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(52)=pars(52)-1.0_dp    !alf12
-    pars(66)=pars(66)+1.0_dp
+    pars(28)=pars(30)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
