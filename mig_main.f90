@@ -361,8 +361,7 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(5:8)=pars(1:4)
-    pars(11:12)=pars(9:10)
+    pars(67)=pars(66)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
@@ -372,18 +371,20 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(54:64)=pars(42:52) 
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    
-    pars(67)=pars(66)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-
     pars(69)=pars(68)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+    pars(54:64)=pars(42:52) 
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp    
+
+    pars(5:8)=pars(1:4)
+    pars(11:12)=pars(9:10)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
 
 
     !*************************    
