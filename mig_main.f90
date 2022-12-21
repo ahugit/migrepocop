@@ -353,14 +353,27 @@ program main
     pars(52)=pars(52)-1.0_dp    !alf12
     pars(66)=pars(66)+1.0_dp
     pars(28)=pars(30)
+    pars1=pars
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(28)=pars(28)-2.0_dp
+    pars(11)=pars(11)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(30)=pars(30)-1.0_dp
+    pars=pars1
+    pars(12)=pars(12)+1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(11)=pars(11)+1.0_dp
+    pars(12)=pars(12)+1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars=pars1
+    pars(28)=pars(28)-1.0_dp
+    pars(30)=pars(30)-0.5_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
