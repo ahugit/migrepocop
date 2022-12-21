@@ -295,23 +295,6 @@ program main
     pars(24)=5000.0_dp*j !ecst now uhomet
     pars(65)=5000.0_dp*k !alf23 now uhomet (note this was wrongly labeled as kcst in commit 3d3c17 but of no consequene)
             
-    !open(unit=2,file='o111622_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !pars(21)=pars(21)+2.0_dp
-    !pars1=pars
-    !policytax=0
-    !pars(74)=pars(92)   
-    !pars(80)=pars(92)  
-    !pars(86)=pars(92)
-    !pars(92)=pars(92)
-    !pars(26)=pars(26)+2.0_dp !divpen
-
-    !open(unit=2,file='o120822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    !pars(75)=-5.0_dp !mumar1
-    !pars(81)=-7.0_dp !mumar2
-    !pars(87)=-6.0_dp !mumar3
-    !pars(93)=-7.0_dp !mumar4
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
 
     !open(unit=2,file='o121122_bpconstruct.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(21)=-2.0_dp
@@ -336,54 +319,14 @@ program main
     pars(91)=8.8_dp
     pars1=pars
 
-    !open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(66:67)=pars1(66:67)
-    pars(47)=pars(47)-0.2
-    pars(72)=9.5_dp
-    pars(90)=9.7_dp
-    !pars(88)=pars(88)-1._dp
-    pars(72)=9.3_dp
-    pars(73)=8.5_dp
-    pars(78)=8.7_dp
-    pars(79)=9.1_dp
-    pars(84)=8.8_dp
-    pars(85)=9.1_dp
-    pars(90)=9.7_dp
-    pars(91)=9.0_dp
-    pars(26)=pars(26)-3.0_dp
-    !pars(75)=pars(75)+0.5_dp
-
-    open(unit=2,file='o121822_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(12)=pars(12)+1.5_dp
-
     open(unit=2,file='o121922_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(75)=-7.0_dp
     policytax=0
     terminalval=.TRUE.
     ntermval=5
-    pars(91)=9.3_dp
-    pars(21)=pars(21)+0.8_dp
-    pars(11)=pars(11)-1.5_dp !u cur f
-    pars(12)=pars(12)+1.5_dp !u of f
+    pars(75)=-6.0_dp            !mumar
     pars(76:77)=0.0_dp
     pars(82:83)=0.0_dp
     pars(88:89)=0.0_dp
-    pars(72)=9.1_dp
-    pars(73)=8.8_dp
-    pars(78)=9.1_dp
-    pars(79)=8.8_dp
-    pars(84)=8.8_dp
-    pars(85)=9.1_dp
-    pars(90)=8.8_dp
-    pars(91)=9.1_dp
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
-    
-
-    pars(1)=pars(1)-2.0_dp
-    pars(3)=pars(3)-1.0_dp
-    pars(64)=pars(52)
-    pars(52)=pars(52)+1.0_dp    
     pars(72)=9.1_dp
     pars(73)=8.6_dp
     pars(78)=9.1_dp
@@ -392,19 +335,29 @@ program main
     pars(85)=9.1_dp
     pars(90)=8.9_dp
     pars(91)=9.1_dp
-    pars(3)=pars(3)-1.0_dp
-    pars(9)=pars(9)-2.0_dp
-    pars(12)=pars(12)+1.0_dp
-    pars(10)=pars(10)-1.0_dp
-    pars(27)=pars(27)+4.0_dp
-    pars(29)=pars(29)+4.0_dp
-    pars(28)=pars(28)+6.0_dp
-    pars(30)=pars(30)-8.0_dp
-    pars(75)=-6.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(1)=pars(1)-2.0_dp      !emp cur m
+    pars(3)=pars(3)-2.0_dp      !emp of m 
+    pars(9)=pars(9)-2.0_dp      !u cur m
+    pars(10)=pars(10)-1.0_dp    !u of m
+    pars(11)=pars(11)-1.5_dp    !u cur f
+    pars(12)=pars(12)+2.5_dp    !u of f
+    pars(21)=pars(21)+0.8_dp    !pmeet
+    pars(27)=pars(27)+4.0_dp    !alpha (ned) m
+    pars(28)=pars(28)+6.0_dp    !alpha (ned) f
+    pars(29)=pars(29)+4.0_dp    !alpha (ed) m
+    pars(30)=pars(30)-8.0_dp    !alpha (ed) f
+    pars(64)=pars(52)           !alf22
+    pars(52)=pars(52)+1.0_dp    !alf12
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
 
+    open(unit=2,file='o122022_bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     !*************************    
     !mytime(iam+1,1)=secnds(0.0)
