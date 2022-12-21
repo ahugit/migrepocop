@@ -366,13 +366,11 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(35:38)=4000.0_dp
-    pars(36)=2500.0_dp
+    pars(75)=-5.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars=pars1
-    pars(74)=-3000.0_dp
+    pars(75)=-4.0_dp    
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
