@@ -390,10 +390,36 @@ program main
     pars(85)=9.0_dp
     pars(90)=9.1_dp
     pars(91)=8.6_dp
+    pars1=pars
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+    
+    open(unit=2,file='o122222_1bpobj.txt',status='old',action='read') ; read(2,*) pars2	; close(2)
+    pars=pars1
+    pars(72)=pars2(72)
+    pars(73)=pars2(73)
+    pars(78)=pars2(78)
+    pars(79)=pars2(79)
+    pars(84)=pars2(84)
+    pars(85)=pars2(85)
+    pars(90)=pars2(90)
+    pars(91)=pars2(91)
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
+    pars=pars1
+    pars(70:npars)=pars2(70:npars)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
     
+
+    pars=pars1
+    pars(27:30)=pars2(27:30)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+
+
     pars(67)=pars(66)
     
     pars(28)=pars(27)   !alpha (ned and ed)
