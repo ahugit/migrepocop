@@ -383,33 +383,26 @@ program main
     terminalval=.FALSE.
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
-
-    terminalval=.TRUE.
-    ntermval=5
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    
-    ntermval=20
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    ntermval=50
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    ntermval=100
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
     
     pars(75)=-1.0_dp
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
     pars(75)=-1.0_dp
     pars(26)=pars(26)+3.0_dp
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars=pars1
+    pars(21)=pars(21)+2.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars=pars1
+    pars(21)=pars(21)+2.0_dp
+    pars(26)=pars(26)+3.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
 
 
 
