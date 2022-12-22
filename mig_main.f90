@@ -379,31 +379,15 @@ program main
     pars(85)=9.0_dp
     pars(90)=9.1_dp
     pars(91)=8.6_dp
+    pars(75)=-6.0_dp !mumar1
+    pars(81)=-4.0_dp !mumar2
+    pars(87)=-6.0_dp !mumar3
+    pars(93)=-4.0_dp !mumar4
     pars1=pars
     terminalval=.FALSE.
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     
-    pars(75)=-1.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(75)=-1.0_dp
-    pars(26)=pars(26)+3.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars=pars1
-    pars(21)=pars(21)+2.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars=pars1
-    pars(21)=pars(21)+2.0_dp
-    pars(26)=pars(26)+3.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
 
 
     pars(67)=pars(66)

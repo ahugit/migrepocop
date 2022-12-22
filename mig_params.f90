@@ -16,10 +16,10 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=5
+    integer(i4b), parameter :: numit=2
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
-    logical, parameter :: typemoments=.true.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
+    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: typemoments=.false.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
     logical :: nonneg,terminalval
     logical :: onthejobsearch=.TRUE. !set in main
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
@@ -85,8 +85,8 @@
 	real(dp), parameter :: maxw=150.0_dp                ! upper truncation point of male log wage
 	real(dp), parameter :: pen=-99999999.0_dp
 	integer(i4b), parameter :: ipen=-99999	
-    real(dp), parameter :: wwage=50.0_dp,wwvar=10.0_dp,wdifww=10.0_dp,whour=20.0_dp,wcorr=100.0_dp,wwdecile=50.0_dp
-    real(dp), parameter :: wrel=50.0_dp,wmove=50.0_dp,whome=50.0_dp,wkid=1.0_dp,wprop=10.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
+    real(dp), parameter :: wwage=1.0_dp,wwvar=1.0_dp,wdifww=1.0_dp,whour=1.0_dp,wcorr=1.0_dp,wwdecile=1.0_dp
+    real(dp), parameter :: wrel=1.0_dp,wmove=1.0_dp,whome=1.0_dp,wkid=1.0_dp,wprop=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     !    real(dp), parameter :: wtrans=100.0_dp,wwaged=10.0_dp,wdifww=100.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwvar=100.0_dp
 !    real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     character(len=23) :: datafilename  != 'familymigpsid.txt' ! data filename set in main now
@@ -211,7 +211,7 @@ contains
 
 	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp !0.5_dp 
 	psil(1)=realpar(j)	            ; j=j+1
-	realpar(j)= par(j)             ; parname(j)='uhomet 1'	; stepos(j)=0.0_dp*par(j) 
+	realpar(j)= par(j)             ; parname(j)='uhomet 1'	; stepos(j)=0.5_dp*par(j) 
 	uhomet(1)=realpar(j)            ; j=j+1
 	realpar(j)= uhomet(1)             ; parname(j)='uhomet 2'	; stepos(j)=0.0_dp*par(j) !2.0_dp*(1.0_dp/(1.0_dp+exp(-par(j))))-1.0_dp 
 	uhomet(2)=realpar(j)            ; j=j+1
@@ -352,7 +352,7 @@ contains
             realpar(j)=par(j)                          ; parname(j)='cst'       ; stepos(j)=0.5_dp*(-5000.0_dp) !not iterating on this anymore. see notes. under cost vs. sigo. they are just not sep ident I think. 
             cst(i)=realpar(j)                           ; j=j+1 
             !ahu082822 august2022 print*, 'mumar(1)',j,par(j),multmar, min2pls(par(j)),multmar*min2pls(par(j))
-            realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=1.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=multmar * logit(par(j))          ; parname(j)='mu_mar'     ; stepos(j)=4.0_dp    ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         else
             realpar(j)=par(j)                            ; parname(j)='ptypehs' ; stepos(j)=0.0_dp
@@ -370,7 +370,7 @@ contains
             realpar(j)= cst(1)                         ; parname(j)='cst'       ; stepos(j)=0.0_dp*(-5000.0_dp)
             cst(i)=realpar(j)                           ; j=j+1 
             !end if
-            realpar(j)=mu_mar(1)                       ; parname(j)='mu_mar'     ; stepos(j)=0.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
+            realpar(j)=multmar * logit(par(j))                        ; parname(j)='mu_mar'     ; stepos(j)=4.0_dp   ; if (onlysingles) stepos(j)=0.0_dp 	    
             mu_mar(i)=realpar(j)                        ; j=j+1      
         end if 
     	!print*, 'Here is cost',cst(i),par(j-1),realpar(j-1)
