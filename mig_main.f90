@@ -68,7 +68,7 @@ program main
 	call mpi_comm_size(mpi_comm_world,numworld,mpierr)
 	print*, "numworld,Iam ", numworld,iam
     mysay=iam
-	conditional_moments=.true.		
+	conditional_moments=.true.	;     terminalval=.TRUE.	
     if (iam==0) print*, "Here is numworld", numworld
 
     allocate(mytime(numworld,2))
@@ -321,7 +321,6 @@ program main
 
     open(unit=2,file='o121922_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     policytax=0
-    terminalval=.TRUE.
     ntermval=5
     pars(75)=-6.0_dp            !mumar
     pars(76:77)=0.0_dp
@@ -371,16 +370,6 @@ program main
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars=pars1
-    pars(72)=9.0_dp
-    pars(73)=8.6_dp
-    pars(78)=8.6_dp
-    pars(79)=9.0_dp
-    pars(84)=9.2_dp
-    pars(85)=9.2_dp
-    pars(90)=9.3_dp
-    pars(91)=8.6_dp
-
 
     pars(72)=8.9_dp
     pars(73)=8.6_dp
@@ -391,32 +380,36 @@ program main
     pars(90)=9.1_dp
     pars(91)=8.6_dp
     pars1=pars
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-    
-    open(unit=2,file='o122222_1bpobj.txt',status='old',action='read') ; read(2,*) pars2	; close(2)
-    pars=pars1
-    pars(72)=pars2(72)
-    pars(73)=pars2(73)
-    pars(78)=pars2(78)
-    pars(79)=pars2(79)
-    pars(84)=pars2(84)
-    pars(85)=pars2(85)
-    pars(90)=pars2(90)
-    pars(91)=pars2(91)
+    terminalval=.FALSE.
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars=pars1
-    pars(70:npars)=pars2(70:npars)
+    terminalval=.TRUE.
+    ntermval=5
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
     
-
-    pars=pars1
-    pars(27:30)=pars2(27:30)
+    ntermval=20
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
+
+    ntermval=50
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    ntermval=100
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp   
+
+    
+    pars(75)=-1.0_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
+
+    pars(75)=-1.0_dp
+    pars(26)=pars(26)+3.0_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp   
 
 
 
