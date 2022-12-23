@@ -209,7 +209,7 @@ contains
     !note that realpar's for psio parameters are reassigned at the end of this file just for visual purpoes, to write those in writemoments.
     !but the actual values that are used are assigned to psio right here and those are the ones that are used in fnprof.
 
-	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=0.0_dp !0.5_dp 
+	realpar(j)=par(j)               ; parname(j)='psil(1)' ; stepos(j)=1.0_dp !0.5_dp 
 	psil(1)=realpar(j)	            ; j=j+1
 	realpar(j)= par(j)             ; parname(j)='uhomet 1'	; stepos(j)=0.5_dp*par(j) 
 	uhomet(1)=realpar(j)            ; j=j+1
@@ -247,7 +247,7 @@ contains
 	uhome(2)=realpar(j)                             ; j=j+1
     realpar(j)=uhomet(1)            ; parname(j)='uhomet 3'	; stepos(j)=0.0_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
     uhomet(3)=realpar(j)                                     ; j=j+1               ! types
-	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=0.0_dp*(1000.0_dp) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
+	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=1.0_dp*(1000.0_dp) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
 	kcst=realpar(j)                                     ; j=j+1
 	realpar(j) = -1.0_dp*multdiv * logit(par(j))          ; parname(j)='divpenalty'	; stepos(j)=0.5_dp ; if (onlysingles) stepos(j)=0.0_dp !26 !ahu 112718 changing to only minus from: mult1 * min2pls(par(6))                         !ahu summer18 050418: changed from 1000 to 10,000 (mult to mult1)
 	divpenalty=realpar(j)                               ; j=j+1
@@ -275,7 +275,7 @@ contains
 			    realpar(j) = 0.0_dp  ; stepos(j)=0.0_dp
 			    uloc(i)=0.0_dp
 		    else 
-			    realpar(j) = par(j) ; stepos(j)=0.0_dp*PAR(J)    !mult1 * min2pls( par(j) )
+			    realpar(j) = par(j) ; stepos(j)=0.5_dp*PAR(J)    !mult1 * min2pls( par(j) )
 			    uloc(i)=realpar(j)
 		    end if 
             parname(j)='uloc' 
@@ -289,7 +289,7 @@ contains
             realpar(j)=0.0_dp ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         else 
-            realpar(j)=par(j) ; stepos(j)=0.0_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=par(j) ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf10(i)=realpar(j)
         end if     
         parname(j)='alf10'  
@@ -310,7 +310,7 @@ contains
             realpar(j)=0.0_dp ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         else 
-            realpar(j)=par(j) ; stepos(j)=0.0_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
+            realpar(j)=par(j) ; stepos(j)=0.3_dp  ; if (onlymales) stepos(j)=0.0_dp !1.5_dp*min2pls(par(j))+8.5_dp 
             alf20(i)=realpar(j)
         end if     
         parname(j)='alf20'  
@@ -329,10 +329,10 @@ contains
     realpar(j:j+1)=logit(par(j:j+1))                ; parname(j:j+1)='sig_wge'	; stepos(j)=0.5_dp ; stepos(j+1)=0.5_dp	  ; if (onlyfem) stepos(j)=0.0_dp  ; if (onlymales) stepos(j+1)=0.0_dp !66:67
 	sig_wge(1:2)=realpar(j:j+1)                     ; j=j+2
     !sigom and sigof: 68:69
-    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=0.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_m'	; stepos(j)=1.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlyfem) stepos(j)=0.0_dp
     !print*, "Here it is sigom", j,par(j),realpar(j)
     sigo_m=realpar(j)                                ; j=j+1
-    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=0.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
+    realpar(j)=multsigo * logit(par(j))                               ; parname(j)='sigo_f'	; stepos(j)=1.0_dp ; if (nepsmove==1) stepos(j)=0.0_dp ; if (onlymales) stepos(j)=0.0_dp
     !print*, "Here it is sigof", j,par(j),realpar(j)
     sigo_f=realpar(j)                                ; j=j+1
 
