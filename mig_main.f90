@@ -385,23 +385,23 @@ program main
     pars(93)=-4.0_dp !mumar4
     pars1=pars
     terminalval=.FALSE.
-    pars(33:41)=5.0_dp*pars(33:41)
+    pars(33:41)=5.0_dp*pars1(33:41)
     pars(14)=10000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(33:41)=5.0_dp*pars(33:41)
-    pars(14)=30000.0_dp
+    pars(33:41)=5.0_dp*pars1(33:41)
+    pars(14)=40000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(33:41)=20.0_dp*pars(33:41)
+    pars(33:41)=20.0_dp*pars1(33:41)
     pars(14)=10000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(33:41)=20.0_dp*pars(33:41)
-    pars(14)=30000.0_dp
+    pars(33:41)=20.0_dp*pars1(33:41)
+    pars(14)=40000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
