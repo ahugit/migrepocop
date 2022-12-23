@@ -386,24 +386,10 @@ program main
     pars1=pars
     terminalval=.FALSE.
     pars(33:41)=5.0_dp*pars1(33:41)
-    pars(14)=10000.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(33:41)=5.0_dp*pars1(33:41)
     pars(14)=40000.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp   
 
-    pars(33:41)=20.0_dp*pars1(33:41)
-    pars(14)=10000.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
-
-    pars(33:41)=20.0_dp*pars1(33:41)
-    pars(14)=40000.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
 
 
     pars(67)=pars(66)
