@@ -16,10 +16,10 @@
     real(dp), parameter :: replacement_rate=0.4_dp          !ahu summer18 050318: added replacement rate
     integer(i4b), parameter :: nl=9,ndecile=10
     !ahu030622	logical, parameter :: groups=.true.,onlysingles=.true.,onlymales=.false.,onlyfem=.false.,optimize=.true.,chkstep=.false.,condmomcompare=.false.,comparepars=.false.,extramoments=.true.
-    integer(i4b), parameter :: numit=2
+    integer(i4b), parameter :: numit=3
     logical, parameter :: groups=.true.,onlysingles=.false.,onlymales=.false.,onlyfem=.false.
-    logical, parameter :: optimize=.true.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
-    logical, parameter :: typemoments=.false.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
+    logical, parameter :: optimize=.false.,chkstep=.false.,chkobj=.true.,condmomcompare=.false.,comparepars=.false.
+    logical, parameter :: typemoments=.true.,getstderr=.false.,momdisplay=.FALSE.,stderrtest=.FALSE.
     logical :: nonneg,terminalval
     logical :: onthejobsearch=.TRUE. !set in main
     real(dp), dimension(2) :: nonlabinc !=(/ 0.0_dp,0.0_dp /) !(/ 300.0_dp,1100.0_dp /) !ahu summer18 051418: changing it back to parameter and changing dimension to 2 (not educ and educ) !ahu summer18 042318 changing this so it is set at main again
@@ -85,7 +85,7 @@
 	real(dp), parameter :: maxw=150.0_dp                ! upper truncation point of male log wage
 	real(dp), parameter :: pen=-99999999.0_dp
 	integer(i4b), parameter :: ipen=-99999	
-    real(dp), parameter :: wwage=1.0_dp,wwvar=1.0_dp,wdifww=1.0_dp,whour=1.0_dp,wcorr=1.0_dp,wwdecile=1.0_dp
+    real(dp), parameter :: wwage=1.0_dp,wwvar=1.0_dp,wdifww=0.01_dp,whour=1.0_dp,wcorr=1.0_dp,wwdecile=1.0_dp
     real(dp), parameter :: wrel=1.0_dp,wmove=1.0_dp,whome=1.0_dp,wkid=1.0_dp,wprop=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
     !    real(dp), parameter :: wtrans=100.0_dp,wwaged=10.0_dp,wdifww=100.0_dp,wrel=1.0_dp,wmove=10.0_dp,whour=1.0_dp,wwvar=100.0_dp
 !    real(dp), parameter :: wwage=1.0_dp,wkid=1.0_dp,wmovemar=1.0_dp,wmovesin=1.0_dp,wwagebymove=1.0_dp		!ahu 121918 changed wmove to 10 from 1 and changed wmovemar from 10 to 100		! weights for moments for married couples. set in objfunc.
