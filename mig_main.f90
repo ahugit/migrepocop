@@ -386,17 +386,16 @@ program main
     pars1=pars
     terminalval=.FALSE.
     do i=1,3
-    do j=1,3
-    do k=1,3
-    pars(33:41)=i*pars1(33:41)
-    pars(14)=j*30000.0_dp
-    pars(66:67)=k*pars1(66:67)
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp   
+        do j=1,3
+        do k=1,3
+        pars(33:41)=i*pars1(33:41)
+        pars(14)=j*10000.0_dp
+        pars(68:69)=k*pars1(68:69)
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp   
+        end do 
     end do 
     end do 
-    end do 
-
 
     pars(67)=pars(66)
     
