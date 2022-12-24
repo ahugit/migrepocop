@@ -385,7 +385,7 @@ program main
     pars(93)=-4.0_dp !mumar4
     pars1=pars
     terminalval=.FALSE.
-    pars(13)=-2.0_dp
+    pars(13)=1.0_dp
     do i=1,3
         do j=1,3
         do k=1,3
