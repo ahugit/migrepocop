@@ -339,6 +339,8 @@ program main
     pars1=pars
     terminalval=.FALSE. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
 
+
+    pars(66)=pars(66)-1.5_dp
     
     pars(74)=-5000_dp !cst type 1
     !do i=1,2
