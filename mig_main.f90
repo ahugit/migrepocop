@@ -344,25 +344,14 @@ program main
     pars(66)=pars(66)-0.5_dp    
     pars(68)=pars1(68)+1.0_dp
     pars(74)=-25000_dp !cst type 1
-
     pars(52)=pars1(52)+1.0_dp
+    pars(2)=pars(2)-1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp       
 
-    pars(52)=pars1(52)+2.0_dp
+    pars(2)=pars(2)-1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp       
-
-    pars(52)=pars1(52) 
-    pars(1)=pars1(1)+2.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp       
-
-    pars(1)=pars1(1)+3.0_dp
-    call getpars(pars,realpars)
-    call objfunc(pars,qval) ; realpars=realpartemp       
-
-
 
     open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !call getpars(pars,realpars)
