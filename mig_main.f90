@@ -385,12 +385,12 @@ program main
     pars(93)=-4.0_dp !mumar4
     pars1=pars
     terminalval=.FALSE.
-    pars(74)=-60000.0_dp
-    pars(13)=1.0_dp
+    pars(74)=0.0_dp !cst type 1
+    pars(33:41)=0.0_dp  !i*pars1(33:41)
     do i=1,3
         do j=1,3
         do k=1,3
-        pars(33:41)=i*pars1(33:41)
+        pars(13)=0.0_dp+1.0_dp*(i-1)
         pars(14)=j*10000.0_dp
         pars(68:69)=pars1(68:69)+k*1.0_dp
         call getpars(pars,realpars)
