@@ -210,6 +210,15 @@ program main
 		pars(npars)=0.0_dp          ! mu_mar
 	end if 
     
+    pars(67)=pars(66)
+    pars(28)=pars(27)   !alpha (ned and ed)
+    pars(30)=pars(29)
+    pars(32)=pars(31)   !alphakid
+    pars(69)=pars(68)
+    pars(54:64)=pars(42:52)     
+    pars(5:8)=pars(1:4)
+    pars(11:12)=pars(9:10)
+    
 
     !open(unit=2,file='bp093022.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !set all junk parameters to zero so that I get zeros for these parameters the next pars file after opt
@@ -224,10 +233,7 @@ program main
     pars(6)=-1.0_dp !emp curf
     pars(7)=-1.0_dp  !emp off
     pars(8)=0.0_dp !emp off set to 0 in getpars
-    pars(3)=pars(1)
-    pars(1)=pars(5)
-    pars(10)=pars(10)-1.0_dp
-    pars(10)=1.0_dp !u cur m
+    pars(9)=1.0_dp !u cur m
     pars(10)=1.5_dp !u of m to bring up e u cond on move transitions (it's currentlt -1.2 which is 0.2 sth)
     pars(11)=1.0_dp !u cur f because her emp is too low
     pars(12)=0.1_dp !u of fem to bring up e u cond on move transitions (it's currently -2.7 which is 0.06)
@@ -281,72 +287,23 @@ program main
     pars(85)=8.8_dp
     pars(90)=8.9_dp
     pars(91)=8.8_dp
+    pars(64)=pars(52)           !alf22
+    pars(52)=pars(52)+1.0_dp    !alf12
     pars(74)=-5000  
     pars(80)=-5000  
     pars(86)=-5000  
     pars(92)=-5000  
-    pars(75)=-4.0_dp !mumar1
-    pars(81)=-4.0_dp !mumar2
-    pars(87)=-4.0_dp !mumar3
-    pars(93)=-2.0_dp !mumar4
-    i=1 ; j=1 ; k=1
-    pars(14)=5000.0_dp*i !ucst now uhomet 
-    pars(15)=5000.0_dp*j !agecst now uhomet
-    pars(24)=5000.0_dp*j !ecst now uhomet
-    pars(65)=5000.0_dp*k !alf23 now uhomet (note this was wrongly labeled as kcst in commit 3d3c17 but of no consequene)
-            
-
-    !open(unit=2,file='o121122_bpconstruct.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    pars(21)=-2.0_dp
-    i=1 ; j=0
     pars(75)=-7.0_dp+i*1.0_dp !mumar1
     pars(81)=-7.0_dp+i*1.0_dp !mumar2
     pars(87)=-7.0_dp+i*1.0_dp !mumar3
     pars(93)=-7.0_dp+i*1.0_dp !mumar4
-    pars(14)=7000.0_dp +j*7000.0_dp !uhomet
-    pars(15)=7000.0_dp +j*7000.0_dp !uhomet
-    pars(24)=7000.0_dp +j*7000.0_dp !uhomet
-    pars(65)=7000.0_dp +j*7000.0_dp !uhomet    
-    pars(16)=-2.0_dp
-    pars(52)=-3.0_dp + 1*2.5_dp  
-    pars(72)=9.5_dp !set according to loc5 wned at age 18
-    pars(73)=8.8_dp !set according to loc5 wned at age 18
-    pars(78)=8.7_dp
-    pars(79)=8.8_dp
-    pars(84)=8.9_dp
-    pars(85)=8.8_dp
-    pars(90)=9.6_dp
-    pars(91)=8.8_dp
+    i=1 ; j=0
+    pars(14)=7000.0_dp +j*7000.0_dp !ucst now uhomet
+    pars(15)=7000.0_dp +j*7000.0_dp !agecst now uhomet
+    pars(24)=7000.0_dp +j*7000.0_dp !ecst now uhomet
+    pars(65)=7000.0_dp +j*7000.0_dp !alf23 now uhomet  (note this was wrongly labeled as kcst in commit 3d3c17 but of no consequene)
     pars1=pars
 
-    open(unit=2,file='o121922_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
-    policytax=0
-    ntermval=5
-    pars(75)=-6.0_dp            !mumar
-    pars(76:77)=0.0_dp
-    pars(82:83)=0.0_dp
-    pars(88:89)=0.0_dp
-    pars(72)=9.1_dp
-    pars(73)=8.6_dp
-    pars(78)=9.1_dp
-    pars(79)=8.6_dp
-    pars(84)=8.9_dp
-    pars(85)=9.1_dp
-    pars(90)=8.9_dp
-    pars(91)=9.1_dp
-    pars(1)=pars(1)-2.0_dp      !emp cur m
-    pars(3)=pars(3)-2.0_dp      !emp of m 
-    pars(9)=pars(9)-2.0_dp      !u cur m
-    pars(10)=pars(10)-1.0_dp    !u of m
-    pars(11)=pars(11)-1.5_dp    !u cur f
-    pars(12)=pars(12)+2.5_dp    !u of f
-    pars(21)=pars(21)+0.8_dp    !pmeet
-    pars(27)=pars(27)+4.0_dp    !alpha (ned) m
-    pars(28)=pars(28)+6.0_dp    !alpha (ned) f
-    pars(29)=pars(29)+4.0_dp    !alpha (ed) m
-    pars(30)=pars(30)-8.0_dp    !alpha (ed) f
-    pars(64)=pars(52)           !alf22
-    pars(52)=pars(52)+1.0_dp    !alf12
 
     open(unit=2,file='o122022_bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     pars(52)=pars(52)-1.0_dp    !alf12
@@ -366,11 +323,6 @@ program main
     pars(74)=-5000.0_dp
     pars(67)=pars(67)+1.0_dp
     pars(75)=-5.0_dp
-    pars1=pars
-    !call getpars(pars,realpars)
-    !call objfunc(pars,qval) ; realpars=realpartemp   
-
-
     pars(72)=8.9_dp
     pars(73)=8.6_dp
     pars(78)=8.6_dp
@@ -384,53 +336,25 @@ program main
     pars(87)=-6.0_dp !mumar3
     pars(93)=-4.0_dp !mumar4
     pars1=pars
-    terminalval=.FALSE.
+    terminalval=.FALSE. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
     pars(74)=0.0_dp !cst type 1
     pars(33:41)=0.0_dp  !i*pars1(33:41)
-    !do i=1,3
-    !do j=1,3
-    !do k=1,3
-        i=1 ;  j=1 ; k=1
-        pars(13)=3.0_dp
-        pars(14)=j*10000.0_dp
-        pars(68:69)=pars1(68:69)+k*1.0_dp
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp  
-        
-        pars(3)=pars1(3)-2.0_dp 
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp  
-        
-        pars(3)=pars1(3)
-        pars(9)=pars1(9)-2.0_dp
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp  
-    !end do 
-    !end do 
-    !end do 
-
-    pars(67)=pars(66)
-    
-    pars(28)=pars(27)   !alpha (ned and ed)
-    pars(30)=pars(29)
-    pars(32)=pars(31)   !alphakid
-    
-    pars(69)=pars(68)
-    
-
-    pars(54:64)=pars(42:52) 
-    
-    pars(5:8)=pars(1:4)
-    pars(11:12)=pars(9:10)
-    
+    pars(14)=5000.0_dp
+    do i=1,3
+        pars(13)=0.0_dp+1.5_dp*(i-1)
+        do k=3,1,-1
+            pars(68:69)=k*pars1(68:69)
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp       
+        end do 
+        do k=1,3
+            pars(68:69)=pars1(68:69)+k*1.0_dp
+            call getpars(pars,realpars)
+            call objfunc(pars,qval) ; realpars=realpartemp       
+        end do 
+    end do 
 
 
-    !*************************    
-    !mytime(iam+1,1)=secnds(0.0)
-    !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
-    !if (iam==0) print*, 'Here is qval: ', qval
-    !if (iam==0) print*, 'iam,qval,mytime ', iam,qval,mytime(iam+1,2)
-    deallocate(mytime)
 
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
@@ -714,5 +638,13 @@ ENDIF
     !I get mpi error when I run with groups FALSE saying some process couldnt finish because mpi finalze wasn't called etc.
     !since I invoke mpi regardless of groups, I have to call mpi finalize regardless of groups
     deallocate(init)
+
+    
+    !*************************    
+    !mytime(iam+1,1)=secnds(0.0)
+    !mytime(iam+1,2)=secnds(mytime(iam+1,1))        
+    !if (iam==0) print*, 'Here is qval: ', qval
+    !if (iam==0) print*, 'iam,qval,mytime ', iam,qval,mytime(iam+1,2)
+    deallocate(mytime)
     call mpi_finalize(ierror)   
 end program main 
