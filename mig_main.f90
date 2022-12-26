@@ -341,11 +341,17 @@ program main
 
 
     open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp       
+    terminalval=.true. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp       
-    terminalval=.true. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
-
-
+    do i=1,4
+    pars(1)=pars(1)-1.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp       
+    end do
+    
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
 		!if (iam==0) then ; iprint=1 ; else ; iprint=-1 ; end if 
