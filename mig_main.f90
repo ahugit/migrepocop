@@ -391,22 +391,20 @@ program main
     !do j=1,3
     !do k=1,3
         i=1 ;  j=1 ; k=1
-        pars(13)=0.0_dp+1.0_dp*(i-1)
+        pars(13)=3.0_dp
         pars(14)=j*10000.0_dp
         pars(68:69)=pars1(68:69)+k*1.0_dp
-        !call getpars(pars,realpars)
-        !call objfunc(pars,qval) ; realpars=realpartemp   
-        pars(13)=3.0_dp
-        !call getpars(pars,realpars)
-        !call objfunc(pars,qval) ; realpars=realpartemp   
-        pars(13)=1.0_dp
-        pars(74)=-10000.0_dp
         call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp   
-        pars(13)=1.0_dp
-        pars(74)=-20000.0_dp
+        call objfunc(pars,qval) ; realpars=realpartemp  
+        
+        pars(3)=pars1(3)-2.0_dp 
         call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp   
+        call objfunc(pars,qval) ; realpars=realpartemp  
+        
+        pars(3)=pars1(3)
+        pars(9)=pars1(9)-2.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp  
     !end do 
     !end do 
     !end do 
