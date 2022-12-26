@@ -339,8 +339,8 @@ program main
     terminalval=.FALSE. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
     pars(74)=0.0_dp !cst type 1
     pars(33:41)=0.0_dp  !i*pars1(33:41)
-    pars(14)=15000.0_dp
-    do i=1,3
+    pars(14)=25000.0_dp
+    do i=1,2
         pars(13)=0.0_dp+1.5_dp*(i-1)
         do k=3,1,-1
             pars(68:69)=k*pars1(68:69)
