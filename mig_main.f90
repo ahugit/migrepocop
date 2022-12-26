@@ -345,7 +345,7 @@ program main
     !call objfunc(pars,qval) ; realpars=realpartemp       
     terminalval=.true. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
     pars(66)=pars1(66)-0.5_dp
-    pars(68)=pars1(68)
+    pars(68)=pars1(68)+1.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp       
     do i=1,4
@@ -353,6 +353,8 @@ program main
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp       
     end do
+
+
 
 	if (optimize) then 
 		! call simplex: the call to minim (the simplex routine) is set up to work with starting vector parvector
