@@ -369,7 +369,7 @@ program main
     !end do 
     
 
-    pars(3)=pars(3)-3.0_dp
+    pars(1)=pars(1)+2.0_dp
     pars(74)=-5000_dp !cst type 1
     !do i=1,2
         i=2
