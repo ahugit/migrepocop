@@ -359,7 +359,7 @@ program main
     pars(33:41)=0.0_dp  !i*pars1(33:41)
     pars(14)=5000.0_dp
     !do i=1,2
-        i=2
+        i=3
         pars(13)=0.0_dp+1.5_dp*(i-1)
         do k=3,1,-2
             pars(68:69)=k*pars1(68:69)
