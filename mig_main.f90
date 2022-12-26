@@ -335,13 +335,12 @@ program main
     pars(81)=-4.0_dp !mumar2
     pars(87)=-6.0_dp !mumar3
     pars(93)=-4.0_dp !mumar4
+    pars(33:41)=0.0_dp  !i*pars1(33:41)
     pars1=pars
     terminalval=.FALSE. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
 
     
     pars(74)=-5000_dp !cst type 1
-    pars(33:41)=0.0_dp  !i*pars1(33:41)
-    pars(14)=5000.0_dp
     !do i=1,2
         i=2
         pars(13)=0.0_dp+1.5_dp*(i-1)
@@ -350,36 +349,28 @@ program main
             call getpars(pars,realpars)
             call objfunc(pars,qval) ; realpars=realpartemp       
         end do 
-        do k=1,3,2
-            pars(68:69)=pars1(68:69)+k*1.0_dp
-            call getpars(pars,realpars)
-            call objfunc(pars,qval) ; realpars=realpartemp       
-        end do 
+        pars(68:69)=pars1(68:69)+1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp           
     !end do 
 
     pars(74)=-15000_dp !cst type 1
-    pars(33:41)=0.0_dp  !i*pars1(33:41)
-    pars(14)=5000.0_dp
     !do i=1,2
-        i=3
+        i=2
         pars(13)=0.0_dp+1.5_dp*(i-1)
         do k=3,1,-2
             pars(68:69)=k*pars1(68:69)
             call getpars(pars,realpars)
             call objfunc(pars,qval) ; realpars=realpartemp       
         end do 
-        do k=1,3,2
-            pars(68:69)=pars1(68:69)+k*1.0_dp
-            call getpars(pars,realpars)
-            call objfunc(pars,qval) ; realpars=realpartemp       
-        end do 
+        pars(68:69)=pars1(68:69)+1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp           
     !end do 
+    
 
-        
     pars(3)=pars(3)-3.0_dp
     pars(74)=-5000_dp !cst type 1
-    pars(33:41)=0.0_dp  !i*pars1(33:41)
-    pars(14)=5000.0_dp
     !do i=1,2
         i=2
         pars(13)=0.0_dp+1.5_dp*(i-1)
@@ -388,29 +379,23 @@ program main
             call getpars(pars,realpars)
             call objfunc(pars,qval) ; realpars=realpartemp       
         end do 
-        do k=1,3,2
-            pars(68:69)=pars1(68:69)+k*1.0_dp
-            call getpars(pars,realpars)
-            call objfunc(pars,qval) ; realpars=realpartemp       
-        end do 
+        pars(68:69)=pars1(68:69)+1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp           
     !end do 
 
     pars(74)=-15000_dp !cst type 1
-    pars(33:41)=0.0_dp  !i*pars1(33:41)
-    pars(14)=5000.0_dp
     !do i=1,2
-        i=3
+        i=2
         pars(13)=0.0_dp+1.5_dp*(i-1)
         do k=3,1,-2
             pars(68:69)=k*pars1(68:69)
             call getpars(pars,realpars)
             call objfunc(pars,qval) ; realpars=realpartemp       
         end do 
-        do k=1,3,2
-            pars(68:69)=pars1(68:69)+k*1.0_dp
-            call getpars(pars,realpars)
-            call objfunc(pars,qval) ; realpars=realpartemp       
-        end do 
+        pars(68:69)=pars1(68:69)+1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp           
     !end do 
 
 
