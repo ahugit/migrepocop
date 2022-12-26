@@ -340,65 +340,10 @@ program main
     terminalval=.FALSE. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
 
 
-    pars(66)=pars(66)-1.5_dp
-    
-    pars(74)=-5000_dp !cst type 1
-    !do i=1,2
-        i=2
-        pars(13)=0.0_dp+1.5_dp*(i-1)
-        do k=3,1,-2
-            pars(68:69)=k*pars1(68:69)
-            call getpars(pars,realpars)
-            call objfunc(pars,qval) ; realpars=realpartemp       
-        end do 
-        pars(68:69)=pars1(68:69)+1.0_dp
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp           
-    !end do 
-
-    pars(74)=-15000_dp !cst type 1
-    !do i=1,2
-        i=2
-        pars(13)=0.0_dp+1.5_dp*(i-1)
-        do k=3,1,-2
-            pars(68:69)=k*pars1(68:69)
-            call getpars(pars,realpars)
-            call objfunc(pars,qval) ; realpars=realpartemp       
-        end do 
-        pars(68:69)=pars1(68:69)+1.0_dp
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp           
-    !end do 
-    
-
-    pars(1)=pars(1)+2.0_dp
-    pars(74)=-5000_dp !cst type 1
-    !do i=1,2
-        i=2
-        pars(13)=0.0_dp+1.5_dp*(i-1)
-        do k=3,1,-2
-            pars(68:69)=k*pars1(68:69)
-            call getpars(pars,realpars)
-            call objfunc(pars,qval) ; realpars=realpartemp       
-        end do 
-        pars(68:69)=pars1(68:69)+1.0_dp
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp           
-    !end do 
-
-    pars(74)=-15000_dp !cst type 1
-    !do i=1,2
-        i=2
-        pars(13)=0.0_dp+1.5_dp*(i-1)
-        do k=3,1,-2
-            pars(68:69)=k*pars1(68:69)
-            call getpars(pars,realpars)
-            call objfunc(pars,qval) ; realpars=realpartemp       
-        end do 
-        pars(68:69)=pars1(68:69)+1.0_dp
-        call getpars(pars,realpars)
-        call objfunc(pars,qval) ; realpars=realpartemp           
-    !end do 
+    open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp       
+    terminalval=.true. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
 
 
 	if (optimize) then 
