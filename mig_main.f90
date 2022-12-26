@@ -339,10 +339,10 @@ program main
     pars1=pars
     terminalval=.FALSE. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
 
+    pars(13)=3.0_dp
 
     pars(66)=pars(66)-0.5_dp    
     pars(68)=pars1(68)+1.0_dp
-    pars(13)=1.5_dp
     pars(74)=-15000_dp !cst type 1
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp       
