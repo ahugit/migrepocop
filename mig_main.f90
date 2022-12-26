@@ -399,11 +399,11 @@ program main
         pars(13)=3.0_dp
         !call getpars(pars,realpars)
         !call objfunc(pars,qval) ; realpars=realpartemp   
-        pars(13)=3.0_dp
+        pars(13)=1.0_dp
         pars(74)=-10000.0_dp
         call getpars(pars,realpars)
         call objfunc(pars,qval) ; realpars=realpartemp   
-        pars(13)=3.0_dp
+        pars(13)=1.0_dp
         pars(74)=-20000.0_dp
         call getpars(pars,realpars)
         call objfunc(pars,qval) ; realpars=realpartemp   
