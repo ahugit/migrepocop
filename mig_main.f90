@@ -387,17 +387,18 @@ program main
     terminalval=.FALSE.
     pars(74)=0.0_dp !cst type 1
     pars(33:41)=0.0_dp  !i*pars1(33:41)
-    do i=1,3
-        do j=1,3
-        do k=1,3
+    !do i=1,3
+    !do j=1,3
+    !do k=1,3
+        i=1 ;  j=1 ; k=1
         pars(13)=0.0_dp+1.0_dp*(i-1)
         pars(14)=j*10000.0_dp
         pars(68:69)=pars1(68:69)+k*1.0_dp
         call getpars(pars,realpars)
         call objfunc(pars,qval) ; realpars=realpartemp   
-        end do 
-    end do 
-    end do 
+    !end do 
+    !end do 
+    !end do 
 
     pars(67)=pars(66)
     

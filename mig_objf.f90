@@ -373,21 +373,8 @@ contains
 	!totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
 	!totcostname='total cost'
 	do i=1,npars
-        write(60,'(1a15,9f10.2)') parname(i),realpar_save(i,1:9) 
+        write(60,'(1a15,2f10.2)') parname(i),realpar_save(i,1:numit) 
 	end do 
-	do i=1,npars
-        write(60,'(1a15,9f10.2)') parname(i),realpar_save(i,10:18) 
-	end do 
-	do i=1,npars
-        write(60,'(1a15,9f10.2)') parname(i),realpar_save(i,19:numit) 
-	end do 
-
-!	do i=1,npars
-!        write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,12:20) 
-!	end do 
-!	do i=1,npars
-!       write(60,'(1a15,9f9.1)') parname(i),realpar_save(i,21:numit) 
-!	end do 
 
 
 	!write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,1:numit) 
