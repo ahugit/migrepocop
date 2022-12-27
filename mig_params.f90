@@ -100,7 +100,7 @@
 	real(dp), parameter :: mu_wge(2)=0.0_dp
 	real(dp) :: sig_wge(2),mu_mar(ntypp),sig_mar,ro,mu_o , sigo_m,sigo_f
 	real(dp) :: uhome(2),uhomet(ntypp),alphaed(2,neduc),alphakid(nkid) !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
-	real(dp) :: cst(ntypp),kcst,divpenalty,uloc(nl),sig_uloc
+	real(dp) :: cst(ntypp),kcst,divpenalty,uloc(nl),sig_uloc,agecst
 	real(dp) :: alf10(nl),alf11,alf12,alf13,alf1t(ntypp)            ! types
 	real(dp) :: alf20(nl),alf21,alf22,alf23,alf2t(ntypp)            ! types
 	real(dp) :: ptype,pmeet,omega(2),ptypehs(ntypp),ptypecol(ntypp) ! types
@@ -434,7 +434,7 @@ contains
     sig_mar=0.0_dp
     ro=0.0_dp !no longer a parameter 
     agecst=0.0_dp
-    
+
     !***********************
     !ahu 041118 del and remove later:
     !alphaed(2,:)=alphaed(1,:)

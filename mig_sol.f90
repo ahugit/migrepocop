@@ -1047,7 +1047,7 @@ end do
 		qs: do q=1,nqs 
             xs: do x=1,nxs    
         !call x2edexpkid(x,ed,exp,kid)    
-            !movecost(x,q,trueindex)=fnmove( q2w(q),x2kid(x),trueindex)
+            movecost(x,q,trueindex)=fnmove( q2w(q),x2kid(x),trueindex)
             do g=1,2
                 w(g) = q2w(q)						! wage 
 			    l(g) = q2l(q)						! location
