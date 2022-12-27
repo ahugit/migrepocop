@@ -100,7 +100,7 @@
 	real(dp), parameter :: mu_wge(2)=0.0_dp
 	real(dp) :: sig_wge(2),mu_mar(ntypp),sig_mar,ro,mu_o , sigo_m,sigo_f
 	real(dp) :: uhome(2),uhomet(ntypp),alphaed(2,neduc),alphakid(nkid) !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
-	real(dp) :: cst(ntypp),kcst,divpenalty,uloc(nl),agecst
+	real(dp) :: cst(ntypp),kcst,divpenalty,uloc(nl),sig_uloc
 	real(dp) :: alf10(nl),alf11,alf12,alf13,alf1t(ntypp)            ! types
 	real(dp) :: alf20(nl),alf21,alf22,alf23,alf2t(ntypp)            ! types
 	real(dp) :: ptype,pmeet,omega(2),ptypehs(ntypp),ptypecol(ntypp) ! types
@@ -302,8 +302,8 @@ contains
     realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
     alf12=realpar(j)                                ; j=j+1
     !print*, 'Here is alf13',j	
-    realpar(j)=par(j)                               ; parname(j)='agecst' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
-    agecst=realpar(j)	                            ; j=j+1
+    realpar(j)=0.0_dp                               ; parname(j)='alf13' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
+    alf13=realpar(j)	                            ; j=j+1
     !print*, 'Here is alf20',j
     do i=1,nl
         if (i==5) then
@@ -433,7 +433,8 @@ contains
     mu_o=0.0_dp
     sig_mar=0.0_dp
     ro=0.0_dp !no longer a parameter 
-    PRINT*, "here is alf13,alf23", alf13,alf23
+    agecst=0.0_dp
+    
     !***********************
     !ahu 041118 del and remove later:
     !alphaed(2,:)=alphaed(1,:)
