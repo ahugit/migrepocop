@@ -346,6 +346,36 @@ program main
     pars(74)=-25000_dp !cst type 1
     pars(52)=pars1(52)+1.0_dp
     pars(2)=pars(2)-2.0_dp
+    !call getpars(pars,realpars)
+    !call objfunc(pars,qval) ; realpars=realpartemp       
+
+    pars(1)=-1.0_dp
+    pars(2)=-3.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp       
+
+    pars(1)=-1.0_dp
+    pars(2)=-4.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp       
+
+    pars(1)=-1.0_dp
+    pars(2)=-5.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp       
+
+    pars(1)=-0.9_dp
+    pars(2)=-5.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp       
+
+    pars(1)=-0.8_dp
+    pars(2)=-5.0_dp
+    call getpars(pars,realpars)
+    call objfunc(pars,qval) ; realpars=realpartemp       
+
+    pars(1)=-0.5_dp
+    pars(2)=-5.0_dp
     call getpars(pars,realpars)
     call objfunc(pars,qval) ; realpars=realpartemp       
 
