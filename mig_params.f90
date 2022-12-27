@@ -302,8 +302,8 @@ contains
     realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
     alf12=realpar(j)                                ; j=j+1
     !print*, 'Here is alf13',j	
-    realpar(j)=0.0_dp                               ; parname(j)='alf13' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
-    alf13=realpar(j)	                            ; j=j+1
+    realpar(j)=par(j)                               ; parname(j)='agecst' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
+    agecst=realpar(j)	                            ; j=j+1
     !print*, 'Here is alf20',j
     do i=1,nl
         if (i==5) then
