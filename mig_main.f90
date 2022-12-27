@@ -351,7 +351,8 @@ program main
     
 
 
-    pars(66)=pars(66)+0.7_dp
+    pars(66)=pars(66)+1.0_dp
+    pars(68)=pars(68)+1.0_dp
     pars(1)=-1.0_dp
     pars(2)=-5.0_dp
     pars(16)=pars1(16)-1.0_dp
