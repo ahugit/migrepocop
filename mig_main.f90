@@ -399,6 +399,51 @@ program main
 
 
 
+    pars(1)=-0.5_dp
+    pars(2)=-5.0_dp
+    pars(16)=pars1(16)-1.0_dp
+        pars(52)=pars1(52)-1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)-0.5_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)+0.5_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)+1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+
+    pars(16)=pars1(16)
+        pars(52)=pars1(52)-1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)-0.5_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)+0.5_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)+1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+
+    pars(16)=pars1(16)+1.0_dp
+        pars(52)=pars1(52)-1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)-0.5_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)+0.5_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+        pars(52)=pars1(52)+1.0_dp
+        call getpars(pars,realpars)
+        call objfunc(pars,qval) ; realpars=realpartemp       
+    
+
     !open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp       
