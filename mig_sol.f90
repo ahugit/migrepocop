@@ -317,10 +317,10 @@ end do
             vec=pen
             i = qq2q(1,q) ; n=xx2x(1,x) ; i0 = qq2q(1,q0) 
             vec(1) = vm(iepsmove,n,i,i0,ia,index) + divpenalty
-            mcost(1)=movecost(n,i0,trueindex)  
+            mcost(1)=movecost(n,i0,trueindex)  + cstia(ia)
             i = qq2q(2,q) ; n=xx2x(2,x) ; i0 = qq2q(2,q0) 	
             vec(2) = vf(iepsmove,n,i,i0,ia,index) + divpenalty	
-            mcost(2)=movecost(n,i0,trueindex)
+            mcost(2)=movecost(n,i0,trueindex)  + cstia(ia)
             loc0=qq2l(1,q0)     !ahumarch2022 ahu032022
             !ahu030822 adding the below in order to check the mar rates decreasing with mumar situation to compare chk2's better
             !if (yazmax) then !ahu030822
@@ -985,7 +985,7 @@ end do
             wagedraw: do w=1,np2
             q = wl2q(w,l)
             do x=1,nxs
-                mcost=movecost(x,q0,trueindex)        
+                mcost=movecost(x,q0,trueindex)    + cstia(ia)      
                 moveshocks: do iepsmove=1,nepsmove
 
                 vcho=pen
@@ -1047,7 +1047,7 @@ end do
 		qs: do q=1,nqs 
             xs: do x=1,nxs    
         !call x2edexpkid(x,ed,exp,kid)    
-            movecost(x,q,trueindex)=fnmove( q2w(q),x2kid(x),trueindex)
+            !movecost(x,q,trueindex)=fnmove( q2w(q),x2kid(x),trueindex)
             do g=1,2
                 w(g) = q2w(q)						! wage 
 			    l(g) = q2l(q)						! location

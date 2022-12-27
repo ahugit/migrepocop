@@ -360,7 +360,7 @@ pars(85)=9.0_dp
 pars(90)=8.9_dp
 pars(91)=8.6_dp
 
-    
+    pars(53)=0.0_dp !agecst (was alf13 before)
     pars(74)=-50000.0_dp
     pars(9)=pars1(9)-2.0_dp
     pars(66)=pars(66)+1.0_dp
