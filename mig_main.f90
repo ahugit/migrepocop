@@ -351,6 +351,14 @@ program main
     
 pars(27)=-10.0_dp
 pars(29)=-10.0_dp
+pars(72)=8.6_dp
+pars(73)=8.6_dp
+pars(78)=8.6_dp
+pars(79)=9.0_dp
+pars(84)=9.2_dp
+pars(85)=9.0_dp
+pars(90)=8.9_dp
+pars(91)=8.6_dp
 
     pars(66)=pars(66)+1.0_dp
     pars(68)=pars(68)+1.0_dp
@@ -400,7 +408,7 @@ pars(29)=-10.0_dp
 
 
 
-    pars(1)=-0.5_dp
+    pars(1)=-0.2_dp
     pars(2)=-5.0_dp
     pars(16)=pars1(16)-1.0_dp
         pars(52)=pars1(52)-1.0_dp
