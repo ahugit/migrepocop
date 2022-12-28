@@ -377,7 +377,7 @@ do i=1,3
         do k=4,6
 pars(68)=pars1(68)+i*0.5_dp !+0.5_dp
 pars(33:41)=j*pars1(33:41)        
-pars(23)=k*500.0_dp
+pars(22)=k*500.0_dp
 call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp       
         end do
