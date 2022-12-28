@@ -362,8 +362,8 @@ pars(91)=8.6_dp
 
 pars(14)=0.0_dp
 !pars(53)=0.0_dp !agecst (was alf13 before)
-pars(22)=0.0_dp     !agehome (used to be uhome(1))
-pars(23)=500.0_dp  !agecst (used to be uhome(2))
+pars(22)=500.0_dp     !agehome (used to be uhome(1))
+pars(23)=0.0_dp  !agecst (used to be uhome(2))
 pars(74)=0.0_dp
 pars(9)=pars1(9)-2.0_dp
 pars(66)=pars(66)+1.0_dp
