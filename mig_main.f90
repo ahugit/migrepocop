@@ -371,7 +371,7 @@ pars(91)=8.6_dp
     pars(16)=pars1(16)-1.0_dp !psih
 
     do i=3,1,-1
-        do j=2,4
+        do j=5,7
             do k=1,3
     pars(68)=pars1(68)-i*0.5_dp !+0.5_dp
     pars(33:41)=j*pars1(33:41)        
