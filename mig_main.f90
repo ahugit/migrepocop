@@ -370,10 +370,10 @@ pars(91)=8.6_dp
     pars(2)=-5.0_dp
     pars(16)=pars1(16)-1.0_dp !psih
 
-    do i=3,1,-1
+    do i=1,3
         do j=5,7
-            do k=1,3
-    pars(68)=pars1(68)-i*0.5_dp !+0.5_dp
+            do k=4,6
+    pars(68)=pars1(68)+i*0.5_dp !+0.5_dp
     pars(33:41)=j*pars1(33:41)        
     pars(14)=k*5000.0_dp
     call getpars(pars,realpars)
