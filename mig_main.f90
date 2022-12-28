@@ -361,7 +361,8 @@ pars(90)=8.9_dp
 pars(91)=8.6_dp
 
     pars(14)=5000.0_dp
-    pars(53)=0.0_dp !agecst (was alf13 before)
+    !pars(53)=0.0_dp !agecst (was alf13 before)
+    pars(22:23)=0.0_dp !agehome and agecst (agecst is no longer pars(53) but moved it to pars(23))
     pars(74)=0.0_dp
     pars(9)=pars1(9)-2.0_dp
     pars(66)=pars(66)+1.0_dp

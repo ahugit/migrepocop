@@ -100,7 +100,7 @@
 	real(dp), parameter :: mu_wge(2)=0.0_dp
 	real(dp) :: sig_wge(2),mu_mar(ntypp),sig_mar,ro,mu_o , sigo_m,sigo_f
 	real(dp) :: uhome(2),uhomet(ntypp),alphaed(2,neduc),alphakid(nkid) !ahu october2022: changing alphakid so that it doesn't have that obsolete dimension anymore
-	real(dp) :: cst(ntypp),kcst,divpenalty,uloc(nl),agecst
+	real(dp) :: cst(ntypp),kcst,divpenalty,uloc(nl),agecst,agehome
 	real(dp) :: alf10(nl),alf11,alf12,alf13,alf1t(ntypp)            ! types
 	real(dp) :: alf20(nl),alf21,alf22,alf23,alf2t(ntypp)            ! types
 	real(dp) :: ptype,pmeet,omega(2),ptypehs(ntypp),ptypecol(ntypp) ! types
@@ -241,10 +241,10 @@ contains
     !realpar(j) = mult1c * logit(par(j))              ; parname(j)='uhome(2)' ; stepos(j)=0.2_dp	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
 	!uhome(2)=realpar(j)                             ; j=j+1
 
-    realpar(j) = par(j)             ; parname(j)='uhome(1)' ; stepos(j)=0.0_dp*PAR(J)	 ; if (onlyfem) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
-	uhome(1)=realpar(j)                             ; j=j+1
-    realpar(j) = par(j)              ; parname(j)='uhome(2)' ; stepos(j)=0.0_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
-	uhome(2)=realpar(j)                             ; j=j+1
+    realpar(j) = par(j)             ; parname(j)='agehome' ; stepos(j)=0.0_dp*PAR(J)	 ; if (onlyfem) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
+    agehome=realpar(j)                             ; j=j+1
+    realpar(j) = par(j)              ; parname(j)='agecst' ; stepos(j)=0.0_dp*PAR(J)	 ; if (onlymales) stepos(j)=0.0_dp !mult3*logit(par(2:3)) !22:23
+	agecst=realpar(j)                             ; j=j+1
     realpar(j)=uhomet(1)            ; parname(j)='uhomet 3'	; stepos(j)=0.0_dp*par(j) !24 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(j))     ! types
     uhomet(3)=realpar(j)                                     ; j=j+1               ! types
 	realpar(j) = par(j)          ; parname(j)='kcst'	; stepos(j)=1.0_dp*(1000.0_dp) !*par(j) !25 !-1.0_dp*mult1c * logit(par(j)) !ahu 112718 changing to only minus from: mult1 * min2pls(par(5)) !mult2*logit(par(4:6))	
@@ -302,8 +302,8 @@ contains
     realpar(j)=logit(par(j))                 ; parname(j)='alf12' ; stepos(j)=0.3_dp  ; if (onlyfem) stepos(j)=0.0_dp
     alf12=realpar(j)                                ; j=j+1
     !print*, 'Here is alf13',j	
-    realpar(j)=par(j)                               ; parname(j)='agecst' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
-    agecst=realpar(j)	                            ; j=j+1
+    realpar(j)=par(j)                               ; parname(j)='junk' ; stepos(j)=0.0_dp   ; if (onlyfem) stepos(j)=0.0_dp  !-1.0_dp*logit(par(j)) 
+    junk=realpar(j)	                            ; j=j+1
     !print*, 'Here is alf20',j
     do i=1,nl
         if (i==5) then
@@ -768,7 +768,12 @@ contains
                     integer(i4b), intent(in) :: age
                     real(dp) :: cstia
                         cstia= agecst*age
-                end FUNCTION
+                end function
+                function uhomeia(age)
+                    integer(i4b), intent(in) :: age
+                    real(dp) :: uhomeia
+                    uhomeia= agehome*age
+                end function
             !function fnprkid(kid0)
             !integer(i4b), intent(in) :: kid0
             !real(dp), dimension(0:maxkid) :: fnprkid

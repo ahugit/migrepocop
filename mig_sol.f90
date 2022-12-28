@@ -292,6 +292,7 @@ end do
         real(dp) :: vecj(5,nc),vec(5),surplusj(nc),surplus,transfers(2),vdif(2),mcost(2),asum,yazvec(5)
         integer(i4b) :: ia,index,q,x,z,q0,g,jmax,qmax,relmax,iepsmove,i,i0,n,trueindex,j,de(1),ed(2),locch,loc0,callfrom
         logical :: haveenough(nc),haveenoughtomakeindiff,haveenoughtomakeindiff_alt,intsol(3),pc(2),pc_alt(2)
+        integer(i4b) :: trueco,truetyp,truehome
         !dd = (/ia,trueindex,q,x,z,q0,gender/callfrom,-1,-1,-1,        iepsmove /) 	 
         !dd=  (/ia,trueindex,q,x,z,q0,gender/callfrom,jmax,qmax,relmax,iepsmove /)  	
         callfrom=dd(7)
@@ -302,6 +303,7 @@ end do
         else 
             index=trueindex
         end if
+        call index2cotyphome(trueindex,trueco,truetyp,truehome)
         q=dd(3) 
         x=dd(4) ; ed(:)=xx2e(:,x)     
         z=dd(5) 
@@ -338,11 +340,11 @@ end do
                     !ahumarch2122 ahu032122 vec(3) = vm0_c9726(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(1,i) /= qq2l(1,q0)) * mcost(1) + one( qq2l(1,i) /= qq2l(1,q0)) * moveshock_m(iepsmove)  !fnmove(kid)     
                     !ahumarch2122 ahu032122 vec(4) = vf0_c(i,x,ia,index)  + mg(z,trueindex) + one( qq2l(2,i) /= qq2l(2,q0)) * mcost(2) + one( qq2l(2,i) /= qq2l(2,q0)) * moveshock_f(iepsmove)  !fnmove(kid)     
                     if (callfrom==40) then !calling from sol
-                    vecj(3,j) = vm0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
-                    vecj(4,j) = vf0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    vecj(3,j) = vm0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) )  + one( locch==truehome) * uhomeia(ia)!ahumarch2022 ahu032022     
+                    vecj(4,j) = vf0ctemp(i,x)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) )  + one( locch==truehome) * uhomeia(ia) !ahumarch2022 ahu032022
                     else if (callfrom==80) then !calling from simulation
-                    vecj(3,j) = vm0_c(x,i,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) ) !ahumarch2022 ahu032022     
-                    vecj(4,j) = vf0_c(x,i,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) ) !ahumarch2022 ahu032022
+                    vecj(3,j) = vm0_c(x,i,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(1) + moveshock_m(iepsmove) )  + one( locch==truehome) * uhomeia(ia) !ahumarch2022 ahu032022     
+                    vecj(4,j) = vf0_c(x,i,ia,index)  + mg(z,trueindex) + one( locch /= loc0 ) * (mcost(2) + moveshock_f(iepsmove) )  + one( locch==truehome) * uhomeia(ia) !ahumarch2022 ahu032022
                     end if 
                     !vec(5) = wc(1,x,i,trueindex) + wc(2,x,i,trueindex) + one( qq2w(1,q0)<=np )* ubc(1,x,i,trueindex) + one( qq2w(2,q0)<=np )* ubc(2,i,x,trueindex) + nonlabinc + nonlabinc 	 !ahu summer18 050318: added the ubc
                     vecj(5,j) = wmctemp(i,x,trueindex) + wfctemp(i,x,trueindex) + nonlabinc(ed(1)) + nonlabinc(ed(2)) 
@@ -959,6 +961,7 @@ end do
 	real(dp), dimension(nepsmove,nxs,nqs,nqs), intent(out) :: vs1
 	integer(i4b) :: q0,q,l,l0,w,x,i,j,iepsmove,sex,index,trueindex,jstar(1),age,ss(size(dd,1)),ia
     real(dp) :: mcost,vcho(ncs),moveshock(nepsmove),bshock(nepsmove)
+    integer(i4b) :: trueco,truetyp,truehome
 
     trueindex=dd(2)
     sex=dd(7) ; ia=dd(1)
@@ -968,6 +971,7 @@ end do
     else 
         index=trueindex
     end if
+    call index2cotyphome(trueindex,trueco,truetyp,truehome)
     if (sex==1) then 
         moveshock=moveshock_m
         bshock=bshock_m
@@ -993,9 +997,9 @@ end do
                     i = chs(j,q,q0)	!alternative q
                     if (i>0 ) then		
                         if (q2w(i)<=np) then
-                            vcho(j) = vs(x,i) + one(q2l(i)/=l0) * mcost + one( q2l(i)/=l0) * moveshock(iepsmove)  !fnmove(kid)  
+                            vcho(j) = vs(x,i) + one(q2l(i)/=l0) * mcost + one( q2l(i)/=l0) * moveshock(iepsmove)  + one( q2l(i)==truehome) * uhomeia(ia) !fnmove(kid)  
                         else if (q2w(i)==np1) then 
-                            vcho(j) = vs(x,i) + one(q2l(i)/=l0) * mcost + one( q2l(i)/=l0) * moveshock(iepsmove) + bshock(iepsmove)   
+                            vcho(j) = vs(x,i) + one(q2l(i)/=l0) * mcost + one( q2l(i)/=l0) * moveshock(iepsmove)  + one( q2l(i)==truehome) * uhomeia(ia) + bshock(iepsmove)   
                         end if                                         
                     end if 
                 end do choice
