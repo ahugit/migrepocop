@@ -772,7 +772,7 @@ contains
                 function uhomeia(age)
                     integer(i4b), intent(in) :: age
                     real(dp) :: uhomeia
-                    uhomeia= agehome*age
+                    uhomeia= agehome*(age-18)
                 end function
             !function fnprkid(kid0)
             !integer(i4b), intent(in) :: kid0
