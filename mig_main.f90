@@ -360,11 +360,12 @@ pars(85)=9.0_dp
 pars(90)=8.9_dp
 pars(91)=8.6_dp
 
-    pars(53)=-500.0_dp !agecst (was alf13 before)
-    pars(74)=-10000.0_dp
+    pars(14)=5000.0_dp
+    pars(53)=0.0_dp !agecst (was alf13 before)
+    pars(74)=0.0_dp
     pars(9)=pars1(9)-2.0_dp
     pars(66)=pars(66)+1.0_dp
-    pars(68)=pars(68)+0.5_dp
+    pars(68)=pars(68)-2.0_dp !+0.5_dp
     pars(1)=-1.0_dp
     pars(2)=-5.0_dp
     pars(16)=pars1(16)-1.0_dp

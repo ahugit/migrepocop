@@ -433,7 +433,6 @@ contains
     mu_o=0.0_dp
     sig_mar=0.0_dp
     ro=0.0_dp !no longer a parameter 
-    agecst=0.0_dp
 
     !***********************
     !ahu 041118 del and remove later:
