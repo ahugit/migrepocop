@@ -386,6 +386,7 @@ pars(67)=pars(66)-0.5_dp
 pars(1)=-0.2_dp
 pars(2)=-4.0_dp
 pars(9)=pars1(9)-1.0_dp
+pars(13)=1.0_dp
 do i=2,1,-1
     do j=1,7,3
         do k=1,2
@@ -411,6 +412,34 @@ call objfunc(pars,qval) ; realpars=realpartemp
         end do
     end do  
 end do
+
+pars(13)=2.0_dp
+do i=2,1,-1
+    do j=1,7,3
+        do k=1,2
+pars(68)=pars1(68)-i*0.5_dp !+0.5_dp
+pars(69)=pars1(69)-i*0.5_dp !+0.5_dp
+pars(33:41)=j*pars1(33:41)        
+pars(22)=k*1000.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp       
+        end do
+    end do  
+end do
+
+do i=1,3
+    do j=1,7,3
+        do k=1,2
+pars(68)=pars1(68)+i*0.5_dp !+0.5_dp
+pars(69)=pars1(69)+i*0.5_dp !+0.5_dp
+pars(33:41)=j*pars1(33:41)        
+pars(22)=k*1000.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp       
+        end do
+    end do  
+end do
+
     !open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
     !call getpars(pars,realpars)
     !call objfunc(pars,qval) ; realpars=realpartemp       
