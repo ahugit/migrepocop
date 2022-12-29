@@ -378,17 +378,31 @@ pars(16)=pars1(16)-1.0_dp !psih
 i=1 ; j=7 ; k=4
 !pars(68)=pars1(68)-i*0.5_dp !+0.5_dp
 !pars(33:41)=j*pars1(33:41)        
-pars(22)=k*500.0_dp
+!pars(22)=k*500.0_dp
 pars1(35)=pars1(35)/2.0
 pars1(38)=pars1(38)/2.0
 pars(67)=pars(66)-0.5_dp
 
 pars(1)=-0.2_dp
-pars(2)=-5.0_dp
-do i=3,1,-1
-    do j=5,7
-        do k=1,3
+pars(2)=-4.0_dp
+pars(9)=pars1(9)-1.0_dp
+do i=2,1,-1
+    do j=1,7,3
+        do k=1,2
 pars(68)=pars1(68)-i*0.5_dp !+0.5_dp
+pars(69)=pars1(69)-i*0.5_dp !+0.5_dp
+pars(33:41)=j*pars1(33:41)        
+pars(22)=k*1000.0_dp
+call getpars(pars,realpars)
+call objfunc(pars,qval) ; realpars=realpartemp       
+        end do
+    end do  
+end do
+
+do i=1,3
+    do j=1,7,3
+        do k=1,2
+pars(68)=pars1(68)+i*0.5_dp !+0.5_dp
 pars(69)=pars1(69)+i*0.5_dp !+0.5_dp
 pars(33:41)=j*pars1(33:41)        
 pars(22)=k*1000.0_dp

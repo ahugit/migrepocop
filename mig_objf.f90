@@ -373,10 +373,10 @@ contains
 	!totcostsave(1:nepsmove,iter)=moveshock_m(1:nepsmove)+cst(4)
 	!totcostname='total cost'
 	do i=1,npars
-        write(60,'(1a15,12f10.2)') parname(i),realpar_save(i,1:12) 
+        write(60,'(1a15,15f10.2)') parname(i),realpar_save(i,1:15) 
 	end do 
 	do i=1,npars
-        write(60,'(1a15,12f10.2)') parname(i),realpar_save(i,13:numit) 
+        write(60,'(1a15,15f10.2)') parname(i),realpar_save(i,16:numit) 
 	end do 
 
 
