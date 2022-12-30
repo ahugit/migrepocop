@@ -390,7 +390,7 @@ pars(2)=-4.0_dp
 pars(9)=pars1(9)-1.0_dp
 pars(13)=2.0_dp
 
-pars(14)=50000.0_dp
+pars(14)=30000.0_dp
 do i=3,1,-1
     do j=1,7,3
         do k=1,4
