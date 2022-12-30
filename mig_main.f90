@@ -339,7 +339,7 @@ program main
     pars1=pars
     terminalval=.FALSE. ; ntermval=5 !doesn't matter what ntermval is when term is FALSE
 
-    pars(13)=3.0_dp
+
 
     pars(66)=pars(66)-0.5_dp    
     pars(68)=pars1(68)+1.0_dp
@@ -388,7 +388,7 @@ pars(52)=pars1(52)+0.5_dp
 pars(1)=-0.2_dp
 pars(2)=-4.0_dp
 pars(9)=pars1(9)-1.0_dp
-pars(13)=2.5_dp
+pars(13)=1.5_dp
 
 do i=3,1,-1
     do j=1,7,3
