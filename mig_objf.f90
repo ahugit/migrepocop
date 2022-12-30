@@ -378,12 +378,12 @@ contains
 	do i=1,npars
         write(60,'(1a15,18f10.2)') parname(i),realpar_save(i,19:36) 
 	end do 
-	do i=1,npars
-        write(60,'(1a15,18f10.2)') parname(i),realpar_save(i,37:54) 
-	end do 
-	do i=1,npars
-        write(60,'(1a15,18f10.2)') parname(i),realpar_save(i,55:72) 
-	end do 
+	!do i=1,npars
+    !    write(60,'(1a15,18f10.2)') parname(i),realpar_save(i,37:54) 
+	!end do 
+	!do i=1,npars
+    !    write(60,'(1a15,18f10.2)') parname(i),realpar_save(i,55:72) 
+	!end do 
 
 
 	!write(60,'(1a15,2f9.1)') parcostname(1),parcostsave(1,1:numit) 
