@@ -53,8 +53,8 @@
 	integer(i4b), parameter :: np1=np+1, np2=np+2   !w=np1 is getting laid off in the shock space q and w=np2 is nothing happening. In the state space q, np1 is unemployment and np2 is not in the state space q (I try to check that it is not there, at various points in code)
 	integer(i4b), parameter :: nxs = neduc * nexp * nkid
 	integer(i4b), parameter :: nx  = nxs * nxs
-	integer(i4b), parameter :: ncs = 3 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE nl+2
-	integer(i4b), parameter :: nc  = 9   !nl+8 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE
+	integer(i4b), parameter :: ncs = nl+2 !3 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE nl+2
+	integer(i4b), parameter :: nc  = nl+8 !9   !nl+8 !ahu october2022 HUGE MAJOR CHANGE HUGE MAJOR CHANGE
     integer(i4b), parameter :: nepsmove=3, nepskid=2 !ag090122 agsept2022 changed nepsmove frmo 2 to 5 !ahumarch1022 changed nepsmove to 2 from 13
 	integer(i4b) :: numperdat,numperobsdat,numpersim !previously ndata,ndataobs,nsim ALL set in main now 
 	!integer(i4b), parameter :: ndataobs = 84507  set in main now 

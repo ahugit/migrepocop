@@ -508,6 +508,135 @@ contains
 
 
 	subroutine getch_single
+		! choice vectors that indicate whether an alternative is feasible given the status quo and given the offer situation
+		! w=np+1 --> this is layoff if you're working and otherwise it's nothing. and choosing to go anywhere unemp is always an option in any case
+		! w=np+2 --> this is just the "nothing happens" case and choosing that doesn't make sense 
+		integer(i4b) :: i,j,w0,w,c,l0,l,dum(2,nl)
+		chs=0 ; c=0
+		do i=1,nl							! choice index
+			c=c+1
+			w=np1							! w=np+1 denotes unemployment 
+			j=wl2q(w,i)						! get what choosing unemployment (w=np+1) at location l corresponds to in terms of the composite index q
+			chs(c,:,:)=j						! moving anywhere unemployed is always an option					
+			dum(1,c)=w
+			dum(2,c)=i
+		end do 	
+		if (skriv) then 		
+			if ( c /= nl ) then ; print*, "c is not equal to nl! ",c,nl ; stop ; end if 		
+		end if 
+		q0: do i=1,nqs
+			w0 = q2w(i)
+			l0 = q2l(i)
+			if (w0<=np1) then 
+				q: do j=1,nqs					
+					!call q2wloc(j,w,l) 
+					w = q2w(j)
+					l = q2l(j)
+					
+					if (w0<=np) then        !currently employed 
+						if (l==l0) then         !curloc draw
+							if (w<=np) then         !gets wage offer
+								chs(c+1,j,i) = i    !status quo
+								chs(c+2,j,i) = j    !accept offer
+							else if (w==np1) then   !gets laid off
+								chs(:,j,i) = 0      !when gets laid off, nothing is feasible other than unemployment at l0
+								chs(l0,j,i) = wl2q(np1,l0)	     !when gets laid off, nothing is feasible other than unemployment at l0
+								chs(c+1,j,i) = 0    !when gets laid off, status quo not feasible
+								chs(c+2,j,i) = 0    !when gets laid off, no offer to accept
+							else if (w==np2) then   !nothing happens
+								chs(c+1,j,i) = i    !status quo
+								chs(c+2,j,i) = 0    !when nothing happens, no offer to accept
+							end if
+						else if (l/=l0) then         !ofloc draw
+							if (w<=np) then         !gets wage offer
+								chs(c+1,j,i) = i    !status quo
+								chs(c+2,j,i) = j    !accept offer
+							else if (w==np1) then   !gets laid off !BUT NOTE THT THIS DOES NOT HAPPEN WHEN THE DRAW IS OFLOC
+								chs(c+1,j,i) = 0    !when gets laid off, status quo not feasible
+								chs(c+2,j,i) = 0    !when gets laid off, no offer to accept
+							else if (w==np2) then   !nothing happens
+								chs(c+1,j,i) = i    !status quo
+								chs(c+2,j,i) = 0    !when nothing happens, no offer to accept
+							end if
+						end if 
+					else if (w0==np1) then      !currently unemployed 
+						if (l==l0) then         !curloc draw
+							if (w<=np) then         !gets wage offer
+								chs(c+1,j,i) = i    !status quo
+								chs(c+2,j,i) = j    !accept offer
+							else if (w==np1) then   !gets laid off BUT NOTE THAT THIS DOES NOT HAPPEN WHEN UNEMPLOYED
+								chs(c+1,j,i) = 0    !when gets laid off, status quo not feasible
+								chs(c+2,j,i) = 0    !when gets laid off, no offer to accept
+							else if (w==np2) then   !nothing happens
+								chs(c+1,j,i) = i    !status quo
+								chs(c+2,j,i) = 0    !when nothing happens, no offer to accept
+							end if
+						else if (l/=l0) then         !ofloc draw
+							if (w<=np) then         !gets wage offer
+								chs(c+1,j,i) = i    !status quo
+								chs(c+2,j,i) = j    !accept offer
+							else if (w==np1) then   !gets laid off  BUT NOTE THAT THIS DOES NOT HAPPEN WHEN UNEMPLOYED
+								chs(c+1,j,i) = 0    !when gets laid off, status quo not feasible
+								chs(c+2,j,i) = 0    !when gets laid off, no offer to accept
+							else if (w==np2) then   !nothing happens
+								chs(c+1,j,i) = i    !status quo
+								chs(c+2,j,i) = 0    !when nothing happens, no offer to accept
+							end if
+						end if 
+					end if     
+							
+	
+					!if ( w /= np1 .and. w0 /= np1 ) then	! w=np+1 denotes getting laid off (in the case where q denotes shocks) 
+										! and w0=np+1 denotes the state variable w0 indicating that you start that period as unemployed 
+					!	chs(c+1,j,i) = i		! c+1 is nl+1 which denotes the status quo option. can choose the status quo only if you don't get laid off. also don't need to allow this choice if the status quo is unemployment 	
+					!end if 
+					!if ( w <= np ) then			! offer is only the cases where w<=np. in other offer situation where w>np, it means either that you get laid off or nothing happens, so those things do not really give you any options. 
+					!	chs(c+2,j,i) = j		! c+2 is nl+2 which denotes the option of taking the offer q
+					!end if 		
+				end do q
+			else 
+				chs(:,:,i)=0
+			end if 
+		end do q0
+		!if (skriv) print*, "done with getch_single "
+		end subroutine 
+		subroutine getch_couple
+		! choice vectors that indicate whether an alternative is feasible given the status quo and given the offer situation
+		integer(i4b) :: i,j,a,b,cc,qc(2),is(2),js(2),l(2), d(nc),k
+		ch=0
+		qq0: do i=1,nq
+				if (  qq2w(1,i)<=np1 .or.  qq2w(2,i)<=np1 )  then
+					qq: do j=1,nq			
+						cc=0						! counter for number of choices for couple
+						is(:)=qq2q(:,i)				! transform qq0 into single's q0
+						js(:)=qq2q(:,j)				! transform qq  into single's q
+						do a=1,ncs					! choice of husband
+							do b=1,ncs				! choice of wife
+								qc(1)=chs(a,js(1),is(1))	! transform husband's choice into q
+								qc(2)=chs(b,js(2),is(2))	! transform wife's choice into q
+								if ( minval(qc) > 0 ) then	! the option has to be feasible for both of them which is denoted by qc(1) and qc(2) both being larger than 0.
+									l(1) = q2l( qc(1) )	! get the location that corresponds to husband choice qc(1) here 
+									l(2) = q2l( qc(2) )	! get the location that corresponds to wife whoice qc(2) here 
+									if ( l(1) == l(2) ) then !a choice is feasible for the couple only if the respective locations of that choice is equal. the others are not options.
+										cc=cc+1		
+										ch(cc,j,i)=q2qq( qc(1) , qc(2) )	!transform single's choice qm and qf into couple's choice qq  
+									end if 
+								end if 
+							end do 
+						end do 
+					end  do qq
+				else 
+					ch(:,:,i)=0
+				end if 
+		end do 	qq0
+		if (skriv) then 
+			if (cc > nc ) then ; print*, " cc > nc " , cc , nc ; end if		!theoretically, the max number of options they have is nl+8 (nl is the uu for each l option, and then it's 3*3-1 because it's combinatorial of --- --- where each have 3 things they can be (u,q0,q). so the total combo comes to 3*3. but then you subtract 1 because uu is already accounted for in the first nl options
+		!	print*, "done with getch_couple "
+		end if 
+		end subroutine getch_couple
+	
+
+	subroutine getch_single_ncsmall
 	! choice vectors that indicate whether an alternative is feasible given the status quo and given the offer situation
 	! w=np+1 --> this is layoff if you're working and otherwise it's nothing. and choosing to go anywhere unemp is always an option in any case
 	! w=np+2 --> this is just the "nothing happens" case and choosing that doesn't make sense 
@@ -608,7 +737,7 @@ contains
 	end do q0
 	!if (skriv) print*, "done with getch_single "
     end subroutine 
-	subroutine getch_couple
+	subroutine getch_couple_ncsmall
 	! choice vectors that indicate whether an alternative is feasible given the status quo and given the offer situation
 	integer(i4b) :: i,j,a,b,cc,qc(2),is(2),js(2),l(2), d(nc),k
 	ch=0
@@ -641,7 +770,7 @@ contains
 		if (cc > nc ) then ; print*, " cc > nc " , cc , nc ; end if		!theoretically, the max number of options they have is nl+8 (nl is the uu for each l option, and then it's 3*3-1 because it's combinatorial of --- --- where each have 3 things they can be (u,q0,q). so the total combo comes to 3*3. but then you subtract 1 because uu is already accounted for in the first nl options
 	!	print*, "done with getch_couple "
 	end if 
-	end subroutine getch_couple
+	end subroutine getch_couple_ncsmall
 
 	subroutine getgauss
 	! gauss quadrature hermite weights and abscissas for wage draws and marriage utility shocks
