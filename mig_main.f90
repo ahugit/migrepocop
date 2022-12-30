@@ -381,7 +381,9 @@ i=1 ; j=7 ; k=4
 !pars(22)=k*500.0_dp
 pars1(35)=pars1(35)/2.0
 pars1(38)=pars1(38)/2.0
+pars(66)=pars(66)-1.0_dp
 pars(67)=pars(66)-0.5_dp
+pars(52)=pars(52)+0.5_dp
 
 pars(1)=-0.2_dp
 pars(2)=-4.0_dp
