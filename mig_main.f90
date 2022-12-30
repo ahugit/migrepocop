@@ -403,10 +403,10 @@ pars(22)=k*500.0_dp
     end do  
 end do
 
-do i=1,3
-    do j=1,7,3
-        do k=2,4,2
-            do k1=1,2
+i=3
+j=7
+        do k=2,8,1
+            do k1=1,4
 !i=2 ; j=4 ; k=4
 pars(68)=pars1(68)+i*0.5_dp !+0.5_dp
 pars(69)=pars1(69)+i*0.5_dp !+0.5_dp
@@ -417,8 +417,6 @@ call getpars(pars,realpars)
 call objfunc(pars,qval) ; realpars=realpartemp       
             end do
         end do
-    end do  
-end do
 
 
     !open(unit=2,file='o121522_1bpobj.txt',status='old',action='read') ; read(2,*) pars	; close(2)
